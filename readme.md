@@ -47,6 +47,17 @@ Apps
 		*	the document ID on docuum ?
 		*	the document name
 
+URL scheme
+----------
+
+*	Main page, of course, with either introductory text/videos/etc + search bar if you're logged out, or your dashboard if you're logged in (redirect to the latter perhaps)
+*	/user/<?username> - see that user's gravatar, list of watched classes, things that user has done
+*	/<?department>-<?class-number> (e.g. `/MATH-141/` to see class main page (like a disambiguation), which shows you recent changes for that class, as well as a list of pages for that class
+*	/<?department> (e.g. `/MATH`) to see all the classes within that department
+*	/<?faculty> (e.g. `/science`) to see all the departments and classes within that faculty
+*	/<?department>-<?class-number>/<?page-type> (e.g. `/MATH-141/lectures/`) for a list of all pages of that page type (page types to be decided later)
+*	/<?department>-<?class-number>/<?page-type>/<?page-slug> (e.g. `/MATH-141/lectures/
+
 Features/functionalities to include
 -----------------------------------
 
