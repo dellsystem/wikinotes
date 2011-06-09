@@ -1,11 +1,9 @@
 from django.db import models
 from courses.models import Course
+from django.contrib.auth.models import User
 
-class User(models.Model):
-	username = models.CharField(max_length=20)
-	email = models.CharField(max_length=100)
+# Extends the built-in user model using a OneToOne relationship, sort of
+# So we can add the course-watch functionality mainly
+class UserCourses(models.Model):
 	courses = models.ManyToManyField(Course)
-
-	# Return the username
-	def __unicode__(self):
-		return self.username
+	user = models.ForeignKey(User, unique=True)
