@@ -13,4 +13,14 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
+    
+    # Viewing a specific user
+    (r'^user/(?P<username>\w+)$', 'users.views.user'),
+    
+    # Viewing a specific course
+    (r'^(?P<department>\w+)_(?P<number>\d+)$', 'courses.views.course'),
+    
+    # Viewing a specific department
+    (r'^(?P<department>\w+)$', 'departments.views.department'),
+    
 )
