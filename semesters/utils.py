@@ -4,7 +4,7 @@ import datetime
 def get_possible_years():
 	now = datetime.datetime.now()
 	current_year = int(now.year)
-	oldest_year = 2010
+	oldest_year = 1995
 	years = xrange(oldest_year, current_year + 1)
 	year_list = []
 	for year in years:
