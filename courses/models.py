@@ -12,6 +12,9 @@ class Course(models.Model):
 	def __unicode__(self):
 		return "%s %d" % (self.department, self.number)
 	
+	def get_name(self):
+		return self.name
+	
 	def get_description(self):
 		return self.description
 	

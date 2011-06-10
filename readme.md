@@ -68,6 +68,11 @@ Features/functionalities to include
 *	markdown (python library) for other stuff
 *	easily convert from google docs, word etc formats: upload/add url, we'll convert to markdown
 *	easily export to other formats: PDF, plain text (markdown lol), kwordquiz (for select pages)
+*	ON PAGES:
+	*	Some pages have to be tied to a specific semester
+	*	Past exams should of course be timeless
+	*	But everything else, tied to a specific semester
+*	Professor listing, ManyToMany
 
 To-do list
 ----------

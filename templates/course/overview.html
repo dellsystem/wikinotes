@@ -1,8 +1,43 @@
 {% extends "base.html" %}
 
-{% block title %}{{ this_course }}{% endblock %}
+{% block title %}{{ this_course }} :: Overview{% endblock %}
 
 {% block content %}
-<h1>{{ this_course }}</h1>
-<p>{{ description }}</p>
+<h1>{{ this_course }} ({{ course_name }})</h1>
+<div id="course-left">
+	<div class="rounded orange">
+		<p><strong>Description</strong>: {{ description }}</p>
+		<p><strong>Restrictions</strong>: Blah</p>
+		<p><strong>Credits</strong>: {{ credits }}</p>
+		<p><strong>Current professor</strong>: {% if current_prof %}{{ current_prof }}{% else %}N/A{% endif %}</p>
+	</div>
+	<br />
+	<div class="rounded light-blue">
+		<h2>Browse by category</h2>
+	</div>
+	<br />
+	<div class="rounded light-blue">
+		<h2>Browse by semester</h2>
+	</div>
+	<br />
+	<div class="rounded medium-blue">
+		<h2>Discussion</h2>
+	</div>
+</div>
+<div id="course-right">
+	<div class="squared light-grey">
+		<p>Department: {{ department }}</p>
+		<p>Faculty: idk lol</p>
+		<p>Number of watchers: {{ num_watchers }}</p>
+		<p>Number of pages: idk lol</p>
+		<hr />
+		<h2>Recent changes</h2>
+		<p>someuser edited something</p>
+		<p>anotheruser edited somethingelse</p>
+		<p>anotheruser created somethingelse</p>
+		<hr />
+		<h2>Course pages</h2>
+		<p>Category view :: Semester view</p>
+	</div>
+</div>
 {% endblock %}

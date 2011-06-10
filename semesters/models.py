@@ -17,3 +17,5 @@ class CourseSemester(models.Model):
 	semester = models.ForeignKey(Semester)
 	# Text field for now maybe ManyToMany later ugh
 	prof = models.CharField(max_length=50)
+	def get_prof(self):
+		return self.prof
