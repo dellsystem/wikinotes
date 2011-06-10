@@ -1,6 +1,7 @@
 from semesters.models import Semester, CourseSemester
 from django.core.exceptions import *
 from users.models import CourseWatcher
+from pages.models import Page
 
 # Gets a course object passed a tuple containing the term and the year (e.g. ('Winter', 2011))
 def get_current_prof(course, semester):
@@ -16,3 +17,7 @@ def get_current_prof(course, semester):
 def get_num_watchers(course):
 	num_watchers = CourseWatcher.objects.filter(course=course).count()
 	return num_watchers
+
+def get_num_pages(course):
+	num_pages = Page.objects.filter(course=course).count()
+	return num_pages

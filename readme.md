@@ -68,13 +68,14 @@ Features/functionalities to include
 *	markdown (python library) for other stuff
 *	easily convert from google docs, word etc formats: upload/add url, we'll convert to markdown
 *	easily export to other formats: PDF, plain text (markdown lol), kwordquiz (for select pages)
-*	ON PAGES:
-	*	Some pages have to be tied to a specific semester
-	*	Past exams should of course be timeless
-	*	But everything else, tied to a specific semester
-*	Professor listing, ManyToMany
 
 To-do list
 ----------
 
-*	get started lol
+*	Watch this class button - getJSON or something, returns whether the user is already watching it or not
+	*	Also incorporate authentication - if the user is not logged in, redirect to login page or something
+*	Make "Find a course" "random course" etc things under the header
+*	Get department images from wikinotes.ca, make faculty images
+*	Figure out what to do about the profs - maybe make a class within semesters idk
+*	History
+*	Creating pages

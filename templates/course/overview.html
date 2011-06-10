@@ -3,8 +3,8 @@
 {% block title %}{{ this_course }} :: Overview{% endblock %}
 
 {% block content %}
-<h1>{{ this_course }} ({{ course_name }})</h1>
 <div id="course-left">
+	<h1>{{ this_course }} ({{ course_name }})</h1>
 	<div class="rounded orange">
 		<p><strong>Description</strong>: {{ description }}</p>
 		<p><strong>Restrictions</strong>: Blah</p>
@@ -29,11 +29,15 @@
 	</div>
 </div>
 <div id="course-right">
+	<div class="align-right">
+		<div class="button light-blue">{% if logged_in %}Watch this class{% else %}Login to watch{% endif %}</div>
+	</div>
+	<br />
 	<div class="squared light-grey">
 		<p>Department: {{ department }}</p>
 		<p>Faculty: idk lol</p>
 		<p>Number of watchers: {{ num_watchers }}</p>
-		<p>Number of pages: idk lol</p>
+		<p>Number of pages: {{ num_pages }}</p>
 		<hr />
 		<h2>Recent changes</h2>
 		<p>someuser edited something</p>
