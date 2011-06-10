@@ -1,10 +1,11 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from courses.models import Course
 from semesters.utils import get_current_semester
 from courses.utils import get_current_prof, get_num_watchers
 
 def course(request, department, number):
-	this_course = Course.objects.get(department=department, number=int(number))
+	this_course = get_object_or_404(Course, department=department, number=int(number))
+		
 	description = this_course.get_description()
 	course_name = this_course.get_name()
 	credits = this_course.get_credits()

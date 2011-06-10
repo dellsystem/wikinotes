@@ -1,10 +1,11 @@
 from django.http import HttpResponse
 from departments.models import Department
 from courses.models import Course
+from django.shortcuts import get_object_or_404
 
 def department(request, department):
 	# Gets passed the short name (4-char), which is the primary key
-	department_name = Department.objects.get(pk=department).get_long_name()
+	department_name = get_object_or_404(Department, pk=department).get_long_name()
 	text = "The %s department has a long name of %s" % (department, department_name)
 	
 	text += "<br />"
