@@ -79,3 +79,5 @@ To-do list
 *	Figure out what to do about the profs - maybe make a class within semesters idk
 *	History
 *	Creating pages
+*	Getting/creating the slug for pages
+*	Add static media files to git repo - use symlinks
