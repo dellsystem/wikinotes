@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="course-right">
+	<div class="align-right">
+		<div class="button orange" id="add-button">Add a page</div>
+		<div class="button light-blue" id="watch-button">{% if logged_in %}{% if already_watching %}Stop watching{% else %}Watch this course{% endif %}{% else %}Login to watch{% endif %}</div>
+	</div>
+	<br />
+	<div class="squared light-grey">
+		<p>Department: {{ department }}</p>
+		<p>Faculty: idk lol</p>
+		<p>Number of watchers: {{ num_watchers }}</p>
+		<p>Number of pages: {{ num_pages }}</p>
+		<hr />
+		<h2>Recent changes</h2>
+		<p>someuser edited something</p>
+		<p>anotheruser edited somethingelse</p>
+		<p>anotheruser created somethingelse</p>
+		<hr />
+		<h2>Course pages</h2>
+		<p>Category view :: Semester view</p>
+	</div>
+</div>
+{% endblock %}
