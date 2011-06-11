@@ -1,5 +1,5 @@
-from wikinotes.models.courses import Course
 from wikinotes.models.semesters import Semester, CourseSemester
+from wikinotes.models.courses import Course
 from django.contrib import admin
 
 # So that we can update the semesters of a course as we update that course
