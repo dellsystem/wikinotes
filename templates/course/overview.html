@@ -1,16 +1,8 @@
 {% extends "course/main.html" %}
 
-{% block js %}
-<script src="/static/js/jquery.js"></script>
-<script src="/static/js/jquery.simplemodal.js"></script>
-<script src="/static/js/course.js"></script>
-{% endblock %}
+{% block section_title %}({{ course_name }}){% endblock %}
 
-{% block title %}{{ this_course }} :: Overview{% endblock %}
-
-{% block content %}
-<div id="course-left">
-	<h1>{{ this_course }} ({{ course_name }})</h1>
+{% block leftbar %}
 	<div class="rounded orange">
 		<p><strong>Description</strong>: {{ description }}</p>
 		<p><strong>Restrictions</strong>: Blah</p>
@@ -33,7 +25,4 @@
 	<div class="rounded medium-blue">
 		<h2>Discussion</h2>
 	</div>
-	{% include "page/choose.html" %}
-</div>
-{{ block.super }}
 {% endblock %}

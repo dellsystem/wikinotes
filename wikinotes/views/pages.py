@@ -11,6 +11,7 @@ def create(request, department, number, page_type):
 	
 	# If the template specified by the page type exists, then we're good to go
 	# Else, 404
+	section_title = this_course
 	try:
 		return render_to_response('page/create-%s.html' % page_type, locals())
 	except TemplateDoesNotExist:
