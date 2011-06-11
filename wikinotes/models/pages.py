@@ -1,5 +1,6 @@
 from django.db import models
 from wikinotes.models.courses import Course
+from wikinotes.models.semesters import Semester
 from wikinotes.utils.pages import get_possible_exams
 from wikinotes.utils.semesters import get_possible_years, get_possible_terms
 
@@ -17,7 +18,7 @@ class LectureNote(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey('Semester')
+	semester = models.ForeignKey(Semester)
 	lecture_num = models.IntegerField()
 	subject = models.CharField(max_length=100)
 	date = models.DateField()
@@ -54,7 +55,7 @@ class CourseQuiz(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey('Semester')
+	semester = models.ForeignKey(Semester)
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):
@@ -71,7 +72,7 @@ class VocabQuiz(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey('Semester')
+	semester = models.ForeignKey(Semester)
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):
@@ -82,7 +83,7 @@ class CourseSummary(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey('Semester')
+	semester = models.ForeignKey(Semester)
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):
