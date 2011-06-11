@@ -5,13 +5,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'development.views.home', name='home'),
-    # url(r'^development/', include('development.foo.urls')),
-
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+)
+
+# Wikinotes stuff
+urlpatterns += patterns('wikinotes.views',
+	(r'^user/(?P<username>\w+)$', 'users.profile'),
+	(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'courses.overview'),
+	(r'^(?P<department>\w{4})$', 'departments.overview'),
 )
