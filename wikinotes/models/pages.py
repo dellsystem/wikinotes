@@ -4,13 +4,10 @@ from wikinotes.utils.pages import get_possible_exams
 from wikinotes.utils.semesters import get_possible_years, get_possible_terms, get_current_semester
 from wikinotes.models.real_semesters import Semester, CourseSemester
 
-# Returns an instance of this semester
-# WRITE A TEST FOR THIS
+# Fuck it
+# See fixtures/initial_data for why
 def this_semester():
-	semester_tuple = get_current_semester()
-	term = semester_tuple[0]
-	year = semester_tuple[1]
-	return Semester.objects.get(term=term, year=year)
+	return 3
 
 # The "base" page class - all specific page types have a one-to-one relationship with this
 class Page(models.Model):
