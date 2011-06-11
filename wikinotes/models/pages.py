@@ -1,8 +1,9 @@
+
 from django.db import models
 from wikinotes.models.courses import Course
 from wikinotes.utils.pages import get_possible_exams
 from wikinotes.utils.semesters import get_possible_years, get_possible_terms
-from wikinotes.models.real_semesters import Semesters as Semester
+from wikinotes.models.real_semesters import Semester, CourseSemester
 
 # The "base" page class - all specific page types have a one-to-one relationship with this
 class Page(models.Model):

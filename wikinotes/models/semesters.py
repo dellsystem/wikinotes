@@ -2,7 +2,6 @@ from django.db import models
 from wikinotes.utils.semesters import get_possible_years, get_possible_terms
 from wikinotes.models.courses import Course
 
-# Kind of like an enum in java lol
 class Semester(models.Model):
 	class Meta:
 		app_label = 'wikinotes'

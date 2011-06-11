@@ -23,3 +23,4 @@ class Course(models.Model):
 	
 	def get_credits(self):
 		return self.credits
+		
