@@ -1,8 +1,16 @@
 from django.db import models
 from wikinotes.models.courses import Course
 from wikinotes.utils.pages import get_possible_exams
-from wikinotes.utils.semesters import get_possible_years, get_possible_terms
+from wikinotes.utils.semesters import get_possible_years, get_possible_terms, get_current_semester
 from wikinotes.models.real_semesters import Semester, CourseSemester
+
+# Returns an instance of this semester
+# WRITE A TEST FOR THIS
+def this_semester():
+	semester_tuple = get_current_semester()
+	term = semester_tuple[0]
+	year = semester_tuple[1]
+	return Semester.objects.get(term=term, year=year)
 
 # The "base" page class - all specific page types have a one-to-one relationship with this
 class Page(models.Model):
@@ -18,7 +26,8 @@ class LectureNote(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey(Semester)
+	# See if we can override later so we don't have to put in 4 semester fields
+	semester = models.ForeignKey(Semester, default=this_semester())
 	lecture_num = models.IntegerField()
 	subject = models.CharField(max_length=100)
 	date = models.DateField()
@@ -57,7 +66,7 @@ class CourseQuiz(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey(Semester)
+	semester = models.ForeignKey(Semester, default=this_semester())
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):
@@ -74,7 +83,7 @@ class VocabQuiz(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey(Semester)
+	semester = models.ForeignKey(Semester, default=this_semester())
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):
@@ -85,7 +94,7 @@ class CourseSummary(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey(Semester)
+	semester = models.ForeignKey(Semester, default=this_semester())
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):

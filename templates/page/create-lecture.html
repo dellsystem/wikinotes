@@ -4,6 +4,7 @@
 
 {% block leftbar %}
 	<div class="rounded orange">
+		{{ lecture_note_form.as_p }}
 		<p><strong>Semester</strong>: Select the semester you want this to be for. Usually will be a dropdown box displaying all of the POSSIBLE semesters (not just ones already associated with this course). Default will be the current semester.</p>
 		<p><strong>Date</strong>: Choose between MTWTF dates within the selected semester. Could be cool.</p>
 		<p><strong>Lecture number</strong>: There should be some sort of interactive lecture number calculator based on the date lol</p>

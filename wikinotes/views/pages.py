@@ -4,6 +4,7 @@ from django.contrib.auth.models import User as RealUser
 from wikinotes.models.pages import Page
 from wikinotes.models.courses import Course
 from django.template import TemplateDoesNotExist
+from wikinotes.forms.pages import *
 
 def create(request, department, number, page_type):
 	text = "lol"
@@ -13,6 +14,7 @@ def create(request, department, number, page_type):
 	# Else, 404
 	section_title = this_course
 	try:
+		lecture_note_form = LectureNoteForm()
 		return render_to_response('page/create-%s.html' % page_type, locals())
 	except TemplateDoesNotExist:
 		raise Http404
