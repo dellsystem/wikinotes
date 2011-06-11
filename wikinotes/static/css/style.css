@@ -244,6 +244,7 @@ body:before {
 
 #choose-page-box {
 	display: none;
+	text-align: center;
 }
 
 #choose-page-box li {

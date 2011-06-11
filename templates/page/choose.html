@@ -1,11 +1,11 @@
 <div id="choose-page-box">
 <h2>What type of page would you like to create?</h2>
 <ol>
-	<li>Lecture notes for a specific date</li>
-	<li>Solutions for a past exam</li>
-	<li>Course quiz (multiple choice)</li>
-	<li>Vocab quiz (definitions)</li>
-	<li>Course summary (everything else)</li>
+	<li><a href="{% url wikinotes.views.pages.create department number 'lecture' %}">Lecture notes for a specific date</a></li>
+	<li><a href="{% url wikinotes.views.pages.create department number 'exam' %}">Solutions for a past exam</a></li>
+	<li><a href="{% url wikinotes.views.pages.create department number 'coursequiz' %}">Course quiz (multiple choice)</a></li>
+	<li><a href="{% url wikinotes.views.pages.create department number 'vocabquiz' %}">Vocab quiz (definitions)</a></li>
+	<li><a href="{% url wikinotes.views.pages.create department number 'summary' %}">Course summary (everything else)</a></li>
 </ol>
 <p>Tip: if you're not sure what type of page you want to create, then go with a course summary.</p>
 </div>
