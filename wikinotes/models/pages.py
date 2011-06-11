@@ -43,6 +43,8 @@ class PastExam(Page):
 	# The term and year when the exam was written
 	term = models.CharField(max_length=6, choices=get_possible_terms())
 	year = models.IntegerField(max_length=4, choices=get_possible_years())
+	# The URL to the original exam. Optional, I guess. Docuum preferred.
+	exam_url = models.CharField(max_length=100, blank=True, null=True)
 	
 	# Display as: Winter 2008 final exam or Fall 2009 midterm exam
 	def __unicode__(self):
