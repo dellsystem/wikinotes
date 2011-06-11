@@ -1,10 +1,14 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.utils import simplejson
 from wikinotes.models.courses import Course
 from wikinotes.models.semesters import CourseSemester
 from wikinotes.utils.semesters import get_current_semester
-from wikinotes.utils.courses import get_current_prof, get_num_watchers, get_num_pages
+from wikinotes.utils.courses import get_current_prof, get_num_watchers, get_num_pages, is_already_watching
 
 def overview(request, department, number):
+
+	# If it's a post request, do something
+
 	this_course = get_object_or_404(Course, department=department, number=int(number))
 		
 	description = this_course.get_description()
@@ -20,7 +24,19 @@ def overview(request, department, number):
 	course_semesters = CourseSemester.objects.filter(course=this_course)
 	
 	# Show the "watch" button only for authenticated users
-	logged_in = True if request.user.is_authenticated() else False
-
-	
+	this_user = request.user
+	if this_user.is_authenticated():
+		logged_in = True
+		already_watching = is_already_watching(this_user, this_course)
+	else:
+		logged_in = False
+		
 	return render_to_response('course/overview.html', locals())
+
+# Handles watch and unwatch requests by POST
+def watch(request):
+	if not request.POST:
+		raise Http404
+	
+	user_id = request.POST.get('user')
+	course_id = request.POST.get('course')

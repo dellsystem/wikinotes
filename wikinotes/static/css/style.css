@@ -242,12 +242,7 @@ body:before {
 	margin-top: -32767px;/
 }
 
-/* for the index page, the 3-column project grid */
-#projects-grid {
-	border: 0;
-}
-
-#projects-grid td {
-	vertical-align: top;
-	padding-bottom: 10px;
+#create-page-box {
+	display: none;
+	width: 600px;
 }

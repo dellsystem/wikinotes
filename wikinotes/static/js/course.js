@@ -2,9 +2,17 @@
 $(document).ready(function() {
 	$('#watch-button').click(function() {
 		alert("send off a JSON request");
+		$.post('', function(data) {
+			if (data == 'lol') {
+				alert("notlol");
+			} else {
+				alert("lol");
+			}
+		});
 	});
 	
-	$('#add-button').click(function() {
-		alert("show me the types of pages available and go to whichever template i choose");
+	$('#add-button').click(function(event) {
+		$('#choose-page-box').modal();
+		return false;
 	});
 });

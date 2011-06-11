@@ -2,6 +2,7 @@
 
 {% block js %}
 <script src="/static/js/jquery.js"></script>
+<script src="/static/js/jquery.simplemodal.js"></script>
 <script src="/static/js/course.js"></script>
 {% endblock %}
 
@@ -32,11 +33,12 @@
 	<div class="rounded medium-blue">
 		<h2>Discussion</h2>
 	</div>
+	{% include "page/choose.html" %}
 </div>
 <div id="course-right">
 	<div class="align-right">
 		<div class="button orange" id="add-button">Add a page</div>
-		<div class="button light-blue" id="watch-button">{% if logged_in %}Watch this class{% else %}Login to watch{% endif %}</div>
+		<div class="button light-blue" id="watch-button">{% if logged_in %}{% if already_watching %}Stop watching{% else %}Watch this course{% endif %}{% else %}Login to watch{% endif %}</div>
 	</div>
 	<br />
 	<div class="squared light-grey">
