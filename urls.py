@@ -16,6 +16,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('wikinotes.views',
 	(r'^user/(?P<username>\w+)/*$', 'users.profile'),
 	(r'^(?P<department>\w{4})_(?P<number>\d{3})/*$', 'courses.overview'),
+	(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>\w+)/*$', 'pages.create'),
 	(r'^(?P<department>\w{4})/*$', 'departments.overview'),
 	(r'^watch/*$', 'courses.watch'),
 )

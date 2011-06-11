@@ -242,7 +242,18 @@ body:before {
 	margin-top: -32767px;/
 }
 
-#create-page-box {
+#choose-page-box {
 	display: none;
-	width: 600px;
+}
+
+#choose-page-box li {
+	display: inline-block;
+	list-style-type: none;
+	width: 120px;
+	background-color: #111;
+	border: 2px solid #EEE;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	padding: 5px;
 }
