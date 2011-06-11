@@ -1,0 +1,23 @@
+# The semesters we'll need
+- model: wikinotes.semester
+  pk: 1
+  fields:
+    term: Fall
+    year: 2010
+- model: wikinotes.semester
+  pk: 2
+  fields:
+    term: Winter
+    year: 2011
+- model: wikinotes.semester
+  pk: 3
+  fields:
+    term: Summer
+    year: 2011
+- model: wikinotes.semester
+  pk: 4
+  fields:
+    term: Fall
+    year: 2011
+
+# The departments we'll need (all of them)

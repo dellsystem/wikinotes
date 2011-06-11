@@ -2,10 +2,6 @@ from django.db import models
 from wikinotes.utils.semesters import get_possible_years, get_possible_terms
 from wikinotes.models.courses import Course
 
-class Lol(models.Model):
-	class Meta:
-		app_label = 'wikinotes'
-
 # Kind of like an enum in java lol
 class Semester(models.Model):
 	class Meta:
@@ -25,7 +21,11 @@ class CourseSemester(models.Model):
 		
 	course = models.ForeignKey(Course)
 	semester = models.ForeignKey(Semester)
+	
 	# Text field for now maybe ManyToMany later ugh
 	prof = models.CharField(max_length=50)
+	# So like B+ A- etc
+	course_avg = models.CharField(max_length=2)
+	
 	def get_prof(self):
 		return self.prof

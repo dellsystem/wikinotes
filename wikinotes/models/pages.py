@@ -2,6 +2,7 @@ from django.db import models
 from wikinotes.models.semesters import Semester
 from wikinotes.models.courses import Course
 from wikinotes.utils.pages import get_possible_exams
+from wikinotes.utils.semesters import get_possible_years, get_possible_terms
 
 # The "base" page class - all specific page types have a one-to-one relationship with this
 class Page(models.Model):
@@ -39,15 +40,16 @@ class PastExam(Page):
 	# Doesn't have an associated semester
 	# See if it's possible to move semester = ForeignKey into Page and just override it here
 	semester = None
-	# The exam semester (when the exam was written etc) ... which means the oldest_year must be pushed back
-	exam_semester = models.ForeignKey(Semester)
+	# The term and year when the exam was written
+	term = models.CharField(max_length=6, choices=get_possible_terms())
+	year = models.IntegerField(max_length=4, choices=get_possible_years())
 	
 	# Display as: Winter 2008 final exam or Fall 2009 midterm exam
 	def __unicode__(self):
-		return "%s %s exam" % (self.exam_semester, self.exam_type)
+		return "%s %s %s exam" % (self.term, self.year, self.exam_type)
 	
 	def get_url(self):
-		return "exam/%s-%d" % (self.exam_type, self.exam_semester)
+		return "exam/%s-%s-%s" % (self.term, self.year, self.exam_type)
 
 class CourseQuiz(Page):
 	class Meta:
