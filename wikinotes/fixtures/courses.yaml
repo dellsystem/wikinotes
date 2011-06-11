@@ -1,0 +1,15 @@
+# Some sample courses and coursesemesters
+
+- fields: {credits: 4, department: MATH, description: Lolol, name: Calculus B, number: 151}
+  model: wikinotes.course
+  pk: 1
+- fields: {course: 1, course_avg: B, prof: Charles Roth, semester: 2}
+  model: wikinotes.coursesemester
+  pk: 1
+
+- fields: {credits: 3, department: MATH, description: lollinalg, name: Linear Algebra, number: 133}
+  model: wikinotes.course
+  pk: 2
+- fields: {course: 2, course_avg: F, prof: Small Bearded Man, semester: 2}
+  model: wikinotes.coursesemester
+  pk: 2
