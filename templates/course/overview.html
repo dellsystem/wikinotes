@@ -24,7 +24,7 @@
 	<div class="rounded light-blue">
 		<h2>Browse by semester</h2>
 		{% for semester in course_semesters %}
-			<p><strong>{{ semester.semester }} - Professor: {{ semester.prof }}</strong></p>
+			<p><strong>{{ semester.semester }} - Professor: {{ semester.prof }}, Average: {{ semester.course_avg }}</strong></p>
 		{% endfor %}
 		<p></p>
 	</div>

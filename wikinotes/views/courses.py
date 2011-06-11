@@ -21,5 +21,6 @@ def overview(request, department, number):
 	
 	# Show the "watch" button only for authenticated users
 	logged_in = True if request.user.is_authenticated() else False
+
 	
 	return render_to_response('course/overview.html', locals())

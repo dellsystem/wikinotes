@@ -1,4 +1,3 @@
-
 from django.db import models
 from wikinotes.models.courses import Course
 from wikinotes.utils.pages import get_possible_exams

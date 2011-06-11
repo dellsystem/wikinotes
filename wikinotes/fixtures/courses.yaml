@@ -7,9 +7,12 @@
   model: wikinotes.coursesemester
   pk: 1
 
-- fields: {credits: 3, department: MATH, description: lollinalg, name: Linear Algebra, number: 133}
+- fields: {credits: 3, department: MATH, description: lollinalg, name: Linear Algebra, number: 223}
   model: wikinotes.course
   pk: 2
 - fields: {course: 2, course_avg: F, prof: Small Bearded Man, semester: 2}
   model: wikinotes.coursesemester
   pk: 2
+- fields: {course: 2, course_avg: A, prof: Small Beardless Man, semester: 1}
+  model: wikinotes.coursesemester
+  pk: 3
