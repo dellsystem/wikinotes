@@ -1,0 +1,6 @@
+# The faculties ... just science for now
+- model: wikinotes.faculty
+  pk: 1
+  fields:
+    name: Science
+    slug: science
