@@ -1,16 +1,13 @@
 from django.core.exceptions import *
-# from wikinotes.models import CourseWatcher, Semester, CourseSemester, Page
 from wikinotes.models.faculties import Faculty
-from wikinotes.models.courses import *
-from wikinotes.models.semesters import *
-from wikinotes.models.pages import *
+from wikinotes.models.courses import Course, CourseSemester
+from wikinotes.models.pages import Page
 from wikinotes.models.users import CourseWatcher
 
 # Gets a course object passed a tuple containing the term and the year (e.g. ('Winter', 2011))
 def get_current_profs(course, semester):
-	semester = Semester.objects.get(term=semester[0], year=semester[1])
 	try:
-		professors = CourseSemester.objects.get(course=course, semester=semester).professors
+		professors = CourseSemester.objects.get(course=course, term=term, year=year).professors
 	except CourseSemester.DoesNotExist:
 		# If the prof doesn't exist, return None, the template will take care of it
 		return None

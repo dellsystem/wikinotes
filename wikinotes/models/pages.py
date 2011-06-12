@@ -1,13 +1,7 @@
 from django.db import models
 from wikinotes.models.courses import Course
-from wikinotes.models.semesters import Semester
 from wikinotes.utils.pages import get_possible_exams
 from wikinotes.utils.semesters import get_possible_years, get_possible_terms
-
-# Fuck it
-# See fixtures/initial_data for why
-def this_semester():
-	return 3
 
 # The "base" page class - all specific page types have a one-to-one relationship with this
 class Page(models.Model):
@@ -23,8 +17,9 @@ class LectureNote(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	# See if we can override later so we don't have to put in 4 semester fields
-	semester = models.ForeignKey(Semester, default=this_semester())
+	# Make a new type of field for Term, Year?
+	term = models.CharField(max_length=6, choices=get_possible_terms())
+	year = models.CharField(max_length=4, choices=get_possible_years(2009))
 	lecture_num = models.IntegerField()
 	subject = models.CharField(max_length=100)
 	date = models.DateField()
@@ -45,11 +40,9 @@ class PastExam(Page):
 	# Exam types: final, midterm and that's all for now lol
 	exam_type = models.CharField(max_length=10, choices=get_possible_exams())
 	# Doesn't have an associated semester
-	# See if it's possible to move semester = ForeignKey into Page and just override it here
-	semester = None
 	# The term and year when the exam was written
-	term = models.CharField(max_length=6, choices=get_possible_terms())
-	year = models.IntegerField(max_length=4, choices=get_possible_years())
+	exam_term = models.CharField(max_length=6, choices=get_possible_terms())
+	exam_year = models.IntegerField(max_length=4, choices=get_possible_years(1995))
 	# The URL to the original exam. Optional, I guess. Docuum preferred.
 	exam_url = models.CharField(max_length=100, blank=True, null=True)
 	
@@ -64,7 +57,8 @@ class CourseQuiz(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey(Semester, default=this_semester())
+	term = models.CharField(max_length=6, choices=get_possible_terms())
+	year = models.CharField(max_length=4, choices=get_possible_years(2009))
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):
@@ -81,7 +75,8 @@ class VocabQuiz(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey(Semester, default=this_semester())
+	term = models.CharField(max_length=6, choices=get_possible_terms())
+	year = models.CharField(max_length=4, choices=get_possible_years(2009))
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):
@@ -92,7 +87,8 @@ class CourseSummary(Page):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	semester = models.ForeignKey(Semester, default=this_semester())
+	term = models.CharField(max_length=6, choices=get_possible_terms())
+	year = models.CharField(max_length=4, choices=get_possible_years(2009))
 	subject = models.CharField(max_length=100)
 	
 	def __unicode__(self):

@@ -1,7 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils import simplejson
-from wikinotes.models.courses import Course
-from wikinotes.models.semesters import CourseSemester
+from wikinotes.models.courses import Course, CourseSemester
 from wikinotes.utils.semesters import get_current_semester
 from wikinotes.utils.courses import get_current_profs, get_num_watchers, get_num_pages, is_already_watching
 
@@ -16,7 +15,8 @@ def overview(request, department, number):
 	credits = this_course.get_credits()
 	
 	# Get the current semester, and figure out the prof who is teaching this semester
-	current_profs = get_current_profs(this_course, get_current_semester())
+	current_semester = get_current_semester() # returns the tuple (term, year)
+	current_profs = get_current_profs(this_course, current_semester[0], current_semester[1])
 	num_watchers = get_num_watchers(this_course)
 	num_pages = get_num_pages(this_course)
 	

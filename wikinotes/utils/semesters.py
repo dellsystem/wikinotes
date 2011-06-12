@@ -1,11 +1,10 @@
 # For the possible years ...
 import datetime
 
-def get_possible_years():
+def get_possible_years(start):
 	now = datetime.datetime.now()
 	current_year = int(now.year)
-	oldest_year = 1995
-	years = xrange(oldest_year, current_year + 1)
+	years = xrange(start, current_year + 1)
 	year_list = []
 	for year in years:
 		year_list.append((year, year))
