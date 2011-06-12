@@ -46,5 +46,5 @@ class CourseSemester(models.Model):
 	semester = SemesterField()
 	professors = models.ManyToManyField(Professor)
 	
-	# So like B+ A- etc
-	course_avg = models.CharField(max_length=2)
+	# So like B+ A- etc. Should be optional
+	course_avg = models.CharField(max_length=2, blank=True)
