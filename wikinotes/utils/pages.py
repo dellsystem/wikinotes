@@ -5,3 +5,11 @@ def get_possible_exams():
 		('midterm', 'midterm'),
 		('final', 'final'),
 	)
+
+# For choices
+def get_possible_numbers(minimum, maximum):
+	numbers = xrange(minimum, maximum+1)
+	numbers_list = []
+	for number in numbers:
+		numbers_list.append((number, number))
+	return numbers_list
