@@ -1,0 +1,18 @@
+# For the 5 page types we'll be using
+
+- fields: {name: Lecture notes, need_date: true, slug: lecture, to_str: date (semester)}
+  model: wikinotes.pagetype
+  pk: 1
+- fields: {name: Exam, need_date: false, slug: exam, to_str: semester subject}
+  model: wikinotes.pagetype
+  pk: 2
+- fields: {name: Multiple choice quiz, need_date: false, slug: quiz, to_str: subject
+      (semester)}
+  model: wikinotes.pagetype
+  pk: 3
+- fields: {name: Vocabulary quiz, need_date: false, slug: vocab, to_str: subject (semester)}
+  model: wikinotes.pagetype
+  pk: 4
+- fields: {name: Summary, need_date: false, slug: summary, to_str: subject (semester)}
+  model: wikinotes.pagetype
+  pk: 5
