@@ -5,6 +5,7 @@ from wikinotes.models.pages import Page
 from wikinotes.models.courses import Course
 from django.template import TemplateDoesNotExist
 from wikinotes.forms.pages import *
+from wikinotes.utils.pages import get_max_num_sections
 
 def create(request, department, number, page_type):
 	text = "lol"
@@ -13,6 +14,9 @@ def create(request, department, number, page_type):
 	# If the template specified by the page type exists, then we're good to go
 	# Else, 404
 	section_title = this_course
+	# For initially creating the hidden sections on the page
+	# For better degradation if javascript is disabled
+	num_sections = xrange(1, get_max_num_sections()+1)
 	try:
 		lecture_note_form = LectureNoteForm()
 		return render_to_response('page/create-%s.html' % page_type, locals())

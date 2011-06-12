@@ -13,6 +13,14 @@
 		</form>
 	</div>
 	<br />
+	<!-- for people without javascript. think about this later -->
+	{% for i in num_sections %}
+	<div id="section-{{ i }}" class="light-grey">
+		<input type="text" size="100" name="section-{{ i }}-header" placeholder="LOL SECTION TITLE HERE MAKE IT PRETTY" />
+		<br />
+		<textarea name="section-{{i }}-content" rows="5" cols="80">Write shit here</textarea>
+	</div>
+	{% endfor %}
 	<div>
 		<h2>This should be an input box</h2>
 		<p>This should be the same for several things ... depends on the number of sections only. One such box for each section perhaps? With a header, and a place to enter shit.</p>

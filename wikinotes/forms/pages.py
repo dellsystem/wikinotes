@@ -1,6 +1,6 @@
 from django.forms import ModelForm, TypedChoiceField
 from wikinotes.models.pages import *
-from wikinotes.utils.pages import get_possible_numbers
+from wikinotes.utils.pages import get_possible_numbers, get_max_num_sections
 
 # The various forms
 
@@ -11,7 +11,7 @@ class LectureNoteForm(ModelForm):
 		exclude = ('course')
 	# 10 is not the hard limit - just makes it easier to choose at the beginning
 	# The user can always select more later
-	num_sections = TypedChoiceField(choices=get_possible_numbers(1, 10), coerce=int)
+	num_sections = TypedChoiceField(choices=get_possible_numbers(1, get_max_num_sections()), coerce=int)
 
 class PastExamForm(ModelForm):
 	class Meta:

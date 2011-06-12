@@ -13,3 +13,7 @@ def get_possible_numbers(minimum, maximum):
 	for number in numbers:
 		numbers_list.append((number, number))
 	return numbers_list
+
+# Defined here for easy changing, like a pseudo-constant
+def get_max_num_sections():
+	return 10
