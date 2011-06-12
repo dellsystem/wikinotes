@@ -1,6 +1,18 @@
 # For the possible years ...
 import datetime
 
+def get_possible_semesters():
+	# Set the first year to 2005 for now it's unlikely we'll have exams older than that
+	first_year = 2005
+	current_year = int(datetime.datetime.now().year)
+	years = xrange(first_year, current_year + 1)
+	terms = ['Winter', 'Summer', 'Fall']
+	semesters = []
+	for year in years:
+		for term in terms:
+			semester = '%s %s' % (term, year)
+			semesters.append((semester, semester))
+
 def get_possible_years(start):
 	now = datetime.datetime.now()
 	current_year = int(now.year)

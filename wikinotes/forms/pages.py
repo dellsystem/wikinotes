@@ -3,7 +3,7 @@ from wikinotes.models.pages import *
 from wikinotes.utils.pages import get_possible_numbers, get_max_num_sections
 
 # The various forms
-
+"""
 class LectureNoteForm(ModelForm):
 	class Meta:
 		model = LectureNote
@@ -32,3 +32,4 @@ class CourseSummaryForm(ModelForm):
 	class Meta:
 		model = CourseSummary
 		exclude = ('course')
+"""
