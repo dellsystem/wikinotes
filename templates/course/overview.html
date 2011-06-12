@@ -7,7 +7,7 @@
 		<p><strong>Description</strong>: {{ description }}</p>
 		<p><strong>Restrictions</strong>: Blah</p>
 		<p><strong>Credits</strong>: {{ credits }}</p>
-		<p><strong>Current professor</strong>: {% if current_prof %}{{ current_prof }}{% else %}N/A{% endif %}</p>
+		<p><strong>Current professor</strong>: {% if current_profs %}{{ current_profs }}{% else %}N/A{% endif %}</p>
 	</div>
 	<br />
 	<div class="rounded light-blue">
@@ -17,7 +17,7 @@
 	<div class="rounded light-blue">
 		<h2>Browse by semester</h2>
 		{% for semester in course_semesters %}
-			<p><strong>{{ semester.semester }} - Professor: {{ semester.prof }}, Average: {{ semester.course_avg }}</strong></p>
+			<p><strong>{{ semester.semester }} - Professor{% if semester.professors.count > 1 %}s{% endif %}: {{ semester.professors.all|join:", " }}, Average: {{ semester.course_avg }}</strong></p>
 		{% endfor %}
 		<p></p>
 	</div>

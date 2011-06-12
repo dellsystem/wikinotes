@@ -1,7 +1,9 @@
 from django.db import models
-from wikinotes.utils.semesters import get_possible_years, get_possible_terms
+from wikinotes.utils.semesters import get_possible_terms, get_possible_years
 from wikinotes.models.courses import Course
+from wikinotes.models.professors import Professor
 
+# Kind of like an enum in java lol
 class Semester(models.Model):
 	class Meta:
 		app_label = 'wikinotes'
@@ -20,11 +22,7 @@ class CourseSemester(models.Model):
 		
 	course = models.ForeignKey(Course)
 	semester = models.ForeignKey(Semester)
+	professors = models.ManyToManyField(Professor)
 	
-	# Text field for now maybe ManyToMany later ugh
-	prof = models.CharField(max_length=50)
 	# So like B+ A- etc
 	course_avg = models.CharField(max_length=2)
-	
-	def get_prof(self):
-		return self.prof
