@@ -1,7 +1,19 @@
 from django.db import models
 from wikinotes.models.departments import Department
-from wikinotes.utils.semesters import get_possible_terms, get_possible_years
+from wikinotes.utils.semesters import get_possible_terms, get_possible_years, get_possible_semesters
 from wikinotes.models.professors import Professor
+
+class SemesterField(models.Field):
+	description = 'A semester in the format [Term] [Year]'
+	def __init__(self, *args, **kwargs):
+		kwargs['max_length'] = 7 # That is the length of 'Winter 2011' and is the longest possible
+		kwargs['choices'] = get_possible_semesters()
+		super(SemesterField, self).__init__(*args, **kwargs)
+	def get_internal_type(self):
+		return 'CharField'
+	def get_year(self):
+		# Just return the last four digits
+		return str(self)[-4:]
 
 class Course(models.Model):
 	class Meta:
@@ -31,9 +43,7 @@ class CourseSemester(models.Model):
 		app_label = 'wikinotes'
 		
 	course = models.ForeignKey(Course)
-	term = models.CharField(max_length=6, choices=get_possible_terms())
-	# Starting from 2009 for now, maybe make that configurable later
-	year = models.IntegerField(max_length=4, choices=get_possible_years(2009))
+	semester = SemesterField()
 	professors = models.ManyToManyField(Professor)
 	
 	# So like B+ A- etc

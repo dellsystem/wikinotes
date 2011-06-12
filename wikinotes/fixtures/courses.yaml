@@ -20,8 +20,7 @@
     course: 1
     course_avg: B
     professors: [2]
-    term: Winter
-    year: 2011
+    semester: Winter 2011
   model: wikinotes.coursesemester
   pk: 1
 
@@ -32,16 +31,14 @@
      course: 2
      course_avg: F
      professors: [1]
-     term: Winter
-     year: 2011
+     semester: Winter 2011
   model: wikinotes.coursesemester
   pk: 2
 - fields:
     course: 2
     course_avg: A
     professors: [1]
-    term: Fall
-    year: 2010
+    semester: Fall 2010
   model: wikinotes.coursesemester
   pk: 3
 
@@ -52,7 +49,6 @@
     course: 3
     course_avg: A+
     professors: [3, 4]
-    term: Winter
-    year: 2011
+    semester: Winter 2011
   model: wikinotes.coursesemester
   pk: 4

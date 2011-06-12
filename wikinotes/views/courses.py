@@ -15,8 +15,7 @@ def overview(request, department, number):
 	credits = this_course.get_credits()
 	
 	# Get the current semester, and figure out the prof who is teaching this semester
-	current_semester = get_current_semester() # returns the tuple (term, year)
-	current_profs = get_current_profs(this_course, current_semester[0], current_semester[1])
+	current_profs = get_current_profs(this_course)
 	num_watchers = get_num_watchers(this_course)
 	num_pages = get_num_pages(this_course)
 	

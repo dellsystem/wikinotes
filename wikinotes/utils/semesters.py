@@ -47,5 +47,4 @@ def get_current_semester():
 	
 	year = now.year
 	
-	# Return a tuple - the term and the year
-	return (term, year)
+	return "%s %s" % (term, year)

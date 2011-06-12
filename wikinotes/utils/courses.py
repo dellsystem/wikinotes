@@ -3,11 +3,11 @@ from wikinotes.models.faculties import Faculty
 from wikinotes.models.courses import Course, CourseSemester
 from wikinotes.models.pages import Page
 from wikinotes.models.users import CourseWatcher
+from wikinotes.utils.semesters import get_current_semester
 
-# Gets a course object passed a tuple containing the term and the year (e.g. ('Winter', 2011))
-def get_current_profs(course, semester):
+def get_current_profs(course):
 	try:
-		professors = CourseSemester.objects.get(course=course, term=term, year=year).professors
+		professors = CourseSemester.objects.get(course=course, semester=get_current_semester()).professors
 	except CourseSemester.DoesNotExist:
 		# If the prof doesn't exist, return None, the template will take care of it
 		return None
@@ -19,7 +19,8 @@ def get_num_watchers(course):
 	return num_watchers
 
 def get_num_pages(course):
-	num_pages = Page.objects.filter(course=course).count()
+	course_semester = CourseSemester.objects.filter(course=course)
+	num_pages = Page.objects.filter(course_semester=course_semester).count()
 	return num_pages
 
 def is_already_watching(user, course):

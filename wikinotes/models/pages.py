@@ -1,20 +1,7 @@
 from django.db import models
-from wikinotes.models.courses import Course
+from wikinotes.models.courses import CourseSemester
 from wikinotes.utils.pages import get_possible_exams, get_weekday_dates
 from wikinotes.utils.semesters import get_possible_semesters
-
-# Some custom field types
-class SemesterField(models.Field):
-	description = 'A semester in the format [Term] [Year]'
-	def __init__(self, *args, **kwargs):
-		kwargs['max_length'] = 7 # That is the length of 'Winter 2011' and is the longest possible
-		kwargs['choices'] = get_possible_semesters()
-		super(SemesterField, self).__init__(*args, **kwargs)
-	def get_internal_type(self):
-		return 'CharField'
-	def get_year(self):
-		# Just return the last four digits
-		return str(self)[-4:]
 
 class WeekdayDateField(models.Field):
 	description = 'For dates like Monday April 25 blah. No year, only weekdays'
@@ -73,14 +60,18 @@ class Page(models.Model):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	course = models.ForeignKey(Course)
+	course_semester = models.ForeignKey(CourseSemester)
 	# Determines how many files are needed. Always user-configurable, even for vocab quizzes
 	num_sections = models.IntegerField()
-	semester = SemesterField()
 	page_type = models.ForeignKey(PageType)
 	
 	# For past exams, the choices are Winter, Fall, Summer
 	subject = models.CharField(max_length=100)
+	
+	def _get_semester(self):
+		return self.course_semester.semester
+	
+	semester = property(_get_semester)
 	
 	# Only needed for lecture notes
 	date = WeekdayDateField(semester, blank=True)
@@ -92,13 +83,13 @@ class Page(models.Model):
 	def __unicode__(self):
 		prefix  = '%s -' % self.page_type
 		if page_type.to_str == 'date (semester)' and page_type.need_date:
-			long_name = '%s %s (%s)' % (prefix, self.date, self.semester)
+			long_name = '%s %s (%s)' % (prefix, self.date, self.course_semester.semester)
 		elif page_type.to_str == 'semester subject':
-			long_name = '%s %s %s' % (prefix, self.semester, self.subject)
+			long_name = '%s %s %s' % (prefix, self.course_semester.semester, self.subject)
 		else: # Assume page_type.to_str == 'subject (semester)'
-			long_name = '%s %s (%s)' % (prefix, self.subject, self.semester)
+			long_name = '%s %s (%s)' % (prefix, self.subject, self.course_semester.semester)
 	
 	def get_slug(self):
 		# If need_date is defined as true, it will use the date as the slug; otherwise, subject
 		slug_end = self.date if page_type.need_date else self.subject
-		slug = '/%s/%s/%s' % (self.page_type.slug, to_slug(self.semester) , to_slug(slug_end))
+		slug = '/%s/%s/%s' % (self.page_type.slug, to_slug(self.course_semester.semester) , to_slug(slug_end))
