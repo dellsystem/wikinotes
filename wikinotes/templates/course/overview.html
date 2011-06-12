@@ -7,7 +7,7 @@
 		<p><strong>Description</strong>: {{ description }}</p>
 		<p><strong>Restrictions</strong>: Blah</p>
 		<p><strong>Credits</strong>: {{ credits }}</p>
-		<p><strong>Current professor</strong>: {% if current_profs %}{{ current_profs }}{% else %}N/A{% endif %}</p>
+		<p><strong>Current professor{% if current_profs.count > 1 %}s{% endif %}</strong>: {% if current_profs %}{{ current_profs.all|join:", " }}{% else %}N/A{% endif %}</p>
 	</div>
 	<br />
 	<div class="rounded light-blue">

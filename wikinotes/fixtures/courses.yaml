@@ -12,6 +12,15 @@
 - fields: {name: Joseph Vybihal}
   model: wikinotes.professor
   pk: 4
+- fields: {name: Maya fafadslga}
+  model: wikinotes.professor
+  pk: 5
+- fields: {name: Mathieu Petitpas}
+  model: wikinotes.professor
+  pk: 6
+- fields: {name: Daniel Pomerantz}
+  model: wikinotes.professor
+  pk: 7
 
 - fields: {credits: 4, department: MATH, description: Lolol, name: Calculus B, number: 151}
   model: wikinotes.course

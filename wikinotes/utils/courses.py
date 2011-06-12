@@ -7,7 +7,7 @@ from wikinotes.utils.semesters import get_current_semester
 
 def get_current_profs(course):
 	try:
-		professors = CourseSemester.objects.get(course=course, semester=get_current_semester()).professors
+		professors = CourseSemester.objects.get(course=course, semester='Summer 2011').professors.all()
 	except CourseSemester.DoesNotExist:
 		# If the prof doesn't exist, return None, the template will take care of it
 		return None
