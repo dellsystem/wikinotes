@@ -52,3 +52,21 @@
     semester: Winter 2011
   model: wikinotes.coursesemester
   pk: 4
+ 
+- fields: {credits: 3, department: COMP, description: lololol, name: Introduction to Computing 1, number: 202}
+  model: wikinotes.course
+  pk: 4
+- fields:
+    course: 4
+    course_avg: A+
+    professors: [5, 6]
+    semester: Fall 2010
+  model: wikinotes.coursesemester
+  pk: 5
+- fields:
+    course: 4
+    course_avg: '?'
+    professors: [7]
+    semester: Summer 2011
+  model: wikinotes.coursesemester
+  pk: 6
