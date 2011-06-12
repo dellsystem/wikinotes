@@ -1,21 +1,13 @@
 {% extends "course/main.html" %}
 
-{% block js %}
-<script src="/static/js/jquery.js"></script>
-<script src="/static/js/jquery.simplemodal.js"></script>
-<script src="/static/js/course.js"></script>
-{% endblock %}
+{% block section_title %}({{ course_name }}){% endblock %}
 
-{% block title %}{{ this_course }} :: Overview{% endblock %}
-
-{% block content %}
-<div id="course-left">
-	<h1>{{ this_course }} ({{ course_name }})</h1>
+{% block leftbar %}
 	<div class="rounded orange">
 		<p><strong>Description</strong>: {{ description }}</p>
 		<p><strong>Restrictions</strong>: Blah</p>
 		<p><strong>Credits</strong>: {{ credits }}</p>
-		<p><strong>Current professor</strong>: {% if current_prof %}{{ current_prof }}{% else %}N/A{% endif %}</p>
+		<p><strong>Current professor</strong>: {% if current_profs %}{{ current_profs }}{% else %}N/A{% endif %}</p>
 	</div>
 	<br />
 	<div class="rounded light-blue">
@@ -25,7 +17,7 @@
 	<div class="rounded light-blue">
 		<h2>Browse by semester</h2>
 		{% for semester in course_semesters %}
-			<p><strong>{{ semester.semester }} - Professor: {{ semester.prof }}, Average: {{ semester.course_avg }}</strong></p>
+			<p><strong>{{ semester.semester }} - Professor{% if semester.professors.count > 1 %}s{% endif %}: {{ semester.professors.all|join:", " }}, Average: {{ semester.course_avg }}</strong></p>
 		{% endfor %}
 		<p></p>
 	</div>
@@ -33,7 +25,4 @@
 	<div class="rounded medium-blue">
 		<h2>Discussion</h2>
 	</div>
-	{% include "page/choose.html" %}
-</div>
-{{ block.super }}
 {% endblock %}

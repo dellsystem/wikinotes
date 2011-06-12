@@ -1,18 +1,54 @@
-# Some sample courses and coursesemesters
+# Some sample courses, professors and course semesters
+
+- fields: {name: Small Bearded Man}
+  model: wikinotes.professor
+  pk: 1
+- fields: {name: Charles Roth}
+  model: wikinotes.professor
+  pk: 2
+- fields: {name: Gregory Dudek}
+  model: wikinotes.professor
+  pk: 3
+- fields: {name: Joseph Vybihal}
+  model: wikinotes.professor
+  pk: 4
 
 - fields: {credits: 4, department: MATH, description: Lolol, name: Calculus B, number: 151}
   model: wikinotes.course
   pk: 1
-- fields: {course: 1, course_avg: B, prof: Charles Roth, semester: 2}
+- fields:
+    course: 1
+    course_avg: B
+    professors: [2]
+    semester: 2
   model: wikinotes.coursesemester
   pk: 1
 
 - fields: {credits: 3, department: MATH, description: lollinalg, name: Linear Algebra, number: 223}
   model: wikinotes.course
   pk: 2
-- fields: {course: 2, course_avg: F, prof: Small Bearded Man, semester: 2}
+- fields:
+     course: 2
+     course_avg: F
+     professors: [1]
+     semester: 2
   model: wikinotes.coursesemester
   pk: 2
-- fields: {course: 2, course_avg: A, prof: Small Beardless Man, semester: 1}
+- fields:
+    course: 2
+    course_avg: A
+    professors: [1]
+    semester: 1
   model: wikinotes.coursesemester
   pk: 3
+
+- fields: {credits: 3, department: COMP, description: lol206, name: Introduction to Software Systems, number: 206}
+  model: wikinotes.course
+  pk: 3
+- fields:
+    course: 3
+    course_avg: A+
+    professors: [3, 4]
+    semester: 2
+  model: wikinotes.coursesemester
+  pk: 4

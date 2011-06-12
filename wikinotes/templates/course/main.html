@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
+{% block js %}
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/jquery.simplemodal.js"></script>
+<script src="/static/js/course.js"></script>
+{% endblock %}
+
+{% block title %}{{ this_course }}{% endblock %}
+
 {% block content %}
+<div id="course-left">
+	<h1>{{ this_course }} :: {% block section_title %}{% endblock %}</h1>
+	{% block leftbar %}{% endblock %}
+	{% include "page/choose.html" %}
+</div>
 <div id="course-right">
 	<div class="align-right">
 		<div class="button orange" id="add-button">Add a page</div>

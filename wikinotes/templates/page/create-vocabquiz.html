@@ -1,1 +1,29 @@
-YOU WANT TO CREATE LECTURE NOTES LOL
+{% extends "course/main.html" %}
+
+{% block section_title %}Add a vocab quiz{% endblock %}
+
+{% block leftbar %}
+<div id="course-left">
+	<div class="rounded orange">
+		<p><strong>Semester</strong>: Select the semester you want this to be for. Usually will be a dropdown box displaying all of the POSSIBLE semesters (not just ones already associated with this course). Default will be the current semester.</p>
+		<p><strong>Subject</strong>: The topic of your quiz.
+		<p><strong>Number of sections:</strong> The number of sections on this quiz. You can add/remove later if needed. Each section can have multiple vocab definitions. It is recommended that you break it up into sections if possible.</p>
+	</div>
+	<br />
+	<div>
+		<h2>Section one - enter the section name</h2>
+		<p>Here you can enter (optionally) some descriptive text for the section. For example, "This section will test your understanding of blah blah and blah".</p>
+		<p>An input box to enter the term, and an input box next to it to enter the definition.</p>
+	</div>
+	<br />
+	<div>
+		<h2>Another section, title it yourself</h2>
+		<p>This <strong>really</strong> needs some easy way of importing shit. I'm thinking ... import from a Mediawiki file using term/definition format. Or possibly a website using dt/dd. Even a kwordquiz file, that would be super cool.</p>
+	</div>
+	<br />
+	<div>
+		<h2>Box at the bottom</h2>
+		<p>If you want to add more sections.</p>
+	</div>
+</div>
+{% endblock %}

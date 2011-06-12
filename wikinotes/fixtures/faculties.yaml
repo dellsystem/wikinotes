@@ -1,4 +1,6 @@
 # The faculties ... just science for now
-- fields: {faculty: 1, long_name: Mathematics & Statistics}
-  model: wikinotes.department
-  pk: MATH
+- model: wikinotes.faculty
+  pk: 1
+  fields:
+    name: Science
+    slug: science
