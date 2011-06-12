@@ -28,6 +28,7 @@ class LectureNote(Page):
 	lecture_num = models.IntegerField()
 	subject = models.CharField(max_length=100)
 	date = models.DateField()
+
 	
 	# Stuff that will need to be displayed for all pages etc
 	def __unicode__(self):
