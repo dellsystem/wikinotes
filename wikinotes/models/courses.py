@@ -48,3 +48,5 @@ class CourseSemester(models.Model):
 	
 	# So like B+ A- etc. Should be optional
 	course_avg = models.CharField(max_length=2, blank=True)
+	def __unicode__(self):
+		return "%s, %s" % (self.course, self.semester)
