@@ -330,10 +330,11 @@ body:before {
 }
 
 /* Default placeholder text is a bit too light */
-::-webkit-input-placeholder {
+::-webkit-input-placeholder, .placeholder {
 	color: #111;
 }
 
+/* This has to be on a separate line for some reason */
 :-moz-placeholder {
 	color: #111;
 }
