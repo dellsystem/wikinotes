@@ -16,7 +16,7 @@ def get_possible_semesters():
 def get_possible_years(start):
 	now = datetime.datetime.now()
 	current_year = int(now.year)
-	years = xrange(start, current_year + 1)
+	years = reversed(xrange(start, current_year + 1))
 	year_list = []
 	for year in years:
 		year_list.append((year, year))
