@@ -18,7 +18,7 @@ def get_possible_numbers(minimum, maximum):
 
 # Defined here for easy changing, like a pseudo-constant
 def get_max_num_sections():
-	return 10
+	return 20
 
 # Monday - Friday, and the months, and the days
 def get_weekday_dates():
