@@ -25,9 +25,9 @@ def get_possible_years(start):
 def get_possible_terms():
 	# Why not just hardcode it
 	return (
-		('Winter', 'Winter'),
-		('Summer', 'Summer'),
-		('Fall', 'Fall')
+		('winter', 'Winter'),
+		('summer', 'Summer'),
+		('fall', 'Fall')
 	)
 	
 def get_current_semester():
