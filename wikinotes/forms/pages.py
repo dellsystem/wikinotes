@@ -1,8 +1,26 @@
 from django.forms import ModelForm, TypedChoiceField
-from wikinotes.models.pages import *
-from wikinotes.utils.pages import get_possible_numbers, get_max_num_sections
+from wikinotes.models.pages import Page, PageType
+from wikinotes.utils.pages import *
+from wikinotes.utils.semesters import get_possible_terms, get_possible_years
 
 # The various forms
+class PageForm(ModelForm):
+	class Meta:
+		model = Page
+		#fields = ('name', 'title', 'birth_date')
+        #widgets = {
+        #    'name': Textarea(attrs={'cols': 80, 'rows': 20}),
+        #}
+	
+	exam_type = TypedChoiceField(choices=get_possible_exams())
+	num_sections = TypedChoiceField(choices=get_possible_numbers(1, get_max_num_sections()), coerce=int)
+	term = TypedChoiceField(choices=get_possible_terms())
+	year = TypedChoiceField(choices=get_possible_years(2005), coerce=int)
+	weekday = TypedChoiceField(choices=get_possible_weekdays())
+	# List all the months and days and just use Javascript to figure out which to show? Maybe?
+	month = TypedChoiceField(choices=get_possible_months())
+	day = TypedChoiceField(choices=get_possible_numbers(1, 31), coerce=int)
+
 """
 class LectureNoteForm(ModelForm):
 	class Meta:
