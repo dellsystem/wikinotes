@@ -23,6 +23,9 @@ def create(request, department, number, page_type):
 	# If the template specified by the page type exists, then we're good to go
 	# Else, 404
 	section_title = this_course
+	
+	# The template name for what the input boxes etc should look like
+	section_template = 'page/section-%s.html' % this_type.slug
 	# For initially creating the hidden sections on the page
 	# For better degradation if javascript is disabled
 	num_sections = xrange(1, get_max_num_sections()+1)
