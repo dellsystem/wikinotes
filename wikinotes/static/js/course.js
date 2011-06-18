@@ -11,6 +11,14 @@ $(document).ready(function() {
 		});
 	});
 	
+	// The formatting help link thing. disable the regular click behaviour
+	$('.formatting-help-link').click(function() {
+		console.log("CLICKED IT");
+		// Make only the one right after it show up (with a nice fade)
+		$(this).parent().siblings('.formatting-help-text').fadeIn(300);
+		return false;
+	});
+	
 	// When you select a term, change the months available
 	// Obviously we have to do server-side validation as well
 	$('#id_term').change(function() {

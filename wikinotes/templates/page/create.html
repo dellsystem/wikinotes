@@ -29,9 +29,11 @@
 	<div id="section-{{ i }}">
 		<br />
 		<div class="light-grey squared wide tall">
-			<input type="text" size="100" name="section-{{ i }}-header" placeholder="LOL SECTION TITLE HERE MAKE IT PRETTY" />
-			<br /><br />
-			<textarea name="section-{{i }}-content" placeholder="write shit here"></textarea>
+			<!-- for people with javascript disabled, make a popup window? otherwise, jQuery returns false etc -->
+			<p style="text-align: right;"><a href="help/formatting" class="formatting-help-link">Formatting help?</a></p>
+			<p class="hidden formatting-help-text">MAKE THIS COOL</p>
+			<!-- because some page types may need different formats etc -->
+			{% include section_template %}
 		</div>
 	</div>
 	{% endfor %}
