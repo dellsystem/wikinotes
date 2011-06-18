@@ -23,3 +23,19 @@ def get_max_num_sections():
 # Monday - Friday, and the months, and the days
 def get_weekday_dates():
 	pass
+
+def get_possible_weekdays():
+	# meh
+	weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] # and saturday comes after apparently
+	to_return = []
+	for weekday in weekdays:
+		to_return.append((weekday.lower(), weekday))
+	return to_return
+
+# Show all the possible months, then later use Javascript to delete the unnecessary ones for this semester
+def get_possible_months():
+	month_list = []
+	for month in calendar.month_name:
+		if month != '':
+			month_list.append((month.lower(), month))
+	return month_list
