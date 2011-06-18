@@ -4,7 +4,6 @@ from django.contrib.auth.models import User as RealUser
 from wikinotes.models.pages import Page, PageType
 from wikinotes.models.courses import Course
 from wikinotes.models.departments import Department
-from django.template import TemplateDoesNotExist
 from wikinotes.forms.pages import PageForm
 from wikinotes.utils.pages import get_max_num_sections
 
@@ -30,8 +29,5 @@ def create(request, department, number, page_type):
 	# For better degradation if javascript is disabled
 	num_sections = xrange(1, get_max_num_sections()+1)
 	
-	try:
-		form = PageForm()
-		return render_to_response('page/create.html', locals())
-	except TemplateDoesNotExist:
-		raise Http404
+	form = PageForm()
+	return render_to_response('page/create.html', locals())
