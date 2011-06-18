@@ -9,9 +9,12 @@ html {
 
 body {
 	height: 100%;
+	font-size: 14px;
+}
+
+body, textarea, input {
 	/* Sans-serif stack for the body copy and the headers */
 	font-family: 'Gill Sans', 'Sawasdee', 'Verdana';
-	font-size: 14px;
 }
 
 img {
@@ -75,6 +78,10 @@ hr {
 ====================================== */
 .squared {
 	padding: 10px;
+}
+
+.centre {
+	text-align: center;
 }
 
 #course-left {
@@ -289,7 +296,7 @@ body:before {
 }
 
 .pretty .medium-wide input {
-	width: 300px;
+	width: 470px;
 }
 
 .pretty .wide input, .pretty .wide textarea {
@@ -305,7 +312,7 @@ body:before {
 }
 
 .pretty input, .pretty textarea {
-	padding: 4px;  
+	padding: 3px;  
 	border: solid 1px #E5E5E5;  
 	outline: 0;
 	background-color: #FFFFFF;
