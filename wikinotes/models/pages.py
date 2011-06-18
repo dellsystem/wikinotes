@@ -65,7 +65,7 @@ class Page(models.Model):
 	num_sections = models.IntegerField()
 	page_type = models.ForeignKey(PageType)
 	
-	# For past exams, the choices are Winter, Fall, Summer
+	# For past exams, the choices are Midterm and Final
 	subject = models.CharField(max_length=100)
 	
 	def _get_semester(self):
