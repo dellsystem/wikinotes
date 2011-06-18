@@ -75,9 +75,8 @@ To-do list
 *	Watch this class button - getJSON or something, returns whether the user is already watching it or not
 	*	Also incorporate authentication - if the user is not logged in, redirect to login page or something
 *	Make "Find a course" "random course" etc things under the header
-*	Get department images from wikinotes.ca, make faculty images
-*	Figure out what to do about the profs - maybe make a class within semesters idk
+*	make faculty images
 *	History
 *	Creating pages
 *	Getting/creating the slug for pages
-*	Add static media files to git repo - use symlinks
+*	Fallbacks for people who have JS disabled - maybe all the buttons actual links, to actual pages, but disable clicking if JS is enabled for the cooler effects
