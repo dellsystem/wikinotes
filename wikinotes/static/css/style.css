@@ -328,3 +328,12 @@ body:before {
 	-moz-box-shadow:  rgba(0, 0, 0, 0.2) 0px 0px 8px; 
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px; 
 }
+
+/* Default placeholder text is a bit too light */
+::-webkit-input-placeholder {
+	color: #111;
+}
+
+:-moz-placeholder {
+	color: #111;
+}
