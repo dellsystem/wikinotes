@@ -20,7 +20,7 @@
 			<dd class="medium-wide">{% if is_exam %}{{ form.exam_type }}{% else %}{{ form.subject }}{% endif %}</dd>
 		</dl>
 		<dl>
-			<dt><label for="id_num_sections"><strong>Number of sections:</strong></label></dt>
+			<dt><label for="id_num_sections"><strong>Number of {% if is_exam %}questions{% else %}sections{% endif %}:</strong></label></dt>
 			<dd>{{ form.num_sections }}</dd>
 		</dl>
 	</div>
