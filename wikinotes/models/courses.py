@@ -11,9 +11,6 @@ class SemesterField(models.Field):
 		super(SemesterField, self).__init__(*args, **kwargs)
 	def get_internal_type(self):
 		return 'CharField'
-	def get_year(self):
-		# Just return the last four digits
-		return str(self)[-4:]
 
 class Course(models.Model):
 	class Meta:
@@ -50,3 +47,9 @@ class CourseSemester(models.Model):
 	course_avg = models.CharField(max_length=2, blank=True)
 	def __unicode__(self):
 		return "%s, %s" % (self.course, self.semester)
+	def get_term(self):
+		# Just return all but the last five characters
+		return self.semester[:-5]
+	def get_year(self):
+		# Just return the last four digits
+		return int(self.semester[-4:])
