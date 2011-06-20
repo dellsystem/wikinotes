@@ -140,7 +140,7 @@ hr {
 }
 
 .medium-blue {
-	background-color: #5081AD;
+	background-color: #5081AD !important; /* If i'm choosing a colour it should not be overriden */
 	color: #FFF;
 }
 
@@ -322,7 +322,7 @@ body:before {
 	text-shadow: 0px 0px 1px rgba(0,0,0,0.5);
 }
 
-.pretty input:hover, .pretty input:focus {
+.pretty input:hover, .pretty input:focus, .pretty textarea:hover, .pretty textarea:focus {
 	border-color: #C9C9C9; 
 	-webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 8px; 
 	-moz-box-shadow:  rgba(0, 0, 0, 0.2) 0px 0px 8px; 
