@@ -9,8 +9,10 @@ from wikinotes.forms.pages import PageForm
 from wikinotes.utils.pages import get_max_num_sections
 from django.template import RequestContext
 import os
+from wikinotes.utils.git import Git
 
 def view(request, department, number, term, year, page_type, slug):
+	import re
 	this_course = get_object_or_404(Course, department=department, number=int(number))
 	this_type = get_object_or_404(PageType, slug=page_type)
 	this_semester = "%s %s" % (term.title(), year)
@@ -29,7 +31,12 @@ def view(request, department, number, term, year, page_type, slug):
 		filename = '%s/%d.md' % (section_dirs, section_num)
 		file = open(filename, 'r')
 		file_lines = file.readlines()
-		section_contents.append(''.join([file_line for file_line in file_lines]))
+		section_content = ''.join([file_line for file_line in file_lines])
+		# Now find shit between $$ and $$$ tags, and replace \ with \\ so that MathJax works
+		# First split it based on $$ or $$$ tags
+		# Although technically $$ should be confined to a single line but whatever do later
+		# Fuck it do it later
+		section_contents.append(section_content)
 	
 	page_content = ''.join(section_content for section_content in section_contents)
 	
