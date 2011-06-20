@@ -44,7 +44,7 @@ class CourseSemester(models.Model):
 		
 	course = models.ForeignKey(Course)
 	semester = SemesterField()
-	professors = models.ManyToManyField(Professor)
+	professors = models.ManyToManyField(Professor, blank=True)
 	
 	# So like B+ A- etc. Should be optional
 	course_avg = models.CharField(max_length=2, blank=True)

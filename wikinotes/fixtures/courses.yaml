@@ -21,6 +21,9 @@
 - fields: {name: Daniel Pomerantz}
   model: wikinotes.professor
   pk: 7
+- fields: {name: Unknown}
+  model: wikinotes.professor
+  pk: 8
 
 - fields: {credits: 4, department: MATH, description: Lolol, name: Calculus B, number: 151}
   model: wikinotes.course
