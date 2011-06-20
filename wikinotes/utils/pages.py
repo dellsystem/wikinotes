@@ -4,8 +4,8 @@ def get_possible_exams():
 	# There should only be two ... midterm and final
 	# But in case we come across "practice" exams that are neither, we can add them
 	return (
-		('midterm', 'Midterm'),
-		('final', 'Final'),
+		('Midterm', 'Midterm'),
+		('Final', 'Final'),
 	)
 
 # For choices
@@ -29,7 +29,7 @@ def get_possible_weekdays():
 	weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] # and saturday comes after apparently
 	to_return = []
 	for weekday in weekdays:
-		to_return.append((weekday.lower(), weekday))
+		to_return.append((weekday, weekday))
 	return to_return
 
 # Show all the possible months, then later use Javascript to delete the unnecessary ones for this semester
@@ -37,5 +37,5 @@ def get_possible_months():
 	month_list = []
 	for month in calendar.month_name:
 		if month != '':
-			month_list.append((month.lower(), month))
+			month_list.append((month, month))
 	return month_list
