@@ -3,49 +3,55 @@ Wikinotes prototype
 
 Using Django as a framework. SQLite in development but either MySQL or PostgreSQL as a database. It's going to be fucking awesome.
 
-Apps
+Apps and relevant models
 ---------
 
-*	users - each user is associated with the following data:
-	*	username
-	*	user ID
-	*	email (which can be used to generate a gravatar)
-	*	a list of classes (IDs) that the user is watching
-	*	look into openID for authentication? if there is a django-openID bridge thing
-*	classes - each class is associated with the following data:
-	*	class ID
-	*	department ID (see below)
-	*	class number (for MATH 133, it would be 133)
-	*	class name (e.g. Linear Algebra or Introduction to Computing)
-*	departments
-	*	department ID
-	*	department short name (e.g. MATH, PHIL, etc)
-	*	department full name (e.g. Mathematics and Statistics, Computer Science, Biology)
-	*	faculty (Science, Arts, Engineering etc)
-*	pages - this is where using either git or CouchDB would come in handy
-	*	page ID, maybe store that in the relational database (not sure if it's even necessary)
-	*	class ID (the class it is associated with)
-	*	revision number
-	*	page type: description/lecture note/summary/review/etc
-	*	page content ... git/couchDB
-*	comments - like a talk page, but associated with individual pages
-	*	comment ID
-	*	page ID (foreign key)
-	*	commenter ID (foreign key, users table - if -1, anonymous)
-	*	comment content
-	*	revision number it refers to
+*	wikinotes
+	*	users - each user is associated with the following data:
+		*	username
+		*	user ID
+		*	email (which can be used to generate a gravatar)
+		*	a list of classes (IDs) that the user is watching
+		*	look into openID for authentication? if there is a django-openID bridge thing
+		*	but rely on django's authentication module for most of the user data (username, user ID, email) - only the CourseWatcher model needs to custom
+	*	courses - each course is associated with the following data:
+		*	course ID
+		*	department shortname (see below)
+		*	course number (for MATH 133, it would be 133)
+		*	course name (e.g. Linear Algebra or Introduction to Computing)
+	*	departments
+		*	department short name (e.g. MATH, PHIL, etc)
+		*	department full name (e.g. Mathematics and Statistics, Computer Science, Biology)
+		*	faculty (Science, Arts, Engineering etc)
+	*	faculties
+		*	faculty short name
+		*	faculty ID (or maybe the short name should be the pk)
+		*	faculty long name
+	*	professors
+		*	name, for now (m2m with CourseSemesters)
+	*	pages - this is where using either git or CouchDB would come in handy
+		*	page ID, maybe store that in the relational database (not sure if it's even necessary)
+		*	class ID (the class it is associated with)
+		*	revision number
+		*	page type: description/lecture note/summary/review/etc
+		*	page content ... git/couchDB
+	*	comments - like a talk page, but associated with individual pages
+		*	comment ID
+		*	page ID (foreign key)
+		*	commenter ID (foreign key, users table - if -1, anonymous)
+		*	comment content
+		*	revision number it refers to
+	*	history - all the edit history, ever. this would be good in a couch.
+		*	user ID (the user who did the thing)
+		*	class ID (the class for which the thing was done)
+		*	if the thing was page-related:
+			*	the page ID
+			*	the revision number of the original page if it was edit or rollback or something
+			*	if it was move or create or delete, then we don't need the revision number
+		*	if the thing was document-uploading-related:
+			*	the document ID on docuum ? or wherever
+			*	the document name
 *	help - maybe general tips and stuff, also some specific to each section of the site
-*	static
-*	history - all the edit history, ever. this would be good in a couch.
-	*	user ID (the user who did the thing)
-	*	class ID (the class for which the thing was done)
-	*	if the thing was page-related:
-		*	the page ID
-		*	the revision number of the original page if it was edit or rollback or something
-		*	if it was move or create or delete, then we don't need the revision number
-	*	if the thing was document-uploading-related:
-		*	the document ID on docuum ?
-		*	the document name
 
 URL scheme
 ----------
@@ -56,17 +62,12 @@ URL scheme
 *	/<?department> (e.g. `/MATH`) to see all the classes within that department
 *	/<?faculty> (e.g. `/science`) to see all the departments and classes within that faculty
 *	/<?department>-<?class-number>/<?page-type> (e.g. `/MATH-141/lectures/`) for a list of all pages of that page type (page types to be decided later)
-*	/<?department>-<?class-number>/<?page-type>/<?page-slug> (e.g. `/MATH-141/lectures/
 
 Features/functionalities to include
 -----------------------------------
 
-*	Attachments - images, tables, etc should be easily uploaded/created and easily attached to a post
-	*	Maybe use couchDB for that too even
 *	integration with docuum and/or qandora?
-*	mathjax for math processing would be stellar
-*	markdown (python library) for other stuff
-*	easily convert from google docs, word etc formats: upload/add url, we'll convert to markdown
+*	easily convert from google docs, word, mediawiki etc formats: upload/add url, we'll convert to markdown (or even, upload your own markdown file, we'll check if it's valid)
 *	easily export to other formats: PDF, plain text (markdown lol), kwordquiz (for select pages)
 
 To-do list
@@ -76,7 +77,15 @@ To-do list
 	*	Also incorporate authentication - if the user is not logged in, redirect to login page or something
 *	Make "Find a course" "random course" etc things under the header
 *	make faculty images
-*	History
-*	Creating pages
-*	Getting/creating the slug for pages
+*	History model
+*	Escaping backslashes between $$'s on a line and $$$ throughout the entire thing (for mathjax/markdown to work together properly)
+*	Editing feature, also diffing/merging etc
+*	Refactor code (it's messy and there's too much repetition)
+*	When adding a new course semester, make an option to set the prof for that semester? or just make it unknown?
+*	Faculty/department templates
+*	Comments
+*	Security shit
+*	Make handling of semesters better. There's too much title() and whatever going on
 *	Fallbacks for people who have JS disabled - maybe all the buttons actual links, to actual pages, but disable clicking if JS is enabled for the cooler effects
+*	Try to merge some of the models/views/utils etc into one ... faculties and departments are practically the same, for instance
+*	Unit tests just do it
