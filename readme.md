@@ -80,6 +80,8 @@ To-do list
 *	History model
 *	Escaping backslashes between $$'s on a line and $$$ throughout the entire thing (for mathjax/markdown to work together properly)
 *	Editing feature, also diffing/merging etc
+	*	Possibility of using AJAX to do inline editing? like "quick edit"
+	*	Work on standard editing first, implement this later
 *	Refactor code (it's messy and there's too much repetition)
 *	When adding a new course semester, make an option to set the prof for that semester? or just make it unknown?
 *	Faculty/department templates
@@ -89,3 +91,5 @@ To-do list
 *	Fallbacks for people who have JS disabled - maybe all the buttons actual links, to actual pages, but disable clicking if JS is enabled for the cooler effects
 *	Try to merge some of the models/views/utils etc into one ... faculties and departments are practically the same, for instance
 *	Unit tests just do it
+*	Fix thing where additional sections aren't counted because num_sections is never updated >_>
+*	Correctly list all the pages in the category- and semester-based views
