@@ -13,6 +13,6 @@
 <div id="page-content">
 {% load markup %}
 {% filter markdown:"toc" %}{% endfilter %}
-{{ page_content|markdown:"safe" }}
+{{ page_content|markdown:"safe,def_list" }}
 </div>
 {% endblock %}
