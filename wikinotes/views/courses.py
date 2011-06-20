@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils import simplejson
 from wikinotes.models.courses import Course, CourseSemester
+from wikinotes.models.pages import Page
 from wikinotes.models.departments import Department
 from wikinotes.utils.semesters import get_current_semester
 from wikinotes.utils.courses import get_current_profs, get_num_watchers, get_num_pages, is_already_watching
@@ -25,6 +26,12 @@ def overview(request, department, number):
 	
 	# Get all the semesters associated with this course (all the CourseSemesters)
 	course_semesters = CourseSemester.objects.filter(course=this_course)
+	
+	# Get all the pages associated with any coursesemesters
+	pages = Page.objects.filter(course_semester__course=this_course)
+	for page in pages:
+		page.term = page.course_semester.get_term().title()
+		page.year = page.course_semester.get_year()
 	
 	# Show the "watch" button only for authenticated users
 	this_user = request.user

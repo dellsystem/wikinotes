@@ -12,6 +12,12 @@
 	<br />
 	<div class="rounded light-blue">
 		<h2>Browse by category</h2>
+		<p>(Just going to show all the pages for now)</p>
+		<ul>
+			{% for page in pages %}
+			<li><a href="{% url wikinotes.views.pages.view department number page.term page.year page.page_type.slug page.slug %}"><strong>{{ page }}</strong></a></li>
+			{% endfor %}
+		</ul>
 	</div>
 	<br />
 	<div class="rounded light-blue">
