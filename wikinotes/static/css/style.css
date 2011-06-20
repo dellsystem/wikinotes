@@ -157,17 +157,12 @@ h2 {
 	font-size: 1.5em;
 }
 
-/* for left-floating images */
 .leftfloat {
 	float: left;
-	padding-right: 17px;
-	padding-top: 5px;
 }
 
-/* For things like "read more" */
 .rightfloat {
 	float: right;
-	margin-top: -2.4em;
 }
 
 #main a {
@@ -337,4 +332,13 @@ body:before {
 /* This has to be on a separate line for some reason */
 :-moz-placeholder {
 	color: #111;
+}
+
+/* For styling while on the "viewing a page" page whatever */
+
+#page-content h2 {
+    clear: both;
+	padding-top: 5px;
+	border-bottom: #333333 dotted 1px;
+    padding-bottom: 0.2em;
 }
