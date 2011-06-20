@@ -1,0 +1,18 @@
+{% extends "course/main.html" %}
+
+{% block section_title %}{{ this_type }}{% endblock %}
+
+{% block leftbar %}
+<div class="orange squared">
+	<div style="float: right; text-align: right; width: 200px; margin-top: -14px;">
+		<div class="button light-grey">History</div>
+		<div class="button light-blue">Edit this page</div>
+	</div>
+	<h2 style="clear: none;">{{ this_page.subject }}</h2>
+</div>
+<div id="page-content">
+{% load markup %}
+{% filter markdown:"toc" %}{% endfilter %}
+{{ page_content|markdown:"safe" }}
+</div>
+{% endblock %}

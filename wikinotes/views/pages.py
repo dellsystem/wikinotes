@@ -10,6 +10,31 @@ from wikinotes.utils.pages import get_max_num_sections
 from django.template import RequestContext
 import os
 
+def view(request, department, number, term, year, page_type, slug):
+	this_course = get_object_or_404(Course, department=department, number=int(number))
+	this_type = get_object_or_404(PageType, slug=page_type)
+	this_semester = "%s %s" % (term.title(), year)
+	course_semester = get_object_or_404(CourseSemester, semester=this_semester, course=this_course)
+	# Find the page attached to the slug the user entered
+	this_page = get_object_or_404(Page, course_semester=course_semester, page_type=this_type, slug=slug)
+	
+	faculty = Department.objects.get(pk=department).faculty
+	faculty_slug = faculty.slug
+	
+	num_sections = this_page.num_sections
+	section_contents = []
+	section_dirs = 'content/%s_%d/%s/%s' % (department, int(number), this_type.slug, this_page.slug)
+	# Concatenate all of the files into a single string using a list comprehension (fastest method)
+	for section_num in xrange(1, num_sections+1):
+		filename = '%s/%d.md' % (section_dirs, section_num)
+		file = open(filename, 'r')
+		file_lines = file.readlines()
+		section_contents.append(''.join([file_line for file_line in file_lines]))
+	
+	page_content = ''.join(section_content for section_content in section_contents)
+	
+	return render_to_response('page/view.html', locals())
+
 def create(request, department, number, page_type):
 	this_course = get_object_or_404(Course, department=department, number=int(number))
 	this_type = get_object_or_404(PageType, slug=page_type)
