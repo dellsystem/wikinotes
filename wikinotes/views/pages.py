@@ -103,7 +103,7 @@ def create(request, department, number, page_type):
 					filename = '%s/%s' % (section_dirs, section_file)
 					file = open(filename, 'w')
 					file.write(request.POST['section-%d-header' % section_num])
-					file.write("\n===\n\n")
+					file.write("\n---\n\n")
 					file.write(request.POST['section-%d-content' % section_num])
 					file.write("\n\n")
 					file.close()
