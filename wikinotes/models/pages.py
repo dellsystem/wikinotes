@@ -24,6 +24,8 @@ def get_to_str_choices():
 def to_slug(semester):
 	semester = semester.lower()
 	semester = semester.replace(' ', '-')
+	# Remove commas, too
+	semester = semester.replace(',', '')
 	return semester
 
 # To allow more customisation eventually
@@ -35,7 +37,7 @@ class PageType(models.Model):
 	need_date = models.BooleanField(verbose_name="Uses the date field")
 	name = models.CharField(max_length=30)
 	# e.g. "lecture" "exam" "vocabquiz"
-	slug = models.SlugField()
+	slug = models.SlugField(unique=True)
 	to_str = models.CharField(max_length=20, choices=get_to_str_choices(), verbose_name="String representation")
 	
 	def __unicode__(self):
@@ -79,17 +81,20 @@ class Page(models.Model):
 	# Optional - in case there's a link to a reference document somewhere
 	# For example, the original exam on the library website, or on docuum
 	ref_link = models.URLField(blank=True, verify_exists=True)
+	slug = models.SlugField(max_length=40)
 	
 	def __unicode__(self):
 		prefix  = '%s -' % self.page_type
-		if page_type.to_str == 'date (semester)' and page_type.need_date:
+		if self.page_type.to_str == 'date (semester)' and self.page_type.need_date:
 			long_name = '%s %s (%s)' % (prefix, self.date, self.course_semester.semester)
-		elif page_type.to_str == 'semester subject':
+		elif self.page_type.to_str == 'semester subject':
 			long_name = '%s %s %s' % (prefix, self.course_semester.semester, self.subject)
 		else: # Assume page_type.to_str == 'subject (semester)'
 			long_name = '%s %s (%s)' % (prefix, self.subject, self.course_semester.semester)
+		return long_name
 	
 	def get_slug(self):
 		# If need_date is defined as true, it will use the date as the slug; otherwise, subject
-		slug_end = self.date if page_type.need_date else self.subject
+		slug_end = self.date if self.page_type.need_date else self.subject
 		slug = '/%s/%s/%s' % (self.page_type.slug, to_slug(self.course_semester.semester) , to_slug(slug_end))
+		return (to_slug(slug_end), slug)
