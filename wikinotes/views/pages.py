@@ -95,37 +95,33 @@ def create(request, department, number, page_type):
 			
 			# Save all the relevant pages (depending on the number of sections)
 			sections_to_save = xrange(1, int(request.POST['num_sections'])+1)
-			section_dirs = 'content/%s_%d/%s/%s' % (department, int(number), this_type.slug, page.slug)
-			for section_num in sections_to_save:
+			section_dirs = '%s_%d/%s/%s' % (department, int(number), this_type.slug, page.slug)
+			try:
+				os.makedirs('content/%s' % section_dirs)
+			except OSError:
+				pass
+			
+			git = Git(section_dirs)
 				
+			for section_num in sections_to_save:		
 				# Now save to a file
 				# Ex: MATH_141/exam/[slug]
 				section_file = '%s.md' % section_num
-				try:
-					os.makedirs(section_dirs)
-					# First check if the git repository needs to be created first
-					if not os.path.exists("%s/.git" % section_dirs):
-						os.system("cd %s; git init" % section_dirs)
-						
-					filename = '%s/%s' % (section_dirs, section_file)
-					file = open(filename, 'w')
-					file.write(request.POST['section-%d-header' % section_num])
-					file.write("\n---\n\n")
-					file.write(request.POST['section-%d-content' % section_num])
-					file.write("\n\n")
-					file.close()
-					os.system("cd %s; git add %s" % (section_dirs, section_file))
-				except OSError:
-					pass
+				filename = 'content/%s/%s' % (section_dirs, section_file)
+				file = open(filename, 'w')
+				file.write(request.POST['section-%d-header' % section_num])
+				file.write("\n---\n\n")
+				file.write(request.POST['section-%d-content' % section_num])
+				file.write("\n\n")
+				file.close()
+				git.add(section_file)
 			
 			# Now save the model
 			page.save()
 			# Commit it lol
 			# Of course this may STILL result in the non-atomicity issue but hopefully it will be less likely
-			comment = request.POST['comment'] if request.POST['comment'] else 'Minor edit'
 			# Escape quotation marks (should escape other things too probably to be safe)
-			comment = comment.replace('"', '\\"')
-			os.system('cd %s; git commit -m "%s"' % (section_dirs, comment))
+			git.commit(request.POST['comment'])
 			return render_to_response('page/success.html', locals())
 		else:
 			errors = ""
