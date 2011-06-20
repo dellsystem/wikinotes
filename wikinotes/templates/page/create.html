@@ -4,6 +4,7 @@
 
 {% block leftbar %}
 <form action="" method="post" class="pretty">
+	{% csrf_token %}
 	<div class="rounded orange">
 		<dl>
 			<dt><label for="id_semester"><strong>Associated semester:</strong></label></dt>
@@ -37,15 +38,24 @@
 		</div>
 	</div>
 	{% endfor %}
+	<br />
+	<div class="orange squared">
+		<dl>
+			<dt><label for="id_date"><strong>Edit summary:</strong></label></dt>
+			<dd class="medium-wide">{{ form.comment }}</p>
+		</dl>
+	</div>
 	<div class="centre">
 		<p class="button orange" id="add-section">Add a new section</p>
 		<p class="button light-blue" id="preview">Preview</p>
-		<p class="button medium-blue" id="submit">Save</p>
+		<input type="submit" name="submit" class="button medium-blue" id="submit" value="Save" />
+		<!-- this styling is stupid fix it later -->
 	</div>
 	<br />
 	<div>
 		<h2>Another input box, enter the header</h2>
 		<p>You know what would be really cool? If we auto-staged files, in case the user accidentally closes the browser or something. So then when that user comes back to the page, it will show that the user has staged but not committed some changes. Like auto-save, basically, but with an extra step needed to confirm etc.</p>
+		<p>Hello \( \sqrt{2+5x^2} \) everybody</p>
 	</div>
 	<br />
 	<div>

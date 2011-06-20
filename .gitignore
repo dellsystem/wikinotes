@@ -1,3 +1,4 @@
 *.pyc
 settings.py
 db/*
+content/*
