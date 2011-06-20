@@ -55,6 +55,8 @@ class PageType(models.Model):
 		/quiz/winter-2011/blah-blah/
 		/vocab/winter-2011/blah-blah/
 		/lecture/winter-2011/monday-april-23/
+		
+		or maybe /MATH_150/winter-2011/lecture/monday-april-23/
 	"""
 
 # The "base" page class - all specific page types have a one-to-one relationship with this
@@ -96,5 +98,5 @@ class Page(models.Model):
 	def get_slug(self):
 		# If need_date is defined as true, it will use the date as the slug; otherwise, subject
 		slug_end = self.date if self.page_type.need_date else self.subject
-		slug = '/%s/%s/%s' % (self.page_type.slug, to_slug(self.course_semester.semester) , to_slug(slug_end))
+		slug = '/%s/%s/%s' % (to_slug(self.course_semester.semester), self.page_type.slug, to_slug(slug_end))
 		return (to_slug(slug_end), slug)
