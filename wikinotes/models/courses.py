@@ -8,7 +8,7 @@ from wikinotes.models.pages import Page
 class SemesterField(models.Field):
 	description = 'A semester in the format [Term] [Year]'
 	def __init__(self, *args, **kwargs):
-		kwargs['max_length'] = 7 # That is the length of 'Winter 2011' and is the longest possible
+		kwargs['max_length'] = 11 # That is the length of 'Winter 2011' and is the longest possible
 		kwargs['choices'] = get_possible_semesters()
 		super(SemesterField, self).__init__(*args, **kwargs)
 	def get_internal_type(self):
