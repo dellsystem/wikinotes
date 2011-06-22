@@ -32,10 +32,10 @@
 	</div>
 	<br />
 	<div class="squared light-grey">
-		<div style="width: 95px; text-align: center; display: inline-block;">{{ department }}<br /><a href="{% url wikinotes.views.departments.overview department %}"><img src="/static/images/departments/{{ department }}.png" /></a></div>
-		<div style="width: 95px; text-align: center; display: inline-block;">{{ faculty }}<br /><a href="{% url wikinotes.views.faculties.overview faculty_slug %}"><img src="/static/images/faculties/{{ faculty_slug }}.png" /></a></div>
-		<p>Number of watchers: {{ num_watchers }}</p>
-		<p>Number of pages: {{ num_pages }}</p>
+		<div style="width: 95px; text-align: center; display: inline-block;">{{ this_course.department }}<br /><a href="{% url wikinotes.views.departments.overview this_course.department %}"><img src="/static/images/departments/{{ this_course.department }}.png" /></a></div>
+		<div style="width: 95px; text-align: center; display: inline-block;">{{ this_course.department.faculty }}<br /><a href="{% url wikinotes.views.faculties.overview this_course.department.faculty.slug %}"><img src="/static/images/faculties/{{ this_course.department.faculty.slug }}.png" /></a></div>
+		<p>Number of watchers: {{ this_course.get_num_watchers }}</p>
+		<p>Number of pages: {{ this_course.get_num_pages }}</p>
 		<hr />
 		<h2>Recent changes</h2>
 		<p>someuser edited something</p>

@@ -13,16 +13,6 @@ def get_current_profs(course):
 		return None
 	return professors
 
-# Get the number of watchers for this course
-def get_num_watchers(course):
-	num_watchers = CourseWatcher.objects.filter(course=course).count()
-	return num_watchers
-
-def get_num_pages(course):
-	course_semester = CourseSemester.objects.filter(course=course)
-	num_pages = Page.objects.filter(course_semester=course_semester).count()
-	return num_pages
-
 def is_already_watching(user, course):
 	try:
 		CourseWatcher.objects.get(user=user, course=course)

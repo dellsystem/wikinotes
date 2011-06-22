@@ -1,5 +1,4 @@
 from django.db import models
-from wikinotes.models.courses import CourseSemester
 from wikinotes.utils.pages import get_possible_exams, get_weekday_dates
 from wikinotes.utils.semesters import get_possible_semesters
 from wikinotes.utils.git import Git
@@ -65,7 +64,7 @@ class Page(models.Model):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	course_semester = models.ForeignKey(CourseSemester)
+	course_semester = models.ForeignKey('CourseSemester')
 	# Determines how many files are needed. Always user-configurable, even for vocab quizzes
 	num_sections = models.IntegerField()
 	page_type = models.ForeignKey(PageType)

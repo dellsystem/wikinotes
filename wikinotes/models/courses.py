@@ -2,6 +2,8 @@ from django.db import models
 from wikinotes.models.departments import Department
 from wikinotes.utils.semesters import get_possible_terms, get_possible_years, get_possible_semesters
 from wikinotes.models.professors import Professor
+from wikinotes.models.users import CourseWatcher
+from wikinotes.models.pages import Page
 
 class SemesterField(models.Field):
 	description = 'A semester in the format [Term] [Year]'
@@ -34,6 +36,13 @@ class Course(models.Model):
 	
 	def get_credits(self):
 		return self.credits
+	
+	def get_num_watchers(self):
+		return CourseWatcher.objects.filter(course=self).count()
+	
+	def get_num_pages(self):
+		num_pages = Page.objects.filter(course_semester__course=self).count()
+		return num_pages
 
 class CourseSemester(models.Model):
 	class Meta:

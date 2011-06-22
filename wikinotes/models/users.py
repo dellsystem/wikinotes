@@ -1,5 +1,4 @@
 from django.db import models
-from wikinotes.models.courses import Course
 from django.contrib.auth.models import User
 
 # Extends the built-in user model using a OneToOne relationship, sort of
@@ -10,5 +9,5 @@ class CourseWatcher(models.Model):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	course = models.ManyToManyField(Course)
+	course = models.ManyToManyField('Course')
 	user = models.ForeignKey(User, unique=True)
