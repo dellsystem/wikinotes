@@ -342,3 +342,29 @@ body:before {
 	border-bottom: #333333 dotted 1px;
     padding-bottom: 0.2em;
 }
+
+#page-content dl {
+	margin-top: 10px;
+	position: relative;
+	padding: 5px;
+	border: #DDD solid 2px;
+	background-color: #F7F7F7;
+}
+
+#page-content dt {
+	float: left;
+	clear: left;
+	width: 100px;
+	text-align: right;
+	font-weight: bold;
+}
+
+#page-content dt:after {
+	content: ":";
+}
+
+#page-content dd {
+	border-left: 1px solid #000;
+	padding-left: 10px;
+	margin-left: 110px;
+}
