@@ -1,6 +1,6 @@
 from django.db import models
 from wikinotes.models.departments import Department
-from wikinotes.utils.semesters import get_possible_terms, get_possible_years, get_possible_semesters
+from wikinotes.utils.semesters import get_possible_terms, get_possible_years, get_possible_semesters, get_current_semester
 from wikinotes.models.professors import Professor
 from wikinotes.models.users import CourseWatcher
 from wikinotes.models.pages import Page
@@ -43,6 +43,20 @@ class Course(models.Model):
 	def get_num_pages(self):
 		num_pages = Page.objects.filter(course_semester__course=self).count()
 		return num_pages
+	
+	def is_user_watching(self, user):
+		try:
+			CourseWatcher.objects.get(user=user, course=self)
+			return True
+		except CourseWatcher.DoesNotExist:
+			return False
+	
+	def get_current_profs(self):
+		try:
+			return CourseSemester.objects.get(course=self, semester=get_current_semester()).professors.all()
+		except CourseSemester.DoesNotExist:
+			# If the prof doesn't exist, return None, the template will take care of it
+			return None
 
 class CourseSemester(models.Model):
 	class Meta:
