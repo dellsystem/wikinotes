@@ -28,6 +28,26 @@ def view(request, department, number, term, year, page_type, slug):
 	
 	return render_to_response('page/view.html', locals())
 
+def edit(request, department, number, term, year, page_type, slug):
+	this_course = get_object_or_404(Course, department=department, number=int(number))
+	this_type = get_object_or_404(PageType, slug=page_type)
+	this_semester = "%s %s" % (term.title(), year)
+	course_semester = get_object_or_404(CourseSemester, semester=this_semester, course=this_course)
+	this_page = get_object_or_404(Page, course_semester=course_semester, page_type=this_type, slug=slug)
+	faculty = Department.objects.get(pk=department).faculty
+	faculty_slug = faculty.slug
+	
+	num_sections = this_page.num_sections
+	
+	sections = this_page.load_sections()
+	form = PageForm()
+	
+	if request.method == 'POST':
+		this_page.save_sections(request.POST)
+		return render_to_response('page/success.html', locals())
+	
+	return render_to_response('page/edit.html', locals(), context_instance=RequestContext(request))
+
 def create(request, department, number, page_type):
 	this_course = get_object_or_404(Course, department=department, number=int(number))
 	this_type = get_object_or_404(PageType, slug=page_type)
