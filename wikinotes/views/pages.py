@@ -9,7 +9,6 @@ from wikinotes.forms.pages import PageForm
 from wikinotes.utils.pages import get_max_num_sections
 from django.template import RequestContext
 import os
-from wikinotes.utils.git import Git
 
 def view(request, department, number, term, year, page_type, slug):
 	import re
@@ -23,22 +22,9 @@ def view(request, department, number, term, year, page_type, slug):
 	faculty = Department.objects.get(pk=department).faculty
 	faculty_slug = faculty.slug
 	
-	num_sections = this_page.num_sections
-	section_contents = []
-	section_dirs = 'content/%s_%d/%s/%s' % (department, int(number), this_type.slug, this_page.slug)
-	# Concatenate all of the files into a single string using a list comprehension (fastest method)
-	for section_num in xrange(1, num_sections+1):
-		filename = '%s/%d.md' % (section_dirs, section_num)
-		file = open(filename, 'r')
-		file_lines = file.readlines()
-		section_content = ''.join([file_line for file_line in file_lines])
-		# Now find shit between $$ and $$$ tags, and replace \ with \\ so that MathJax works
-		# First split it based on $$ or $$$ tags
-		# Although technically $$ should be confined to a single line but whatever do later
-		# Fuck it do it later
-		section_contents.append(section_content)
+	page_sections = this_page.load_sections()
 	
-	page_content = ''.join(section_content for section_content in section_contents)
+	page_content = ''.join(['##' + section['title'] + '\n\n' + section['content'] for section in page_sections])
 	
 	return render_to_response('page/view.html', locals())
 
@@ -93,35 +79,12 @@ def create(request, department, number, page_type):
 			page.slug = page.get_slug()[0]
 			full_slug = page.get_slug()[1]
 			
-			# Save all the relevant pages (depending on the number of sections)
-			sections_to_save = xrange(1, int(request.POST['num_sections'])+1)
-			section_dirs = '%s_%d/%s/%s' % (department, int(number), this_type.slug, page.slug)
-			try:
-				os.makedirs('content/%s' % section_dirs)
-			except OSError:
-				pass
-			
-			git = Git(section_dirs)
-				
-			for section_num in sections_to_save:		
-				# Now save to a file
-				# Ex: MATH_141/exam/[slug]
-				section_file = '%s.md' % section_num
-				filename = 'content/%s/%s' % (section_dirs, section_file)
-				file = open(filename, 'w')
-				file.write(request.POST['section-%d-header' % section_num])
-				file.write("\n---\n\n")
-				file.write(request.POST['section-%d-content' % section_num])
-				file.write("\n\n")
-				file.close()
-				git.add(section_file)
-			
+			# Save and commit all the relevant pages (depending on the number of sections)
+			page.save_sections(request.POST)
+						
 			# Now save the model
 			page.save()
-			# Commit it lol
-			# Of course this may STILL result in the non-atomicity issue but hopefully it will be less likely
-			# Escape quotation marks (should escape other things too probably to be safe)
-			git.commit(request.POST['comment'])
+
 			return render_to_response('page/success.html', locals())
 		else:
 			errors = ""

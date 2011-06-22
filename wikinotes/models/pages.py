@@ -2,6 +2,7 @@ from django.db import models
 from wikinotes.models.courses import CourseSemester
 from wikinotes.utils.pages import get_possible_exams, get_weekday_dates
 from wikinotes.utils.semesters import get_possible_semesters
+from wikinotes.utils.git import Git
 
 class WeekdayDateField(models.Field):
 	description = 'For dates like Monday April 25 blah. No year, only weekdays'
@@ -75,7 +76,19 @@ class Page(models.Model):
 	def _get_semester(self):
 		return self.course_semester.semester
 	
+	def _get_department(self):
+		return self.course_semester.course.department
+	
+	def _get_number(self):
+		return self.course_semester.course.number
+	
+	def get_repo_path(self):
+		return 'content/%s_%d/%s' % (self.course_semester.course.department, self.course_semester.course.number, self.get_slug[1])
+	
 	semester = property(_get_semester)
+	department = property(_get_department)
+	number = property(_get_number)
+	repo_path = property(get_repo_path)
 	
 	# Only needed for lecture notes
 	date = WeekdayDateField(semester, blank=True)
@@ -100,3 +113,51 @@ class Page(models.Model):
 		slug_end = self.date if self.page_type.need_date else self.subject
 		slug = '/%s/%s/%s' % (to_slug(self.course_semester.semester), self.page_type.slug, to_slug(slug_end))
 		return (to_slug(slug_end), slug)
+	
+	def load_sections(self):
+		# Should raise an exception if the sections are not found or something
+		num_sections = self.num_sections
+		section_contents = []
+		repo_path = 'content/%s_%d%s' % (self.course_semester.course.department, self.course_semester.course.number, self.get_slug()[1])
+		# Concatenate all of the files into a single string using a list comprehension (fastest method)
+		for section_num in xrange(1, num_sections+1):
+			filename = '%s/%d.md' % (repo_path, section_num)
+			file = open(filename, 'r')
+			file_lines = file.readlines()
+			
+			# Each section is a dictionary with a title and content
+			this_section = {}
+			this_section['title'] = file_lines[0][:-1] # strip the newline char
+			this_section['content'] = ''.join(file_lines[3:])
+			# Now find shit between $$ and $$$ tags, and replace \ with \\ so that MathJax works
+			# First split it based on $$ or $$$ tags
+			# Although technically $$ should be confined to a single line but whatever do later
+			# Fuck it do it later
+			section_contents.append(this_section)
+
+		# Returns the list of sections (title + content)
+		return section_contents
+	
+	def save_sections(self, request):
+		repo_path = 'content/%s_%d%s' % (self.course_semester.course.department, self.course_semester.course.number, self.get_slug()[1])
+		sections_to_save = xrange(1, int(request['num_sections'])+1)
+		
+		git = Git(repo_path)
+		
+		for section_num in sections_to_save:		
+			# Now save to a file
+			# Ex: MATH_141/exam/[slug]
+			section_file = '%s.md' % section_num
+			filename = '%s/%s' % (repo_path, section_file)
+			file = open(filename, 'w')
+			file.write(request['section-%d-header' % section_num])
+			file.write("\n---\n\n")
+			file.write(request['section-%d-content' % section_num])
+			file.write("\n\n")
+			file.close()
+			git.add(section_file)
+		
+		# Commit it lol
+		# Of course this may STILL result in the non-atomicity issue but hopefully it will be less likely
+		# Escape quotation marks (should escape other things too probably to be safe)
+		git.commit(request['comment'])
