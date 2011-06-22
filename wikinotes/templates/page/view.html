@@ -6,9 +6,9 @@
 <div class="orange squared">
 	<div style="float: right; text-align: right; width: 200px; margin-top: -14px;">
 		<div class="button light-grey">History</div>
-		<div class="button light-blue">Edit this page</div>
+		<div class="button light-blue"><a href="{% url wikinotes.views.pages.edit department number term year page_type slug %}">Edit this page</a></div>
 	</div>
-	<h2 style="clear: none;">{{ this_page.subject }}</h2>
+	<h2 style="clear: none;">{{ this_page }}</h2>
 </div>
 <div id="page-content">
 {% load markup %}

@@ -21,7 +21,7 @@
 
 {% block content %}
 <div id="course-left">
-	<h1>{{ this_course }} :: {% block section_title %}{% endblock %}</h1>
+	<h1><a href="{% url wikinotes.views.courses.overview department number %}">{{ this_course }}</a> :: {% block section_title %}{% endblock %}</h1>
 	{% block leftbar %}{% endblock %}
 	{% include "page/choose.html" %}
 </div>
