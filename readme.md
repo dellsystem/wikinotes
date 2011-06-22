@@ -1,7 +1,7 @@
 Wikinotes prototype
 ==================
 
-Using Django as a framework. SQLite in development but either MySQL or PostgreSQL as a database. It's going to be fucking awesome.
+Using Django as a framework. SQLite in development but either MySQL or PostgreSQL as a database. The wiki pages will be tracked using git, with each page broken up until multiple "sections", all stored as files. This is intended to reduce the amount of unnecessary data stored for each diff, resulting in more efficient disk space usage.
 
 Apps and relevant models
 ---------
@@ -13,7 +13,7 @@ Apps and relevant models
 		*	email (which can be used to generate a gravatar)
 		*	a list of classes (IDs) that the user is watching
 		*	look into openID for authentication? if there is a django-openID bridge thing
-		*	but rely on django's authentication module for most of the user data (username, user ID, email) - only the CourseWatcher model needs to custom
+		*	but rely on django's authentication module for most of the user data (username, user ID, email) - only the CourseWatcher model needs to be custom
 	*	courses - each course is associated with the following data:
 		*	course ID
 		*	department shortname (see below)
@@ -77,11 +77,9 @@ To-do list
 	*	Also incorporate authentication - if the user is not logged in, redirect to login page or something
 *	Make "Find a course" "random course" etc things under the header
 *	make faculty images
-*	History model
+*	History model (also diffing, merging etc)
 *	Escaping backslashes between $$'s on a line and $$$ throughout the entire thing (for mathjax/markdown to work together properly)
-*	Editing feature, also diffing/merging etc
-	*	Possibility of using AJAX to do inline editing? like "quick edit"
-	*	Work on standard editing first, implement this later
+*	Editing - possibility of using AJAX to do inline editing? like "quick edit"
 *	Refactor code (it's messy and there's too much repetition)
 *	When adding a new course semester, make an option to set the prof for that semester? or just make it unknown?
 *	Faculty/department templates
@@ -93,3 +91,4 @@ To-do list
 *	Unit tests just do it
 *	Fix thing where additional sections aren't counted because num_sections is never updated >_>
 *	Correctly list all the pages in the category- and semester-based views
+*	More instance methods as opposed to utility methods (when relevant)
