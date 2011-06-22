@@ -23,7 +23,7 @@
 	<div class="rounded light-blue">
 		<h2>Browse by semester</h2>
 		{% for semester in course_semesters %}
-			<p><strong>{{ semester.semester }} - Professor{% if semester.professors.count > 1 %}s{% endif %}: {{ semester.professors.all|join:", " }}, Average: {{ semester.course_avg }}</strong></p>
+			<p><strong>{{ semester.semester }} - Professor{% if semester.professors.count > 1 %}s{% endif %}: {{ semester.professors.all|join:", "|default:"N/A" }}, Average: {{ semester.course_avg|default:"N/A" }}</strong></p>
 		{% endfor %}
 		<p></p>
 	</div>
