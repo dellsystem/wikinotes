@@ -24,6 +24,7 @@ _An incomplete list. More to be added when thought of. Features marked in **bold
 *	Better merging and such in the case of simultaneous editing than Mediawiki (as in, merges will be handled automatically UNLESS two people change the same line; in that case, the second person will be asked to confirm the changes). This actually might not be that easy to implement - to be looked into
 *	**Easily upload images and other accompanying media**
 *	**Support for definition lists and tables using Markdown**
+*	Built-in permission system means that it wouldn't be too difficult to have some users who act as moderators etc
 
 Django apps and relevant models
 ------------------------
