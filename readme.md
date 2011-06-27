@@ -99,3 +99,4 @@ To-do list
 *	Fix thing where additional sections aren't counted because num_sections is never updated >_>
 *	Correctly list all the pages in the category- and semester-based views
 *	More instance methods as opposed to utility methods (when relevant)
+*	Make some sort of generic success template (like the whole trigger_error thing in phpBB)
