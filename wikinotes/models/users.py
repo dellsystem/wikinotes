@@ -9,5 +9,5 @@ class CourseWatcher(models.Model):
 	class Meta:
 		app_label = 'wikinotes'
 		
-	course = models.ManyToManyField('Course')
-	user = models.ForeignKey(User, unique=True)
+	course = models.ForeignKey('Course')
+	user = models.ForeignKey(User)
