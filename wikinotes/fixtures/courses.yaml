@@ -82,3 +82,17 @@
     semester: Summer 2011
   model: wikinotes.coursesemester
   pk: 6
+- fields:
+    course: 1
+    course_avg: ''
+    professors: []
+    semester: Fall 2010
+  model: wikinotes.coursesemester
+  pk: 7
+- fields:
+    course: 4
+    course_avg: ''
+    professors: []
+    semester: Winter 2011
+  model: wikinotes.coursesemester
+  pk: 8
