@@ -5,11 +5,20 @@
 {% block content %}
 <h1>Dashboard</h1>
 <p>You are logged in and can see stuff</p>
-<p>A list of all our courses so far:
-	<ul>
-		{% for course in courses %}
-		<li><a href="{% url wikinotes.views.courses.overview course.department course.number %}">{{ course }}</a></li>
-		{% endfor %}
-	</ul>
-</p>
+<p>A list of the courses you're watching:</p>
+{% if watchers %}
+<ul>
+	{% for watcher in watchers %}
+	<li><a href="{% url wikinotes.views.courses.overview watcher.course.department watcher.course.number %}">{{ watcher.course }}</a></li>
+	{% endfor %}
+</ul>
+{% else %}
+<p>You are not watching any courses.</p>
+{% endif %}
+<p>A list of all the courses:</p>
+<ul>
+	{% for course in courses %}
+	<li><a href="{% url wikinotes.views.courses.overview course.department course.number %}">{{ course }}</a></li>
+	{% endfor %}
+</ul>
 {% endblock %}
