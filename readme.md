@@ -33,7 +33,7 @@ Django apps and relevant models
 	*	users
 		*	extends the User model in django.contrib.auth; adds the CourseWatcher (many-to-many) model
 		*	look into openID for authentication
-		*	use email to generate gravatar
+		*	use email to generate Gravatar
 	*	courses
 		*	each course is associated with an ID, a department, a number, and a name
 		*	each course can have multiple CourseSemesters, each of which is tied to a professor, a course, and a semester
