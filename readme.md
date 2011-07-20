@@ -26,6 +26,15 @@ _An incomplete list. More to be added when thought of. Features marked in **bold
 *	**Support for definition lists and tables using Markdown**
 *	Built-in permission system means that it wouldn't be too difficult to have some users who act as moderators etc
 
+Dependency list (add as necessary)
+------------------------
+
+* Python 2.7+
+* Django 1.3+
+* Python modules:
+    * PyYAML
+* Django applications:
+
 Django apps and relevant models
 ------------------------
 

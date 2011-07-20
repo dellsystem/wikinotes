@@ -2,7 +2,7 @@ from django.db import models
 from wikinotes.models.departments import Department
 from wikinotes.utils.semesters import get_possible_terms, get_possible_years, get_possible_semesters, get_current_semester
 from wikinotes.models.professors import Professor
-from wikinotes.models.users import CourseWatcher
+from wikinotes.models.users import UserProfile
 from wikinotes.models.pages import Page
 
 class SemesterField(models.Field):
@@ -15,46 +15,47 @@ class SemesterField(models.Field):
 		return 'CharField'
 
 class Course(models.Model):
-	class Meta:
-		app_label = 'wikinotes'
-		
-	department = models.ForeignKey(Department)
-	number = models.IntegerField()
-	name = models.CharField(max_length=255)
-	description = models.CharField(max_length=255)
-	credits = models.IntegerField()
+
+    class Meta:
+        app_label = 'wikinotes'
+
+    department = models.ForeignKey(Department)
+    number = models.IntegerField()
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    credits = models.IntegerField()
 	
 	# The department + number should be shown
-	def __unicode__(self):
-		return "%s %d" % (self.department, self.number)
+    def __unicode__(self):
+	    return "%s %d" % (self.department, self.number)
 	
-	def get_name(self):
-		return self.name
+    def get_name(self):
+	    return self.name
 	
-	def get_description(self):
-		return self.description
+    def get_description(self):
+	    return self.description
 	
-	def get_credits(self):
-		return self.credits
+    def get_credits(self):
+	    return self.credits
 	
-	def get_num_watchers(self):
-		return CourseWatcher.objects.filter(course=self).count()
+    def get_num_watchers(self):
+	    return UserProfile.objects.filter(courses__contains=self).count()
 	
-	def get_num_pages(self):
-		num_pages = Page.objects.filter(course_semester__course=self).count()
-		return num_pages
+    def get_num_pages(self):
+	    num_pages = Page.objects.filter(course_semester__course=self).count()
+	    return num_pages
 	
-	def is_user_watching(self, user):
-		try:
-			CourseWatcher.objects.get(user=user, course=self)
-			return True
-		except CourseWatcher.DoesNotExist:
+    def is_user_watching(self, user):
+	    try:
+		    UserProfile.objects.filter(user=user, courses__contains=self)
+		    return True
+	    except UserProfile.DoesNotExist:
 			return False
 	
-	def get_current_profs(self):
-		try:
+    def get_current_profs(self):
+        try:
 			return CourseSemester.objects.get(course=self, semester=get_current_semester()).professors.all()
-		except CourseSemester.DoesNotExist:
+        except CourseSemester.DoesNotExist:
 			# If the prof doesn't exist, return None, the template will take care of it
 			return None
 
