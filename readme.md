@@ -3,7 +3,7 @@
 Overview
 --------
 
-A prototype for moving wikinotes.ca away from Mediawiki, using a custom-written application using Django as a framework. The database currently being used is SQLite but in production it will be either MySQL or PostgreSQL. The wiki pages will be tracked using git, with each page broken up into multiple "sections", all stored as files. This is intended to reduce the amount of unnecessary data stored for each diff, resulting in more efficient disk space usage.
+A prototype for moving wikinotes.ca away from MediaWiki, using a custom-written application using Django as a framework. The database currently being used is SQLite but in production it will be either MySQL or PostgreSQL. The wiki pages will be tracked using git, with each page broken up into multiple "sections", all stored as files. This is intended to reduce the amount of unnecessary data stored for each diff, resulting in more efficient disk space usage.
 
 List of features
 ----------------
