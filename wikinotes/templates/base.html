@@ -14,13 +14,27 @@
 	<div id="wrap">
 		<div id="header">
 			<a href="/"><img src="/static/images/wikinotes.png" alt="wikinotes" /></a>
-			<ul id="menu">
-				<li><a href="/">Home</a></li>
-				<li><a href="/index">Courses</a></li>
-				<li><a href="/index">About</a></li>
-				<li><a href="/index">News</a></li>
-				<li><a href="/index">Help</a></li>
-			</ul>
+			<div id="header-right">
+				<ul id="menu">
+					<li><a href="/">Home</a></li>
+					<li><a href="/index">Courses</a></li>
+					<li><a href="/index">About</a></li>
+					<li><a href="/index">News</a></li>
+					<li><a href="/index">Help</a></li>
+				</ul>
+				<br />
+				<div id="login">
+					{% if request.user.is_authenticated %}
+					<p>Welcome, {{ request.user }} :: <a href="/logout">Logout</a></p>
+					{% else %}
+					<form method="post" class="pretty">
+						<input type="text" name="username" placeholder="Username" size="17" />
+						<input type="password" name="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" size="17" />
+						<input type="submit" name="login" value="Login" class="orange" />
+					</form>
+					{% endif %}
+				</div>
+			</div>
 		</div>
 		<div id="main">
 			{% block content %}{% endblock %}

@@ -39,9 +39,18 @@ hr {
 	margin: 0 auto;
 }
 
+#header-right {
+	float: right;
+}
+
+#login {
+	position: relative;
+	top: 10px;
+	text-align: right;
+}
+
 #menu {
 	list-style: none;
-	float: right;
 	text-transform: lowercase;
 	font-size: 1.6em;
 	position: relative;
@@ -60,13 +69,6 @@ hr {
 
 #menu a:hover {
 	color: #000;
-}
-
-/* the fork me on github ribbon on the right */
-#ribbon {
-	position: absolute;
-	top: 0px;
-	right: 0px;
 }
 
 #main {
@@ -130,12 +132,12 @@ hr {
 }
 
 .orange {
-	background-color: #FFD480;
+	background-color: #FFD480 !important;
 	color: #000;
 }
 
 .light-blue {
-	background-color: #7FB2E0;
+	background-color: #7FB2E0 !important;
 	color: #FFF;
 }
 
@@ -165,13 +167,13 @@ h2 {
 	float: right;
 }
 
-#main a {
+#main a, p a {
 	color: #E42217;
 	text-decoration: none;
 }
 
 /* So that images, headers don't get underlines */
-#main p a:hover, #main li a:hover {
+p a:hover, #main li a:hover {
 	border-bottom: #E42217 solid 1px;
 	text-decoration: none;
 }
