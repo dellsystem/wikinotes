@@ -28,7 +28,7 @@ def overview(request, department, number):
 	this_user = request.user
 	if this_user.is_authenticated():
 		logged_in = True
-		already_watching = is_already_watching(this_user, this_course)
+		already_watching = this_course.is_user_watching(this_user)
 	else:
 		logged_in = False
 		

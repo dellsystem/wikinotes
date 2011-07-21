@@ -39,7 +39,7 @@ class Course(models.Model):
 	    return self.credits
 	
     def get_num_watchers(self):
-	    return UserProfile.objects.filter(courses__contains=self).count()
+	    return UserProfile.objects.filter(courses__name__contains=self.name).count()
 	
     def get_num_pages(self):
 	    num_pages = Page.objects.filter(course_semester__course=self).count()
@@ -47,7 +47,7 @@ class Course(models.Model):
 	
     def is_user_watching(self, user):
 	    try:
-		    UserProfile.objects.filter(user=user, courses__contains=self)
+		    UserProfile.objects.filter(user=user, courses__name__contains=self.name)
 		    return True
 	    except UserProfile.DoesNotExist:
 			return False
