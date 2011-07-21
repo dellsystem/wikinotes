@@ -45,13 +45,13 @@ class Course(models.Model):
 	    num_pages = Page.objects.filter(course_semester__course=self).count()
 	    return num_pages
 	
-    def is_user_watching(self, user):
-	    try:
-		    UserProfile.objects.filter(user=user, courses__name__contains=self.name)
-		    return True
-	    except UserProfile.DoesNotExist:
+    def is_user_watching(self, this_user):
+        try:
+            UserProfile.objects.get(user=this_user, courses__name__contains=self.name)
+            return True
+        except UserProfile.DoesNotExist:
 			return False
-	
+
     def get_current_profs(self):
         try:
 			return CourseSemester.objects.get(course=self, semester=get_current_semester()).professors.all()
