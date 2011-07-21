@@ -39,19 +39,24 @@ def overview(request, department, number):
 # Temporary view for handling watching
 # Should be made into an AJAX request later, with a POST or something (how github does it)
 def watch(request, department, number):
-	this_user = request.user
-	this_course = get_object_or_404(Course, department=department, number=int(number))
+    this_user = request.user
+    this_course = get_object_or_404(Course, department=department, number=int(number))
 	
+    try:
+	    course_watcher = UserProfile.objects.get(user=this_user)
+    except:
+        success_title = 'Admin account debug'
+        success_message = 'Admin is on %s' % this_course
+        return render_to_response('success.html', locals())
+
 	# If the user is already watching the course, stop watching
 	if this_course.is_user_watching(this_user):
 		# Delete the database entry
-		course_watcher = UserProfile.objects.get(user=this_user)
 		course_watcher.courses.remove(this_course)
 		success_title = 'Successfully unwatched course'
 		success_message = 'No longer watching %s' % this_course
 	else:
 		# Create a database entry
-		course_watcher = UserProfile(user=this_user)
 		course_watcher.courses.add(this_course)
 		success_title = 'Successfully watched course'
 		success_message = 'You are now watching %s' % this_course
