@@ -1,0 +1,86 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+	<meta charset="utf-8"> 
+	<title>wikinotes</title> 
+	<meta name="description" content=""> 
+	<meta name="author" content=""> 
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements --> 
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]--> 
+
+	<!-- Le styles --> 
+	<link href="/static/bootstrap.css" rel="stylesheet"> 
+	<link href="/static/prettify.css" rel="stylesheet">
+	<link href="/static/wikinotes.css" rel="stylesheet" />
+
+	<!-- Le javascript --> 
+	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script> 
+	<script src="http://autobahn.tablesorter.com/jquery.tablesorter.min.js"></script> 
+	<script src="/static/prettify.js"></script> 
+	<script src="/static/application.js"></script> 
+
+	<!-- Le fav and touch icons --> 
+	<link rel="shortcut icon" href="images/favicon.ico"> 
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png"> 
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png"> 
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png"> 
+</head> 
+
+<body>
+<div class="topbar"> 
+	<div class="topbar-inner"> 
+		<div class="container"> 
+			<ul class="nav"> 
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Courses</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">News</a></li>
+				<li><a href="#">Help</a></li>
+				<li><a href="#">Contributing</a></li>
+			</ul>
+			<div class="float-right">
+		  		<ul class="nav">
+		  			<li><input type="text" name="search" class="xlarge" id="search-box" placeholder="Search ..." /></li>
+		  			<li><a href="#">Random page</a></li>
+		  			<li><a href="#">Recent changes</a></li>
+		  		</ul>
+			</div>
+		</div> 
+	</div> 
+</div>
+
+<div id="masthead"> 
+	<div class="inner"> 
+		<div class="container"> 
+	 		<img src="/static/logo.png" alt="wikinotes">
+	 		<div id="login-bar">
+			 	<p>
+					<input class="medium" size="16" type="text" placeholder="Username" /> 
+					<input class="medium" size="16" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+				</p>
+				<div id="stay-logged-in">
+					<p><input type="checkbox" />Stay logged in</p>
+				</div>
+				<div id="login-buttons">
+			 		<p><a href="#" class="btn primary">Log in</a> <a href="#" class="btn danger">Sign up</a></p>
+				</div>
+			</div>
+		</div><!-- /container --> 
+	</div> 
+</div>
+
+{% block content %}{% endblock %}
+
+<div id="footer"> 
+	<div class="inner"> 
+		<div class="container"> 
+			<p class="right"><a href="#">Back to top</a></p> 
+			<p>We're powered by Django and the glorious Twitter <a>Bootstrap</a> toolkit. Go on, <a>fork us</a> on github.</p>
+		</div> 
+	</div> 
+</div>
+</body> 
+</html>
