@@ -5,8 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    url(r'^$', 'wikinotes.main.views.index'),
+    url(r'^$', 'wikinotes.views.main.index'),
+    url(r'^courses$', 'wikinotes.views.courses.index'),
+    url(r'^courses/all$', 'wikinotes.views.courses.all'),
     # url(r'^wikinotes/', include('wikinotes.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

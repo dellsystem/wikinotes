@@ -60,7 +60,7 @@ STATIC_ROOT = '/home/waldo/Projects/wikinotes/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/'
+STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'wikinotes.urls'
 
 TEMPLATE_DIRS = (
-    "/home/waldo/Projects/wikinotes/main/templates",
+    "/home/waldo/Projects/wikinotes/templates",
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
