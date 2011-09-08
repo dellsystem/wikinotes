@@ -5,4 +5,8 @@ def index(request):
 	return render_to_response('courses/index.html')
 
 def all(request):
-	pass
+	courses = Course.objects.all()
+	data = {
+		'courses': courses,
+	}
+	return render_to_response('courses/all.html', data)
