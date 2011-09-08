@@ -1,0 +1,14 @@
+- fields: {credits: 4, department: MATH, description: 'Functions, limits and continuity,
+      differentiation, L''Hospital''s rule, applications, Taylor polynomials, parametric
+      curves, functions of several variables.', name: Calculus A, number: 150}
+  model: wiki.course
+  pk: 1
+- fields: {credits: 4, department: MATH, description: 'Integration, methods and applications,
+      infinite sequences and series, power series, arc length and curvature, multiple
+      integration.', name: Calculus B, number: 151}
+  model: wiki.course
+  pk: 2
+- fields: {credits: 3, department: COMP, description: lol202, name: Introduction to
+      Computing 1, number: 202}
+  model: wiki.course
+  pk: 3
