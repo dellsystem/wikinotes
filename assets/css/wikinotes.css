@@ -24,12 +24,6 @@ section > .row {
 #masthead {
   background-color: #40A6D8;
   background-repeat: no-repeat;
-/*  background-image: -webkit-gradient(linear, left top, left bottom, from(#339bb9), to(#39E2F4));
-  background-image: -webkit-linear-gradient(#339bb9, #39E2F4);
-  background-image: -moz-linear-gradient(#339bb9, #39E2F4);
-  background-image: -o-linear-gradient(top, #339bb9, #39E2F4);
-  background-image: -khtml-gradient(linear, left top, left bottom, from(#339bb9), to(#39E2F4));*/
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#339bb9', endColorstr='#39E2F4', GradientType=0); /* IE8 and down */
 }
 #masthead div.inner, #footer div.inner {
   background: transparent url(/static/grid-18px.png) top center;

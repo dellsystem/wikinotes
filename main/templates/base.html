@@ -12,24 +12,26 @@
 	<![endif]--> 
 
 	<!-- Le styles --> 
-	<link href="/static/bootstrap.css" rel="stylesheet"> 
-	<link href="/static/prettify.css" rel="stylesheet">
-	<link href="/static/wikinotes.css" rel="stylesheet" />
+	<!--<link href="/css/bootstrap.css" rel="stylesheet">-->
+	<link href="/css/bootstrap.less" rel="stylesheet/less" /> 
+	<link href="/css/prettify.css" rel="stylesheet">
+	<link href="/css/wikinotes.less" rel="stylesheet/less" />
 
 	<!-- Le javascript --> 
 	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script> 
-	<script src="http://autobahn.tablesorter.com/jquery.tablesorter.min.js"></script> 
-	<script src="/static/prettify.js"></script> 
-	<script src="/static/application.js"></script> 
+	<script src="/js/prettify.js"></script>
+	<script src="/js/less.min.js"></script>
 
 	<!-- Le fav and touch icons --> 
-	<link rel="shortcut icon" href="images/favicon.ico"> 
-	<link rel="apple-touch-icon" href="images/apple-touch-icon.png"> 
-	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png"> 
-	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png"> 
+	<link rel="shortcut icon" href="/favicon.ico"> 
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png"> 
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72x72-precomposed.png"> 
+	<link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png"> 
 </head> 
 
 <body>
+<div id="wrap">
+<div id="main">
 <div class="topbar"> 
 	<div class="topbar-inner"> 
 		<div class="container"> 
@@ -52,17 +54,17 @@
 	</div> 
 </div>
 
-<div id="masthead"> 
+<div id="header"> 
 	<div class="inner"> 
 		<div class="container"> 
-	 		<img src="/static/logo.png" alt="wikinotes">
+	 		<img src="/img/logo.png" alt="wikinotes">
 	 		<div id="login-bar">
 			 	<p>
 					<input class="medium" size="16" type="text" placeholder="Username" /> 
 					<input class="medium" size="16" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
 				</p>
 				<div id="stay-logged-in">
-					<p><input type="checkbox" />Stay logged in</p>
+					<p><label><input type="checkbox" /> <span>Stay logged in</span></label></p>
 				</div>
 				<div id="login-buttons">
 			 		<p><a href="#" class="btn primary">Log in</a> <a href="#" class="btn danger">Sign up</a></p>
@@ -73,7 +75,8 @@
 </div>
 
 {% block content %}{% endblock %}
-
+</div><!-- /main -->
+</div><!-- /wrap -->
 <div id="footer"> 
 	<div class="inner"> 
 		<div class="container"> 
