@@ -8,7 +8,7 @@
 
 p {
   #font > .shorthand(normal,@basefont,@baseline);
-  margin-bottom: @baseline / 2;
+  padding-bottom: @baseline / 2; // Was @baseline / 2
   small {
     font-size: @basefont - 2;
     color: @grayLight;
@@ -27,7 +27,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 h1 {
-  margin-bottom: @baseline;
+  padding-bottom: @baseline;
   font-size: 30px;
   line-height: @baseline * 2;
   small {
@@ -77,7 +77,7 @@ ul ul,
 ul ol,
 ol ol,
 ol ul {
-  margin-bottom: 0;
+  padding-bottom: 0;
 }
 ul {
   list-style: disc;
@@ -96,7 +96,7 @@ ul.unstyled {
 
 // Description Lists
 dl {
-  margin-bottom: @baseline;
+  padding-bottom: @baseline;
   dt, dd {
     line-height: @baseline;
   }
@@ -135,12 +135,12 @@ em {
 
 // Blockquotes
 blockquote {
-  margin-bottom: @baseline;
+  padding-bottom: @baseline;
   border-left: 5px solid #eee;
   padding-left: 15px;
   p {
     #font > .shorthand(300,14px,@baseline);
-    margin-bottom: 0;
+    padding-bottom: 0;
   }
   small {
     display: block;
@@ -156,7 +156,7 @@ blockquote {
 address {
   display: block;
   line-height: @baseline;
-  margin-bottom: @baseline;
+  padding-bottom: @baseline;
 }
 
 // Inline and block code styles
