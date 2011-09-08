@@ -42,18 +42,18 @@
 	<div class="topbar-inner"> 
 		<div class="container"> 
 			<ul class="nav"> 
-				<li><a href="#">Home</a></li>
-				<li><a href="#">Courses</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">News</a></li>
-				<li><a href="#">Help</a></li>
-				<li><a href="#">Contributing</a></li>
+				<li><a href="/">Home</a></li>
+				<li><a href="/courses">Courses</a></li>
+				<li><a href="/about">About</a></li>
+				<li><a href="/news">News</a></li>
+				<li><a href="/help">Help</a></li>
+				<li><a href="/contributing">Contributing</a></li>
 			</ul>
 			<div class="float-right">
 		  		<ul class="nav">
 		  			<li><input type="text" name="search" class="xlarge" id="search-box" placeholder="Search ..." /></li>
-		  			<li><a href="#">Random page</a></li>
-		  			<li><a href="#">Recent changes</a></li>
+					<li><a href="/recent-changes">Recent changes</a></li>
+					<li><a href="/register">Register</a></li>
 		  		</ul>
 			</div>
 		</div> 
@@ -65,16 +65,18 @@
 		<div class="container"> 
 	 		<img src="/img/logo.png" alt="wikinotes">
 	 		<div id="login-bar">
+				<form method="post" action="/login">
 			 	<p>
-					<input class="medium" size="16" type="text" placeholder="Username" /> 
-					<input class="medium" size="16" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+					<input class="medium" type="text" placeholder="Username" />
+					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
 				</p>
 				<div id="stay-logged-in">
-					<p><label><input type="checkbox" /> <span>Stay logged in</span></label></p>
+					<p><input type="checkbox" /> Stay logged in</p>
 				</div>
 				<div id="login-buttons">
-			 		<p><a href="#" class="btn primary">Log in</a> <a href="#" class="btn danger">Sign up</a></p>
+					<p><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;<input type="submit" class="btn danger" value="Log in" name="login" /></p>
 				</div>
+				</form>
 			</div>
 		</div><!-- /container --> 
 	</div> 
@@ -86,9 +88,9 @@
 <div id="footer"> 
 	<div class="inner"> 
 		<div class="container"> 
-			<p class="right"><a href="#">Back to top</a></p> 
-			<p>We're powered by Django and the glorious Twitter <a>Bootstrap</a> toolkit. Go on, <a>fork us</a> on github.</p>
-		</div> 
+			<p class="right"><a href="#wrap">Back to top</a></p>
+			<p>We're powered by <a href="http://www.djangoproject.com">Django</a> and the glorious <a href="http://twitter.github.com">Twitter Bootstrap</a> toolkit. Go on, <a href="https://www.github.com/dellsystem/wikinotes">fork us</a> on github.</p>
+		</div>
 	</div> 
 </div>
 </body> 
