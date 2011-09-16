@@ -13,11 +13,13 @@
 					<li><strong>Credits:</strong> {{ course.credits }}</li>
 					<li><strong>Current professor:</strong> Test</li>
 				</ul>
+				<h2>Lol</h2>
+				{% include "page/create_popup.html" %}
 			</div>
 			<div class="span4 columns" id="right-bar">
 				<div class="row" style="margin-bottom: 0px;">
 					<div class="half-column">
-						<p><a href="{{ course.url }}/create" class="btn info">New page</a></p>
+						<p><a href="#create-page-popup" class="btn info" id="create-page-button">New page</a></p>
 						<p><strong>Pages:</strong> {{ course.num_pages }}</p>
 					</div>
 					<div class="half-column">

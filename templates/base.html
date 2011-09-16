@@ -9,7 +9,7 @@
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements --> 
 	<!--[if lt IE 9]>
 	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]--> 
+	<![endif]-->
 
 	<!-- Le styles --> 
 	<!--<link href="/css/bootstrap.css" rel="stylesheet">-->
@@ -25,6 +25,19 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('input, textarea').placeholder();
+		// for a decent fallback if JS is disabled ...
+		$('#create-page-popup').hide();
+		$('#create-page-button').click(function() {
+			$('#create-page-popup').addClass('modal');
+			$('#create-page-popup').after('<div class="modal-backdrop"></div>');
+			$('#create-page-popup .modal-footer').append('<button class="btn danger" id="close-modal">Close this box</button>');
+			$('#create-page-popup').show();
+			$('#create-page-popup button').click(function() {
+				$('.modal-backdrop').remove();
+				$('#create-page-popup').hide();
+				$('#create-page-popup button').remove();
+			});
+		});
 	});
 	</script>
 
