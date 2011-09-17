@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from wiki.models.courses import Course
 from utils import page_types as types
 from django.http import Http404
+#from wiki.forms.pages import PageForm
 
 def index(request):
 	return render_to_response('courses/index.html')
@@ -34,4 +35,9 @@ def create(request, department, number, page_type):
 		raise Http404
 	else:
 		obj = types[page_type]
-		return render_to_response(obj.get_create_template())
+		data = {
+			'course': course,
+			'page_type': obj,
+			'num_sections': range(1, 11), # for people without javascript DON'T DELETE THIS UNLESS YOU HAVE ANOTHER SOLUTION FOR A FALLBACK
+		}
+		return render_to_response(obj.get_create_template(), data)
