@@ -38,6 +38,8 @@ def create(request, department, number, page_type):
 		data = {
 			'course': course,
 			'page_type': obj,
+			'form_template': obj.get_form_template(),
+			'help_template': obj.get_help_template(),
 			'num_sections': range(1, 11), # for people without javascript DON'T DELETE THIS UNLESS YOU HAVE ANOTHER SOLUTION FOR A FALLBACK
 		}
-		return render_to_response(obj.get_create_template(), data)
+		return render_to_response("pages/create.html", data)

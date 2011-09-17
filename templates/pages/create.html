@@ -10,9 +10,7 @@
 			<h2>Create a new page :: {{ page_type.long_name }}</h2>
 			<form>
 				<fieldset class="grey-box">
-					{% include "pages/semester_field.html" %}
-					{% include "pages/subject_field.html" %}
-					{% include "pages/sections_field.html" %}
+						{% include form_template %}
 				</fieldset>
 				{% for i in num_sections %}
 				<fieldset class="grey-box" id="section-{{ i }}">
@@ -20,7 +18,7 @@
 					<div class="input">
 						<input type="text" class="xxlarge" id="section-{{ i }}-title" />
 					</div>
-					<label for="section-{{ i }}-body">Section <span>{{ i }}</span> body:<br /><a href="#" id="fullscreen-section-{{ i }}">Click to fullscreen</a><br /><br /><strong>Syntax:</strong><br />Sub-heading<br />----------<br />* Question<br />- Wrong answer<br />+ Right answer<br />? Explanation<br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
+					<label for="section-{{ i }}-body">Section <span>{{ i }}</span> body:<br /><a href="#" id="fullscreen-section-{{ i }}">Click to fullscreen</a><br /><br />{% include help_template %}<br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
 					<div class="input">
 						<textarea class="xxlarge" id="section-{{ i }}-body"></textarea>
 					</div>

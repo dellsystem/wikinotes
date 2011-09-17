@@ -16,8 +16,11 @@ class PageType:
 		return True
 
 	# Wrapper around short_name basically
-	def get_create_template(self):
-		return 'pages/%s/create.html' % self.short_name
+	def get_form_template(self):
+		return 'pages/%s/create_form.html' % self.short_name
+
+	def get_help_template(self):
+		return 'pages/%s/create_help.html' % self.short_name
 
 	# For showing ONE page of this type
 	def get_show_template(self):
