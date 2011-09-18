@@ -5,6 +5,7 @@ import os
 class Page(models.Model):
 	class Meta:
 		app_label = 'wiki'
+		unique_together = ('course_sem', 'slug')
 
 	course_sem = models.ForeignKey('CourseSemester')
 	num_sections = models.IntegerField() # is this really necessary? sort of cache maybe?
@@ -13,7 +14,7 @@ class Page(models.Model):
 	page_type = models.CharField(choices=utils.page_type_choices, max_length=20)
 	title = models.CharField(max_length=255, null=True) # the format of this is determined by the page type
 	professor = models.ForeignKey('Professor', null=True)
-	slug = models.CharField(max_length=50, unique=True)
+	slug = models.CharField(max_length=50)
 	
 	def __unicode__(self):
 		return self.get_title()
