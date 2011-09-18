@@ -7,3 +7,4 @@ things to not forget etc
 * delete icon (top right corner) for sections (like the modal dialogue close icons)
 * adding a section should update the number in the num_sections dropdown
 * capitalisation of term. it's actually really important
+* escaping \ in mathjax (because of markdown etc)

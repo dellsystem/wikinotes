@@ -119,7 +119,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'wiki'
+    'wiki',
+    'django.contrib.markup', # for markdown
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

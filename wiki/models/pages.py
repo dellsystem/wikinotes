@@ -1,5 +1,6 @@
 from django.db import models
 import utils
+import os
 
 class Page(models.Model):
 	class Meta:
@@ -12,23 +13,61 @@ class Page(models.Model):
 	page_type = models.CharField(choices=utils.page_type_choices, max_length=20)
 	title = models.CharField(max_length=255, null=True) # the format of this is determined by the page type
 	professor = models.ForeignKey('Professor', null=True)
-
-	# Calls the relevant model defined on the specified page type
-	def is_subject_valid(self):
-		real_type = utils.page_types[self.page_type]
-		return real_type.is_subject_valid(self.subject)
-
+	slug = models.CharField(max_length=50, unique=True)
+	
 	def __unicode__(self):
 		return self.get_title()
 
 	def get_title(self):
 		type_name = utils.page_types[self.page_type].long_name # lol
 		if not self.title:
-			return "%s - %s (%s %s)" % (type_name, self.subject, self.course_sem.term, self.course_sem.year)
+			return "%s - %s (%s %s)" % (type_name, self.subject, self.course_sem.term.title(), self.course_sem.year)
 		else:
 			return "%s - %s" % (type_name, self.title)
 
 	def get_url(self):
 		course = self.course_sem.course
 		page_type_obj = utils.page_types[self.page_type]
-		return "%s/%s/%s-%s/%s" % (course.url(), self.page_type, self.course_sem.term, self.course_sem.year, page_type_obj.get_slug(self))
+		return "%s/%s/%s-%s/%s" % (course.url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
+
+	def load_sections(self, page_type_obj):
+		path = "wiki/content%s/" % self.get_url() # looks rather silly but it actually does work!
+		sections = []
+		for i in xrange(1, self.num_sections + 1):
+			filename = "%s%d.md" % (path, i)
+			file = open(filename, 'r')
+			file_lines = file.readlines()
+			title = file_lines[0][:-1] # strip the newline char
+			content = file_lines[3:]
+			section = Section(title, content)
+			section.format(page_type_obj)
+			sections.append(section)
+
+		return sections
+
+	def save_sections(self, data):
+		path = "wiki/content%s/" % self.get_url()
+		num_sections = int(data['num_sections'])
+		try:
+			os.makedirs(path)
+		except OSError:
+			pass
+		for i in xrange(1, num_sections + 1):
+			filename = "%s%d.md" % (path, i)
+			file = open(filename, 'wb')
+			title = data["section-%d-title" % i]
+			body = data["section-%d-body" % i]
+			body = body.replace('^M', '\n')
+			file.write(title + '\n')
+			file.write('--------\n\n')
+			file.write(body + '\n') # necessary for some reason
+			file.close()
+
+# Not actually a model, more of a helper class to manage sections more easily
+class Section:
+	def __init__(self, title, content):
+		self.title = title
+		self.content = content
+
+	def format(self, page_type_obj):
+		self.data = page_type_obj.format(self.content) # needs a better naming scheme

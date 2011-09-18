@@ -12,9 +12,23 @@
 					<li><strong>Current professor:</strong> Test</li>
 				</ul>
 				<h2>Browse by page type</h2>
-				{% for page in page_types %}
-					lol
-				{% endfor %}
+				<div class="row">
+					<div class="span3 columns">
+						<strong>Semesters</strong>
+						<ul class="unstyled">
+							{% for page_type in page_types %}
+							<li>{{ page_type.long_name }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div class="span9 columns">
+						{% comment %} JS fallback, as always ... the things I do {% endcomment %}
+						{% for page_type in page_types %}
+							<h5>{{ page_type.long_name }}</h5>
+							{% include page_type.list_template %}
+						{% endfor %}
+					</div>
+				</div>
 				<h2>Browse by semester</h2>
 				<div class="row">
 					<div class="span2 columns">
@@ -22,7 +36,7 @@
 						{% if course_sems %}
 						<ul class="unstyled">
 							{% for sem in course_sems %}
-							<li>{{ sem.term }} {{ sem.year }}</li>
+							<li>{{ sem.get_semester }}</li>
 							{% endfor %}
 						</ul>
 						{% endif %}
@@ -30,7 +44,7 @@
 					<div class="span10 columns">
 						{% if course_sems %}
 							{% for sem in course_sems %}
-								<strong>{{ sem.term }} {{ sem.year }}</strong>
+								<strong>{{ sem.get_semester }}</strong>
 								{% if sem.page_set.all %}
 								<ul class="unstyled">
 									{% for sem_page in sem.page_set.all %}
@@ -42,10 +56,6 @@
 						{% endif %}
 					</div>
 				</div>
-				{% for page in this_sem_pages %}
-					{{ page }}
-					lol
-				{% endfor %}
 				{% include "page/create_popup.html" %}
 			</div>
 			<div class="span4 columns" id="right-bar">

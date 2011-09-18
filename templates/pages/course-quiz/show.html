@@ -1,10 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load markup %}
 <div class="container">
 	<section>
 		{% include "courses/header.html" %}
 		<h2>{{ page.get_title }}</h2>
+		{% for section in sections %}
+		<div>
+			<h3>{{ section.title }}</h3>
+			<hr />
+			<ol>
+			{% for question in section.data.questions %}
+					<li><p><strong>{{ question.question }}</strong> <a href="#" id="view-answer-q{{ question.number }}">View answer &raquo;</a></p>
+						<ol class="multiple-choice">
+							{% for choice in question.choices %}
+								<li id="q{{ question.number }}-choice{{ choice.number }}">{{ choice.text }}</li>
+							{% endfor %}
+						</ol>
+						<p id="answer-q{{ question.number }}" class="grey-box">Answer: {{ question.answer }}</p>
+					</li>
+			{% endfor %}
+			</ol>
+		{% endfor %}
+		</div>
 	</section>
 </div>
 {% endblock %}

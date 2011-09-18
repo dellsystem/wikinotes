@@ -84,6 +84,31 @@
 		$('#num_sections').change(function() {
 			hideExtraSections($('#num_sections').val());
 		});
+
+		// Multiple choice quizzes, clicking on the "view answer" thing etc
+		$('p[id^="answer-q"]').hide();
+		$('a[id^="view-answer-q"]').click(function(event) {
+			event.preventDefault();
+			var thisID = $(this).attr('id');
+			var answerID = thisID.substring(5);
+			// Soooo hacky, needs to be improved
+			$('#' + answerID).show();
+			var questionID = thisID.substring(13);
+
+			// now bold the relevant li
+			var rightAnswerID = '#q' + questionID + ''; // fuck it
+			return false;
+		});
+	});
+	</script>
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [  ['$$', '$$'] ],
+			displayMath: [ ['$$$', '$$$'] ],
+			processEscapes: true,
+		}
 	});
 	</script>
 

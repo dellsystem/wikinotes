@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "yes" | python manage.py reset wiki
+python manage.py syncdb
+python manage.py loaddata faculties departments courses
+echo "Done"

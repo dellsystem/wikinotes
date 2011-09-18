@@ -1,1 +1,18 @@
-lol
+{% extends "base.html" %}
+
+{% block content %}
+{% load markup %}
+<div class="container">
+	<section>
+		{% include "courses/header.html" %}
+		<h2>{{ page.get_title }}</h2>
+		{% for section in sections %}
+		<div>
+			<h3>{{ section.title }}</h3>
+			<hr />
+			{{ section.data.content|markdown }}
+		{% endfor %}
+		</div>
+	</section>
+</div>
+{% endblock %}

@@ -4,9 +4,7 @@
 <div class="container">
 	<section>
 		<div class="row">
-			<div class="page-header">
-				<h1>{{ course.department.short_name }} {{ course.number}} <small>{{ course.name }}</small></h1>
-			</div>
+			{% include "courses/header.html" %}
 			<h2>Create a new page :: {{ page_type.long_name }}</h2>
 			<form action="" method="post">
 				{% csrf_token %}
@@ -17,15 +15,15 @@
 				<fieldset class="grey-box" id="section-{{ i }}">
 					<label for="section-{{ i }}-title">Section <span>{{ i }}</span> title:</label>
 					<div class="input">
-						<input type="text" class="xxlarge" id="section-{{ i }}-title" />
+						<input type="text" class="xxlarge" id="section-{{ i }}-title" name="section-{{ i }}-title" />
 					</div>
 					<label for="section-{{ i }}-body">Section <span>{{ i }}</span> body:<br /><a href="#" id="fullscreen-section-{{ i }}">Click to fullscreen</a><br /><br /><strong>Syntax:</strong><br />{% include help_template %}<br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
 					<div class="input">
-						<textarea class="xxlarge" id="section-{{ i }}-body"></textarea>
+						<textarea class="xxlarge" id="section-{{ i }}-body" name="section-{{ i }}-body"></textarea>
 					</div>
 				</fieldset>
 				{% endfor %}
-				<p class="center-align"><button class="btn info" id="add-section">Add another section</button></p>
+				<p class="center-align" style="padding-left: 40px;"><button class="btn info" id="add-section">Add another section</button></p>
 				<br />
 				<fieldset class="grey-box">
 					<label for="message">Edit message:</label>

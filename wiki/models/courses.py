@@ -20,12 +20,17 @@ class Course(models.Model):
 		return 0
 
 	def num_pages(self):
-		return 0
+		count = 0
+		course_sems = self.coursesemester_set.all()
+		for sem in course_sems:
+			num_pages = sem.page_set.count()
+			count += num_pages
+		return count
 
 class CourseSemester(models.Model):
 	class Meta:
 		app_label = 'wiki'
-		unique_together = ('term', 'year')
+		unique_together = ('term', 'year', 'course')
 
 	course = models.ForeignKey('Course')
 	grading_scheme = models.CharField(max_length=255, null=True)
@@ -34,10 +39,14 @@ class CourseSemester(models.Model):
 	midterm_info = models.CharField(max_length=255, null=True)
 	final_info = models.CharField(max_length=255, null=True)
 	term = models.CharField(max_length=6) # Winter/Summer etc
-	year = models.CharField(max_length=4) # Because ... yeah
+	year = models.IntegerField(max_length=4) # Because ... yeah
 
 	def __unicode__(self):
-		return "%s (%s %s)" % (self.course, self.term, self.year)
+		return "%s (%s %d)" % (self.course, self.term.title(), self.year)
+
+	def get_semester(self):
+		# For printing out. Returns Term year
+		return "%s %d" % (self.term.title(), self.year)
 
 class Professor(models.Model):
 	class Meta:
