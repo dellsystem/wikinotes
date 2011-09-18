@@ -12,6 +12,8 @@ import re
 """
 
 class PageType:
+	field_types = ['semester', 'subject', 'sections'] # override this if necessary
+
 	def is_subject_valid(self, subject):
 		return True
 
@@ -36,10 +38,15 @@ class PageType:
 	def get_create_url(self, course):
 		return '%s/create/%s' % (course.url(), self.short_name)
 
+	def get_field_templates(self):
+		return ['pages/%s_field.html' % field_type for field_type in self.field_types]
+
 class LectureNote(PageType):
 	short_name = 'lecture-notes'
 	long_name = 'Lecture notes'
 	description = 'Notes from a lecture given by a specific professor on a specific date'
+	field_types = ['semester', 'date', 'subject', 'professor', 'link', 'sections']
+	# If you have other fields that have not yet been created, make the template file in the template dir / pages / blah_field.html
 
 	def get_kwargs(self, data):
 		weekday = data['date_weekday']

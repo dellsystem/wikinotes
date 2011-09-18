@@ -9,7 +9,9 @@
 			<form action="" method="post">
 				{% csrf_token %}
 				<fieldset class="grey-box">
-						{% include form_template %}
+					{% for field_template in field_templates %}
+						{% include field_template %}
+					{% endfor %}
 				</fieldset>
 				{% for i in num_sections %}
 				<fieldset class="grey-box" id="section-{{ i }}">
