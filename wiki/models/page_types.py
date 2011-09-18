@@ -46,8 +46,8 @@ class LectureNote(PageType):
 		month = data['date_month']
 		date = data['date_date']
 		year = data['year']
-		title = "%s, %s %s %s" % (weekday, month, date, year)
-		slug = "%s-%s-%s" % (weekday.lower(), month.lower(), date)
+		title = "%s, %s %s, %s" % (weekday.title(), month.title(), date, year)
+		slug = "%s-%s-%s" % (weekday, month, date)
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
 		professor = None # for now, from data['professor']
