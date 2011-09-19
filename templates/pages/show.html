@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		{% include "courses/header.html" %}
+		<h2>{{ page.get_title }}</h2>
+		{% for section in sections %}
+		<div>
+			<h3>{{ section.title }}</h3>
+			<hr />
+			{% include show_template %}
+		{% endfor %}
+		</div>
+	</section>
+</div>
+{% endblock %}

@@ -13,5 +13,6 @@ def show(request, department, number, page_type, term, year, slug):
 		'course': course,
 		'page': page,
 		'sections': page.load_sections(page_type_obj),
+		'show_template': page_type_obj.get_show_template(),
 	}
-	return render_to_response(page_type_obj.get_show_template(), data, context_instance=RequestContext(request))
+	return render_to_response("pages/show.html", data, context_instance=RequestContext(request))
