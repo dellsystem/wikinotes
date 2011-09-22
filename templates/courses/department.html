@@ -10,7 +10,7 @@
 			<div class="span16 columns">
 				<p>Shows all the courses, listed alphabetically under the relevant department.</p>
 				{% for dept in departments %}
-				<h2>{{ dept.long }} <small><a href="/{{ dept.short }}">&raquo; View department page</a></small></h2>
+				<h2>{{ dept.long }} <small><a href="/department/{{ dept.short }}">&raquo; View department page</a></small></h2>
 				{% if dept.courses %}
 					<ul class="unstyled">
 					{% for course in dept.courses %}

@@ -10,7 +10,7 @@
 			<div class="span16 columns">
 				<p>Shows all the courses, listed alphabetically under the relevant faculty.</p>
 				{% for faculty in faculties %}
-				<h2>{{ faculty.name }} <small><a href="{{ faculty.slug }}">&raquo; View faculty page</a></small></h2>
+				<h2>{{ faculty.name }} <small><a href="/faculty/{{ faculty.slug }}">&raquo; View faculty page</a></small></h2>
 				{% if faculty.courses %}
 					<ul class="unstyled">
 					{% for course in faculty.courses %}
