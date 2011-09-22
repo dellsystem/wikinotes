@@ -1,8 +1,25 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
+from wiki.models.faculties import Faculty
 from utils import page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
+
+# Faculty no longer looks like a word to me
+def faculty(request):
+	faculty_objects = Faculty.objects.all()
+	courses = Course.objects.all()
+	faculties = []
+
+	for faculty in faculty_objects:
+		faculty_courses = courses.filter(department__faculty=faculty).order_by('department__short_name', 'number')
+		faculties.append({'name': faculty.name, 'slug': faculty.slug, 'courses': faculty_courses})
+
+	data = {
+		'faculties': faculties,
+	}
+
+	return render_to_response('courses/faculty.html', data)
 
 def index(request):
 	return render_to_response('courses/index.html')
