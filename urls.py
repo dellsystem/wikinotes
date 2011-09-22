@@ -6,12 +6,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'wikinotes.views.main.index'),
-    # This needs to be improved
-    url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'wikinotes.views.courses.overview'),
-    url(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>[^/]+)/?$', 'wikinotes.views.pages.create'),
-    url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/?$', 'wikinotes.views.pages.show'),
-    url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/edit/?$', 'wikinotes.views.pages.edit'),
-    # url(r'^wikinotes/', include('wikinotes.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -25,4 +19,12 @@ urlpatterns += patterns('views.courses',
     url(r'^courses$', 'index'),
     url(r'^courses/all$', 'all'),
     url(r'^courses/faculty$', 'faculty'), # for browsing by faculty (i.e. lists all the faculties)
+    url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'overview'),
 )
+
+# For viewing, editing and creating pages
+urlpatterns += patterns('views.pages',
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>[^/]+)/?$', 'create'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/?$', 'show'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/edit/?$', 'edit'),
+),
