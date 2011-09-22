@@ -12,7 +12,7 @@ import re
 """
 
 class PageType:
-	field_types = ['semester', 'subject', 'sections'] # override this if necessary
+	field_types = ['semester', 'subject', 'link', 'sections'] # override this if necessary
 
 	def is_subject_valid(self, subject):
 		return True
