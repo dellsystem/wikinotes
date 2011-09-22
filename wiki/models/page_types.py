@@ -41,6 +41,15 @@ class PageType:
 	def get_field_templates(self):
 		return ['pages/%s_field.html' % field_type for field_type in self.field_types]
 
+	# The simplest version, override if necessary
+	def format(self, content):
+		# Replace every \ between $$($) and $$($) with \\
+		# Fuck it. Later.
+		data = {
+			'content': '\n'.join(content),
+		}
+		return data
+
 class LectureNote(PageType):
 	short_name = 'lecture-notes'
 	long_name = 'Lecture notes'
@@ -59,14 +68,6 @@ class LectureNote(PageType):
 		# Otherwise, [PageType.long_name] - [title]
 		professor = None # for now, from data['professor']
 		return {'title': title, 'subject': data['subject'], 'link': data['link'], 'professor': professor, 'slug': slug}
-
-	def format(self, content):
-		# Replace every \ between $$($) and $$($) with \\
-		# Fuck it. Later.
-		data = {
-			'content': '\n'.join(content),
-		}
-		return data
 
 class PastExam(PageType):
 	short_name = 'past-exam'
