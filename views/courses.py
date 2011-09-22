@@ -1,13 +1,14 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
 from wiki.models.faculties import Faculty
+from wiki.models.departments import Department
 from utils import page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
 
 # Faculty no longer looks like a word to me
 def faculty(request):
-	faculty_objects = Faculty.objects.all()
+	faculty_objects = Faculty.objects.all().order_by('name')
 	courses = Course.objects.all()
 	faculties = []
 
@@ -20,6 +21,30 @@ def faculty(request):
 	}
 
 	return render_to_response('courses/faculty.html', data)
+
+# Same pattern as faculty view
+def department(request):
+	department_objects = Department.objects.all().order_by('long_name')
+	courses = Course.objects.all()
+	departments = []
+
+	for department in department_objects:
+		department_courses = courses.filter(department=department).order_by('department__short_name', 'number')
+		departments.append({'long': department.long_name, 'short': department.short_name, 'courses': department_courses})
+
+	data = {
+		'departments': departments,
+	}
+
+	return render_to_response('courses/department.html', data)
+
+# Not really sure how to best implement this lol
+def semester(request):
+	return render_to_response('courses/semester.html')
+
+# Meh
+def professor(request):
+	return render_to_response('courses/professor.html')
 
 def index(request):
 	return render_to_response('courses/index.html')
