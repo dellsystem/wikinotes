@@ -30,6 +30,5 @@ Notes to self (i.e. me, not you)
 * how to handle:
 	* multiple "quizzes" (as a past exam type) (or multiple versions of exams)
 	* the whole silly department/subject fiasco
-	* course numbers with letters etc
-	* form data, needed for the create and edit modes
-* move create from courses.py to pages.py because it makes more sense there (easier to reuse code too etc)
+	* course numbers with letters etc (solution: make it a CharField, max_length=5, and change the regex in urls.py)
+	* form data, needed for the create and edit modes - make it customisable on a PageType level
