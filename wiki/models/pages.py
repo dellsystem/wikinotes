@@ -40,7 +40,7 @@ class Page(models.Model):
 			file_lines = file.readlines()
 			title = file_lines[0][:-1] # strip the newline char
 			content = file_lines[3:]
-			section = Section(title, content)
+			section = Section(title, content, i)
 			section.format(page_type_obj)
 			sections.append(section)
 
@@ -66,9 +66,11 @@ class Page(models.Model):
 
 # Not actually a model, more of a helper class to manage sections more easily
 class Section:
-	def __init__(self, title, content):
+	def __init__(self, title, content, number):
 		self.title = title
 		self.content = content
+		self.number = number
+		self.body = "\n".join(content) # For editing etc
 
 	def format(self, page_type_obj):
 		self.data = page_type_obj.format(self.content) # needs a better naming scheme
