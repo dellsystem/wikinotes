@@ -73,16 +73,16 @@ class PastExam(PageType):
 	short_name = 'past-exam'
 	long_name = 'Past exam'
 	description = 'Student-made solutions to a past exam'
+	field_types = ['semester', 'exam', 'link', 'sections']
 
 	def get_kwargs(self, data):
 		term = data['term']
 		year = data['year']
 		exam_type = data['exam_type']
-		version = data['version'] # figure this out later (multiple versions of an exam?)
-		title = "%s %s %s" % (term, year, exam_type)
+		title = "%s %s %s" % (term.title(), year, exam_type.title())
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
-		slug = exam_type.lower()
+		slug = exam_type
 		return {'title': title, 'link': data['link'], 'slug': slug}
 
 class CourseSummary(PageType):
