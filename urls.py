@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'wikinotes.views.courses.overview'),
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>[^/]+)/?$', 'wikinotes.views.courses.create'),
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/?$', 'wikinotes.views.pages.show'),
+    url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/edit/?$', 'wikinotes.views.pages.edit'),
     # url(r'^wikinotes/', include('wikinotes.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
