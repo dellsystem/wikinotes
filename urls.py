@@ -6,8 +6,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'wikinotes.views.main.index'),
-    url(r'^courses$', 'wikinotes.views.courses.index'),
-    url(r'^courses/all$', 'wikinotes.views.courses.all'),
     # This needs to be improved
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'wikinotes.views.courses.overview'),
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>[^/]+)/?$', 'wikinotes.views.pages.create'),
@@ -20,4 +18,11 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+)
+
+# For viewing courses and the like
+urlpatterns += patterns('views.courses',
+    url(r'^courses$', 'index'),
+    url(r'^courses/all$', 'all'),
+    url(r'^courses/faculty$', 'faculty'), # for browsing by faculty (i.e. lists all the faculties)
 )
