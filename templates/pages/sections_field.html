@@ -1,13 +1,6 @@
 <label for="num_sections">Number of sections:</label>
 <div class="input"><select class="small" name="num_sections" id="num_sections">
-	<option value="1">1</option>
-	<option value="2">2</option>
-	<option value="3">3</option>
-	<option value="4">4</option>
-	<option value="5">5</option>
-	<option value="6">6</option>
-	<option value="7">7</option>
-	<option value="8">8</option>
-	<option value="9">9</option>
-	<option value="10">10</option>
+	{% for section_num in num_sections %}
+		<option value="{{ section_num }}" {% if section_num == page.num_sections %}selected="selected"{% endif %}>{{ section_num }}</option>
+	{% endfor %}
 </select></div>

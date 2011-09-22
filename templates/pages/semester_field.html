@@ -1,2 +1,13 @@
 <label>Associated semester:</label>
-<div class="input"><select class="small" name="term"><option value="winter">Winter</option><option value="summer">Summer</option><option value="fall">Fall</option></select><select class="small" name="year"><option value="2011">2011</option><option value="2010">2010</option></select></div>
+<div class="input">
+	<select class="small" name="term">
+		{% for term in terms %}
+		<option value="{{ term }}" {% if page.course_sem.term == term %}selected="selected"{% endif %}>{{ term.title }}</option>
+		{% endfor %}
+	</select>
+	<select class="small" name="year">
+		{% for year in years %}
+		<option value="{{ year }}" {% if page.course_sem.year == year %}selected="selected"{% endif %}>{{ year }}</option>
+		{% endfor %}
+	</select>
+</div>

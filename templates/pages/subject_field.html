@@ -1,2 +1,2 @@
 <label for="subject">Subject:</label>
-					<div class="input"><input type="text" class="xxlarge" id="subject" name="subject" /></div>
+<div class="input"><input type="text" class="xxlarge" id="subject" name="subject" {% if page.subject %}value="{{ page.subject }}"{% endif %} /></div>
