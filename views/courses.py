@@ -6,8 +6,24 @@ from utils import page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
 
+def faculty_overview(request, faculty):
+	faculty_object = get_object_or_404(Faculty, slug=faculty)
+	faculty_courses = Course.objects.all().filter(department__faculty=faculty_object)
+	data = {
+		'faculty': faculty_object,
+		'courses': faculty_courses,
+	}
+	return render(request, 'courses/faculty_overview.html', data)
+
+def department_overview(request, department):
+	dept = get_object_or_404(Department, short_name=department)
+	data = {
+		'dept': dept,
+	}
+	return render(request, 'courses/department_overview.html', data)
+
 # Faculty no longer looks like a word to me
-def faculty(request):
+def faculty_browse(request):
 	faculty_objects = Faculty.objects.all().order_by('name')
 	courses = Course.objects.all()
 	faculties = []
@@ -20,10 +36,10 @@ def faculty(request):
 		'faculties': faculties,
 	}
 
-	return render_to_response('courses/faculty.html', data)
+	return render(request, 'courses/faculty_browse.html', data)
 
 # Same pattern as faculty view
-def department(request):
+def department_browse(request):
 	department_objects = Department.objects.all().order_by('long_name')
 	courses = Course.objects.all()
 	departments = []
