@@ -52,25 +52,53 @@ def department_browse(request):
 		'departments': departments,
 	}
 
-	return render_to_response('courses/department.html', data)
+	return render(request, 'courses/department_browse.html', data)
 
 # Not really sure how to best implement this lol
 def semester(request):
-	return render_to_response('courses/semester.html')
+	return render(request, 'courses/semester.html')
 
 # Meh
 def professor(request):
-	return render_to_response('courses/professor.html')
+	return render(request, 'courses/professor.html')
+
+def popular(request):
+	return render(request, 'courses/popular.html')
+
+def random(request):
+	pass
+
+def active(request):
+	pass
+
+def search(request):
+	pass
 
 def index(request):
-	return render_to_response('courses/index.html')
+	return render(request, 'courses/index.html')
 
 def all(request):
 	courses = Course.objects.all().order_by('department', 'number')
 	data = {
 		'courses': courses,
 	}
-	return render_to_response('courses/all.html', data)
+	return render(request, 'courses/all.html', data)
+
+def watch(request, department, number):
+	course = get_object_or_404(Course, department=department, number=int(number))
+
+	if request.method == 'POST' and request.user.is_authenticated():
+		# If the user is already watching it, watch
+		if course.has_watcher(request.user):
+			# These really should be methods on the user but attempts to extend the user model are not working at the moment
+			course.add_watcher(request.user)
+			data = {'action': 'unwatch'}
+		else:
+			# Else, unwatch
+			course.remove_watcher(request.user)
+			data = {'action': 'watch'}
+
+	return render(request, 'courses/watch.html', data)
 
 def overview(request, department, number):
 	course = get_object_or_404(Course, department=department, number=int(number))
