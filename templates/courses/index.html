@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<div class="page-header">
+			<h1>Courses</h1>
+		</div>
+		<div class="row">
+			<div class="span16 columns">
+				<p>Here, you can browse our selection of courses by multiple criteria (faculty, department, semester, professor, etc). You can also search by course name etc. We currently have content for <strong>200</strong> courses in <strong>50</strong> departments, in the following faculties: <strong>science</strong>, <strong>arts</strong>, <strong>engineering</strong>.</p>
+				<div class="alert-message success"><strong>Did you know</strong> that if you register, you can save courses to your profile and be notified of changes? <a href="/register" class="btn">Register an account &raquo;</a></div>
+				<h2>Find a course</h2>
+				<p>To find the course page for a course whose department and number (e.g. MATH 133) you know, simply enter it in the search box in the top right corner. If you're not sure of the course number but know other things about it, you can use our magical <a href="/courses/search">course search wizard</a>.
+				<h2>Browse by faculty</h2>
+				<p>To view all the courses offered by each faculty in alphabetical order, visit our <a href="/courses/faculty">browse-by-faculty page</a>.</p> 
+				<h2>Browse by department</h2>
+				<p>To view all the courses offered by each department in alphabetical order, visit our <a href="/courses/department">browse-by-department page</a>.</p> 
+				<h2>Browse by professor</h2>
+				<p>To view all the courses offered by each professor in alphabetical order, visit our <a href="/courses/professor">browse-by-professor page</a>.</p>
+				<h2>Browse by semester</h2>
+				<p>To view all the courses offered by each professor in alphabetical order, visit our <a href="/courses/semester">browse-by-semester page</a>. NOTE: each of the above pages has several options for browsing. First it lists all the faculties, with + buttons to expand (there should be an option to expand all). The expansion shows all the courses. There should also be options to select SPECIFIC things - like for the department page, select specific professor/semester, and for the faculty page, select specific professor/semester, and for the professor page, specific semester / department. Note that these semesters are different ... huh figure this out later. Not too important for now.</p>
+				<h2>Top 5 popular courses</h2>
+				<p>To view all the courses in our catalogue, sorted by popularity (i.e. the number of watchers), <a href="/courses/popular">click here</a>. NOTE: should go to the same page as courses/all but sorted by popularity.</p>
+				<ul>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+				</ul>
+				<h2>Top 5 active courses</h2>
+				<p>To view all the courses in our catalogue, sorted by activity (i.e. the time at which the last page edit or whatever was made), <a href="/courses/active">click here</a>.</p>
+				<ul>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+				</ul>
+				<h2>Top 5 random courses</h2>
+				<p>We've selected 5 courses at random for your browsing pleasure. Feel free to contribute by adding/editing content if you know the material or, if you don't, proofreading or something. You can also view a <a href="/pages/random">random page</a> associated with a <a href="/courses/random">random course</a>.</p>
+				<ul>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+				</ul>
+				<h2>View all courses</h2>
+				<p>Are you really just looking for an alphabetical listing of every course in our catalogue? If so, you're in luck. <a href="/courses/all">View all courses &raquo;</a>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}

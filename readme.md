@@ -1,111 +1,61 @@
-![wikinotes](http://www.wikinotes.ca/logo_new.png)
+![WikiNotes logo](http://www.wikinotes.ca/logo_new.png)
 
-Overview
---------
+Instructions for testing and development
+----------------------------------------
 
-A prototype for moving wikinotes.ca away from MediaWiki, using a custom-written application using Django as a framework. The database currently being used is SQLite but in production it will be either MySQL or PostgreSQL. The wiki pages will be tracked using git, with each page broken up into multiple "sections", all stored as files. This is intended to reduce the amount of unnecessary data stored for each diff, resulting in more efficient disk space usage.
+* Make sure you have all the dependencies. The major ones are: python 2.6+ (possibly 2.7+, I can't remember), Django 1.3+, pyyaml, and GitPython (soon).
+* Edit the `wikinotes_dir` variable in settings.py to reflect the absolute path of the directory this is stored in.
+* `chmod +x bootstrap`
+* `./bootstrap` (you should create the superuser at this point if you haven't already done so)
+* `python manage.py runserver`
+* Go to localhost:8000. Or, if you run it on 0.0.0.0:8000 (or any other port; `python manage.py runserver 0.0.0.0:8000`), others can view it on your IP address.
 
-List of features
-----------------
+Things that work or sort of work
+--------------------------------
 
-_An incomplete list. More to be added when thought of. Features marked in **bold** are features that must be finished before release; the others can be added later_
+* Creating and editing pages (the icons for creating new pages are just filler) - needs to be improved (better error handling and a nicer input format)
+* Browsing all courses (click the Courses menu item), some things on that page (and some linked pages) are just filler though
+* User authentication (you can log in using the superuser)
 
-*	**Ability to "watch this course" to have actions involving that course appear on your dashboard (akin to Github's "Watch this repository/user" or Twitter's "Follow")**
-*	Easily compare, merge/squash, revert commits thanks to git
-*	**Course pages are automatically generated, so there's no need to copy and paste a template from a previous course when trying to add a new course (same thing for individual pages)**
-*	Better integration of comments with specific sections of pages (for example: a particular question on a past exam)
-*	**Markdown <3**
-*	Exporting of a document into other formats - PDF, plain text (i.e. markdown), print-friendly HTML, kwordquiz (for select page types)
-*	Importing of a document from other formats - Google Docs, Word, Mediawiki, Markdown etc; just upload it or enter the URL and we'll see if it can be used
-*	**[MathJax](http://www.mathjax.org) for math typesetting because it's beautiful**
-*	Integration with docuum and/or qandora? (to be discussed)
-*	Inline-editing
-*	Auto-saving every few minutes or so, with the user given the option to recover the unsaved changes
-*	Better merging and such in the case of simultaneous editing than Mediawiki (as in, merges will be handled automatically UNLESS two people change the same line; in that case, the second person will be asked to confirm the changes). This actually might not be that easy to implement - to be looked into
-*	**Easily upload images and other accompanying media**
-*	**Support for definition lists and tables using Markdown**
-*	Built-in permission system means that it wouldn't be too difficult to have some users who act as moderators etc
+Things that don't really work yet
+-----------------------------
 
-Dependency list (add as necessary)
-------------------------
+* Watching a course
+* Git integration
+* Professor field
+* Link field
+* Edit message
+* About, news, help, contributing and other similar static sections
+* Search
+* Registration
+* Gravatar lol
+* Random pages/courses
+* Recent changes
+* History, at all
 
-* Python 2.7+
-* Django 1.3+
-* Python modules:
-    * PyYAML
-* Django applications:
+Notes
+-----
 
-Django apps and relevant models
-------------------------
+* A lot of views haven't been made yet. If a link appears broken, that's why
+* I'm working on making skeleton views for most of the links, though, so it's easier for others to work on things
+* The header needs to be changed a bit. It's too much like the twitter bootstrap demo page.
 
-*	wikinotes (the main application)
-	*	users
-		*	extends the User model in django.contrib.auth; adds the CourseWatcher (many-to-many) model
-		*	look into openID for authentication
-		*	use email to generate Gravatar
-	*	courses
-		*	each course is associated with an ID, a department, a number, and a name
-		*	each course can have multiple CourseSemesters, each of which is tied to a professor, a course, and a semester
-	*	departments
-		*	primary key = the short name (e.g. MATH, PHIL etc)
-		*	foreign key = faculty
-		*	each department also has a "full name" (e.g. Mathematics and Statistics, Computer Science, Biology)
-	*	faculties
-		*	short name (slug), ID, long name
-	*	professors
-		*	just name, for now (m2m with CourseSemesters)
-		*	might need to add something else later ... department? (assuming static) website?
-	*	pages
-		*	each page is associated with a CourseSemester (even exam types - the relevant CourseSemester is the semester for which the exam was written)
-		*	each page must be of a specific PageType (pre-defined)
-		*	the contents of each page are not stored in the database, but rather on the filesystem, with changes tracked using git
-		*	as for searching, ElasticSearch seems the best (other possibilities incl. Sphinx, grep, and storing the contents in a database - either the one used by Django or a non-relational one like CouchDB - were considered but ElasticSearch seems to be the best bet)
-	*	comments
-		*	associated with individual sections of pages
-		*	may be replies to other comments
-		*	think of ways of archiving outdated comments later
-		*	need to store commenter ID (or -1 if anonymous)
-	*	history
-		*	all the edit history, ever
-		*	would be good in a couch but that might be harder to get working with Django, so stick with the relational db for now
-		*	needs: the user ID (-1 if anon), the page ID (and possibly the department/class if the page was deleted? think about it), the revisions/commits that are being referred to, the type of action that was performed, etc
-		*	this needs more work
-*	help (tutorials/guides etc)
-*	blog (for news etc, could use an already-written app like biblion or banjo or something)
+Notes to self (i.e. me, not you)
+--------------------------------
 
-URL scheme
-----------
-
-*	Main page, of course, with either introductory text/videos/etc + search bar if you're logged out, or your dashboard if you're logged in (redirect to the latter perhaps)
-*	/<?faculty> (e.g. `/science`) to see all the departments and classes within that faculty
-*	/<?department> (e.g. `/MATH`) to see all the classes within that department
-*	/<?department>-<?class-number> (e.g. `/MATH-141/` to see class main page (like a disambiguation), which shows you recent changes for that class, as well as a list of pages for that class
-*	/<?department>-<?class-number>/<?page-type> (e.g. `/MATH-141/lectures/`) for a list of all pages of that page type
-*	/<?department>-<?class-number>/<?term>-<?year> (e.g. `/MATH-141/fall-2011/`) for a list of all pages belonging to that semester
-*	/<?department>-<?class-number>/create/<?page-type> (e.g. `/MATH-141/create/lectures/`) to create a new page of that type
-*	/<?department>-<?class-number>/<?term>-<?year>/<?page-type>/<?page-slug> (e.g. `/MATH-141/fall-2011/lectures/september-1`) to view a specific page; append /edit to the URL to edit that page
-*	/user/<?username> - see that user's gravatar, list of watched classes, things that user has done
-
-To-do list
-----------
-
-*	Watch this class button - getJSON or something, returns whether the user is already watching it or not
-	*	Also incorporate authentication - if the user is not logged in, redirect to login page or something
-*	Make "Find a course" "random course" etc things under the header
-*	make faculty images
-*	History model (also diffing, merging etc)
-*	Escaping backslashes between $$'s on a line and $$$ throughout the entire thing (for mathjax/markdown to work together properly)
-*	Editing - possibility of using AJAX to do inline editing? like "quick edit"
-*	Refactor code (it's messy and there's too much repetition)
-*	When adding a new course semester, make an option to set the prof for that semester? or just make it unknown?
-*	Faculty/department templates
-*	Comments
-*	Security shit
-*	Make handling of semesters better. There's too much title() and whatever going on
-*	Fallbacks for people who have JS disabled - maybe all the buttons actual links, to actual pages, but disable clicking if JS is enabled for the cooler effects
-*	Try to merge some of the models/views/utils etc into one ... faculties and departments are practically the same, for instance
-*	Unit tests just do it
-*	Fix thing where additional sections aren't counted because num_sections is never updated >_>
-*	Correctly list all the pages in the category- and semester-based views
-*	More instance methods as opposed to utility methods (when relevant)
-*	Make some sort of generic success template (like the whole trigger_error thing in phpBB)
+* bugs in twitter bootstrap: margins for modals, and that font-weight or line-height or something that i can't find anymore
+* make the fullscreen option for section-body work (the 100% - n pixels thing, use divs within a div for that)
+* when adding new sections (beyond the initial 10), remember to change the ids, names and <span>n</span>s
+* either the "add another section" button or the preview+save buttons are not centered 
+* delete icon (top right corner) for sections (like the modal dialogue close icons)
+* adding a section should update the number in the num_sections dropdown
+* capitalisation of term. it's actually really important
+* escaping \ in mathjax (because of markdown etc)
+* tabindex
+* how to handle:
+	* multiple "quizzes" (as a past exam type) (or multiple versions of exams)
+	* the whole silly department/subject fiasco
+	* course numbers with letters etc (solution: make it a CharField, max_length=5, and change the regex in urls.py)
+	* form data, needed for the create and edit modes - make it customisable on a PageType level
+	* subclassing the user model?
+* get rid of inline CSS

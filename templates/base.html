@@ -1,0 +1,109 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+	<meta charset="utf-8"> 
+	<title>wikinotes</title> 
+	<meta name="description" content=""> 
+	<meta name="author" content=""> 
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements --> 
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Le styles --> 
+	<!--<link href="/css/bootstrap.css" rel="stylesheet">-->
+	<link href="/static/css/bootstrap.less" rel="stylesheet/less" /> 
+	<link href="/static/css/prettify.css" rel="stylesheet">
+	<link href="/static/css/wikinotes.less" rel="stylesheet/less" />
+
+	<!-- Le javascript --> 
+	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script> 
+	<script src="/static/js/prettify.js"></script>
+	<script src="/static/js/less.min.js"></script>
+	<script src="/static/js/placeholder.min.js"></script>
+	{% block javascript %}{% endblock %}
+	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [  ['$$', '$$'] ],
+			displayMath: [ ['$$$', '$$$'] ],
+			processEscapes: true,
+		}
+	});
+	</script>
+
+	<!-- Le fav and touch icons --> 
+	<link rel="shortcut icon" href="/static/favicon.ico"> 
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/apple-touch-icon-114x114-precomposed.png"> 
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/apple-touch-icon-72x72-precomposed.png"> 
+	<link rel="apple-touch-icon-precomposed" href="/static/apple-touch-icon-precomposed.png"> 
+</head> 
+
+<body>
+<div id="wrap">
+<div id="main">
+<div class="topbar"> 
+	<div class="topbar-inner"> 
+		<div class="container"> 
+			<ul class="nav"> 
+				<li><a href="/">Home</a></li>
+				<li><a href="/courses">Courses</a></li>
+				<li><a href="/about">About</a></li>
+				<li><a href="/news">News</a></li>
+				<li><a href="/help">Help</a></li>
+				<li><a href="/contributing">Contributing</a></li>
+			</ul>
+			<div class="float-right">
+		  		<ul class="nav">
+		  			<li><input type="text" name="search" class="xlarge" id="search-box" placeholder="Search ..." /></li>
+					<li><a href="/recent-changes">Recent changes</a></li>
+					{% if not user.is_authenticated %}<li><a href="/register">Register</a></li>{% endif %}
+		  		</ul>
+			</div>
+		</div> 
+	</div> 
+</div>
+
+<div id="header"> 
+	<div class="inner"> 
+		<div class="container"> 
+			<a href="/"><img src="/static/img/logo.png" alt="wikinotes"></a>
+	 		<div id="login-bar">
+				<form method="post" action="/login">
+				{% csrf_token %}
+				{% if not user.is_authenticated %}
+			 	<p>
+					<input class="medium" type="text" placeholder="Username" name="username" />
+					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
+				</p>
+				<div id="stay-logged-in">
+					<p><input type="checkbox" /> Stay logged in</p>
+				</div>
+				<div id="login-buttons">
+					<p><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;<input type="submit" class="btn danger" value="Log in" name="login" /></p>
+				</div>
+				{% else %}
+				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a> <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a></p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
+				<div style="float: left; margin-right: 10px;"><img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=70" /></div>{% comment %}Will work on the gravatar aspect later lol{% endcomment %}
+				{% endif %}
+				</form>
+			</div>
+		</div><!-- /container --> 
+	</div> 
+</div>
+
+{% block content %}{% endblock %}
+</div><!-- /main -->
+</div><!-- /wrap -->
+<div id="footer"> 
+	<div class="inner"> 
+		<div class="container"> 
+			<p class="right"><a href="#wrap">Back to top</a></p>
+			<p>We're powered by <a href="http://www.djangoproject.com">Django</a> and the glorious <a href="http://twitter.github.com">Twitter Bootstrap</a> toolkit. Go on, <a href="https://www.github.com/dellsystem/wikinotes">fork us</a> on github.</p>
+		</div>
+	</div> 
+</div>
+</body> 
+</html>

@@ -1,5 +1,4 @@
 *.pyc
-settings.py
-db/*
-content/*
-*.swp
+db.sqlite
+data
+content

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		{% include "courses/header.html" %}
+		<div style="float: right;"><a href="{{ edit_url }}" class="btn danger">Edit</a></div>
+		<h2>{{ page.get_title }}</h2>
+		{% for section in sections %}
+		<div>
+			<h3>{{ section.title }}</h3>
+			<hr />
+			{% include show_template %}
+		{% endfor %}
+		</div>
+	</section>
+</div>
+{% endblock %}

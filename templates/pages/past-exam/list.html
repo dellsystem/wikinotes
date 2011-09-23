@@ -1,0 +1,20 @@
+{% if page_type.pages %}
+	<table class="zebra-striped">
+		<thead>
+			<tr>
+				<th width="40%">Exam type</th>
+				<th width="30%">Semester</th>
+				<th width="30%">Professor</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for page in page_type.pages %}
+				<tr>
+					<td><a href="{{ page.get_url }}">{{ page.title.title }}</a></td>
+					<td>{{ page.course_sem.term.title }} {{ page.course_sem.year }}</td>
+					<td>{{ page.professor }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endif %}

@@ -1,0 +1,9 @@
+- fields: {faculty: 1, long_name: Mathematics & Statistics}
+  model: wiki.department
+  pk: MATH
+- fields: {faculty: 1, long_name: Computer Science}
+  model: wiki.department
+  pk: COMP
+- fields: {faculty: 1, long_name: Biology}
+  model: wiki.department
+  pk: BIOL

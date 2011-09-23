@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block javascript %}
+<script src="/static/js/page_course_shit.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<div class="row">
+			{% include "courses/header.html" %}
+			<h2>Create a new page :: {{ page_type.long_name }}</h2>
+			<form action="" method="post">
+				{% csrf_token %}
+				<fieldset class="grey-box">
+					{% for field_template in field_templates %}
+						{% include field_template %}
+					{% endfor %}
+					<br />
+					<p>Already have notes typed up in a different format and don't want to retype them out on this page? You can either try <a href="import">importing them directly</a> or, if your file format or layout is not supported, upload it for <a href="manual">manual processing</a> by one of our moderators.</p>
+				</fieldset>
+				{% for i in num_sections %}
+				<fieldset class="grey-box" id="section-{{ i }}">
+					<label for="section-{{ i }}-title">Section <span>{{ i }}</span> title:</label>
+					<div class="input">
+						<input type="text" class="xxlarge" id="section-{{ i }}-title" name="section-{{ i }}-title" />
+					</div>
+					<label for="section-{{ i }}-body">Section <span>{{ i }}</span> body:<br /><a href="#" id="fullscreen-section-{{ i }}">Click to fullscreen</a><br /><br /><strong>Syntax:</strong><br />{% include help_template %}<br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
+					<div class="input">
+						<textarea class="xxlarge" id="section-{{ i }}-body" name="section-{{ i }}-body"></textarea>
+					</div>
+				</fieldset>
+				{% endfor %}
+				<p class="center-align" style="padding-left: 40px;"><button class="btn info" id="add-section">Add another section</button></p>
+				<br />
+				<fieldset class="grey-box">
+					<label for="message">Edit message:</label>
+					<div class="input">
+						<input type="text" class="xxlarge" name="message" />
+					</div>
+					<br />
+					<div class="center-align"><input type="submit" name="preview" value="Preview" class="btn" /> <input type="submit" name="submit" value="Save" class="btn danger" /></div>
+				</fieldset>
+			</form>
+		</div>
+	</section>
+</div>
+{% endblock %}

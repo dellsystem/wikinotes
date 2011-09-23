@@ -1,0 +1,12 @@
+<ol>
+{% for question in section.data.questions %}
+		<li><p><strong>{{ question.question }}</strong> <a href="#" id="view-answer-q{{ question.number }}">View answer &raquo;</a></p>
+			<ol class="multiple-choice">
+				{% for choice in question.choices %}
+					<li id="q{{ question.number }}-choice{{ choice.number }}">{{ choice.text }}</li>
+				{% endfor %}
+			</ol>
+			<p id="answer-q{{ question.number }}" class="grey-box">Answer: {{ question.answer }}</p>
+		</li>
+{% endfor %}
+</ol>

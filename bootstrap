@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-# Because fuck you bash
+#!/usr/bin/env bash
 
-import os
-
-# Reset the db, resync it, load initial fixtures
-os.system('echo "yes" | python manage.py reset wikinotes')
-os.system('python manage.py syncdb')
-os.system('python manage.py loaddata faculties departments courses pagetypes pages')
-print 'Done.'
+echo "yes" | python manage.py reset wiki
+python manage.py syncdb
+python manage.py loaddata faculties departments courses
+echo "Done"

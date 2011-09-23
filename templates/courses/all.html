@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<div class="page-header">
+			<h1>View all courses</h1>
+		</div>
+		<ul class="unstyled">
+			{% for course in courses %}
+			<li><a href="{{ course.url }}">{{ course }}</a> ({{ course.department.faculty }})</li>
+			{% endfor %}
+		</ul>
+	</section>
+</div>
+{% endblock %}

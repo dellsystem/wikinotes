@@ -1,0 +1,183 @@
+// So we have all the colours etc
+@import "preboot.less";
+
+/* Sticky footer stuff */
+@footer-height: 80px;
+
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	padding-bottom: 40px; // Space between the content and the footer etc
+}
+
+#main {
+	overflow: auto;
+	padding-bottom: @footer-height;
+}
+
+// Opera fix apparently
+body:before {
+	content: "";
+	height: 100%;
+	float: left;
+	width: 0;
+	margin-top: -90000001;
+}
+
+/* Body and structure
+-------------------------------------------------- */
+
+body {
+	background-color: #FFF;
+	position: relative;
+}
+
+section {
+	padding-top: 25px;
+	.row {
+		padding-bottom: 10px;
+	}
+}
+
+#footer {
+	position: relative;
+	margin-top: -@footer-height;
+	height: @footer-height;
+	clear: both;
+	background-color: @blueDark;
+	color: #fff;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+
+	div.inner {
+		padding: 30px 0;
+		background: transparent url(/static/img/grid.png) top center;
+		.box-shadow(inset 0 10px 30px rgba(0, 0, 0, 0.5));
+	}
+
+	a { color: #FFF; font-weight: bold; }
+	p { padding-bottom: 0px; } // otherwise there's whitespace under the footer
+}
+
+#header {
+	background-color: @blue;
+	color: #FFF;
+	padding-top: 40px;
+	
+	div.inner {
+		background: transparent url(/static/img/grid.png) top center;
+		padding: 30px 0;
+		.box-shadow(inset 0 10px 30px rgba(0, 0, 0, 0.3));
+	}
+
+	a, label { color: #FFF; font-weight: bold; }
+}
+
+.leading-bar {
+	#gradient > .vertical(#FEFEFE, #F5F5F5);
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #eee;
+	padding-top: 15px;
+	h6, p {
+		line-height: 18px;
+		text-align: center;
+		padding-bottom: 9px;
+		color: #333;
+	}
+	h6 { color: #888; }
+}
+
+#footer p {
+	color: rgba(255,255,255,.8)
+}
+#footer p.right {
+	float: right;
+}
+
+#search-box {
+	line-height: 18px;
+	width: 120px;
+	position: relative;
+	top: 5px;
+}
+
+.float-right {
+	float: right;
+}
+
+#login-bar {
+	float: right;
+	position: relative;
+	top: 10px;
+}
+
+#stay-logged-in {
+	text-align: left;
+	display: inline-block;
+}
+
+#login-buttons {
+	float: right;
+	display: inline-block;
+}
+
+#right-bar {
+	background-color: @grayLighter;
+	text-align: center;
+	padding: 10px;
+	width: 200px;
+}
+
+.course-icon {
+	width: 100px;
+	display: inline-block;
+}
+
+#right-bar ul {
+	text-align: left;
+}
+
+#right-bar hr {
+	color: @grayLight;
+	background-color: @grayLight;
+	height: 5px;
+}
+
+ul.toc ul {
+	padding-left: 25px;
+}
+
+.half-column {
+	display: inline;
+	width: 95px;
+	float: left;
+	text-align: center;
+	margin-left: 15px;
+}
+
+.center-align {
+	text-align: center;
+}
+
+// for fieldsets mostly
+.grey-box {
+	background-color: @grayLighter;
+	width: 100%;
+	padding: 20px;
+}
+
+// For fullscreening the text boxes
+.fullscreen {
+	width: 100% !important;
+	height: 100% !important;
+	position: fixed !important;
+	top: 40px;
+	left: 0;
+	z-index: 9001;
+}
+
+ol.multiple-choice {
+	list-style-type: lower-alpha;
+}
