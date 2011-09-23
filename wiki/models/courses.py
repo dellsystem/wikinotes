@@ -27,6 +27,18 @@ class Course(models.Model):
 			count += num_pages
 		return count
 
+	"""
+		NOTE: The following methods are temporary methods. They should really be instance methods on the user, not on the course. But that will have to wait until I figure out the best way to easily extend the user model while still having access to it through request.user
+	"""
+	def has_watcher(self, user):
+		return False
+
+	def add_watcher(self, user):
+		pass
+
+	def remove_watcher(self, user):
+		pass
+
 class CourseSemester(models.Model):
 	class Meta:
 		app_label = 'wiki'
