@@ -149,3 +149,6 @@ LOGGING = {
         },
     }
 }
+
+# The alternative to subclassing the user module
+#AUTH_PROFILE_MODULE = 'wiki.UserProfile' # Commented out for now as it does not work (and has been removed)
