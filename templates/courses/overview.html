@@ -18,7 +18,7 @@
 				</ul>
 				<h2>Browse by page type</h2>
 				<div class="row">
-					<div class="span3 columns">
+					<div class="span2 columns">
 						<strong>Semesters</strong>
 						<ul class="unstyled">
 							{% for page_type in page_types %}
@@ -26,7 +26,7 @@
 							{% endfor %}
 						</ul>
 					</div>
-					<div class="span9 columns">
+					<div class="span10 columns">
 						{% comment %} JS fallback, as always ... the things I do {% endcomment %}
 						{% for page_type in page_types %}
 							<h5>{{ page_type.long_name }}</h5>
