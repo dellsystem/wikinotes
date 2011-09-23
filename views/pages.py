@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
 from utils import page_types as types
 from django.template import RequestContext
@@ -17,7 +17,7 @@ def show(request, department, number, page_type, term, year, slug):
 		'show_template': page_type_obj.get_show_template(),
 		'edit_url': page.get_url() + '/edit',
 	}
-	return render_to_response("pages/show.html", data, context_instance=RequestContext(request))
+	return render(request, "pages/show.html", data)
 
 def edit(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
@@ -36,7 +36,7 @@ def edit(request, department, number, page_type, term, year, slug):
 		'terms': ['winter', 'summer', 'fall'], # fix this later
 		'years': range(2011, 1999, -1),
 	}
-	return render_to_response("pages/edit.html", data, context_instance=RequestContext(request))
+	return render(request, "pages/edit.html", data)
 
 def create(request, department, number, page_type):
 	course = get_object_or_404(Course, department=department, number=int(number))
@@ -67,9 +67,9 @@ def create(request, department, number, page_type):
 			# Get the keyword arguments from the page type method
 			if new_page:
 				data['new_page'] = new_page
-				return render_to_response("pages/success.html", data, context_instance=RequestContext(request))
+				return render(request, "pages/success.html", data)
 			else:
-				return render_to_response("pages/error.html", data, context_instance=RequestContext(request))
+				return render(request, "pages/error.html", data)
 		else:
 			data = {
 				'course': course,
@@ -81,4 +81,4 @@ def create(request, department, number, page_type):
 				'years': range(2011, 1999, -1),
 				'num_sections': range(1, 11), # for people without javascript DON'T DELETE THIS UNLESS YOU HAVE ANOTHER SOLUTION FOR A FALLBACK
 			}
-			return render_to_response("pages/create.html", data, context_instance=RequestContext(request))
+			return render(request, "pages/create.html", data)

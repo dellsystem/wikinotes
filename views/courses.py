@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
 from wiki.models.faculties import Faculty
 from wiki.models.departments import Department
@@ -80,4 +80,4 @@ def overview(request, department, number):
 		'this_sem_pages': this_sem_pages,
 		'course_sems': course_sems,
 	}
-	return render_to_response('courses/overview.html', data)
+	return render(request, 'courses/overview.html', data)
