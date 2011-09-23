@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<div class="page-header">
+			<h1>Courses - Popular</h1>
+		</div>
+		<div class="row">
+			<div class="span16 columns">
+				<p>Shows the courses, listed by popularity (defined by number of watchers maybe)</p>
+				{% for dept in departments %}
+				<h2>{{ dept.long }} <small><a href="/{{ dept.short }}">&raquo; View department page</a></small></h2>
+				{% if dept.courses %}
+					<ul class="unstyled">
+					{% for course in dept.courses %}
+						<li><a href="{{ course.url }}">{{ course }}</a></li>
+					{% endfor %}
+					</ul>
+				{% else %}
+				<p>No courses in this department</p>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}
