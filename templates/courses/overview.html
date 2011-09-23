@@ -65,14 +65,17 @@
 			</div>
 			<div class="span4 columns" id="right-bar">
 				<div class="row" style="margin-bottom: 0px;">
+				<form method="post" action="{{ course.url }}/watch">
+				{% csrf_token %}
 					<div class="half-column">
 						<p><a href="#create-page-popup" class="btn info" id="create-page-button">New page</a></p>
 						<p><strong>Pages:</strong> {{ course.num_pages }}</p>
 					</div>
 					<div class="half-column">
-						<p><a href="{{ course.url }}/watch" class="btn">Watch</a></p>
-						<p><strong>Watchers:</strong> {{ course.num_watchers }}</p>
+							<p><input type="submit" class="btn" value="Watch" /></p>
+							<p><strong>Watchers:</strong> {{ course.num_watchers }}</p>
 					</div>
+				</form>
 				</div>
 				<hr />
 				<div class="row">
