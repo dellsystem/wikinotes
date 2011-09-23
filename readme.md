@@ -58,3 +58,4 @@ Notes to self (i.e. me, not you)
 	* course numbers with letters etc (solution: make it a CharField, max_length=5, and change the regex in urls.py)
 	* form data, needed for the create and edit modes - make it customisable on a PageType level
 	* subclassing the user model?
+* get rid of inline CSS
