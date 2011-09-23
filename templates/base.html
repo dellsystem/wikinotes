@@ -59,7 +59,7 @@
 		  		<ul class="nav">
 		  			<li><input type="text" name="search" class="xlarge" id="search-box" placeholder="Search ..." /></li>
 					<li><a href="/recent-changes">Recent changes</a></li>
-					<li><a href="/register">Register</a></li>
+					{% if not user.is_authenticated %}<li><a href="/register">Register</a></li>{% endif %}
 		  		</ul>
 			</div>
 		</div> 
