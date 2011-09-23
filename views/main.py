@@ -2,7 +2,12 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 
 def index(request):
-	return render(request, 'main/index.html')
+	if request.user.is_authenticated():
+		# Show the user's dashboard
+		return render(request, 'main/dashboard.html')
+	else:
+		# Show the main page for logged-out users
+		return render(request, 'main/index.html')
 
 # POSTed to by the login form; should never be accessed by itself
 def login_logout(request):
@@ -18,5 +23,6 @@ def login_logout(request):
 			if user is not None:
 				if user.is_active:
 					login(request, user)
-	
+
+	# Redirect to the index page etc
 	return index(request)
