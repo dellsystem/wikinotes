@@ -72,9 +72,11 @@
 			<a href="/"><img src="/static/img/logo.png" alt="wikinotes"></a>
 	 		<div id="login-bar">
 				<form method="post" action="/login">
+				{% csrf_token %}
+				{% if not user.is_authenticated %}
 			 	<p>
-					<input class="medium" type="text" placeholder="Username" />
-					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" />
+					<input class="medium" type="text" placeholder="Username" name="username" />
+					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
 				</p>
 				<div id="stay-logged-in">
 					<p><input type="checkbox" /> Stay logged in</p>
@@ -82,6 +84,10 @@
 				<div id="login-buttons">
 					<p><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;<input type="submit" class="btn danger" value="Log in" name="login" /></p>
 				</div>
+				{% else %}
+				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a> <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a></p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
+				<div style="float: left; margin-right: 10px;"><img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=70" /></div>{% comment %}Will work on the gravatar aspect later lol{% endcomment %}
+				{% endif %}
 				</form>
 			</div>
 		</div><!-- /container --> 
