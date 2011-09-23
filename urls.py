@@ -30,6 +30,7 @@ urlpatterns += patterns('views.courses',
     url(r'^courses/active$', 'active'),
     url(r'^courses/search$', 'search'),
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'overview'),
+    url(r'^(?P<department>\w{4})_(?P<number>\d{3})/watch$', 'watch'),
 )
 
 # For viewing, editing and creating pages
