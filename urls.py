@@ -5,7 +5,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'wikinotes.views.main.index'),
+    url(r'^$', 'views.main.index'),
+    url(r'^login$', 'views.main.login_logout'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -22,6 +23,10 @@ urlpatterns += patterns('views.courses',
     url(r'^courses/department$', 'department'), # for browsing by department
     url(r'^courses/semester$', 'semester'),
     url(r'^courses/professor$', 'professor'),
+    url(r'^courses/popular$', 'popular'),
+    url(r'^courses/random$', 'random'),
+    url(r'^courses/active$', 'active'),
+    url(r'^courses/search$', 'search'),
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'overview'),
 )
 
