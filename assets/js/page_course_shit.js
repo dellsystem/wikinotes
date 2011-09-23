@@ -74,4 +74,6 @@ $(document).ready(function() {
 		var rightAnswerID = '#q' + questionID + ''; // fuck it
 		return false;
 	});
+
+	$('table').tablesorter({ sortList: [[1,0]] });
 });
