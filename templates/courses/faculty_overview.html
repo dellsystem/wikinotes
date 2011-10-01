@@ -6,7 +6,13 @@
 		<h1>Faculty overview - {{ faculty }}</h1>
 		<p>About this faculty, number of courses in this faculty, number of people who are watching courses in this faculty</p>
 		<h2>Courses</h2>
-		<p>List of all the courses in this faculty</p>
+		{% if courses %}
+		<ul>
+			{% for course in courses %}
+			<li><a href="{{ course.url }}">{{ course }}</a></li>
+			{% endfor %}
+		</ul>
+		{% endif %}
 		<h2>Active contributors</h2>
 		<p>List of people who have made a lot of edits to courses (maybe order in terms of deltas) in this faculty</p>
 		<h2>Recent activity</h2>
