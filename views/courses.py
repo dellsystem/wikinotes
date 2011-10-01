@@ -95,17 +95,15 @@ def watch(request, department, number):
 	course = get_object_or_404(Course, department=department, number=int(number))
 
 	if request.method == 'POST' and request.user.is_authenticated():
-		# If the user is already watching it, watch
+		# If the user is already watching it, unwatch
 		if course.has_watcher(request.user):
 			# These really should be methods on the user but attempts to extend the user model are not working at the moment
-			course.add_watcher(request.user)
-			data = {'action': 'unwatch'}
-		else:
-			# Else, unwatch
 			course.remove_watcher(request.user)
-			data = {'action': 'watch'}
+		else:
+			# Else, watch
+			course.add_watcher(request.user)
 
-	return render(request, 'courses/watch.html', data)
+	return overview(request, department, number)
 
 def overview(request, department, number):
 	course = get_object_or_404(Course, department=department, number=int(number))
@@ -126,6 +124,7 @@ def overview(request, department, number):
 	# Get all the course semesters related to this course
 	course_sems = CourseSemester.objects.filter(course=course)
 	data = {
+		'is_watching': course.has_watcher(request.user),
 		'course': course,
 		'page_types': page_types,
 		'this_sem_pages': this_sem_pages,

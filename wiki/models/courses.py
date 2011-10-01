@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Course(models.Model):
 	class Meta:
@@ -9,6 +10,7 @@ class Course(models.Model):
 	name = models.CharField(max_length=255)
 	description = models.CharField(max_length=255) # change this later
 	credits = models.IntegerField() # Note - what if it's a float etc
+	watchers = models.ManyToManyField(User)
 
 	def __unicode__(self):
 		return "%s %d" % (self.department.short_name, self.number)
@@ -17,7 +19,7 @@ class Course(models.Model):
 		return '/%s_%d' % (self.department.short_name, self.number)
 
 	def num_watchers(self):
-		return 0
+		return len(self.watchers.all())
 
 	def num_pages(self):
 		count = 0
@@ -31,13 +33,13 @@ class Course(models.Model):
 		NOTE: The following methods are temporary methods. They should really be instance methods on the user, not on the course. But that will have to wait until I figure out the best way to easily extend the user model while still having access to it through request.user
 	"""
 	def has_watcher(self, user):
-		return False
+		return (user in self.watchers.all())
 
 	def add_watcher(self, user):
-		pass
+		self.watchers.add(user)
 
 	def remove_watcher(self, user):
-		pass
+		self.watchers.remove(user)
 
 class CourseSemester(models.Model):
 	class Meta:
