@@ -5,6 +5,7 @@ from django.template import RequestContext
 from wiki.models.pages import Page
 from django.http import Http404
 import random as random_module
+from wiki.models.history import HistoryItem
 
 def show(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
@@ -51,6 +52,13 @@ def edit(request, department, number, page_type, term, year, slug):
 			'course': course,
 			'page': page,
 		}
+
+		# The page may need changing ...
+		page.edit(request.POST)
+
+		# Add the history item
+		history_item = HistoryItem(page=page, user=request.user, action='edited', message=request.POST['message'], course=course)
+		history_item.save()
 		return render(request, "pages/success.html", data)
 
 	data = {
@@ -94,6 +102,11 @@ def create(request, department, number, page_type):
 			data = {
 				'course': course,
 			}
+
+			# Add the history item
+			history_item = HistoryItem(page=new_page, action='created', user=request.user, message=request.POST['message'], course=course)
+			history_item.save()
+
 			# Get the keyword arguments from the page type method
 			if new_page:
 				data['page'] = new_page

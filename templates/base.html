@@ -18,7 +18,7 @@
 	<link href="/static/css/wikinotes.less" rel="stylesheet/less" />
 
 	<!-- Le javascript --> 
-	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script> 
+	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/prettify.js"></script>
 	<script src="/static/js/less.min.js"></script>
 	<script src="/static/js/placeholder.min.js"></script>
@@ -86,7 +86,8 @@
 				</div>
 				{% else %}
 				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a> <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a></p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
-				<div style="float: left; margin-right: 10px;"><img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=70" /></div>{% comment %}Will work on the gravatar aspect later lol{% endcomment %}
+				{% load gravatar %}
+				<div style="float: left; margin-right: 10px;"><img src="{% gravatar_for_user user 70 %}" alt="Gravatar" /></div>{% comment %}Will work on the gravatar aspect later lol{% endcomment %}
 				{% endif %}
 				</form>
 			</div>

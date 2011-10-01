@@ -72,7 +72,7 @@
 						<p><strong>Pages:</strong> {{ course.num_pages }}</p>
 					</div>
 					<div class="half-column">
-							<p><input type="submit" class="btn" value="Watch" /></p>
+							<p><input type="submit" class="btn" value="{% if is_watching %}Unwatch{% else %}Watch{% endif %}" /></p>
 							<p><strong>Watchers:</strong> {{ course.num_watchers }}</p>
 					</div>
 				</form>

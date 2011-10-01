@@ -3,7 +3,7 @@
 Instructions for testing and development
 ----------------------------------------
 
-* Make sure you have all the dependencies. The major ones are: python 2.6+ (possibly 2.7+, I can't remember), Django 1.3+, pyyaml, and GitPython (soon). Also python-markdown, with [this extension](https://github.com/mayoff/python-markdown-mathjax) (IMPORTANT) - download the mdx_markdown.py file, rename it to mathjax.py, and place it in the extensions directory for your markdown installation
+* Make sure you have all the dependencies. The major ones are: python 2.6+ (possibly 2.7+, I can't remember), Django 1.3+, pyyaml, and GitPython (soon). Also python-markdown, with [this extension](https://github.com/mayoff/python-markdown-mathjax) (IMPORTANT) - download the mdx_markdown.py file, rename it to mathjax.py, and place it in the extensions directory for your markdown installation. django-gravatar (installable through pip) is also a dependency.
 * Edit the `wikinotes_dir` variable in settings.py to reflect the absolute path of the directory this is stored in.
 * `chmod +x bootstrap`
 * `./bootstrap` (you should create the superuser at this point if you haven't already done so)
