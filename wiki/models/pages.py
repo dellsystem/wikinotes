@@ -71,7 +71,7 @@ class Section:
 		self.title = title
 		self.content = content
 		self.number = number
-		self.body = "\n".join(content) # For editing etc
+		self.body = "".join(content) # For editing etc
 
 	def format(self, page_type_obj):
 		self.data = page_type_obj.format(self.content) # needs a better naming scheme
