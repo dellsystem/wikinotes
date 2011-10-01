@@ -41,11 +41,9 @@
 				<h2>Top 5 random courses</h2>
 				<p>We've selected 5 courses at random for your browsing pleasure. Feel free to contribute by adding/editing content if you know the material or, if you don't, proofreading or something. You can also view a <a href="/pages/random">random page</a> associated with a <a href="/courses/random">random course</a>.</p>
 				<ul>
-					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
-					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
-					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
-					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
-					<li><a href="/MATH_151">MATH 151 - Calculus B</a></li>
+					{% for course in random_courses %}
+					<li><a href="{{ course.url }}">{{ course }}</a></li>
+					{% endfor %}
 				</ul>
 				<h2>View all courses</h2>
 				<p>Are you really just looking for an alphabetical listing of every course in our catalogue? If so, you're in luck. <a href="/courses/all">View all courses &raquo;</a>
