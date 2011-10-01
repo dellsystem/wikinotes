@@ -77,13 +77,15 @@
 			 	<p>
 					<input class="medium" type="text" placeholder="Username" name="username" />
 					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
+                    <input type="submit" class="btn danger" value="Log in" name="login" />
 				</p>
-				<div id="stay-logged-in">
-					<p><input type="checkbox" /> Stay logged in</p>
-				</div>
-				<div id="login-buttons">
-					<p><a href="/password/reset">Forgot your password?</a>&nbsp;&nbsp;<input type="submit" class="btn danger" value="Log in" name="login" /></p>
-				</div>
+                    <div id="stay-logged-in">
+                      <input type="checkbox" value="1" name="remember_me">
+                      <span>Stay logged in</span>
+                    </div>
+                    <div id="pass-reset">
+                      <a href="/user/password/reset">Forgot your password?</a>&nbsp;&nbsp;
+				    </div>
 				{% else %}
 				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a> <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a></p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
                 {% load gravatar %}
