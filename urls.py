@@ -7,6 +7,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', 'views.main.index'),
     url(r'^login$', 'views.main.login_logout'),
+    url(r'^user/', include('registration.urls')),
+    url(r'^register/openid$', include('django_openid_auth.urls')),
     url(r'^faculty/(?P<faculty>\w+)$', 'views.courses.faculty_overview'),
     url(r'^department/(?P<department>\w{4})$', 'views.courses.department_overview'),
 
