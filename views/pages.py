@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
-from utils import page_types as types
+from utils import Git, page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
 from django.http import Http404
+import random as random_module
 
 def show(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
@@ -16,15 +17,42 @@ def show(request, department, number, page_type, term, year, slug):
 		'sections': page.load_sections(page_type_obj),
 		'show_template': page_type_obj.get_show_template(),
 		'edit_url': page.get_url() + '/edit',
+		'history_url': page.get_url() + '/history',
 	}
 	return render(request, "pages/show.html", data)
 
+def history(request, department, number, page_type, term, year, slug):
+	course = get_object_or_404(Course, department=department, number=int(number))
+	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
+	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+	commit_history = Git(page.get_filepath()).get_history()
+	data = {
+		'course': course,
+		'page': page, # to distinguish it from whatever
+		'commit_history': commit_history,
+	}
+	return render(request, "pages/history.html", data)
+
 def edit(request, department, number, page_type, term, year, slug):
+	if page_type not in types:
+		raise Http404
+
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = types[page_type]
-	
+
+	if request.method == 'POST':
+		# Just do save sections with the data
+		username = request.user.username if request.user.is_authenticated() else 'Anonymous'
+		email = request.user.email if request.user.is_authenticated() else 'example@example.com'
+		page.save_sections(request.POST, username, email)
+		data = {
+			'course': course,
+			'page': page,
+		}
+		return render(request, "pages/success.html", data)
+
 	data = {
 		'course': course,
 		'page': page, # to distinguish it from whatever
@@ -60,13 +88,15 @@ def create(request, department, number, page_type):
 			kwargs = obj.get_kwargs(request.POST)
 			new_page = Page(course_sem=course_sem, num_sections=num_sections, page_type=page_type, **kwargs)
 			new_page.save()
-			new_page.save_sections(request.POST)
+			username = request.user.username if request.user.is_authenticated() else 'Anonymous'
+			email = request.user.email if request.user.is_authenticated() else 'example@example.com'
+			new_page.save_sections(request.POST, username, email)
 			data = {
 				'course': course,
 			}
 			# Get the keyword arguments from the page type method
 			if new_page:
-				data['new_page'] = new_page
+				data['page'] = new_page
 				return render(request, "pages/success.html", data)
 			else:
 				return render(request, "pages/error.html", data)
@@ -82,3 +112,15 @@ def create(request, department, number, page_type):
 				'num_sections': range(1, 11), # for people without javascript DON'T DELETE THIS UNLESS YOU HAVE ANOTHER SOLUTION FOR A FALLBACK
 			}
 			return render(request, "pages/create.html", data)
+
+def random(request):
+    pages = Page.objects.all()
+    random_page = random_module.choice(pages)
+    return show(request, 
+            random_page.course_sem.course.department, 
+            random_page.course_sem.course.number, 
+            random_page.page_type, 
+            random_page.course_sem.term, 
+            random_page.course_sem.year, 
+            random_page.slug,
+            )

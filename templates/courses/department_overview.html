@@ -6,7 +6,13 @@
 		<h1>Department overview - {{ dept }}</h1>
 		<p>About this department, number of courses in this department, number of people who are watching courses in this department</p>
 		<h2>Courses</h2>
-		<p>List of all the courses in this department</p>
+		{% if courses %}
+		<ul>
+			{% for course in courses %}
+			<li><a href="{{ course.url }}">{{ course }}</a></li>
+			{% endfor %}
+		</ul>
+		{% endif %}
 		<h2>Active contributors</h2>
 		<p>List of people who have made a lot of edits to courses (maybe order in terms of deltas) in this department</p>
 		<h2>Recent activity</h2>

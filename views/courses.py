@@ -5,10 +5,12 @@ from wiki.models.departments import Department
 from utils import page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
+import random as random_module
+
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
-	faculty_courses = Course.objects.all().filter(department__faculty=faculty_object)
+	faculty_courses = Course.objects.all().filter(department__faculty=faculty_object).order_by('department__short_name', 'number')
 	data = {
 		'faculty': faculty_object,
 		'courses': faculty_courses,
@@ -17,8 +19,10 @@ def faculty_overview(request, faculty):
 
 def department_overview(request, department):
 	dept = get_object_or_404(Department, short_name=department)
+	courses = Course.objects.all().filter(department=dept).order_by('department__short_name', 'number')
 	data = {
 		'dept': dept,
+		'courses': courses,
 	}
 	return render(request, 'courses/department_overview.html', data)
 
@@ -66,7 +70,10 @@ def popular(request):
 	return render(request, 'courses/popular.html')
 
 def random(request):
-	pass
+    courses = Course.objects.all()
+    random_course = random_module.choice(courses)
+    return overview(request, random_course.department, random_course.number)
+
 
 def active(request):
 	pass

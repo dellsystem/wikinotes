@@ -12,6 +12,204 @@
       Computing 1, number: 202}
   model: wiki.course
   pk: 3
-- fields: {credits: 3, department: BIOL, description: lol, name: Cell and Molecular Biology, number: 112}
+- fields: {credits: 3, department: BIOL, description: lol, name: Cell and Molecular
+      Biology, number: 112}
   model: wiki.course
   pk: 4
+- fields: {credits: 3, department: BIOL, description: 'An introduction to the phylogeny,
+      structure, function and adaptation of unicellular organisms, plants and animals
+      in the biosphere.', name: 'Principles: Organismal Biology', number: 111}
+  model: wiki.course
+  pk: 5
+- fields: {credits: 4, department: CHEM, description: 'A study of the fundamental
+      principles of atomic structure, radiation and nuclear chemistry, valence theory,
+      coordination chemistry, and the periodic table.', name: General Chemistry 1,
+    number: 110}
+  model: wiki.course
+  pk: 6
+- fields: {credits: 4, department: CHEM, description: 'A study of the fundamental
+      principles of chemistry, including simple gases and collision theory, the laws
+      of thermodynamics, Enthalpy, Entropy, and Free Energy, Equilibrium, Acid-Base
+      Chemistry, and introduction to Organic Chemistry.', name: General Chemistry
+      2, number: 120}
+  model: wiki.course
+  pk: 7
+- fields: {credits: 3, department: MATH, description: 'Systems of linear equations,
+      matrices, inverses, determinants; geometric vectors in three dimensions, dot
+      product, cross product, lines and planes; introduction to vector spaces, linear
+      dependence and independence, bases; quadratic loci in two and three d', name: Linear
+      Algebra and Geometry, number: 133}
+  model: wiki.course
+  pk: 8
+- fields: {credits: 3, department: MATH, description: 'Review of functions and graphs.
+      Limits, continuity, derivatives. Differentiation of elementary functions. Applications,
+      optimization, related rates problems. Graphing using derivatives and concavity.',
+    name: Calculus 1, number: 140}
+  model: wiki.course
+  pk: 9
+- fields: {credits: 3, department: MATH, description: The definite integral. Techniques
+      of integration. Applications. Introduction to sequences and series., name: Calculus
+      2, number: 141}
+  model: wiki.course
+  pk: 10
+- fields: {credits: 4, department: PHYS, description: 'An introductory course in physics
+      without calculus, covering mechanics (kinematics, dynamics, energy, and rotational
+      motion), oscillations and waves, sound, light, and geometrical optics.', name: Introductory
+      Physics - Mechanics, number: 101}
+  model: wiki.course
+  pk: 11
+- fields: {credits: 4, department: PHYS, description: Electric field and potential.
+      D.C. circuits and measurements. Capacitance. Magnetic field and induction. A.C.
+      circuits Semiconductor devices and their application. Electromagnetic waves.,
+    name: Introductory Physics - Electromagnetism, number: 102}
+  model: wiki.course
+  pk: 12
+- fields: {credits: 4, department: PHYS, description: The basic laws and principles
+      of Newtonian mechanics; oscillations and waves., name: Mechanics and Waves,
+    number: 131}
+  model: wiki.course
+  pk: 13
+- fields: {credits: 4, department: PHYS, description: The basic laws of electricity
+      and magnetism; geometrical and physical optics., name: Electromagnetism and
+      Optics, number: 142}
+  model: wiki.course
+  pk: 14
+- fields: {credits: 3, department: PSYC, description: 'This is a course for students
+      with no previous psychology courses at the junior college (CEGEP) or college
+      level. It is an introduction to the scientific study of behavior, cognitions
+      and emotions. The course is designed to review basic concepts and metho', name: Introduction
+      to Psychology, number: 100}
+  model: wiki.course
+  pk: 15
+- fields: {credits: 3, department: ANAT, description: 'Introduction to the gross anatomy
+      of the various organ systems of head, neck and trunk regions of the human body.
+      Practical tutorials include studies of prepared specimens, use of the anatomical
+      museum and audio-visual materials.', name: Systemic Human Anatomy, number: 214}
+  model: wiki.course
+  pk: 16
+- fields: {credits: 3, department: ANAT, description: 'The architectural, functional
+      and temporal continuity of organelles and the cytoskeleton of mammalian cells
+      is introduced as well as their functional integration in the phenomena of exocytosis,
+      endocytosis, protein trafficking and ', name: Introductory Molecular and Cell
+      Biology, number: 262}
+  model: wiki.course
+  pk: 17
+- fields: {credits: 3, department: BIOL, description: 'The aim of this course is to
+      understand the molecular basis of biological phenomena with emphasis on the
+      fundamental processes common to all organisms (enzymatic catalysis, DNA, RNA
+      and protein synthesis; genome structure; mechanisms of gene expression; m',
+    name: Molecular Biology, number: 200}
+  model: wiki.course
+  pk: 18
+- fields: {credits: 3, department: BIOL, description: 'This course introduces the
+      student to our modern understanding of cells and how they work. Major topics
+      to be covered include: photosynthesis, energy metabolism and metabolic integration;
+      plasma membrane including secretion, endocytosis and contact mediat', name: Cell
+      Biology and Metabolism, number: 201}
+  model: wiki.course
+  pk: 19
+- fields: {credits: 3, department: BIOC, description: 'Introduction to basic principles,
+      and to modern advances, problems and applications in the genetics of higher
+      and lower organisms with examples representative of the biological sciences.',
+    name: Basic Genetics, number: 202}
+  model: wiki.course
+  pk: 20
+- fields: {credits: 3, department: BIOL, description: An introduction to the fundamental
+      processes of ecology and evolution that bear on the nature and diversity of
+      organisms and the processes that govern their assembly into ecological communities
+      and their roles in ecosystem function., name: Introduction to Ecology and Evolution,
+    number: 215}
+  model: wiki.course
+  pk: 21
+- fields: {credits: 4, department: CHEM, description: 'A survey of reactions of aliphatic
+      and aromatic compounds including modern concepts of bonding, mechanisms, conformational
+      analysis, and stereochemistry.', name: Organic Chemistry I, number: 212}
+  model: wiki.course
+  pk: 22
+- fields: {credits: 4, department: CHEM, description: 'Modern spectroscopic techniques
+      for structure determination. The chemistry of alcohols, ethers, carbonyl compounds,
+      and amines, with special attention to mechanistic aspects. Special topics.',
+    name: Organic Chemistry II, number: 222}
+  model: wiki.course
+  pk: 23
+- fields: {credits: 2, department: CHEM, description: "Heterogeneous equilibrium:\
+      \ phase rule and phase diagrams. Ideal solutions, colligative properties, solubility.\
+      \ Electrochemistry, Debye-H\xFCckel Theory. Kinetics 2: Transition State Theory,\
+      \ complex reactions, free-radical reactions, chain reactions, catalysi", name: Introductory
+      Physical Chemistry 2, number: 243}
+  model: wiki.course
+  pk: 24
+- fields: {credits: 3, department: COMP, description: 'Comprehensive overview of programming
+      in C, use of system calls and libraries, debugging and testing of code; use
+      of developmental tools like make, version control systems.', name: Introduction
+      to Software Systems, number: 206}
+  model: wiki.course
+  pk: 25
+- fields: {credits: 3, department: COMP, description: 'An introduction to the design
+      of computer algorithms, including basic data structures, analysis of algorithms,
+      and establishing correctness of programs. Overview of topics in computer science.',
+    name: Introduction to Computer Science, number: 250}
+  model: wiki.course
+  pk: 26
+- fields: {credits: 3, department: COMP, description: Design and analysis of algorithms.
+      Complexity of algorithms. Data structures. Introduction to graph algorithms
+      and their analysis., name: Data Structures and Algorithms, number: 251}
+  model: wiki.course
+  pk: 27
+- fields: {credits: 3, department: GEOG, description: 'The course introduces the geography
+      of the world economic system. It describes the spatial distribution of economic
+      activities and examines the factors which influence their changing location.
+      Case studies from both "developed" and "developing" countries ', name: Geography
+      of the World Economy, number: 216}
+  model: wiki.course
+  pk: 28
+- fields: {credits: 3, department: INTD, description: 'An interdisciplinary introduction
+      to the field of International Development Studies focusing on the theory and
+      practice of development. It examines various approaches to international development,
+      including past and present relationships between developed', name: Introduction
+      to International Development, number: 200}
+  model: wiki.course
+  pk: 29
+- fields: {credits: 3, department: MATH, description: 'Taylor series, Taylor''s theorem
+      in one and several variables. Review of vector geometry. Partial differentiation,
+      directional derivative. Extreme of functions of 2 or 3 variables. Parametric
+      curves and arc length. Polar and spherical coordinates. Multiple', name: Calculus
+      3, number: 222}
+  model: wiki.course
+  pk: 30
+- fields: {credits: 3, department: MATH, description: 'Review of matrix algebra, determinants
+      and systems of linear equations. Vector spaces, linear operators and their matrix
+      representations, orthogonality. Eigenvalues and eigenvectors, diagonalization
+      of Hermitian matrices. Applications.', name: Linear Algebra, number: 223}
+  model: wiki.course
+  pk: 31
+- fields: {credits: 3, department: MATH, description: Mathematical foundations of
+      logical thinking and reasoning. Mathematical language and proof techniques.
+      Quantifiers. Induction. Elementary number theory. Modular arithmetic. Recurrence
+      relations and asymptotics. Combinatorial enumeration. Functions and re, name: Discrete
+      Structures 1, number: 240}
+  model: wiki.course
+  pk: 32
+- fields: {credits: 3, department: PHGY, description: 'Physiology of body fluids,
+      blood, body defense mechanisms, muscle, peripheral, central, and autonomic nervous
+      systems.', name: Mammalian Physiology 1, number: 209}
+  model: wiki.course
+  pk: 33
+- fields: {credits: 3, department: PHGY, description: 'Physiology of cardiovascular,
+      respiratory, digestive, endocrine and renal systems.', name: Mammalian Physiology
+      2, number: 210}
+  model: wiki.course
+  pk: 34
+- fields: {credits: 3, department: PHIL, description: 'A survey of a number of historically
+      important and influential theories. Philosophers to be discussed may include
+      Aristotle, Hume, Kant, Bentham, Mill, and Moore.', name: Introduction to Moral
+      Philosophy 1, number: 230}
+  model: wiki.course
+  pk: 35
+- fields: {credits: 3, department: POLI, description: 'An introduction to Third World
+      politics. A comparative examination of the legacies of colonialism, the achievement
+      of independence, and contemporary dynamics of political and socio-economic development
+      in Africa, Asia and Latin America. Topics include mod', name: Developing Areas/Introduction,
+    number: 227}
+  model: wiki.course
+  pk: 36

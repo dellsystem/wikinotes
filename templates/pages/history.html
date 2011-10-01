@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		{% include "courses/header.html" %}
+		<h2>Viewing history :: {{ page }}</h2>
+		{% if commit_history %}
+			<ul class="unstyled">
+			{% for commit in commit_history %}
+				<li>{{ commit.author }}  - {{ commit.message }} ({{ commit.date|date:"D d M Y" }})</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	</section>
+</div>
+{% endblock %}

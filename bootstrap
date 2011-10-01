@@ -3,4 +3,6 @@
 echo "yes" | python manage.py reset wiki
 python manage.py syncdb
 python manage.py loaddata faculties departments courses
+# Delete everything under wiki/content because, why not
+rm -rf wiki/content/
 echo "Done"

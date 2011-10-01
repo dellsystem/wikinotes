@@ -1,6 +1,5 @@
 from django.db import models
 import utils
-import os
 
 class Page(models.Model):
 	class Meta:
@@ -19,6 +18,9 @@ class Page(models.Model):
 	def __unicode__(self):
 		return self.get_title()
 
+	def get_filepath(self):
+		return "wiki/content%s/" % self.get_url() # looks rather silly but it actually does work!
+
 	def get_title(self):
 		type_name = utils.page_types[self.page_type].long_name # lol
 		if not self.title:
@@ -32,7 +34,7 @@ class Page(models.Model):
 		return "%s/%s/%s-%s/%s" % (course.url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
 
 	def load_sections(self, page_type_obj):
-		path = "wiki/content%s/" % self.get_url() # looks rather silly but it actually does work!
+		path = self.get_filepath()
 		sections = []
 		for i in xrange(1, self.num_sections + 1):
 			filename = "%s%d.md" % (path, i)
@@ -46,16 +48,13 @@ class Page(models.Model):
 
 		return sections
 
-	def save_sections(self, data):
-		path = "wiki/content%s/" % self.get_url()
+	def save_sections(self, data, username, email):
+		path = self.get_filepath()
 		num_sections = int(data['num_sections'])
-		try:
-			os.makedirs(path)
-		except OSError:
-			pass
+		repo = utils.Git(path) # Will take care of making the directories
 		for i in xrange(1, num_sections + 1):
 			filename = "%s%d.md" % (path, i)
-			file = open(filename, 'wb')
+			file = open(filename, 'wt')
 			title = data["section-%d-title" % i]
 			body = data["section-%d-body" % i]
 			body = body.replace('^M', '\n')
@@ -63,6 +62,8 @@ class Page(models.Model):
 			file.write('--------\n\n')
 			file.write(body + '\n') # necessary for some reason
 			file.close()
+			repo.add("%d.md" % i)
+		repo.commit(data['message'], username, email)
 
 # Not actually a model, more of a helper class to manage sections more easily
 class Section:
@@ -70,7 +71,7 @@ class Section:
 		self.title = title
 		self.content = content
 		self.number = number
-		self.body = "\n".join(content) # For editing etc
+		self.body = "".join(content) # For editing etc
 
 	def format(self, page_type_obj):
 		self.data = page_type_obj.format(self.content) # needs a better naming scheme
