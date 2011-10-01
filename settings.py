@@ -1,6 +1,6 @@
 # Django settings for wikinotes project.
 
-wikinotes_dir = '/home/waldo/Projects/wikinotes/' # change this if you want to run it on your own machine
+wikinotes_dir = '/home/clarence/github/wikinotes/' # change this if you want to run it on your own machine
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -123,9 +123,25 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'wiki',
     'django.contrib.markup', # for markdown
+    'registration', # for registration
+    'django_openid_auth',
+    'gravatar'
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    #'django.contrib.admindocs',
 )
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+AUTHENTICATION_BACKENDS = (
+    'django_openid_auth.auth.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+OPENID_CREATE_USERS = True
+OPENID_UPDATE_DETAILS_FROM_SREG = True
+
+LOGIN_URL = '/login/openid/'
+LOGIN_REDIRECT_URL = '/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
