@@ -20,9 +20,13 @@ def index(request):
 			if request.user in item.course.watchers.all():
 				history_items.append(item)
 
+		# Now get things the user has done
+		your_actions = HistoryItem.objects.filter(user=request.user)
+
 		# Show the user's dashboard
 		data = {
 			'watched_courses': watched_courses,
+			'your_actions': your_actions,
 			'history_items': history_items[::-1],
 		}
 		return render(request, 'main/dashboard.html', data)
