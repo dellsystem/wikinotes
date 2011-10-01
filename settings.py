@@ -125,8 +125,9 @@ INSTALLED_APPS = (
     'django.contrib.markup', # for markdown
     'registration', # for registration
     'django_openid_auth',
+    'gravatar'
     # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
+    #'django.contrib.admindocs',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
