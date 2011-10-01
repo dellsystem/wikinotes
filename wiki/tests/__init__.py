@@ -47,8 +47,8 @@ class PageTypesTest(TestCase):
 		]
 		data = {
 			'questions': [
-				{'heading': 'Heading\n---------', 'question': 'Question', 'choices': ['Wrong', 'Right', 'Wrong'], 'correct': 1, 'answer': 'Answer and explanation etc'},
-				{'heading': '', 'question': 'Question2', 'choices': ['Right', 'Wrong', 'Wrong2'], 'correct': 0, 'answer': 'Answer 2'}, 
+				{'number':1, 'heading': 'Heading\n---------', 'question': 'Question', 'choices': [{'number':0, 'text':'Wrong'}, {'number':1, 'text':'Right'}, {'number':2, 'text':'Wrong'}], 'correct': 1, 'answer': 'Answer and explanation etc'},
+				{'number':2, 'heading': '', 'question': 'Question2', 'choices': [{'number':0, 'text':'Right'}, {'number':1, 'text':'Wrong'}, {'number':2, 'text':'Wrong2'}], 'correct': 0, 'answer': 'Answer 2'}, 
 			],
 		}
 		obj = CourseQuiz()
