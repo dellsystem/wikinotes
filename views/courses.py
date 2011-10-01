@@ -5,6 +5,8 @@ from wiki.models.departments import Department
 from utils import page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
+import random as random_module
+
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
@@ -66,7 +68,10 @@ def popular(request):
 	return render(request, 'courses/popular.html')
 
 def random(request):
-	pass
+    courses = Course.objects.all()
+    random_course = random_module.choice(courses)
+    return overview(request, random_course.department, random_course.number)
+
 
 def active(request):
 	pass

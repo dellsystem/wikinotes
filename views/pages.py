@@ -4,6 +4,7 @@ from utils import page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
 from django.http import Http404
+import random as random_module
 
 def show(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
@@ -82,3 +83,15 @@ def create(request, department, number, page_type):
 				'num_sections': range(1, 11), # for people without javascript DON'T DELETE THIS UNLESS YOU HAVE ANOTHER SOLUTION FOR A FALLBACK
 			}
 			return render(request, "pages/create.html", data)
+
+def random(request):
+    pages = Page.objects.all()
+    random_page = random_module.choice(pages)
+    return show(request, 
+            random_page.course_sem.course.department, 
+            random_page.course_sem.course.number, 
+            random_page.page_type, 
+            random_page.course_sem.term, 
+            random_page.course_sem.year, 
+            random_page.slug,
+            )
