@@ -74,7 +74,9 @@ def create(request, department, number, page_type):
 			kwargs = obj.get_kwargs(request.POST)
 			new_page = Page(course_sem=course_sem, num_sections=num_sections, page_type=page_type, **kwargs)
 			new_page.save()
-			new_page.save_sections(request.POST, request.user.username, request.user.email)
+			username = request.user.username if request.user.is_authenticated() else 'Anonymous'
+			email = request.user.email if request.user.is_authenticated() else 'example@example.com'
+			new_page.save_sections(request.POST, username, email)
 			data = {
 				'course': course,
 			}
