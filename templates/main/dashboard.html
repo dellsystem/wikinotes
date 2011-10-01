@@ -8,31 +8,52 @@
 	</div> 
 </div> 
 
-<div class="container"> 
+<div class="container">
 	<section>
 		<div class="row">
 			<div class="span12 columns">
 				<h1>Your dashboard</h1>
-				<h2>Recent activity</h2>
+				<h3>Recent activity</h3>
+				{% if history_items %}
 				{% for history_item in history_items %}
 					<div class="row">
 						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user history_item.user 50 %}" /></div>
 						<div class="span11 columns">
-							<p><strong>{{ history_item.user }}</strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_url }}">{{ history_item.page }}</a> for {% endif %} <a href="{{ history_item.course.url }}">{{ history_item.course }}</a> ({{ history_item.timestamp|date }})</p>
+							<p><strong>{{ history_item.user }}</strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_url }}">{{ history_item.page }}</a> for {% endif %} <a href="{{ history_item.course.url }}">{{ history_item.course }}</a> ({{ history_item.timestamp|date:"F j Y f" }})</p>
 							{% if history_item.message %}<p>{{ history_item.message }}</p>{% endif %}
 						</div>
 					</div>
 				{% endfor %}
+				{% else %}
+				<p>You are not watching any courses! You can find several ways to browse for courses <a href="/courses">here</a>.</p>
+				{% endif %}
+				<h3>Your actions</h3>
+				{% if your_actions %}
+				{% for your_action in your_actions %}
+					<div class="row">
+						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user user 50 %}" /></div>
+						<div class="span11 columns">
+							<p><strong>{{ user }}</strong> {{ your_action.action }} {% if your_action.page %}<a href="{{ your_action.page.get_url }}">{{ your_ation.page }}</a> for {% endif %} <a href="{{ your_action.course.url }}">{{ your_action.course }}</a> ({{ your_action.timestamp|date:"F j Y f" }})</p>
+							{% if your_action.message %}<p>{{ your_action.message }}</p>{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+				{% else %}
+					<p>You have not done anything yet! Why not find a random page to edit or something.</p>
+				{% endif %}
 			</div>
 			<div class="span4 columns" id="right-bar">
-				{% if watched_courses %}
 				<h4>Watched courses</h4>
+				{% if watched_courses %}
 				<ul class="unstyled">
 					{% for course in watched_courses %}
 					<li><a href="{{ course.url }}">{{ course }}</a></li>
 					{% endfor %}
 				</ul>
+				{% else %}
+					<p>None</p>
 				{% endif %}
+				
 			</div>
 		</div>
 	</section>
