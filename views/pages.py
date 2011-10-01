@@ -34,10 +34,24 @@ def history(request, department, number, page_type, term, year, slug):
 	return render(request, "pages/history.html", data)
 
 def edit(request, department, number, page_type, term, year, slug):
+	if page_type not in types:
+		raise Http404
+
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = types[page_type]
+
+	if request.method == 'POST':
+		# Just do save sections with the data
+		username = request.user.username if request.user.is_authenticated() else 'Anonymous'
+		email = request.user.email if request.user.is_authenticated() else 'example@example.com'
+		page.save_sections(request.POST, username, email)
+		data = {
+			'course': course,
+			'page': page,
+		}
+		return render(request, "pages/success.html", data)
 
 	data = {
 		'course': course,
@@ -82,7 +96,7 @@ def create(request, department, number, page_type):
 			}
 			# Get the keyword arguments from the page type method
 			if new_page:
-				data['new_page'] = new_page
+				data['page'] = new_page
 				return render(request, "pages/success.html", data)
 			else:
 				return render(request, "pages/error.html", data)

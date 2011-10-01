@@ -14,14 +14,14 @@
 					{% endfor %}
 				</fieldset>
 				{% for section in sections %}
-				<fieldset class="grey-box" id="section-{{ section.num }}">
-					<label for="section-{{ section.num }}-title">Section <span>{{ section.num }}</span> title:</label>
+				<fieldset class="grey-box" id="section-{{ section.number }}">
+					<label for="section-{{ section.number }}-title">Section <span>{{ section.number }}</span> title:</label>
 					<div class="input">
-						<input type="text" class="xxlarge" id="section-{{ section.num }}-title" name="section-{{ section.num }}-title" value="{{ section.title }}" />
+						<input type="text" class="xxlarge" id="section-{{ section.number }}-title" name="section-{{ section.number }}-title" value="{{ section.title }}" />
 					</div>
-					<label for="section-{{ section.num }}-body">Section <span>{{ section.num }}</span> body:<br /><a href="#" id="fullscreen-section-{{ section.num }}">Click to fullscreen</a><br /><br /><strong>Syntax:</strong><br />{% include help_template %}<br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
+					<label for="section-{{ section.number }}-body">Section <span>{{ section.number }}</span> body:<br /><a href="#" id="fullscreen-section-{{ section.number }}">Click to fullscreen</a><br /><br /><strong>Syntax:</strong><br />{% include help_template %}<br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
 					<div class="input">
-						<textarea class="xxlarge" id="section-{{ section.num }}-body" name="section-{{ section.num }}-body">{{ section.body }}</textarea>
+						<textarea class="xxlarge" id="section-{{ section.number }}-body" name="section-{{ section.number }}-body">{{ section.body }}</textarea>
 					</div>
 				</fieldset>
 				{% endfor %}
