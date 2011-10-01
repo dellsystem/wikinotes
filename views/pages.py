@@ -53,10 +53,12 @@ def edit(request, department, number, page_type, term, year, slug):
 			'page': page,
 		}
 
+		# The page may need changing ...
+		page.edit(request.POST)
+
 		# Add the history item
 		history_item = HistoryItem(page=page, user=request.user, action='edited', message=request.POST['message'], course=course)
 		history_item.save()
-		course.history_items.add(history_item)
 		return render(request, "pages/success.html", data)
 
 	data = {

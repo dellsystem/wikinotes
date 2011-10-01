@@ -1,5 +1,6 @@
 from django.db import models
 import utils
+import os
 
 class Page(models.Model):
 	class Meta:
@@ -13,8 +14,19 @@ class Page(models.Model):
 	page_type = models.CharField(choices=utils.page_type_choices, max_length=20)
 	title = models.CharField(max_length=255, null=True) # the format of this is determined by the page type
 	professor = models.ForeignKey('Professor', null=True)
-	slug = models.CharField(max_length=50)
-	
+	slug = models.CharField(max_length=50)			
+
+	def edit(self, data):
+		old_filepath = self.get_filepath()
+		kwargs = utils.page_types[self.page_type].get_kwargs(data)
+		kwargs['num_sections'] = data['num_sections']
+		# Change the relevant attributes
+		for kwarg in kwargs:
+			setattr(self, kwarg, kwargs[kwarg])
+		self.save()
+		# Now move the folder lol
+		os.system("mv \"%s\" \"%s\"" % (old_filepath, self.get_filepath()))
+
 	def __unicode__(self):
 		return self.get_title()
 
