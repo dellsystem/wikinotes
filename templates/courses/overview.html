@@ -65,17 +65,21 @@
 			</div>
 			<div class="span4 columns" id="right-bar">
 				<div class="row" style="margin-bottom: 0px;">
+				{% if user.is_authenticated %}
 				<form method="post" action="{{ course.url }}/watch">
 				{% csrf_token %}
+				{% endif %}
 					<div class="half-column">
 						<p><a href="#create-page-popup" class="btn info" id="create-page-button">New page</a></p>
 						<p><strong>Pages:</strong> {{ course.num_pages }}</p>
 					</div>
 					<div class="half-column">
-							<p><input type="submit" class="btn" value="{% if is_watching %}Unwatch{% else %}Watch{% endif %}" /></p>
+							<p><input type="submit" class="btn" value="{% if is_watching %}Unwatch{% else %}{% if user.is_authenticated %}Watch{% else %}Login first{% endif %}{% endif %}" /></p>
 							<p><strong>Watchers:</strong> {{ course.num_watchers }}</p>
 					</div>
+				{% if user.is_authenticated %}
 				</form>
+				{% endif %}
 				</div>
 				<hr />
 				<div class="row">
