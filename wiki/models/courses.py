@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from wiki.models.history import HistoryItem
 
 class Course(models.Model):
 	class Meta:
@@ -37,9 +38,14 @@ class Course(models.Model):
 
 	def add_watcher(self, user):
 		self.watchers.add(user)
+		# Add the history item, find a better way to do this later
+		history_item = HistoryItem(user=user, action='started watching', course=self)
+		history_item.save()
 
 	def remove_watcher(self, user):
 		self.watchers.remove(user)
+		history_item = HistoryItem(user=user, action='stopped watching', course=self)
+		history_item.save()
 
 class CourseSemester(models.Model):
 	class Meta:

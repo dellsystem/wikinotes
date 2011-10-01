@@ -10,9 +10,31 @@
 
 <div class="container"> 
 	<section>
-		<h1>Your dashboard</h1>
-		<p>Listing of recent activity on the courses you're watching</p>
-		<p>Listing of the courses you're watching</p>
+		<div class="row">
+			<div class="span12 columns">
+				<h1>Your dashboard</h1>
+				<h2>Recent activity</h2>
+				{% for history_item in history_items %}
+					<div class="row">
+						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user history_item.user 50 %}" /></div>
+						<div class="span11 columns">
+							<p><strong>{{ history_item.user }}</strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page_get_url }}">{{ history_item.page }}</a> for {% endif %} <a href="{{ history_item.course.url }}">{{ history_item.course }}</a> ({{ history_item.timestamp|date }})</p>
+							{% if history_item.message %}<p>{{ history_item.message }}</p>{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="span4 columns" id="right-bar">
+				{% if watched_courses %}
+				<h4>Watched courses</h4>
+				<ul class="unstyled">
+					{% for course in watched_courses %}
+					<li><a href="{{ course.url }}">{{ course }}</a></li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
+		</div>
 	</section>
 </div><!-- /container -->
 	
