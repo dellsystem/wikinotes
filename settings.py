@@ -122,6 +122,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'wiki',
+    'gravatar',
     'django.contrib.markup', # for markdown
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
