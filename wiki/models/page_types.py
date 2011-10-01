@@ -96,9 +96,9 @@ class CourseSummary(PageType):
 		slug = data['subject'].lower().replace(' ', '-')
 		return {'subject': data['subject'], 'link': data['link'], 'slug': slug}
 
-class VocabQuiz(PageType):
-	short_name = 'vocab-quiz'
-	long_name = 'Vocabulary quiz'
+class VocabList(PageType):
+	short_name = 'vocab-list'
+	long_name = 'Vocabulary list'
 	description = 'For memorising terms etc'
 
 	def get_kwargs(self, data):
