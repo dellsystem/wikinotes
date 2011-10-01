@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
-from utils import page_types as types
+from utils import Git, page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
 from django.http import Http404
@@ -17,15 +17,28 @@ def show(request, department, number, page_type, term, year, slug):
 		'sections': page.load_sections(page_type_obj),
 		'show_template': page_type_obj.get_show_template(),
 		'edit_url': page.get_url() + '/edit',
+		'history_url': page.get_url() + '/history',
 	}
 	return render(request, "pages/show.html", data)
+
+def history(request, department, number, page_type, term, year, slug):
+	course = get_object_or_404(Course, department=department, number=int(number))
+	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
+	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+	commit_history = Git(page.get_filepath()).get_history()
+	data = {
+		'course': course,
+		'page': page, # to distinguish it from whatever
+		'commit_history': commit_history,
+	}
+	return render(request, "pages/history.html", data)
 
 def edit(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = types[page_type]
-	
+
 	data = {
 		'course': course,
 		'page': page, # to distinguish it from whatever
@@ -61,7 +74,7 @@ def create(request, department, number, page_type):
 			kwargs = obj.get_kwargs(request.POST)
 			new_page = Page(course_sem=course_sem, num_sections=num_sections, page_type=page_type, **kwargs)
 			new_page.save()
-			new_page.save_sections(request.POST)
+			new_page.save_sections(request.POST, request.user.username, request.user.email)
 			data = {
 				'course': course,
 			}
