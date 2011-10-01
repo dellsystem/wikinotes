@@ -54,7 +54,7 @@ class Page(models.Model):
 		repo = utils.Git(path) # Will take care of making the directories
 		for i in xrange(1, num_sections + 1):
 			filename = "%s%d.md" % (path, i)
-			file = open(filename, 'wb')
+			file = open(filename, 'wt')
 			title = data["section-%d-title" % i]
 			body = data["section-%d-body" % i]
 			body = body.replace('^M', '\n')
