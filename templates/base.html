@@ -85,7 +85,7 @@
 					<p><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;<input type="submit" class="btn danger" value="Log in" name="login" /></p>
 				</div>
 				{% else %}
-				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a> <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a></p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
+				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a>{% if user.is_staff %} <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
 				{% load gravatar %}
 				<div style="float: left; margin-right: 10px;"><img src="{% gravatar_for_user user 70 %}" alt="Gravatar" /></div>{% comment %}Will work on the gravatar aspect later lol{% endcomment %}
 				{% endif %}
