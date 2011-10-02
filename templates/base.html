@@ -18,7 +18,7 @@
 	<link href="/static/css/wikinotes.less" rel="stylesheet/less" />
 
 	<!-- Le javascript --> 
-	<script src="/static/js/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.5.2.min.js"></script> 
 	<script src="/static/js/prettify.js"></script>
 	<script src="/static/js/less.min.js"></script>
 	<script src="/static/js/placeholder.min.js"></script>
@@ -59,7 +59,7 @@
 		  		<ul class="nav">
 		  			<li><input type="text" name="search" class="xlarge" id="search-box" placeholder="Search ..." /></li>
 					<li><a href="/recent-changes">Recent changes</a></li>
-					{% if not user.is_authenticated %}<li><a href="/register">Register</a></li>{% endif %}
+					{% if not user.is_authenticated %}<li><a href="/user/register">Register</a></li>{% endif %}
 		  		</ul>
 			</div>
 		</div> 
@@ -77,17 +77,19 @@
 			 	<p>
 					<input class="medium" type="text" placeholder="Username" name="username" />
 					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
+                    <input type="submit" class="btn danger" value="Log in" name="login" />
 				</p>
-				<div id="stay-logged-in">
-					<p><input type="checkbox" /> Stay logged in</p>
-				</div>
-				<div id="login-buttons">
-					<p><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;<input type="submit" class="btn danger" value="Log in" name="login" /></p>
-				</div>
+                    <div id="stay-logged-in">
+                      <input type="checkbox" value="1" name="remember_me">
+                      <span>Stay logged in</span>
+                    </div>
+                    <div id="pass-reset">
+                      <a href="/user/password/reset">Forgot your password?</a>&nbsp;&nbsp;
+				    </div>
 				{% else %}
 				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a> <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a></p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
-				{% load gravatar %}
-				<div style="float: left; margin-right: 10px;"><img src="{% gravatar_for_user user 70 %}" alt="Gravatar" /></div>{% comment %}Will work on the gravatar aspect later lol{% endcomment %}
+                {% load gravatar %}
+				<div style="float: left; margin-right: 10px;">{% gravatar_img_for_user user 70 %}</div>
 				{% endif %}
 				</form>
 			</div>
