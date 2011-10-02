@@ -1,16 +1,43 @@
 {% extends "base.html" %}
 
+{% block javascript %}
+<script src="/static/js/jquery.tablesorter.min.js"></script>
+<script src="/static/js/page_course_shit.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="container">
 	<section>
 		<div class="page-header">
-			<h1>View all courses</h1>
+			<h1>View all courses{% if mode %} :: By {{ mode }}{% endif %}</h1>
+			<p>Tip: you can click on any table heading to sort by that column. Hold down the shift key and click on an additional heading to sort by multiple column.</p>
 		</div>
-		<ul class="unstyled">
-			{% for course in courses %}
-			<li><a href="{{ course.url }}">{{ course }}</a> ({{ course.department.faculty }})</li>
-			{% endfor %}
-		</ul>
+		{% if courses %}
+		<table class="zebra-striped">
+			<thead>
+				<tr>
+					<th width="10%">Course</th>
+					<th width="20%">Department</th>
+					<th width="20%">Faculty</th>
+					<th width="20%">Current professor(s)</th>
+					<th width="10%">Watching</th>
+					<th width="20%">Latest activity</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for course in courses %}
+				<tr>
+					<td><a href="{{ course.url }}">{{ course }}</a></td>
+					<td><a href="{{ course.department.url }}">{{ course.department.long_name }}</ta></td>
+					<td><a href="{{ course.department.faculty.url }}">{{ course.department.faculty }}</a></td>
+					<td>None</td>
+					<td>{{ course.num_watchers }}</td>
+					<td>{{ course.latest_activity.timestamp|date:"F j Y f" }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% endif %}
 	</section>
 </div>
 {% endblock %}
