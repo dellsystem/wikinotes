@@ -69,6 +69,22 @@
 				{% else %}
 				<p>Still no pages lol</p>
 				{% endif %}
+				<h2>Recent activity</h2>
+				<ul class="unstyled">
+				{% if course.latest_activity %}
+				{% for item in course.recent_activity %}
+					<li>{{ item.user }} {{ item.action }} {% if item.page %}{{ item.page }}{% else %}this course{% endif %}</li>
+				{% endfor %}
+				<li><a href="{{ course.url }}/recent">View all recent changes &raquo;</a></li>
+				{% else %}
+				<li>Nothing has happened recently for this course. Boo.</li>
+				{% endif %}
+				</ul>{% comment %} lol it's better than p{% endcomment %}
+				<h2>Other resources</h2>
+				<ul class="unstyled">
+					<li><a href="http://www.docuum.com/McGill/{{ course.department.short_name }}/{{ course.number }}">{{ course }} on Docuum</a></li>
+					<li><a href="http://www.mcgill.ca/study/2011-2012/courses/{{ course.department.short_name }}-{{ course.number }}">{{ course }} in the McGill course listings</a></li>
+				</ul>
 				{% include "pages/create_popup.html" %}
 			</div>
 			<div class="span4 columns" id="right-bar">
