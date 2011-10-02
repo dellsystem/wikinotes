@@ -66,16 +66,10 @@ def semester(request):
 def professor(request):
 	return render(request, 'courses/professor.html')
 
-def popular(request):
-	return render(request, 'courses/popular.html')
-
 def random(request):
     courses = Course.objects.all()
     random_course = random_module.choice(courses)
     return overview(request, random_course.department, random_course.number)
-
-def active(request):
-	pass
 
 def search(request):
 	pass
@@ -85,7 +79,7 @@ def index(request):
 
 	random_courses = random_module.sample(courses, 5)
 	popular_courses = courses.order_by('-watchers')[:5]
-	active_courses = list(set([hist.course for hist in HistoryItem.objects.all().order_by('-timestamp')]))[:5] # lol order doesn't matter who cares about that
+	active_courses = courses.order_by('-latest_activity__timestamp')[:5]
 
 	data = {
 		'random_courses': random_courses,
@@ -94,9 +88,27 @@ def index(request):
 	}
 	return render(request, 'courses/index.html', data)
 
-def all(request):
-	courses = Course.objects.all().order_by('department', 'number')
+def popular(request):
+	return list_all(request, 'popularity')
+
+def active(request):
+	return list_all(request, 'activity')
+
+def list_all(request, sort_by=''):
+	if sort_by == 'popularity':
+		courses = Course.objects.all().order_by('-watchers')[:5]
+	elif sort_by == 'activity':
+		history = HistoryItem.objects.all().order_by('-timestamp')
+		courses = []
+		for item in history:
+			if item.course not in courses:
+				courses.append(item.course)
+				# lol brute force
+	else:
+		courses = Course.objects.all().order_by('department', 'number')
+
 	data = {
+		'mode': sort_by,
 		'courses': courses,
 	}
 	return render(request, 'courses/all.html', data)

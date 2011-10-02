@@ -20,7 +20,7 @@ urlpatterns = patterns('',
 # For viewing courses and the like
 urlpatterns += patterns('views.courses',
     url(r'^courses$', 'index'),
-    url(r'^courses/all$', 'all'),
+    url(r'^courses/all$', 'list_all'),
     url(r'^courses/faculty$', 'faculty_browse'), # for browsing by faculty (i.e. lists all the faculties and their courses)
     url(r'^courses/department$', 'department_browse'), # for browsing by department
     url(r'^courses/semester$', 'semester'),
