@@ -17,6 +17,7 @@
 					<li><strong>Current professor:</strong> Test</li>
 				</ul>
 				<h2>Browse by page type</h2>
+				{% if all_pages %}
 				<div class="row">
 					<div class="span2 columns">
 						<strong>Semesters</strong>
@@ -34,7 +35,11 @@
 						{% endfor %}
 					</div>
 				</div>
+				{% else %}
+				<p>There are no pages associated with this course! Why not try adding some?</p>
+				{% endif %}
 				<h2>Browse by semester</h2>
+				{% if all_pages %}
 				<div class="row">
 					<div class="span2 columns">
 						<strong>Semesters</strong>
@@ -61,6 +66,9 @@
 						{% endif %}
 					</div>
 				</div>
+				{% else %}
+				<p>Still no pages lol</p>
+				{% endif %}
 				{% include "pages/create_popup.html" %}
 			</div>
 			<div class="span4 columns" id="right-bar">
