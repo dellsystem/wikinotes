@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load pagination_tags %}
+
+
+{% block content %}
+{% if not posts %}
+    <p>There are no posts</p>
+    {{ posts }}
+    {% else %}
+    {% autopaginate posts 2 %}
+    {% for post in posts %}
+    <h3>{{ post.header }}</h3>
+    <span><h5>Posted: {{ post.date }}</h5>
+        <h5>Last edited: {{ post.last_edited }}</h5></span>
+    <p>{{ post.post}}</p>
+<span>
+    <form action="/news/delete_post" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="post_pk" value="{{ post.pk }}" />
+        <input type="submit" value="Delete post" />
+    </form>
+    <form action="/news/edit_post" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="post_pk" value="{{ post.pk }}" />
+        <input type="submit" value="edit_post" />
+    </form>
+
+</span>
+    {% endfor %}
+    {% endif%}
+    {% paginate %}
+    <div>
+        <p>{{ error }}</p>
+        <a href="/news/write_post">Write a new post</a>
+    </div>
+    {% endblock content %}
