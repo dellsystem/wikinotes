@@ -6,7 +6,7 @@ from utils import page_types as types
 from django.template import RequestContext
 from wiki.models.pages import Page
 import random as random_module
-
+from wiki.models.history import HistoryItem
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
@@ -82,9 +82,15 @@ def search(request):
 
 def index(request):
 	courses = Course.objects.all()
-	random_courses = random.sample(courses, 5)
+
+	random_courses = random_module.sample(courses, 5)
+	popular_courses = courses.order_by('-watchers')[:5]
+	active_courses = list(set([hist.course for hist in HistoryItem.objects.all().order_by('-timestamp')]))[:5] # lol order doesn't matter who cares about that
+
 	data = {
 		'random_courses': random_courses,
+		'popular_courses': popular_courses,
+		'active_courses': active_courses,
 	}
 	return render(request, 'courses/index.html', data)
 
