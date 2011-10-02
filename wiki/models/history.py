@@ -12,7 +12,4 @@ class HistoryItem(models.Model):
 	message = models.CharField(max_length=255, null=True)
 	course = models.ForeignKey('Course')
 
-	def __cmp__(self, other):
-		return self.timestamp > other.timestamp
-
 # You can create a page, and you can edit a page ... good enough for now
