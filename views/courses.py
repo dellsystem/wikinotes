@@ -82,7 +82,17 @@ def search(request):
 	pass
 
 def index(request):
-	return render(request, 'courses/index.html')
+	number_courses=5
+	courses = Course.objects.all()
+	random_courses=[]
+	while len(random_courses)<min(len(courses), 5):
+		course = random_module.choice(courses)
+		if course not in random_courses:
+			random_courses.append(course)
+	data={
+		'random_courses': random_courses,
+	}
+	return render(request, 'courses/index.html', data)
 
 def all(request):
 	courses = Course.objects.all().order_by('department', 'number')
