@@ -11,3 +11,6 @@ class Faculty(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	def url(self):
+		return "/faculty/%s" % self.slug
