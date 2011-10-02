@@ -133,10 +133,13 @@ def overview(request, department, number):
 
 	# Get all the course semesters related to this course
 	course_sems = CourseSemester.objects.filter(course=course)
+	# Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
+	all_pages = Page.objects.filter(course_sem__course=course)
 	data = {
 		'is_watching': course.has_watcher(request.user),
 		'course': course,
 		'page_types': page_types,
+		'all_pages': all_pages,
 		'this_sem_pages': this_sem_pages,
 		'course_sems': course_sems,
 	}
