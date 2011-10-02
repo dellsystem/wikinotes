@@ -57,8 +57,7 @@ def edit(request, department, number, page_type, term, year, slug):
 		page.edit(request.POST)
 
 		# Add the history item
-		history_item = HistoryItem(page=page, user=request.user, action='edited', message=request.POST['message'], course=course)
-		history_item.save()
+		course.add_event(page=page, user=request.user, action='edited', message=request.POST['message'])
 		return render(request, "pages/success.html", data)
 
 	data = {
@@ -104,8 +103,7 @@ def create(request, department, number, page_type):
 			}
 
 			# Add the history item
-			history_item = HistoryItem(page=new_page, action='created', user=request.user, message=request.POST['message'], course=course)
-			history_item.save()
+			course.add_event(page=new_page, user=request.user, action='created', message=request.POST['message'])
 
 			# Get the keyword arguments from the page type method
 			if new_page:
