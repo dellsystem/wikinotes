@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load gravatar %}
+<div class="container">
+	<section>
+		{% include "courses/header.html" %}
+		<h2>Viewing history :: {{ page }} <small><a href="{{ page.get_url }}">Return to page &raquo;</a></small></h2>
+		<h3>Commit {{ hash }}</h3>
+		<p>{{ commit.author }}</p>
+		<p>{{ commit.message }}</p>
+		<p>{{ commit.stats }}</p>
+		{% for filename, file in commit.files.items %}
+			<h4>{{ filename }}</h4>
+			<pre>{{ file.raw }}</pre>
+		{% endfor %}
+		</p>
+		<h3>Preview</h3>
+		{% for sec, section in sections.iteritems %}
+			<h4>{{ section.title }}</h4>
+			<hr />
+			{% include show_template %}
+		{% endfor %}
+	</section>
+</div>
+{% endblock %}

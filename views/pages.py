@@ -6,6 +6,7 @@ from wiki.models.pages import Page
 from django.http import Http404
 import random as random_module
 from wiki.models.history import HistoryItem
+from django.contrib.auth.models import User
 
 def show(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
@@ -34,6 +35,37 @@ def history(request, department, number, page_type, term, year, slug):
 	}
 	return render(request, "pages/history.html", data)
 
+# View page information for a specific commit
+def commit(request, department, number, page_type, term, year, slug, hash):
+	course = get_object_or_404(Course, department=department, number=int(number))
+	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
+	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+	page_type_obj = types[page_type]
+	commit = Git(page.get_filepath()).get_commit(hash)
+	files = {}
+	for blob in commit.tree:
+		raw = blob.data_stream.read().split('\n')
+		files[blob.name] = {
+			'raw': '\n'.join(raw),
+			'title': raw[0].strip(),
+			'data': page_type_obj.format(raw[3:]),
+		}
+
+	data = {
+		'course': course,
+		'page': page,
+		'hash': hash,
+		'show_template': page_type_obj.get_show_template(),
+		'commit': {
+			'author': User.objects.get(username=commit.author.name),
+			'message': commit.message,
+			'stats': commit.stats.total,
+			'files': files
+		},
+		'sections': files
+	}
+
+	return render(request, "pages/commit.html", data)
 def edit(request, department, number, page_type, term, year, slug):
 	if page_type not in types:
 		raise Http404

@@ -2,7 +2,9 @@ import inspect
 from wiki.models import page_types as types
 import os
 import git
+import gitdb
 import datetime
+from math import log
 
 # A dictionary for reverse lookup of page type by the short name
 # So, given "course-quiz", find the CourseQuiz object etc
@@ -44,13 +46,32 @@ class Git:
 
 		# Make sure something was actually committed - later
 
+	# Pass it the SHA1 hash etc
+	# It's not like we'll ever need to use hash() anyway lol
+	def get_commit(self, hash):
+		repo = git.Repo(self.full_path)
+		hexsha = gitdb.util.hex_to_bin(hash) # have to convert it to hex first or something
+		commit = git.objects.commit.Commit(repo, hexsha)
+		return commit
+
 	def get_history(self):
 		commits = []
 		for commit in git.Repo(self.full_path).iter_commits():
+			num_lines = commit.stats.total['lines']
+			bar_width = int(log(num_lines)) * 20
+			max_width = 100
+			min_width = 20
 			commit_dict = {
 				'date': datetime.datetime.fromtimestamp(commit.committed_date),
-				'message': commit.message,
+				'message': commit.message[:70] + ' ...' if len(commit.message) > 70 else commit.message,
 				'author': commit.author,
+				'lines': num_lines,
+				'url': 'commit/' + commit.hexsha,
+				'undo_url': 'undo/' + commit.hexsha,
+				'insertions': commit.stats.total['insertions'],
+				'deletions': commit.stats.total['deletions'],
+				'bar_width': min(bar_width, max_width) if bar_width > max_width else max(bar_width, min_width), # width in pixels of bar ... based on the number of lines
+				'green_percent': (commit.stats.total['insertions'] * 100) / num_lines, # how much of this commit is insertions - int div
 			}
 			commits.append(commit_dict)
 		return commits
