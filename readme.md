@@ -1,71 +1,58 @@
 ![WikiNotes logo](http://www.wikinotes.ca/logo_new.png)
 
-Instructions for testing and development
-----------------------------------------
+by the WikiNotes team
 
-###Dependencies###
+WikiNotes is a wiki-based note-sharing platform created to facilitate student collaboration. Although it is being created primarily for use by our [existing website for McGill students](http://www.wikinotes.ca), we will be releasing the code under the [GPLv3](http://opensource.org/licenses/GPL-3.0) so that non-McGill students (or anyone, really) can benefit from it as well. This platform is currently under heavy development, but we're hoping to get a beta up and running by early November - stay tuned.
 
-* Python 2.6+ (possibly 2.7+, I can't remember)
+Want to find out more about us? Visit our [about page](http://www.wikinotes.ca/wiki/wikinotes:About), join our IRC channel (#wikinotes on freenode) or drop us a line at admin@wikinotes.ca.
+
+Contributing
+------------
+
+We'd love to have you contribute, whether it be through adding features, filing bug reports, writing tests or whatever takes your fancy. To run it on your local machine, you'll need the following dependencies:
+
+* Python 2.6+ (possibly 2.7+)
 * Django 1.3+
-* pyyaml (`apt-get install python-yaml`)
+* pyyaml (on Debian-based distributions, `apt-get install python-yaml`)
 * python-markdown (`apt-get install python-markdown`), with [this extension](https://github.com/mayoff/python-markdown-mathjax) - download the [mdx_markdown.py](https://raw.github.com/mayoff/python-markdown-mathjax/master/mdx_mathjax.py) file, rename it to mathjax.py, and place it in the extensions directory for your markdown installation. (See the [readme](https://github.com/mayoff/python-markdown-mathjax/blob/master/README.md) for more information.)
 * django-gravatar (`pip install django-gravatar`)
-* GitPython (`easy_install gitpython`) - may be removed later
+* GitPython (`easy_install gitpython`)
+* Git 1.7+ (older versions may work), both for version control and for the wiki software itself
 
-###Setup instructions (IMPORTANT)###
+If you're running it for the first time, take note of the setup instructions:
 
-* Edit the `wikinotes_dir` variable in settings.py to reflect the absolute path of the directory this is stored in.
-* `chmod +x bootstrap; bootstrap` (you should create the superuser at this point if you haven't already done so)
-* `python manage.py runserver`
-* Go to localhost:8000. Or, if you run it on 0.0.0.0:8000 with `python manage.py runserver 0.0.0.0:8000` (or any other port), others can view it on your IP address.
+* `chmod +x bootstrap`
+* `./bootstrap` - create the superuser at this poin (you may also wish to run this if any database schema changes have been made since your last pull)
+* `python manage.py runserver` (by default, this makes the platform accessible at [http://localhost:8000](http://localhost:8000); add `0.0.0.0:8000` if you want to make it publicly accessible through your IP address)
+* To run the unit tests, just do `python manage.py test` (there are quite a few tests to run because of all the dependencies, so this may take a while)
 
-Things that work or sort of work
---------------------------------
+Contributing code is easy - just fork this repository, make your changes, and send us a pull request. To see what needs to be done, check out the [list of outstanding issues](https://github.com/dellsystem/wikinotes/issues) or the roadmap to BETA below. If you notice something else that needs to be done, feel free to [open an issue](https://github.com/dellsystem/wikinotes/issues/new) for it.
 
-* Creating and editing pages (the icons for creating new pages are just filler) - needs to be improved (better error handling and a nicer input format)
-* Browsing all courses (click the Courses menu item), some things on that page (and some linked pages) are just filler though
-* User authentication (you can log in using the superuser and any other users you create)
-* Gravatar
-* Watching a course
-* History, some elements
-* Random pages
+See also our [development wiki](https://github.com/dellsystem/wikinotes/wiki) for things like what style conventions we use, development notes and how the code is organised.
 
-Things that don't really work yet or are in progress (i.e. to-do list)
-------------------------------
+Roadmap to BETA
+---------------
 
-* Professor field
-* Link field
-* About, news, help, contributing and other similar static sections (views have not been made yet)
-* Search
-* Registration (need to merge Clarence's pull request after reviewing it for conflicts etc)
-* Recent changes
-* 404 page
-* UCP (settings etc)
-* Dashboard layout
-* Icons for page types
-* Layouts for editing and presenting page types
-* Reverting/rolling back commits, etc
-* Get all courses and departments lol
-* For all list/table things, check if there is data to show first and include a fallback if there is not
+* Icons for all the departments and faculties, as well as page type icons
+* Improved layout and processing of page editing/creation
+* Better page histories (complete with the ability to revert and diff commits)
+* Some sort of search functionality, even if it is very rudimentary
+* Switch to PostgreSQL (or MySQL if really pressed for time)
+* Content for about/help/etc pages
+* Some sort of blog system for news
+* Create splash page at [http://beta.wikinotes.ca](http://beta.wikinotes.ca) announcing the beta
+* Better dashboard layout
+* Error pages lol
+* Better unit tests (+test fixtures)
+* Registration
+* User control panel
+* Profile pages for users (NOT like Facebook)
 
-Notes to self (i.e. me, not you)
---------------------------------
+To implement in future versions
+-------------------------------
 
-* bugs in twitter bootstrap: margins for modals, and that font-weight or line-height or something that i can't find anymore
-* make the fullscreen option for section-body work (the 100% - n pixels thing, use divs within a div for that)
-* when adding new sections (beyond the initial 10), remember to change the ids, names and <span>n</span>s
-* either the "add another section" button or the preview+save buttons are not centered 
-* delete icon (top right corner) for sections (like the modal dialogue close icons)
-* adding a section should update the number in the num_sections dropdown. actually, lots of bugs in that js, fix that
-* capitalisation of term. it's actually really important
-* tabindex lol
-* how to handle:
-	* multiple "quizzes" (as a past exam type) (or multiple versions of exams)
-	* the whole silly department/subject fiasco
-	* course numbers with letters etc (solution: make it a CharField, max_length=5, and change the regex in urls.py)
-	* form data, needed for the create and edit modes - make it customisable on a PageType level
-	* subclassing the user model?
-* get rid of inline CSS
-* better way of putting js on all course/page-related pages
-* Possible to remove the GitPython dependency and just use the HistoryItems to view the history for a page?
-	* Also, rewrite the Git class using subprocess or something (anything other than `os.system()` ...)
+* Discussion board sort of thing, like WebCT but 1000x better (with searching, editing and no HTML/CSS/Javascript injections, for one) - [OSQA](http://www.osqa.net/) looks promising
+* Easy way to import from other formats - .odt, .doc and .docx (sigh), straight markdown/textile, MediaWiki, etc
+* Improved + more robust search system
+* API for easy access to all data
+* Better design
