@@ -1,13 +1,13 @@
 {% load markup %}
 <ol>
 {% for question in section.data.questions %}
-		<li><p><strong>{{ question.question|markdown }}</strong> <a href="#" id="view-answer-q{{ question.number }}">View answer &raquo;</a></p>
+		<li><p><strong>{{ question.question|markdown:"mathjax" }}</strong> <a href="#" id="view-answer-q{{ question.number }}">View answer &raquo;</a></p>
 			<ol class="multiple-choice">
 				{% for choice in question.choices %}
-					<li id="q{{ question.number }}-choice{{ choice.number }}">{{ choice.text|markdown }}</li>
+					<li id="q{{ question.number }}-choice{{ choice.number }}">{{ choice.text|markdown:"mathjax" }}</li>
 				{% endfor %}
 			</ol>
-			<div id="answer-q{{ question.number }}" class="grey-box">{{ question.answer|markdown }}</div>
+			<div id="answer-q{{ question.number }}" class="grey-box">{{ question.answer|markdown:"mathjax" }}</div>
 		</li>
 {% endfor %}
 </ol>
