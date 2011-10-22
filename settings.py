@@ -1,6 +1,8 @@
 # Django settings for wikinotes project.
 
-wikinotes_dir = '/home/waldo/Projects/wikinotes/' # change this if you want to run it on your own machine
+from os import getcwd
+
+wikinotes_dir = getcwd() + '/' # temp workaround
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
