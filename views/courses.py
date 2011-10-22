@@ -77,9 +77,9 @@ def search(request):
 def index(request):
 	courses = Course.objects.all()
 
-	random_courses = random_module.sample(courses, 5)
-	popular_courses = courses.order_by('-watchers')[:5]
-	active_courses = courses.order_by('-latest_activity__timestamp')[:5]
+	random_courses = random_module.sample(courses, 10)
+	popular_courses = courses.order_by('-watchers')[:10]
+	active_courses = courses.order_by('-latest_activity__timestamp')[:10]
 
 	data = {
 		'random_courses': random_courses,
