@@ -33,20 +33,21 @@ See also our [development wiki](https://github.com/dellsystem/wikinotes/wiki) fo
 Roadmap to BETA
 ---------------
 
-* Icons for all the departments and faculties, as well as page type icons
+* Icons for all the departments and faculties, as well as page type icons (issues [#21](https://github.com/dellsystem/wikinotes/issues/21) and [#6](https://github.com/dellsystem/wikinotes/issues/6))
 * Improved layout and processing of page editing/creation
 * Better page histories (complete with the ability to revert and diff commits)
 * Some sort of search functionality, even if it is very rudimentary
-* Switch to PostgreSQL (or MySQL if really pressed for time)
+* Switch to PostgreSQL (or MySQL if really pressed for time) (issue [#26](https://github.com/dellsystem/wikinotes/issues/26))
 * Content for about/help/etc pages
-* Some sort of blog system for news
+* Some sort of blog system for news (pull request [#22](https://github.com/dellsystem/wikinotes/pull/22))
 * Create splash page at [http://beta.wikinotes.ca](http://beta.wikinotes.ca) announcing the beta
-* Better dashboard layout
-* Error pages lol
-* Better unit tests (+test fixtures)
-* Registration
+* Better dashboard layout (issue [#7](https://github.com/dellsystem/wikinotes/issues/7))
+* Error pages lol (issue [#23](https://github.com/dellsystem/wikinotes/issues/23))
+* Better unit tests (+test fixtures) (issue [#10](https://github.com/dellsystem/wikinotes/issues/10))
+* Registration (pull request [#19](https://github.com/dellsystem/wikinotes/pull/19))
 * User control panel
 * Profile pages for users (NOT like Facebook)
+* Server-side .less file compilation (issue [#25](https://github.com/dellsystem/wikinotes/issues/25))
 
 To implement in future versions
 -------------------------------
