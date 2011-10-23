@@ -31,8 +31,10 @@ def index(request):
 		}
 		return render(request, 'main/dashboard.html', data)
 	else:
+		# Implement this later ... for now just hardcode the course lol
+		featured = Course.objects.get(pk=1)
 		# Show the main page for logged-out users
-		return render(request, 'main/index.html')
+		return render(request, 'main/index.html', locals())
 
 # POSTed to by the login form; should never be accessed by itself
 def login_logout(request):
