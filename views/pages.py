@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
-from utils import Git, page_types as types
+from wiki.utils.git import Git
+from wiki.utils.pages import page_types
 from django.template import RequestContext
 from wiki.models.pages import Page
 from django.http import Http404
@@ -12,7 +13,7 @@ def show(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-	page_type_obj = types[page_type]
+	page_type_obj = page_types[page_type]
 	data = {
 		'course': course,
 		'page': page,
@@ -40,7 +41,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-	page_type_obj = types[page_type]
+	page_type_obj = page_types[page_type]
 	commit = Git(page.get_filepath()).get_commit(hash)
 	files = {}
 	for blob in commit.tree:
@@ -67,13 +68,13 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 
 	return render(request, "pages/commit.html", data)
 def edit(request, department, number, page_type, term, year, slug):
-	if page_type not in types:
+	if page_type not in page_types:
 		raise Http404
 
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-	page_type_obj = types[page_type]
+	page_type_obj = page_types[page_type]
 
 	if request.method == 'POST':
 		# Just do save sections with the data
@@ -108,10 +109,10 @@ def edit(request, department, number, page_type, term, year, slug):
 def create(request, department, number, page_type):
 	course = get_object_or_404(Course, department=department, number=int(number))
 
-	if page_type not in types:
+	if page_type not in page_types:
 		raise Http404
 	else:
-		obj = types[page_type]
+		obj = page_types[page_type]
 		if request.method == 'POST':
 			# Create the page
 			num_sections = request.POST['num_sections']

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
 from wiki.models.faculties import Faculty
 from wiki.models.departments import Department
-from utils import page_types as types
+from wiki.utils.pages import page_types
 from django.template import RequestContext
 from wiki.models.pages import Page
 import random as random_module
@@ -131,11 +131,11 @@ def overview(request, department, number):
 	course = get_object_or_404(Course, department=department, number=int(number))
 
 	# We can't use it directly in the template file, it just won't work
-	page_types = []
-	for name, obj in types.iteritems():
+	types = []
+	for name, obj in page_types.iteritems():
 		# Get all the pages associated with this page type (and this course etc)
 		pages = Page.objects.filter(page_type=name, course_sem__course=course)
-		page_types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'show_template': obj.get_show_template(), 'list_template': obj.get_list_template(), 'pages': pages})
+		types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'show_template': obj.get_show_template(), 'list_template': obj.get_list_template(), 'pages': pages})
 
 	try:
 		this_sem = CourseSemester.objects.get(course=course, term='winter', year='2011')
@@ -150,7 +150,7 @@ def overview(request, department, number):
 	data = {
 		'is_watching': course.has_watcher(request.user),
 		'course': course,
-		'page_types': page_types,
+		'page_types': types,
 		'all_pages': all_pages,
 		'this_sem_pages': this_sem_pages,
 		'course_sems': course_sems,
