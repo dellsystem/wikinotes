@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
-from wiki.utils.git import Git
+from wiki.utils.gitutils import Git
 from wiki.utils.pages import page_types
 from django.template import RequestContext
 from wiki.models.pages import Page

@@ -1,6 +1,6 @@
 from django.db import models
 from wiki.utils.pages import page_types, page_type_choices
-from wiki.utils.git import Git
+from wiki.utils.gitutils import Git
 import os
 
 class Page(models.Model):
