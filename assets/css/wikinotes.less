@@ -113,13 +113,13 @@ section {
 }
 
 #stay-logged-in {
-	text-align: left;
-	display: inline-block;
-}
-
-#login-buttons {
-	float: right;
-	display: inline-block;
+	input {
+		margin-top: -1px; // it's important
+		vertical-align: middle; // important too for some reasoning
+	}
+	span {
+		vertical-align: top; // otherwise the positioning is all off
+	}
 }
 
 #right-bar {
