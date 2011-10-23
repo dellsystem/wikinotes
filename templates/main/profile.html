@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% load gravatar %}
+{% block content %}
+<div class="container">
+	<section>
+		<div class="page-header">
+			<h1>{{ this_user.username }}</h1>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<div class="row">
+					<div class="span2">
+						<img src="{% gravatar_for_user this_user 100 %}">
+					</div>
+					<div class="span10">
+						{% if this_user.first_name %}<p><strong>{{ this_user.first_name }} {{ this_user.last_name }}</strong></p>{% endif %}
+						<p><em>A short, Twitter-like bio. Should not allow markdown.</em></p>
+						<p>Link to website, Twitter handle, Google plus, Facebook profile and whatever else the user chooses to make public</p>
+					</div>
+				</div>
+				<h2>{% if this_user.first_name %}{{ this_user.first_name }}{% else %}{{ this_user.username }}{% endif %}'s courses</h2>
+				<p>Can't easily access this data yet. I may end up rewriting the whole course-watching thing actually.</p>
+				<h2>Recent activity</h2>
+				{% if recent_activity %}
+				<ul class="unstyled">
+					{% for activity in recent_activity %}
+					<li>{{ this_user.username }} {{ activity.action }} {% if activity.page %}<a href="{{ activity.page.get_url }}">{{ activity.page }}</a> for{% endif %} <a href="{{ activity.course.get_url }}">{{ activity.course }}</a></li>
+					{% endfor %}
+				</ul>
+				{% else %}
+				<p>No recent activity.</p>
+				{% endif %}
+			</div>
+			<div class="span4" id="right-bar">
+				<h3>Contributions</h3>
+				<p>Pages {{ this_user.username }} has contributed to</p>
+				<hr />
+				<ul class="unstyled">
+					<li>Some page</li>
+					<li>Another page</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}

@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 	url(r'^recent/all/(?P<num_days>\d+)$', 'views.main.recent', {'show_all': True}), # lol fix this
 	url(r'^faculty/(?P<faculty>\w+)$', 'views.courses.faculty_overview'),
 	url(r'^department/(?P<department>\w{4})$', 'views.courses.department_overview'),
+	url(r'^user/(?P<username>\w+)$', 'views.main.profile'),
 
 	# Registration stuff
 	url(r'^activate/(?P<activation_key>\w+)$', 'registration.views.activate', {'backend': 'registration.backends.default.DefaultBackend'}, name='registration_activate'),

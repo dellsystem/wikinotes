@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
 
@@ -63,3 +64,11 @@ def recent(request, num_days=1, show_all=False):
 		'show_all': show_all
 	}
 	return render(request, 'main/recent.html', data)
+
+def profile(request, username):
+	this_user = User.objects.get(username=username)
+	data = {
+		'this_user': this_user, # can't call it user because the current user is user
+		'recent_activity': HistoryItem.objects.filter(user=this_user),
+	}
+	return render(request, 'main/profile.html', data)
