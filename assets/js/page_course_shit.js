@@ -75,5 +75,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('table').tablesorter({ sortList: [[1,0]] });
+	// Tables are by default sortable, add the nosort class to prevent that
+	// http://tablesorter.com/docs/example-meta-sort-list.html for initial sorting order
+	$('table').not('.nosort').tablesorter();
 });
