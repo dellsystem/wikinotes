@@ -19,6 +19,7 @@ We'd love to have you contribute, whether it be through adding features, filing 
 * GitPython (`easy_install gitpython`)
 * Git 1.7+ (older versions may work), both for version control and for the wiki software itself
 * django-openid-auth (`apt-get install python-django-openid-auth` or `pip install django-openid-auth`)
+* python-openid (`apt-get install python-openid`)
 * django-registration (`apt-get install python-django-registration` or `pip install django-registration)
 
 If you're running it for the first time, take note of the setup instructions:
