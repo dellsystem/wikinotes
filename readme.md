@@ -49,12 +49,13 @@ Roadmap to BETA
 * Better unit tests (+test fixtures) (issue [#10](https://github.com/dellsystem/wikinotes/issues/10))
 * Registration (pull request [#19](https://github.com/dellsystem/wikinotes/pull/19))
 * User control panel
-* Profile pages for users (NOT like Facebook)
+* Profile pages for users (NOT like Facebook) (issue [#27](https://github.com/dellsystem/wikinotes/issues/27))
 * Server-side .less file compilation (issue [#25](https://github.com/dellsystem/wikinotes/issues/25))
 
 To implement in future versions
 -------------------------------
 
+* Moderation system (similar to MediaWiki's patrolling thing maybe) - the details of this are up for discussion
 * Discussion board sort of thing, like WebCT but 1000x better (with searching, editing and no HTML/CSS/Javascript injections, for one) - [OSQA](http://www.osqa.net/) looks promising
 * Easy way to import from other formats - .odt, .doc and .docx (sigh), straight markdown/textile, MediaWiki, etc
 * Improved + more robust search system
