@@ -44,7 +44,7 @@ class Page(models.Model):
 	def get_url(self):
 		course = self.course_sem.course
 		page_type_obj = page_types[self.page_type]
-		return "%s/%s/%s-%s/%s" % (course.url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
+		return "%s/%s/%s-%s/%s" % (course.get_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
 
 	def load_sections(self, page_type_obj):
 		path = self.get_filepath()

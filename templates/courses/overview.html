@@ -72,7 +72,7 @@
 				{% for item in course.recent_activity %}
 					<li>{{ item.user }} {{ item.action }} {% if item.page %}{{ item.page }}{% else %}this course{% endif %}</li>
 				{% endfor %}
-				<li><a href="{{ course.url }}/recent">View all recent changes &raquo;</a></li>
+				<li><a href="{{ course.get_url }}/recent">View all recent changes &raquo;</a></li>
 				{% else %}
 				<li>Nothing has happened recently for this course. Boo.</li>
 				{% endif %}
@@ -87,7 +87,7 @@
 			<div class="span4 columns" id="right-bar">
 				<div class="row" style="margin-bottom: 0px;">
 				{% if user.is_authenticated %}
-				<form method="post" action="{{ course.url }}/watch">
+				<form method="post" action="{{ course.get_url }}/watch">
 				{% csrf_token %}
 				{% endif %}
 					<div class="half-column">

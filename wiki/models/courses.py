@@ -18,7 +18,7 @@ class Course(models.Model):
 	def __unicode__(self):
 		return "%s %d" % (self.department.short_name, self.number)
 
-	def url(self):
+	def get_url(self):
 		return '/%s_%d' % (self.department.short_name, self.number)
 
 	def num_watchers(self):

@@ -14,7 +14,7 @@
 				{% if faculty.courses %}
 					<ul class="unstyled">
 					{% for course in faculty.courses %}
-						<li><a href="{{ course.url }}">{{ course }}</a></li>
+						<li><a href="{{ course.get_url }}">{{ course }}</a></li>
 					{% endfor %}
 					</ul>
 				{% else %}

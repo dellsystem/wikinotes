@@ -22,9 +22,9 @@
 			<tbody>
 				{% for course in courses %}
 				<tr>
-					<td><a href="{{ course.url }}">{{ course }}</a></td>
-					<td><a href="{{ course.department.url }}">{{ course.department.long_name }}</ta></td>
-					<td><a href="{{ course.department.faculty.url }}">{{ course.department.faculty }}</a></td>
+					<td><a href="{{ course.get_url }}">{{ course }}</a></td>
+					<td><a href="{{ course.department.get_url }}">{{ course.department.long_name }}</ta></td>
+					<td><a href="{{ course.department.faculty.get_url }}">{{ course.department.faculty }}</a></td>
 					<td>None</td>
 					<td>{{ course.num_watchers }}</td>
 					<td>{{ course.latest_activity.timestamp|date:"F j Y f" }}</td>

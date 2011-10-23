@@ -19,7 +19,7 @@
 					<div class="row">
 						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user history_item.user 50 %}" /></div>
 						<div class="span11 columns">
-							<p><strong>{{ history_item.user }}</strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_url }}">{{ history_item.page }}</a> for {% endif %} <a href="{{ history_item.course.url }}">{{ history_item.course }}</a> {{ history_item.get_timesince }} ago</p>
+							<p><strong>{{ history_item.user }}</strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_url }}">{{ history_item.page }}</a> for {% endif %} <a href="{{ history_item.course.get_url }}">{{ history_item.course }}</a> {{ history_item.get_timesince }} ago</p>
 							{% if history_item.message %}<p>{{ history_item.message }}</p>{% endif %}
 						</div>
 					</div>
@@ -33,7 +33,7 @@
 					<div class="row">
 						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user user 50 %}" /></div>
 						<div class="span11 columns">
-							<p><strong>{{ user }}</strong> {{ your_action.action }} {% if your_action.page %}<a href="{{ your_action.page.get_url }}">{{ your_ation.page }}</a> for {% endif %} <a href="{{ your_action.course.url }}">{{ your_action.course }}</a> {{ your_action.get_timesince }} ago</p>
+							<p><strong>{{ user }}</strong> {{ your_action.action }} {% if your_action.page %}<a href="{{ your_action.page.get_url }}">{{ your_ation.page }}</a> for {% endif %} <a href="{{ your_action.course.get_url }}">{{ your_action.course }}</a> {{ your_action.get_timesince }} ago</p>
 							{% if your_action.message %}<p>{{ your_action.message }}</p>{% endif %}
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 				{% if watched_courses %}
 				<ul class="unstyled">
 					{% for course in watched_courses %}
-					<li><a href="{{ course.url }}">{{ course }}</a></li>
+					<li><a href="{{ course.get_url }}">{{ course }}</a></li>
 					{% endfor %}
 				</ul>
 				{% else %}

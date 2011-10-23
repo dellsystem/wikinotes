@@ -36,7 +36,7 @@ class PageType:
 		return '/static/img/pages/%s.png' % self.short_name
 
 	def get_create_url(self, course):
-		return '%s/create/%s' % (course.url(), self.short_name)
+		return '%s/create/%s' % (course.get_url(), self.short_name)
 
 	def get_field_templates(self):
 		return ['pages/%s_field.html' % field_type for field_type in self.field_types]

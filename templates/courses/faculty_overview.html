@@ -23,7 +23,7 @@
 		{% if courses %}
 		<ul>
 			{% for course in courses %}
-			<li><a href="{{ course.url }}">{{ course }}</a></li>
+			<li><a href="{{ course.get_url }}">{{ course }}</a></li>
 			{% endfor %}
 		</ul>
 		{% endif %}
