@@ -21,7 +21,7 @@ def index(request):
 				history_items.append(item)
 
 		# Now get things the user has done
-		your_actions = HistoryItem.objects.filter(user=request.user)
+		your_actions = HistoryItem.objects.filter(user=request.user).order_by('-timestamp')
 
 		# Show the user's dashboard
 		data = {
@@ -51,3 +51,13 @@ def login_logout(request):
 
 	# Redirect to the index page etc
 	return index(request)
+
+# Recent changes
+def recent(request, num_days=1, show_all=False):
+	data = {
+		'history': HistoryItem.objects.get_since_x_days(num_days, show_all),
+		'num_days': num_days,
+		'base_url': '/recent/all' if show_all else '/recent', # better way of doing this?
+		'show_all': show_all
+	}
+	return render(request, 'main/recent.html', data)

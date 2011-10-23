@@ -7,6 +7,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', 'views.main.index'),
     url(r'^login$', 'views.main.login_logout'),
+    url(r'^recent$', 'views.main.recent'),
+    url(r'^recent/all$', 'views.main.recent', {'show_all': True}),
+    url(r'^recent/(?P<num_days>\d+)$', 'views.main.recent'),
+    url(r'^recent/all/(?P<num_days>\d+)$', 'views.main.recent', {'show_all': True}), # lol fix this
     url(r'^faculty/(?P<faculty>\w+)$', 'views.courses.faculty_overview'),
     url(r'^department/(?P<department>\w{4})$', 'views.courses.department_overview'),
 
