@@ -34,14 +34,16 @@ urlpatterns += patterns('views.courses',
     url(r'^courses/active$', 'active'),
     url(r'^courses/search$', 'search'),
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'overview'),
+    url(r'^(?P<department>\w{4})_(?P<number>\d{3})/recent$', 'recent'),
     url(r'^(?P<department>\w{4})_(?P<number>\d{3})/watch$', 'watch'),
 )
 
 # For viewing, editing and creating pages
 urlpatterns += patterns('views.pages',
         url(r'^pages/random$', 'random'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>[^/]+)/?$', 'create'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/?$', 'show'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/edit/?$', 'edit'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/history/?$', 'history'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>[^/]+)$', 'create'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)$', 'show'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/edit$', 'edit'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/history$', 'history'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/commit/(?P<hash>[a-z0-9]{1,40})$', 'commit'), # viewing a particular commit etc
 )
