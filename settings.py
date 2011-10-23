@@ -121,14 +121,26 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'wiki',
     'gravatar',
     'django.contrib.markup', # for markdown
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'registration',
+    'django_openid_auth'
 )
+
+ACCOUNT_ACTIVATION_DAYS = 7
+
+AUTHENTICATION_BACKENDS = (
+	'django_openid_auth.auth.OpenIDBackend',
+	'django.contrib.auth.backends.ModelBackend',
+)
+
+OPENID_CREATE_USERS = True
+OPENID_UPDATE_DETAILS_FROM_SREG = True
+
+LOGIN_URL = '/login/openid/'
+LOGIN_REDIRECT_URL = '/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
