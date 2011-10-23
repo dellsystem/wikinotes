@@ -13,10 +13,21 @@
 			<div class="span8">
 				<h3>Otherwise, sign up here!</h3>
 				<div class="rounded-box">
-					<form action="." method="post">{% csrf_token %}
-						{{ form.as_p }}
-						<input type="submit" value="Submit" />
-					</form>
+				<form action="." method="post">{% csrf_token %}
+					<div class="clearfix">
+						{{ form.username }}
+					</div>
+					<div class="clearfix">
+						{{ form.email }}
+					</div>
+					<div class="clearfix">
+						{{ form.password1 }}
+					</div>
+					<div class="clearfix">
+						{{ form.password2 }}
+					</div>
+					<input class="btn success medium" type="submit" value="Submit" />
+				</form>
 				</div>
 			</div>
 		</div>
