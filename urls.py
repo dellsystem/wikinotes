@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.views.generic.simple import direct_to_template
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -14,8 +15,12 @@ urlpatterns = patterns('',
     url(r'^faculty/(?P<faculty>\w+)$', 'views.courses.faculty_overview'),
     url(r'^department/(?P<department>\w{4})$', 'views.courses.department_overview'),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+	# Registration stuff
+	url(r'^activate/(?P<activation_key>\w+)$', 'registration.views.activate', {'backend': 'registration.backends.default.DefaultBackend'}, name='registration_activate'),
+	url(r'^register$', 'registration.views.register', name='registration_register'),
+	url(r'^register/complete$', direct_to_template, {'template': 'registration/registration_complete.html'}, name='registration_complete'),
+	# Uncomment the admin/doc line below to enable admin documentation:
+	# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),

@@ -9,11 +9,13 @@
 		<div class="row">
 			<div class="span8">
 				<h3>Have an account with one of these sites?</h3>
+				<p>Lol</p>
 			</div>
 			<div class="span8">
 				<h3>Otherwise, sign up here!</h3>
 				<div class="rounded-box">
-				<form action="." method="post">{% csrf_token %}
+				<form action="/register/complete" method="post">
+					{% csrf_token %}
 					<div class="clearfix">
 						{{ form.username }}
 					</div>
