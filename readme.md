@@ -48,7 +48,7 @@ Roadmap to BETA
 * Error pages lol (issue [#23](https://github.com/dellsystem/wikinotes/issues/23))
 * Better unit tests (+test fixtures) (issue [#10](https://github.com/dellsystem/wikinotes/issues/10))
 * Registration (pull request [#19](https://github.com/dellsystem/wikinotes/pull/19))
-* User control panel
+* User control panel (issue [#31](https://github.com/dellsystem/wikinotes/issues/31))
 * Profile pages for users (NOT like Facebook) (issue [#27](https://github.com/dellsystem/wikinotes/issues/27))
 * Server-side .less file compilation (issue [#25](https://github.com/dellsystem/wikinotes/issues/25))
 
@@ -60,4 +60,5 @@ To implement in future versions
 * Easy way to import from other formats - .odt, .doc and .docx (sigh), straight markdown/textile, MediaWiki, etc
 * Improved + more robust search system
 * API for easy access to all data
+* Email notifications (issue [#32](https://github.com/dellsystem/wikinotes/issues/32))
 * Better design
