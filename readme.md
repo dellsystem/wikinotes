@@ -40,13 +40,14 @@ Roadmap to BETA
 * Switch to PostgreSQL (or MySQL if really pressed for time) (issue [#26](https://github.com/dellsystem/wikinotes/issues/26))
 * Content for about/help/etc pages
 * Some sort of blog system for news (pull request [#22](https://github.com/dellsystem/wikinotes/pull/22))
-* Create splash page at [http://beta.wikinotes.ca](http://beta.wikinotes.ca) announcing the beta
+* Create splash page at [http://beta.wikinotes.ca](http://beta.wikinotes.ca) announcing the beta (issue [#34](https://github.com/dellsystem/wikinotes/issues/34))
 * Better dashboard layout (issue [#7](https://github.com/dellsystem/wikinotes/issues/7))
 * Error pages lol (issue [#23](https://github.com/dellsystem/wikinotes/issues/23))
 * Better unit tests (+test fixtures) (issue [#10](https://github.com/dellsystem/wikinotes/issues/10))
 * User control panel (issue [#31](https://github.com/dellsystem/wikinotes/issues/31))
 * Profile pages for users (NOT like Facebook) (issue [#27](https://github.com/dellsystem/wikinotes/issues/27))
 * Server-side .less file compilation (issue [#25](https://github.com/dellsystem/wikinotes/issues/25))
+* Update twitter bootstrap (issue [#36](https://github.com/dellsystem/wikinotes/issues/36))
 
 To implement in future versions
 -------------------------------
