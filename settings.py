@@ -127,19 +127,6 @@ INSTALLED_APPS = (
     'django.contrib.markup', # for markdown
 )
 
-ACCOUNT_ACTIVATION_DAYS = 7
-
-AUTHENTICATION_BACKENDS = (
-	'django_openid_auth.auth.OpenIDBackend',
-	'django.contrib.auth.backends.ModelBackend',
-)
-
-OPENID_CREATE_USERS = True
-OPENID_UPDATE_DETAILS_FROM_SREG = True
-
-LOGIN_URL = '/login/openid/'
-LOGIN_REDIRECT_URL = '/'
-
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.
