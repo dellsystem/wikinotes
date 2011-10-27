@@ -73,8 +73,8 @@
 			<a href="/"><img src="/static/img/logo.png" alt="wikinotes"></a>
 	 		<div id="login-bar">
 				<form method="post" action="/login">
-				{% if not user.is_authenticated %}
 				{% csrf_token %}
+				{% if not user.is_authenticated %}
 			 	<p>
 					<input class="medium" type="text" placeholder="Username" name="username" />
 					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
