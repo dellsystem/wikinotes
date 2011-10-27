@@ -125,8 +125,6 @@ INSTALLED_APPS = (
     'wiki',
     'gravatar',
     'django.contrib.markup', # for markdown
-    'registration',
-    'django_openid_auth'
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7

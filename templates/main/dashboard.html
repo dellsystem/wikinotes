@@ -12,6 +12,11 @@
 	<section>
 		<div class="row">
 			<div class="span12 columns">
+				{% if show_welcome %}
+				<div class="alert-message block-message">
+					<p>Welcome to WikiNotes! Need some sort of introductory text here.</p>
+				</div>
+				{% endif %}
 				<h1>Your dashboard</h1>
 				<h3>Recent activity</h3>
 				{% if history_items %}

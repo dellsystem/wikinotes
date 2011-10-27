@@ -1,5 +1,0 @@
-this is a test
-
-click here to go to a happy place:
-
-http://localhost:8000/activate/{{activation_key}}

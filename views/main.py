@@ -3,8 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
+from wiki.utils.users import validate_username
 
-def index(request):
+# welcome is only set to true when called from register()
+# Triggers the display of some sort of welcome message
+def index(request, show_welcome=False):
 	if request.user.is_authenticated():
 		# Get the courses the user is watching
 		courses = Course.objects.all()
@@ -29,6 +32,7 @@ def index(request):
 			'watched_courses': watched_courses,
 			'your_actions': your_actions,
 			'history_items': history_items[::-1],
+			'show_welcome': show_welcome,
 		}
 		return render(request, 'main/dashboard.html', data)
 	else:
@@ -72,3 +76,60 @@ def profile(request, username):
 		'recent_activity': HistoryItem.objects.filter(user=this_user),
 	}
 	return render(request, 'main/profile.html', data)
+
+def register(request):
+	# If the user is already logged in, go to the dashboard page
+	if request.user.is_authenticated():
+		return index(request)
+	else:
+		if request.POST and 'register' in request.POST:
+			# Make sure everything checks out ...
+
+			errors = []
+			username = request.POST['username']
+			email = request.POST['email'] # this can be blank. it's okay.
+			password = request.POST['password']
+			password_confirm = request.POST['password_confirm']
+			university = request.POST['university'].lower()
+
+			# Now check all the possible errors
+			if university != 'mcgill' and university != 'mcgill university':
+				errors.append("Anti-spam question wrong! Please enter the university WikiNotes was made for.")
+
+			if username == '':
+				errors.append("You didn't fill in your username!")
+
+			if len(password) < 6:
+				errors.append("Your password is too short. Please keep it to at least 6 characters.")
+
+			if password_confirm != password:
+				errors.append("Passwords don't match!")
+
+			# First check if the username is valid (might migrate to using the form from django.contrib.auth later)
+			# Only allow alphanumeric chars for now, can change later
+			if username and not validate_username(username):
+				errors.append("Please only use alphanumeric characters and the underscore for your username.")
+
+			# Now check if the username is already being used
+			if User.objects.filter(username=username).count() > 0:
+				errors.append("This username is already in use! Please find a new one.")
+
+			data = {
+				'errors': errors,
+				'username': username,
+				'email': email,
+				'password': password,
+				'university': university # so if there's an unrelated error user doesn't have to enter it again
+			}
+
+			if errors:
+				return render(request, 'main/registration.html', data)
+			else:
+				# If the registration proceeded without errors
+				# Create the user, then log the user in
+				User.objects.create_user(username, email, password)
+				new_user = authenticate(username=username, password=password)
+				login(request, new_user)
+				return index(request, show_welcome=True)
+		else:
+			return render(request, 'main/registration.html')

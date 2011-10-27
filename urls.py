@@ -17,11 +17,7 @@ urlpatterns = patterns('',
 	url(r'^user/(?P<username>\w+)$', 'views.main.profile'),
 
 	# Registration stuff
-	url(r'^activate/(?P<activation_key>\w+)$', 'registration.views.activate', {'backend': 'registration.backends.default.DefaultBackend'}, name='registration_activate'),
-	url(r'^register$', 'registration.views.register', name='registration_register'),
-	url(r'^register/complete$', direct_to_template, {'template': 'registration/registration_complete.html'}, name='registration_complete'),
-	# Uncomment the admin/doc line below to enable admin documentation:
-	# url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+	url(r'^register$', 'views.main.register'),
 
 	# Uncomment the next line to enable the admin:
 	url(r'^admin/', include(admin.site.urls)),

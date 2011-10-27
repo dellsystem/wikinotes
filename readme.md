@@ -18,9 +18,6 @@ We'd love to have you contribute, whether it be through adding features, filing 
 * django-gravatar (`pip install django-gravatar`)
 * GitPython (`easy_install gitpython`)
 * Git 1.7+ (older versions may work), both for version control and for the wiki software itself
-* django-openid-auth (`apt-get install python-django-openid-auth` or `pip install django-openid-auth`)
-* python-openid (`apt-get install python-openid`)
-* django-registration (`apt-get install python-django-registration` or `pip install django-registration`)
 
 If you're running it for the first time, take note of the setup instructions:
 
@@ -47,7 +44,6 @@ Roadmap to BETA
 * Better dashboard layout (issue [#7](https://github.com/dellsystem/wikinotes/issues/7))
 * Error pages lol (issue [#23](https://github.com/dellsystem/wikinotes/issues/23))
 * Better unit tests (+test fixtures) (issue [#10](https://github.com/dellsystem/wikinotes/issues/10))
-* Registration (pull request [#19](https://github.com/dellsystem/wikinotes/pull/19))
 * User control panel (issue [#31](https://github.com/dellsystem/wikinotes/issues/31))
 * Profile pages for users (NOT like Facebook) (issue [#27](https://github.com/dellsystem/wikinotes/issues/27))
 * Server-side .less file compilation (issue [#25](https://github.com/dellsystem/wikinotes/issues/25))
