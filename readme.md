@@ -47,7 +47,6 @@ Roadmap to BETA
 * User control panel (issue [#31](https://github.com/dellsystem/wikinotes/issues/31))
 * Profile pages for users (NOT like Facebook) (issue [#27](https://github.com/dellsystem/wikinotes/issues/27))
 * Server-side .less file compilation (issue [#25](https://github.com/dellsystem/wikinotes/issues/25))
-* Update twitter bootstrap (issue [#36](https://github.com/dellsystem/wikinotes/issues/36))
 
 To implement in future versions
 -------------------------------
