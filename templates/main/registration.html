@@ -8,21 +8,20 @@
 		</div>
 		<div class="row">
 			<div class="span8">
-				<div class="rounded-box">
+				{% if errors %}
+				<div class="alert-message block-message error">
+				<!-- looks silly at the moment ... see issue #36 -->
+				<p><strong>Something went wrong! Please fix the errors and try again.</strong></p>
+				<ul>
+					{% for error in errors %}
+					<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+				</div>
+				{% endif %}
 				<form action="/register" method="post">
 					<fieldset>
 						{% csrf_token %}
-						{% if errors %}
-						<div class="alert-message block-message error">
-						<!-- looks silly at the moment ... see issue #36 -->
-						<strong>Something went wrong! Please fix the errors and try again.</strong>
-						<ul>
-							{% for error in errors %}
-							<li>{{ error }}</li>
-							{% endfor %}
-						</ul>
-						</div>
-						{% endif %}
 						<div class="clearfix">
 							<label>Username:</label>
 							<div class="input">
@@ -60,7 +59,6 @@
 						</div>
 					</fieldset>
 				</form>
-				</div>
 			</div>
 			<div class="span8">
 				<h3>Why register?</h3>
