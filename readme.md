@@ -22,7 +22,7 @@ We'd love to have you contribute, whether it be through adding features, filing 
 If you're running it for the first time, take note of the setup instructions:
 
 * `chmod +x bootstrap`
-* `./bootstrap` - create the superuser at this point (you may also wish to run this if any database schema changes have been made since your last pull)
+* `./bootstrap` - create the superuser at this point (you may also wish to run this if any database schema changes have been made since your last pull. if that doesn't fix things, delete the db.sqlite file and try again)
 * `python manage.py runserver` (by default, this makes the platform accessible at [http://localhost:8000](http://localhost:8000); add `0.0.0.0:8000` if you want to make it publicly accessible through your IP address)
 * To run the unit tests, just do `python manage.py test` (there are quite a few tests to run because of all the dependencies, so this may take a while)
 
