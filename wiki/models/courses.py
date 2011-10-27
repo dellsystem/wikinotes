@@ -14,15 +14,13 @@ class Course(models.Model):
 	watchers = models.ManyToManyField(User)
 	# The latest_activity field makes it easier to sort and stuff ... not strictly necessary
 	latest_activity = models.ForeignKey('HistoryItem', related_name='latest_course', null=True) # stupid but won't validate without it
+	num_watchers = models.IntegerField(default=0) # caches it basically
 
 	def __unicode__(self):
 		return "%s %d" % (self.department.short_name, self.number)
 
 	def get_url(self):
 		return '/%s_%d' % (self.department.short_name, self.number)
-
-	def num_watchers(self):
-		return len(self.watchers.all())
 
 	def num_pages(self):
 		count = 0
@@ -31,20 +29,6 @@ class Course(models.Model):
 			num_pages = sem.page_set.count()
 			count += num_pages
 		return count
-
-	"""
-		NOTE: The following methods are temporary methods. They should really be instance methods on the user, not on the course. But that will have to wait until I figure out the best way to easily extend the user model while still having access to it through request.user
-	"""
-	def has_watcher(self, user):
-		return (user in self.watchers.all())
-
-	def add_watcher(self, user):
-		self.watchers.add(user)
-		self.add_event(user, action='started watching')
-
-	def remove_watcher(self, user):
-		self.watchers.remove(user)
-		# Don't need to an event for this lol
 
 	# Use this for adding an event to a course
 	def add_event(self, user=None, action=None, page=None, message=''):

@@ -16,11 +16,17 @@
 					<div class="span10">
 						{% if this_user.first_name %}<p><strong>{{ this_user.first_name }} {{ this_user.last_name }}</strong></p>{% endif %}
 						<p><em>A short, Twitter-like bio. Should not allow markdown.</em></p>
-						<p>Link to website, Twitter handle, Google plus, Facebook profile and whatever else the user chooses to make public</p>
+						<p>Link to website, Twitter handle, Google plus, Facebook profile and whatever else the user chooses to make public {{ this_user.get_profile.twitter }}</p>
 					</div>
 				</div>
 				<h2>{% if this_user.first_name %}{{ this_user.first_name }}{% else %}{{ this_user.username }}{% endif %}'s courses</h2>
-				<p>Can't easily access this data yet. I may end up rewriting the whole course-watching thing actually.</p>
+				{% if this_user.get_profile.courses.count %}
+				<ul class="unstyled">
+					{% for course in this_user.get_profile.courses.all %}
+					<li><a href="{{ course.get_url }}">{{ course }}</a></li>
+					{% endfor %}
+				</ul>
+				{% endif %}
 				<h2>Recent activity</h2>
 				{% if recent_activity %}
 				<ul class="unstyled">

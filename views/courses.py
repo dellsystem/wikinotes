@@ -96,7 +96,7 @@ def active(request):
 
 def list_all(request, sort_by=''):
 	if sort_by == 'popularity':
-		courses = Course.objects.all().order_by('-watchers')[:5]
+		courses = Course.objects.all().order_by('-num_watchers')[:5]
 	elif sort_by == 'activity':
 		history = HistoryItem.objects.all().order_by('-timestamp')
 		courses = []
@@ -117,13 +117,13 @@ def watch(request, department, number):
 	course = get_object_or_404(Course, department=department, number=int(number))
 
 	if request.method == 'POST' and request.user.is_authenticated():
+		user = request.user.get_profile()
 		# If the user is already watching it, unwatch
-		if course.has_watcher(request.user):
-			# These really should be methods on the user but attempts to extend the user model are not working at the moment
-			course.remove_watcher(request.user)
+		if user.is_watching(course):
+			user.stop_watching(course)
 		else:
 			# Else, watch
-			course.add_watcher(request.user)
+			user.start_watching(course)
 
 	return overview(request, department, number)
 
@@ -148,7 +148,7 @@ def overview(request, department, number):
 	# Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
 	all_pages = Page.objects.filter(course_sem__course=course)
 	data = {
-		'is_watching': course.has_watcher(request.user),
+		'is_watching': request.user.get_profile().is_watching(course) if request.user.is_authenticated() else False,
 		'course': course,
 		'page_types': types,
 		'all_pages': all_pages,

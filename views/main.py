@@ -9,23 +9,14 @@ from wiki.utils.users import validate_username
 # Triggers the display of some sort of welcome message
 def index(request, show_welcome=False):
 	if request.user.is_authenticated():
-		# Get the courses the user is watching
-		courses = Course.objects.all()
-		watched_courses = []
-		history_items = []
-		# Oh god terrible find a way to use querysets to do this
-		for course in courses:
-			if course.has_watcher(request.user):
-				watched_courses.append(course)
-		# Get all the history items whose courses the user is watchin
-		items = HistoryItem.objects.all()
-		# omg
-		for item in items:
-			if request.user in item.course.watchers.all():
-				history_items.append(item)
+		user = request.user.get_profile()
+		watched_courses = user.courses.all()
+
+		# First get things done to courses user is watching (exclude self actions)
+		history_items = HistoryItem.objects.filter(course__in=watched_courses).exclude(user=request.user)
 
 		# Now get things the user has done
-		your_actions = HistoryItem.objects.filter(user=request.user).order_by('-timestamp')
+		your_actions = HistoryItem.objects.filter(user=user).order_by('-timestamp')
 
 		# Show the user's dashboard
 		data = {
