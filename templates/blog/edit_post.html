@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+          <form action="/news/edit_post" method="POST">
+          {% csrf_token %}
+              {{ formset.management_form }}
+                    {% for form in formset %}
+                    {{ form.as_ul }}
+              {% endfor %}
+          <div class=”form_container”><input type="submit" value="Submit" /></div>
+        </form>
+{% endblock content %}

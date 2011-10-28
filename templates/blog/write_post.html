@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+          <form action="/news/register_post" method="POST">
+          {% csrf_token %}
+          <div class=”form_container”><label for="title">Title:  </label><input id="title" type=”text” name="title" value="{{ header }}"/></div>
+          <div class=”form_container”><label for="post">The post: </label><textarea name="post" rows="10" cols="180"">{{ post }}</textarea></div>
+          <div class=”form_container”><input type="submit" value="Submit" /></div>
+        </form>
+{% endblock content %}

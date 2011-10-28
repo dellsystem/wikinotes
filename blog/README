@@ -1,0 +1,10 @@
+To make this work you need to link pagination to your SITE PACKAGES
+
+You can do so with the following command:
+
+sudo ln -s 'pwd'/blog/django-pagination-1.0.5/pagination PATH_TO_SITE_PACKAGES/pagination
+
+In my case that is:
+sudo ln -s 'pwd'/blog/django-pagination-1.0.5/pagination /usr/lib/python2.7/dist-packages/pagination
+
+
