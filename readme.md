@@ -26,35 +26,6 @@ If you're running it for the first time, take note of the setup instructions:
 * `python manage.py runserver` (by default, this makes the platform accessible at [http://localhost:8000](http://localhost:8000); add `0.0.0.0:8000` if you want to make it publicly accessible through your IP address)
 * To run the unit tests, just do `python manage.py test` (there are quite a few tests to run because of all the dependencies, so this may take a while)
 
-Contributing code is easy - just fork this repository, make your changes, and send us a pull request. To see what needs to be done, check out the [list of outstanding issues](https://github.com/dellsystem/wikinotes/issues) or the roadmap to BETA below. If you notice something else that needs to be done, feel free to [open an issue](https://github.com/dellsystem/wikinotes/issues/new) for it.
+Contributing code is easy - just fork this repository, make your changes, and send us a pull request. To see what needs to be done, check out the [list of outstanding issues](https://github.com/dellsystem/wikinotes/issues) or the [roadmap to BETA](https://github.com/dellsystem/wikinotes/issues/48). If you notice something else that needs to be done, feel free to [open an issue](https://github.com/dellsystem/wikinotes/issues/new) for it.
 
 See also our [development wiki](https://github.com/dellsystem/wikinotes/wiki) for things like what style conventions we use, development notes and how the code is organised.
-
-Roadmap to BETA
----------------
-
-* Icons for all the departments and faculties, as well as page type icons (issues [#21](https://github.com/dellsystem/wikinotes/issues/21) and [#6](https://github.com/dellsystem/wikinotes/issues/6))
-* Improved layout and processing of page editing/creation
-* Better page histories (complete with the ability to revert and diff commits)
-* Some sort of search functionality, even if it is very rudimentary
-* Switch to PostgreSQL (or MySQL if really pressed for time) (issue [#26](https://github.com/dellsystem/wikinotes/issues/26))
-* Content for about/help/etc pages
-* Some sort of blog system for news (pull request [#22](https://github.com/dellsystem/wikinotes/pull/22))
-* Create splash page at [http://beta.wikinotes.ca](http://beta.wikinotes.ca) announcing the beta (issue [#34](https://github.com/dellsystem/wikinotes/issues/34))
-* Better dashboard layout (issue [#7](https://github.com/dellsystem/wikinotes/issues/7))
-* Error pages lol (issue [#23](https://github.com/dellsystem/wikinotes/issues/23))
-* Better unit tests (+test fixtures) (issue [#10](https://github.com/dellsystem/wikinotes/issues/10))
-* User control panel (issue [#31](https://github.com/dellsystem/wikinotes/issues/31))
-* Profile pages for users (NOT like Facebook) (issue [#27](https://github.com/dellsystem/wikinotes/issues/27))
-* Server-side .less file compilation (issue [#25](https://github.com/dellsystem/wikinotes/issues/25))
-
-To implement in future versions
--------------------------------
-
-* Moderation system (similar to MediaWiki's patrolling thing maybe) - the details of this are up for discussion
-* Discussion board sort of thing, like WebCT but 1000x better (with searching, editing and no HTML/CSS/Javascript injections, for one) - [OSQA](http://www.osqa.net/) looks promising
-* Easy way to import from other formats - .odt, .doc and .docx (sigh), straight markdown/textile, MediaWiki, etc
-* Improved + more robust search system
-* API for easy access to all data
-* Email notifications (issue [#32](https://github.com/dellsystem/wikinotes/issues/32))
-* Better design
