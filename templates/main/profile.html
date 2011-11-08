@@ -8,24 +8,37 @@
 			<h1>{{ this_user.username }}</h1>
 		</div>
 		<div class="row">
-			<div class="span12">
+			<div class="span11">
 				<div class="row">
 					<div class="span2">
 						<img src="{% gravatar_for_user this_user 100 %}">
 					</div>
-					<div class="span10">
+					<div class="span9">
 						{% if this_user.first_name %}<p><strong>{{ this_user.first_name }} {{ this_user.last_name }}</strong></p>{% endif %}
-						<p><em>A short, Twitter-like bio. Should not allow markdown.</em></p>
-						<p>Link to website, Twitter handle, Google plus, Facebook profile and whatever else the user chooses to make public {{ this_user.get_profile.twitter }}</p>
+						<p>{% if profile.bio %}<em>{{ profile.bio|escape }}</em>{% else %}Just another user without a bio{% endif %}</p>
+						<div class="row">
+							<div class="span5">
+								<ul class="unstyled">
+									<li>Major: {{ profile.major|escape|default:"Unspecified" }}</li>
+									<li>Website: {{ profile.website|urlize|default:"None" }}</li>
+									<li>Joined: {{ this_user.date_joined }}</li>
+								</ul>
+							</div>
+							<div class="span4 social-buttons">
+								<p>{% if profile.twitter %}<a href="http://www.twitter.com/#!/{{ profile.twitter|urlencode }}" title="Follow @{{ profile.twitter|escape }} on Twitter"><img src="/static/img/twitter.png" alt="Twitter" /></a>{% endif %} {% if profile.facebook %}<a href="http://www.facebook.com/{{ profile.facebook|urlencode }}" title="Find {{ profile.facebook|escape }} on Facebook"><img src="/static/img/facebook.png" alt="Facebook" /></a>{% endif %} {% if profile.gplus %}<a href="https://plus.google.com/{{ profile.gplus|urlencode }}" title="Find {{ this_user.username }} on Google Plus"><img src="/static/img/gplus.png" alt="Google Plus" /></a>{% endif %} {% if profile.github %}<a href="https://www.github.com/{{ profile.github|urlencode }}" title="Follow {{ profile.github|escape }} on Github"><img src="/static/img/github.png" alt="Github" /></a>{% endif %} {% if profile.show_email and user.is_authenticated %}<a href="mailto:{{ this_user.email|escape }}"><img src="/static/img/email.png" alt="Email {{ this_user.email|escape }}" /></a>{% endif %}</p>
+							</div>
+						</div>
 					</div>
 				</div>
 				<h2>{% if this_user.first_name %}{{ this_user.first_name }}{% else %}{{ this_user.username }}{% endif %}'s courses</h2>
-				{% if this_user.get_profile.courses.count %}
+				{% if profile.courses.count %}
 				<ul class="unstyled">
-					{% for course in this_user.get_profile.courses.all %}
+					{% for course in profile.courses.all %}
 					<li><a href="{{ course.get_url }}">{{ course }}</a></li>
 					{% endfor %}
 				</ul>
+				{% else %}
+				<p>{{ this_user.username }} isn't watching any courses.</p>
 				{% endif %}
 				<h2>Recent activity</h2>
 				{% if recent_activity %}
@@ -38,14 +51,19 @@
 				<p>No recent activity.</p>
 				{% endif %}
 			</div>
-			<div class="span4" id="right-bar">
+			<div class="span5" id="right-bar2">
 				<h3>Contributions</h3>
 				<p>Pages {{ this_user.username }} has contributed to</p>
 				<hr />
-				<ul class="unstyled">
-					<li>Some page</li>
-					<li>Another page</li>
+				{% if user_pages %}
+				<ul>
+					{% for page in user_pages %}
+					<li><a href="{{ page.get_url }}">{{ page.course_sem.course }} {{ page }}</a></li>
+					{% endfor %}
 				</ul>
+				{% else %}
+				<p>{{ this_user.username }} hasn't contributed to any pages.</p>
+				{% endif %}
 			</div>
 		</div>
 	</section>

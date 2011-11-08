@@ -10,7 +10,12 @@ class UserProfile(models.Model):
 	twitter = models.CharField(max_length=15) # max length of a twitter username
 	courses = models.ManyToManyField('Course')
 	website = models.CharField(max_length=255)
+	bio = models.CharField(max_length=300)
 	facebook = models.CharField(max_length=72) # apparently that's the limit
+	github = models.CharField(max_length=30) # no idea
+	gplus = models.CharField(max_length=21) # i think, all numbers but char just in case
+	major = models.CharField(max_length=100)
+	show_email = models.BooleanField(default=False)
 
 	def start_watching(self, course):
 		self.courses.add(course)

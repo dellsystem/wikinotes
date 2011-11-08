@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
 from wiki.utils.users import validate_username
+from wiki.models.pages import Page
 
 # welcome is only set to true when called from register()
 # Triggers the display of some sort of welcome message
@@ -64,7 +65,9 @@ def profile(request, username):
 	this_user = User.objects.get(username=username)
 	data = {
 		'this_user': this_user, # can't call it user because the current user is user
+		'profile': this_user.get_profile(),
 		'recent_activity': HistoryItem.objects.filter(user=this_user),
+		'user_pages': Page.objects.filter(historyitem__user=this_user),
 	}
 	return render(request, 'main/profile.html', data)
 
