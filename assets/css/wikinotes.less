@@ -3,6 +3,7 @@
 @import "mixins.less";
 
 /* Sticky footer stuff */
+
 @footer-height: 80px;
 
 html, body {
@@ -11,7 +12,7 @@ html, body {
 
 #wrap {
 	min-height: 100%;
-	padding-bottom: 40px; // Space between the content and the footer etc
+	//padding-bottom: 40px; // Space between the content and the footer etc
 }
 
 #main {
@@ -63,13 +64,15 @@ section {
 }
 
 #header {
-	#gradient > .vertical(@blue+#222, @blue);
+	//background-image: url(/static/img/header.png);
+	//background-position: 0px 40px;
+	#gradient > .vertical(@white, #DBF0F4);
 	color: #FFF;
 	padding-top: 40px;
 	
 	div.inner {
 		padding: 30px 0;
-		.box-shadow(inset 0 10px 30px rgba(0, 0, 0, 0.3));
+		//.box-shadow(inset 0 10px 30px rgba(0, 0, 0, 0.3));
 	}
 
 	a, label { color: #FFF; font-weight: bold; }
@@ -139,6 +142,11 @@ section {
 	}
 }
 
+#right-bar2 {
+	#right-bar;
+	width: 250px;
+}
+
 .course-icon {
 	width: 100px;
 	display: inline-block;
@@ -187,4 +195,9 @@ ol.multiple-choice {
 
 table img {
 	vertical-align: middle; /* can't tell if this looks better or not */
+}
+
+.social-buttons img {
+	height: 36px;
+	width: 36px;
 }
