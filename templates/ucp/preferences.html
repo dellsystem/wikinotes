@@ -1,0 +1,31 @@
+<div class="row">
+	<div class="span12">
+		<form method="post" action="">
+			<fieldset>
+				{% csrf_token %}
+				<legend>Edit site preferences</legend>
+				{% if success %}
+				<div class="clearfix">
+					<div class="input">
+						<div class="alert-message block-message success">
+							<p>Successfully updated site preferences.</p>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				<div class="clearfix">
+					<label>Show email:</label>
+					<div class="input">
+						<input type="radio" name="show_email" value="0"{% if not user.get_profile.show_email %} checked="checked"{% endif %} /> No <input type="radio" name="show_email" value="1"{% if user.get_profile.show_email %} checked="checked"{% endif %} /> Yes 
+					</div>
+				</div>
+				<div class="actions">
+					<input type="submit" class="btn primary" name="submit" value="Submit">&nbsp;<button type="reset" class="btn">Reset</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<div class="span4">
+		<p>Configure if you want logged-in users to be able to see your email I guess. That's all I have for now.</p>
+	</div>
+</div>

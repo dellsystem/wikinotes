@@ -127,3 +127,37 @@ def register(request):
 				return index(request, show_welcome=True)
 		else:
 			return render(request, 'main/registration.html')
+
+def ucp(request, mode):
+	# Need a better way of dealing with logged-out users
+	modes = ['overview', 'account', 'profile', 'preferences']
+	if mode == '' or mode not in modes:
+		mode = 'overview'
+	if request.user.is_authenticated():
+		user = request.user
+		user_profile = user.get_profile()
+		data = {
+			'mode': mode,
+			'modes': modes,
+			'template': 'ucp/' + mode + '.html',
+			'success': False,
+		}
+
+		# Now check if a request has been submitted
+		if request.POST:
+			data['success'] = True
+			if mode == 'preferences':
+				user_profile.show_email = request.POST['show_email'] == '1'
+			if mode == 'profile':
+				user_profile.bio = request.POST['ucp_bio']
+				user_profile.website = request.POST['ucp_website']
+				user_profile.twitter = request.POST['ucp_twitter']
+				user_profile.github = request.POST['ucp_github']
+				user_profile.facebook = request.POST['ucp_facebook']
+				user_profile.gplus = request.POST['ucp_gplus']
+				user_profile.major = request.POST['ucp_major']
+			user_profile.save()
+
+		return render(request, 'main/ucp.html', data)
+	else:
+		return index(request)

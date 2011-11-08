@@ -87,7 +87,7 @@
 					<input type="checkbox" /><span> Stay logged in</span>
 				</div>
 				{% else %}
-				<div style="float: right;"><p><a href="" class="btn info" style="font-weight: normal;">Settings</a>{% if user.is_staff %} <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
+				<div style="float: right;"><p><a href="/ucp" class="btn info" style="font-weight: normal;">User control panel</a>{% if user.is_staff %} <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
 				{% load gravatar %}
 				<div style="float: left; margin-right: 10px;"><a href="{{ user.get_profile.get_url }}"><img src="{% gravatar_for_user user 70 %}" alt="Your Gravatar" /></a></div>
 				{% endif %}
