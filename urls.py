@@ -7,6 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^$', 'views.main.index'),
+	url(r'^about$', 'views.about.index'),
 	url(r'^login$', 'views.main.login_logout'),
 	url(r'^recent$', 'views.main.recent'),
 	url(r'^recent/all$', 'views.main.recent', {'show_all': True}),
