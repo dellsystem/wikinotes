@@ -20,9 +20,12 @@ def faculty_overview(request, faculty):
 def department_overview(request, department):
 	dept = get_object_or_404(Department, short_name=department)
 	courses = Course.objects.all().filter(department=dept).order_by('department__short_name', 'number')
+	# Figure out the number of pages associated with courses in this department
+	num_pages = Page.objects.filter(course_sem__course__department=dept).count()
 	data = {
 		'dept': dept,
 		'courses': courses,
+		'num_pages': num_pages
 	}
 	return render(request, 'courses/department_overview.html', data)
 
