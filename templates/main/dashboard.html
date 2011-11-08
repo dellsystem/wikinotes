@@ -18,7 +18,7 @@
 				</div>
 				{% endif %}
 				<h1>Your dashboard</h1>
-				<h3>Recent activity</h3>
+				<h2>Recent activity</h2>
 				{% if history_items %}
 				{% for history_item in history_items %}
 					<div class="row">
@@ -32,7 +32,7 @@
 				{% else %}
 				<p>{% if user.get_profile.courses.count %}There has been no recent activity on any of your courses! Start watching some more?{% else %}You are not watching any courses!{% endif %} You can find several ways to browse for courses <a href="/courses">here</a>.</p>
 				{% endif %}
-				<h3>Your actions</h3>
+				<h2>Your actions</h2>
 				{% if your_actions %}
 				{% for your_action in your_actions %}
 					<div class="row">
