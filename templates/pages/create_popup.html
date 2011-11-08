@@ -6,8 +6,8 @@
 			<div class="center-align">
 				{% for page_type in page_types %}
 				<div style="display: inline-block; width: 70px; vertical-align: top;">
-					<p><a href="{{ page_type.get_url }}" title="{{ page_type.desc }}"><img src="{{ page_type.icon }}" alt="{{ page_type.name }}" /></a></p>
-					<p><a href="{{ page_type.get_url }}" title="{{ page_type.desc }}">{{ page_type.long_name }}</a></p>
+					<p><a href="{{ page_type.url }}" title="{{ page_type.desc }}"><img src="{{ page_type.icon }}" alt="{{ page_type.name }}" /></a></p>
+					<p><a href="{{ page_type.url }}" title="{{ page_type.desc }}">{{ page_type.long_name }}</a></p>
 				</div>
 				{% endfor %}
 			</div>
