@@ -31,7 +31,7 @@
 - fields: {faculty: 3, long_name: International Development Studies}
   model: wiki.department
   pk: INTD
-- fields: {faculty: 3, long_name: Geography}
+- fields: {faculty: 1, long_name: Geography}
   model: wiki.department
   pk: GEOG
 - fields: {faculty: 1, long_name: Biochemistry}
