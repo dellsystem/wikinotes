@@ -9,4 +9,10 @@ class Department(models.Model):
 	faculty = models.ForeignKey('Faculty')
 
 	def __unicode__(self):
-		return "%s (%s)" % (self.short_name, self.long_name)
+		return "Department of %s (%s)" % (self.long_name, self.short_name)
+
+	def get_url(self):
+		return "/department/%s" % self.short_name
+
+	def get_image(self):
+		return "/static/img%s.png" % self.get_url()

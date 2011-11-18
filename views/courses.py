@@ -10,10 +10,12 @@ from wiki.models.history import HistoryItem
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
-	faculty_courses = Course.objects.all().filter(department__faculty=faculty_object).order_by('department__short_name', 'number')
+	courses = Course.objects.all().filter(department__faculty=faculty_object).order_by('department__short_name', 'number')
+	departments = Department.objects.all().filter(faculty=faculty_object).order_by('short_name')
 	data = {
 		'faculty': faculty_object,
-		'courses': faculty_courses,
+		'courses': courses,
+		'departments': departments
 	}
 	return render(request, 'courses/faculty_overview.html', data)
 

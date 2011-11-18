@@ -8,8 +8,8 @@
 		</div>
 		<br />
 		<div class="row">
-			<div class="span2">
-				<img src="/static/img/departments/{{ dept.short_name }}.png" width="80" height="80" title="{{ dept.long_name }}" />
+			<div class="span2 icon-thumb">
+				<img src="{{ dept.get_image }}" title="{{ dept.long_name }}" />
 			</div>
 			<div class="span14 justify-align">
 				<p><a href="{{ dept.faculty.get_url }}">{{ dept.faculty }}</a></p>

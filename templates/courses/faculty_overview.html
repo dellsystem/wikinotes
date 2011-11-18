@@ -7,15 +7,28 @@
 			<h1>{{ faculty }}</h1>
 		</div>
 		<div class="row">
-			<div class="span2">
-				<img src="/static/img/faculties/{{ faculty.slug }}.png" width="80" height="80" title="Faculty of {{ faculty }}" />
+			<div class="span2 center-align icon-thumb">
+				<img src="/static/img/faculties/{{ faculty.slug }}.png" title="{{ faculty }}" />
 			</div>
 			<div class="span14">
 				<p>Lol no idea what to put here</p>
 			</div>
 		</div>
 		<h2>Departments</h2>
-		<p>List of departments in the faculty.</p>
+		<div class="row">
+		{% for dept in departments %}
+			<div class="span2 center-align icon-thumb">
+				<img src="/static/img/departments/{{ dept.short_name }}.png" title="Department of {{ dept.long_name }} ({{ dept.short_name }})" />
+				<p>{{ dept.short_name }}</p>
+			</div>
+		{% if forloop.counter|divisibleby:8 %}
+			</div>
+			<div class="row">
+		{% endif %}
+		{% empty %}
+		<p>This should never happen</p>
+		{% endfor %}
+		</div>
 		<h2>Courses</h2>
 		{% if courses %}
 		<ul>

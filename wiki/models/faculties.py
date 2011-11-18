@@ -14,3 +14,6 @@ class Faculty(models.Model):
 
 	def get_url(self):
 		return "/faculty/%s" % self.slug
+
+	def get_image(self):
+		return "/static/img%s.png" % self.get_url()

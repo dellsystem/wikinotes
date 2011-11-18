@@ -16,17 +16,17 @@
 				<h2>Top 10 popular courses</h2>
 				<p>To view all the courses in our catalogue, sorted by popularity (i.e. the number of watchers), <a href="/courses/popular">click here</a>. NOTE: should go to the same page as courses/all but sorted by popularity.</p>
 				{% for course in popular_courses %}
-				<p style="display: inline-block; padding: 5px; text-align: center;"><a href="{{ course.get_url }}"><img src="/static/img/departments/{{ course.department.short_name }}.png" alt="{{ course.department.short_name }}" width="80" height="80" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
+				<p style="display: inline-block; padding: 5px; text-align: center;" class="icon-thumb"><a href="{{ course.get_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
 				{% endfor %}
 				<h2>Top 10 active courses</h2>
 				<p>To view all the courses in our catalogue, sorted by activity (i.e. the time at which the last page edit or whatever was made), <a href="/courses/active">click here</a>.</p>
 				{% for course in active_courses %}
-				<p style="display: inline-block; padding: 5px; text-align: center;"><a href="{{ course.get_url }}"><img src="/static/img/departments/{{ course.department.short_name }}.png" alt="{{ course.department.short_name }}" width="80" height="80" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
+				<p style="display: inline-block; padding: 5px; text-align: center;" class="icon-thumb"><a href="{{ course.get_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
 				{% endfor %}
 				<h2>Top 10 random courses</h2>
 				<p>We've selected 5 courses at random for your browsing pleasure. Feel free to contribute by adding/editing content if you know the material or, if you don't, proofreading or something. You can also view a <a href="/pages/random">random page</a> associated with a <a href="/courses/random">random course</a>.</p>
 				{% for course in random_courses %}
-				<p style="display: inline-block; padding: 5px; text-align: center;"><a href="{{ course.get_url }}"><img src="/static/img/departments/{{ course.department.short_name }}.png" alt="{{ course.department.short_name }}" width="80" height="80" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
+				<p style="display: inline-block; padding: 5px; text-align: center;" class="icon-thumb"><a href="{{ course.get_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
 				{% endfor %}
 				<h2>Find a course</h2>
 				<p>To find the course page for a course whose department and number (e.g. MATH 133) you know, simply enter it in the search box in the top right corner. If you're not sure of the course number but know other things about it, you can use our magical <a href="/courses/search">course search wizard</a>.

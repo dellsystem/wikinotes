@@ -104,13 +104,13 @@
 				</div>
 				<hr />
 				<div class="row">
-					<div class="half-column">
-						<p>Department: {{ course.department.short_name }}</p>
-						<p><a href="/department/{{ course.department.short_name }}"><img src="/static/img/departments/{{ course.department.short_name }}.png" alt="{{ course.department.short_name }}" width="80" height="80" title="{{ course.department.long_name }}" /></a></p>
+					<div class="half-column icon-thumb">
+						<p><a href="{{ course.department.get_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course.department }}" /></a></p>
+						<p>{{ course.department }}</p>
 					</div>
-					<div class="half-column">
+					<div class="half-column icon-thumb">
+						<p><a href="{{ course.department.faculty.get_url }}"><img src="{{ course.department.faculty.get_image }}" alt="{{ course.department.faculty }}" title="{{ course.department.faculty }}" /></a></p>
 						<p>{{ course.department.faculty }}</p>
-						<p><a href="/faculty/{{ course.department.faculty.slug }}"><img src="/static/img/faculties/{{ course.department.faculty.slug }}.png" alt="{{ course.department.faculty }}" title="{{ course.department.faculty }}" width="80" height="80" /></a></p>
 					</div>
 				</div>
 			</div>
