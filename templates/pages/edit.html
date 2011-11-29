@@ -17,11 +17,11 @@
 				<fieldset class="grey-box" id="section-{{ section.number }}">
 					<label for="section-{{ section.number }}-title">Section <span>{{ section.number }}</span> title:</label>
 					<div class="input">
-						<input type="text" class="xxlarge" id="section-{{ section.number }}-title" name="section-{{ section.number }}-title" value="{{ section.title }}" />
+						<input type="text" class="span13" id="section-{{ section.number }}-title" name="section-{{ section.number }}-title" value="{{ section.title }}" />
 					</div>
 					<label for="section-{{ section.number }}-body">Section <span>{{ section.number }}</span> body:<br /><a href="#" id="fullscreen-section-{{ section.number }}">Click to fullscreen</a><br /><br /><strong>Syntax:</strong><br />{% include help_template %}<br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
 					<div class="input">
-						<textarea class="xxlarge" id="section-{{ section.number }}-body" name="section-{{ section.number }}-body">{{ section.body }}</textarea>
+						<textarea class="span13" rows="13" id="section-{{ section.number }}-body" name="section-{{ section.number }}-body">{{ section.body }}</textarea>
 					</div>
 				</fieldset>
 				{% endfor %}

@@ -29,7 +29,7 @@ $(document).ready(function() {
 		console.log(nextID);
 		if ($('#' + nextID).length > 0) {
 			// Show it
-			$('#' + nextID).show()
+			$('#' + nextID).show();
 		} else {
 			// Duplicate the last section element, change its ID and contents, then append it
 			console.log("ADD A NEW ONE");
@@ -37,6 +37,8 @@ $(document).ready(function() {
 			// MONKEY don't forget to change all the other stuff too (id, name, text between span, etc)
 			$('#' + thisID).after($('#' + thisID).clone().attr('id', nextID));
 		}
+		// Increase the number of sections in the input field
+		$('#num_sections').val('' + (parseInt($('#num_sections').val(), 10) + 1));
 		event.preventDefault;
 		return false;
 	});
@@ -54,11 +56,47 @@ $(document).ready(function() {
 			}
 		});
 	};
-	hideExtraSections($('#num_sections').val());
+	hideExtraSections(1);
 
-	$('#num_sections').change(function() {
-		hideExtraSections($('#num_sections').val());
+	var inFullscreen = false;
+	$('a[id^=fullscreen-section-]').click(function(event) {
+		// There is most definitely a better way of doing this ... classes and data- attributes?
+		var thisID = $(this).attr('id');
+		var thisIDNumber = parseInt(thisID.substring(19)); // awful
+		console.log(thisID);
+		if (inFullscreen) {
+			exitFullscreen(thisIDNumber);
+		} else {
+			enterFullscreen(thisIDNumber);
+		}
+		inFullscreen = !inFullscreen;
+		return false;
 	});
+
+	var textareaHeight;
+	var enterFullscreen = function(sectionNumber) {
+		console.log("entering fullscreen");
+		$('body').css('overflow-y', 'none');
+		$('#section-' + sectionNumber).addClass('fullscreen');
+		var newWidth = $('body').width() - 200;
+		var sectionBody = $('#section-' + sectionNumber + '-body');
+		textareaHeight = sectionBody.height();
+		var newHeight = $('body').height() - 140;
+		$('#section-' + sectionNumber + '-title').width(newWidth);
+		sectionBody.width(newWidth);
+		sectionBody.height(newHeight);
+	};
+
+	var exitFullscreen = function(sectionNumber) {
+		console.log("exiting fullscreen");
+		$('body').css('overflow-y', 'visible');
+		$('#section-' + sectionNumber).removeClass('fullscreen');
+		var newWidth = 800;
+		$('#section-' + sectionNumber + '-title').width(newWidth);
+		var sectionBody = $('#section-' + sectionNumber + '-body');
+		sectionBody.width(newWidth);
+		sectionBody.height(textareaHeight);
+	};
 
 	// Multiple choice quizzes, clicking on the "view answer" thing etc
 	$('p[id^="answer-q"]').hide();

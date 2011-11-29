@@ -32,10 +32,10 @@ class Page(models.Model):
 		return self.get_title()
 
 	def get_filepath(self):
-		return "wiki/content%s/" % self.get_url() # looks rather silly but it actually does work!
+		return "wiki/content%s/" % self.get_url()
 
 	def get_title(self):
-		type_name = page_types[self.page_type].long_name # lol
+		type_name = page_types[self.page_type].long_name
 		if not self.title:
 			return "%s - %s (%s %s)" % (type_name, self.subject, self.course_sem.term.title(), self.course_sem.year)
 		else:
@@ -43,10 +43,10 @@ class Page(models.Model):
 
 	def get_url(self):
 		course = self.course_sem.course
-		page_type_obj = page_types[self.page_type]
 		return "%s/%s/%s-%s/%s" % (course.get_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
 
-	def load_sections(self, page_type_obj):
+	def load_sections(self):
+		page_type_obj = page_types[self.page_type]
 		path = self.get_filepath()
 		sections = []
 		for i in xrange(1, self.num_sections + 1):

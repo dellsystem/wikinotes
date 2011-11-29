@@ -11,3 +11,4 @@ for name, obj in inspect.getmembers(types):
 			page_types[obj.short_name] = obj()
 
 page_type_choices = tuple([(name, obj.long_name) for name, obj in page_types.iteritems()])
+

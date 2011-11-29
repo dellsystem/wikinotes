@@ -77,3 +77,8 @@ urlpatterns += patterns('views.pages',
 	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/history$', 'history'),
 	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/commit/(?P<hash>[a-z0-9]{1,40})$', 'commit'), # viewing a particular commit etc
 )
+
+# The sandbox
+urlpatterns += patterns('django.views.generic.simple',
+	(r'^sandbox/$',             'direct_to_template', {'template': 'sandbox.html'}),
+)

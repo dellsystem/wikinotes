@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<div class="row">
+			{% include "courses/header.html" %}
+			<h2>{% if page %}Editing {{ page }}{% else %}Creating a page :: {{ page_type.long_name }}{% endif %}</h2>
+			<form action="" method="post">
+				{% if errors %}
+				<div class="alert-message block-message error">
+					<p>Something went wrong! Please correct the errors and try again.</p>
+					<ul>
+						{% for error in errors %}<li>{{ error }}</li>{% endfor %}
+					</ul>
+				</div>
+				{% endif %}
+				{% csrf_token %}
+				<fieldset class="grey-box">
+					{% for field_template in field_templates %}
+						<div class="clearfix">
+							{% include field_template %}
+						</div>
+					{% endfor %}
+				</fieldset>
+				<!--<div class="alert-message block-message warning">
+					<p>Already have notes typed up in a different format and don't want to retype them out on this page? You can either try <a href="import">importing them directly</a> or, if your file format or layout is not supported, upload it for <a href="manual">manual processing</a> by one of our moderators.</p>
+				</div>-->
+				{% for section in sections %}
+					<fieldset class="grey-box" id="{{ section.id }}" class="page-section">
+						<div class="clearfix">
+							<label for="{{ section.id }}-title">Section <span>{{ section.i }}</span> title:</label>
+							<div class="input">
+								<input type="text" id="{{ section.id }}-title" name="{{ section.id }}-title" value="{{ section.title }}" />
+							</div>
+						</div>
+						<div class="clearfix">
+							<label for="{{ section.id }}-body">Section <span>{{ i }}</span> body:<br /><a href="#" id="fullscreen-section-{{ section.i }}">Click to fullscreen</a><br /><br /><strong>Syntax:</strong><br /><br /><br /><a href="/help/pages/course-quiz" class="btn primary">Help</a></label>
+							<div class="input">
+								<textarea rows="12" id="{{ section.id }}-body" name="{{ section.id }}-body">{{ section.body }}</textarea>
+							</div>
+						</div>
+					</fieldset>
+				{% endfor %}
+				<p class="center-align" style="padding-left: 40px;"><button class="btn info" id="add-section">Add another section</button></p>
+				<br />
+				<fieldset class="grey-box">
+					<label for="message">Edit message:</label>
+					<div class="input">
+						<input type="text" class="span13" name="message" />
+					</div>
+					<br />
+					<div class="center-align"><input type="submit" name="preview" value="Preview" class="btn" /> <input type="submit" name="submit" value="Save" class="btn danger" /></div>
+				</fieldset>
+			</form>
+		</div>
+	</section>
+</div>
+{% endblock %}
