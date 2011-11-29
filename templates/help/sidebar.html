@@ -1,0 +1,17 @@
+<div class="span4">
+	<div id="right-bar">
+	{% if sections %}
+	<h4>Table of contents</h4>
+	<ul class="unstyled">
+		{% for section in sections %}
+		<li><a href="#{{ section|slugify }}">{{ section }}</a></li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	<h4>Help pages</h4>
+	<ul class="unstyled">
+		<li><a href="/help">Overview</a></li>
+		<li><a href="/help/copyright">Copyright issues</a></li>
+	</ul>
+	</div>
+</div>

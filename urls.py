@@ -32,6 +32,12 @@ urlpatterns += patterns('views.about',
 	url(r'^about/licensing$', 'licensing'),
 	url(r'^about/platform$', 'platform'),
 )
+
+urlpatterns += patterns('views.help',
+	url(r'^help$', 'index'),
+	url(r'^help/copyright$', 'copyright'),
+)
+
 # For viewing courses and the like
 urlpatterns += patterns('views.courses',
 	url(r'^courses$', 'index'),
