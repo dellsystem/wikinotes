@@ -38,6 +38,15 @@ urlpatterns += patterns('views.help',
 	url(r'^help/copyright$', 'copyright'),
 )
 
+urlpatterns += patterns('views.contributing',
+	url(r'^contributing$', 'index'),
+	url(r'^contributing/moderating$', 'moderating'),
+	url(r'^contributing/development$', 'development'),
+	url(r'^contributing/representatives$', 'representatives'),
+	url(r'^contributing/content$', 'content'),
+	url(r'^contributing/guidelines$', 'guidelines'),
+)
+
 # For viewing courses and the like
 urlpatterns += patterns('views.courses',
 	url(r'^courses$', 'index'),

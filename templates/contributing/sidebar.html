@@ -1,0 +1,21 @@
+<div class="span4">	
+	<div id="right-bar">
+	{% if sections %}
+	<h4>Table of contents</h4>
+	<ul class="unstyled">
+		{% for section in sections %}
+		<li><a href="#{{ section|slugify }}">{{ section }}</a></li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	<h4>Contributing pages</h4>
+	<ul class="unstyled">
+		<li><a href="/contributing">Overview</a></li>
+		<li><a href="/contributing/moderating">Moderating</a></li>
+		<li><a href="/contributing/development">Development</a></li>
+		<li><a href="/contributing/representatives">Representatives</a></li>
+		<li><a href="/contributing/content">Content</a></li>
+		<li><a href="/contributing/guidelines">Guidelines</a></li>
+	</ul>
+	</div>
+</div>
