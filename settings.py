@@ -123,6 +123,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'wiki',
+    'blog',
     'gravatar',
     'django.contrib.markup', # for markdown
 )
