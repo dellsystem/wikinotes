@@ -7,7 +7,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^$', 'views.main.index'),
-	url(r'^about$', 'views.about.index'),
 	url(r'^login$', 'views.main.login_logout'),
 	url(r'^recent$', 'views.main.recent'),
 	url(r'^recent/all$', 'views.main.recent', {'show_all': True}),
@@ -25,6 +24,14 @@ urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
 )
 
+# Can be made cleaner
+urlpatterns += patterns('views.about',
+	url(r'^about$', 'index'),
+	url(r'^about/overview$', 'overview'),
+	url(r'^about/history$', 'history'),
+	url(r'^about/licensing$', 'licensing'),
+	url(r'^about/platform$', 'platform'),
+)
 # For viewing courses and the like
 urlpatterns += patterns('views.courses',
 	url(r'^courses$', 'index'),
