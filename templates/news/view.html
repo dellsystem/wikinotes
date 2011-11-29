@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load markup %}
+<div class="container"> 
+	<section>
+		<div class="row">
+			<div class="span12">
+				<h1>{{ post.title }}</h1>
+				<hr />
+				<h4 class="float-right">{{ post.timestamp }}</h4>
+				<h4>{{ post.get_num_comments }} comment{{ post.get_num_comments|pluralize }}</h4>
+				{{ post.body|markdown:"mathjax" }}
+				<br />
+				<h3>Comments</h3>
+				<hr />
+				<form>
+					<fieldset class="grey-box">
+					</fieldset>
+				</form>
+				<br />
+			</div>
+			{% include "news/sidebar.html" %}
+		</div>
+	</section> 
+
+</div>
+	
+{% endblock %}

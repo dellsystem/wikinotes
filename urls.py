@@ -20,6 +20,10 @@ urlpatterns = patterns('',
 	# Registration stuff
 	url(r'^register$', 'views.main.register'),
 
+	# News
+	url(r'^news$', 'views.news.main'),
+	url(r'^news/(?P<slug>[^/]+)$', 'views.news.view'),
+
 	# Uncomment the next line to enable the admin:
 	url(r'^admin/', include(admin.site.urls)),
 )
