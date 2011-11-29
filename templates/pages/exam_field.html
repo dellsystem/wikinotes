@@ -1,2 +1,8 @@
 <label for="exam_type">Exam type:</label>
-<div class="input"><select name="exam_type" id="exam_type" class="small"><option value="midterm">Midterm</option><option value="final">Final</option><option value="quiz">Quiz</option></select></div>
+<div class="input">
+	<div class="radio-group wide">
+		{% for exam_type in exam_types %}
+			<label class="radio-button{% if current_exam_type == exam_type %} success{% endif %}"><input type="radio" name="exam_type" value="{{ exam_type }}" {% if current_exam_type == exam_type %}checked="checked" {% endif %}/>{{ exam_type.title }}</label>
+		{% endfor %}
+	</div>
+</div>

@@ -1,13 +1,13 @@
-<label>Associated semester:</label>
+<label>Associated semester</label>
 <div class="input">
-	<select class="small" name="term">
+	<div class="radio-group wide">
 		{% for term in terms %}
-		<option value="{{ term }}" {% if page.course_sem.term == term %}selected="selected"{% endif %}>{{ term.title }}</option>
+			<label class="radio-button{% if current_term == term %} success{% endif %}"><input type="radio" name="term" value="{{ term }}" {% if current_term == term %}checked="checked" {% endif %}/>{{ term.title }}</label>
 		{% endfor %}
-	</select>
-	<select class="small" name="year">
+	</div>
+	<div class="radio-group narrow">
 		{% for year in years %}
-		<option value="{{ year }}" {% if page.course_sem.year == year %}selected="selected"{% endif %}>{{ year }}</option>
+			<label class="radio-button{% if current_year == year %} success{% endif %}"><input type="radio" name="year" value="{{ year }}" {% if current_year == year %}checked="checked" {% endif %}/>{{ year }}</label>
 		{% endfor %}
-	</select>
+	</div>
 </div>

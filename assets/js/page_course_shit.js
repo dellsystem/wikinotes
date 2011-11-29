@@ -87,4 +87,9 @@ $(document).ready(function() {
             tabindex++;
         }
     });
+	$('.radio-button input').hide();
+	$('.radio-button').click(function() {
+		$(this).siblings().removeClass('success');
+		$(this).addClass('success');
+	});
 });
