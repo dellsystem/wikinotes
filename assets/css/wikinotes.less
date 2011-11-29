@@ -126,7 +126,7 @@ section {
 }
 
 #right-bar {
-	background-color: @grayLighter;
+	#gradient > .vertical(#EEE, #E0E0E0);
 	text-align: center;
 	padding: 10px;
 	width: 200px;
@@ -173,9 +173,14 @@ ul.toc ul {
 
 // for fieldsets mostly
 .grey-box {
-	background-color: @grayLighter;
-	width: 100%;
-	padding: 20px;
+	#gradient > .vertical(#F3F3F3, #EEE);
+	width: 930px;
+	padding: 20px 20px 10px 10px;
+	.input {
+		input, textarea {
+			width: 770px;
+		}
+	}
 }
 
 // For fullscreening the text boxes
