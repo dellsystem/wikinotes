@@ -18,6 +18,10 @@
 					{% endfor %}
 				</ul>
 				</div>
+				{% else %}
+				<div class="alert-message block-message success">
+					<p>Already have an account? Sign in using the login bar above.</p>
+				</div>
 				{% endif %}
 				<form action="/register" method="post">
 					<fieldset>
