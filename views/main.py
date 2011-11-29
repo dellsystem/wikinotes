@@ -5,6 +5,7 @@ from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
 from wiki.utils.users import validate_username
 from wiki.models.pages import Page
+from blog.models import BlogPost
 
 # welcome is only set to true when called from register()
 # Triggers the display of some sort of welcome message
@@ -19,19 +20,28 @@ def index(request, show_welcome=False):
 		# Now get things the user has done
 		your_actions = HistoryItem.objects.filter(user=user).order_by('-timestamp')
 
+		try:
+			latest_post = BlogPost.objects.order_by('-timestamp')[0]
+		except IndexError:
+			latest_post = {'title': 'Nothing', 'summary': 'Nothing'}
+
 		# Show the user's dashboard
 		data = {
 			'watched_courses': watched_courses,
 			'your_actions': your_actions,
 			'history_items': history_items[::-1],
 			'show_welcome': show_welcome,
+			'latest_post': latest_post
 		}
 		return render(request, 'main/dashboard.html', data)
 	else:
 		# Implement this later ... for now just hardcode the course lol
 		featured = Course.objects.get(pk=1)
+		data = {
+			'featured': featured,
+		}
 		# Show the main page for logged-out users
-		return render(request, 'main/index.html', locals())
+		return render(request, 'main/index.html', data)
 
 # POSTed to by the login form; should never be accessed by itself
 def login_logout(request):
