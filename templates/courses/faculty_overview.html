@@ -8,35 +8,42 @@
 		</div>
 		<div class="row">
 			<div class="span2 center-align icon-thumb">
-				<img src="/static/img/faculties/{{ faculty.slug }}.png" title="{{ faculty }}" />
+				<img src="{{ faculty.get_image }}" title="{{ faculty }}" />
 			</div>
 			<div class="span14">
 				<p>Lol no idea what to put here</p>
 			</div>
 		</div>
-		<h2>Departments</h2>
+		<h1>Departments</h1>
 		<div class="row">
 		{% for dept in departments %}
 			<div class="span2 center-align icon-thumb">
-				<img src="/static/img/departments/{{ dept.short_name }}.png" title="Department of {{ dept.long_name }} ({{ dept.short_name }})" />
-				<p>{{ dept.short_name }}</p>
+				<a href="{{ dept.get_url }}"><img src="{{ dept.get_image }}" title="Department of {{ dept.long_name }} ({{ dept.short_name }})" /></a>
+				<p><a href="{{ dept.get_url }}">{{ dept.short_name }}</a></p>
 			</div>
 		{% if forloop.counter|divisibleby:8 %}
 			</div>
 			<div class="row">
 		{% endif %}
 		{% empty %}
-		<p>This should never happen</p>
+		<p>This faculty has no departments</p>
 		{% endfor %}
 		</div>
-		<h2>Courses</h2>
-		{% if courses %}
-		<ul>
-			{% for course in courses %}
-			<li><a href="{{ course.get_url }}">{{ course }}</a></li>
-			{% endfor %}
-		</ul>
+		<h1>Courses</h1>
+		<div class="row">
+		{% for course in courses %}
+			<div class="span2 center-align icon-thumb">
+				<a href="{{ course.get_url }}"><img src="{{ course.department.get_image }}" title="{{ course }} ({{ course.name }})" /></a>
+				<p><a href="{{ course.get_url }}">{{ course }}</a></p>
+			</div>
+		{% if forloop.counter|divisibleby:8 %}
+			</div>
+			<div class="row">
 		{% endif %}
+		{% empty %}
+		<p>This faculty also has no courses</p>
+		{% endfor %}
+		</div>
 		<h2>Active contributors</h2>
 		<p>List of people who have made a lot of edits to courses (maybe order in terms of deltas) in this faculty</p>
 		<h2>Recent activity</h2>
