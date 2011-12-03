@@ -28,28 +28,17 @@ urlpatterns = patterns('',
 	url(r'^admin/', include(admin.site.urls)),
 )
 
-# Can be made cleaner
-urlpatterns += patterns('views.about',
-	url(r'^about$', 'index'),
-	url(r'^about/overview$', 'overview'),
-	url(r'^about/history$', 'history'),
-	url(r'^about/licensing$', 'licensing'),
-	url(r'^about/platform$', 'platform'),
-)
+# Maps straight from about/history to the template file about/history.html
+template_urls = {
+	'about': ['history', 'licensing', 'platform'], # the index one is implicit
+	'contributing': ['moderating', 'development', 'content', 'guidelines'],
+	'help': ['copyright'],
+}
 
-urlpatterns += patterns('views.help',
-	url(r'^help$', 'index'),
-	url(r'^help/copyright$', 'copyright'),
-)
-
-urlpatterns += patterns('views.contributing',
-	url(r'^contributing$', 'index'),
-	url(r'^contributing/moderating$', 'moderating'),
-	url(r'^contributing/development$', 'development'),
-	url(r'^contributing/representatives$', 'representatives'),
-	url(r'^contributing/content$', 'content'),
-	url(r'^contributing/guidelines$', 'guidelines'),
-)
+for prefix, filenames in template_urls.iteritems():
+	index_url = url(r'^' + prefix + '$', direct_to_template, {'template': prefix + '/index.html'})
+	urls = [url(r'^' + prefix + '/' + filename + '$', direct_to_template, {'template': prefix + '/' + filename + '.html'}) for filename in filenames]
+	urlpatterns += patterns('', index_url, *urls)
 
 # For viewing courses and the like
 urlpatterns += patterns('views.courses',
