@@ -3,24 +3,7 @@
 # Define all the page types here, and their short names
 import re
 from django.template.defaultfilters import slugify
-from wiki.utils.constants import terms, years, exam_types, max_num_sections
-
-# Can't put this in utils
-def get_num_sections(data):
-	num_sections = 0
-	sections = [(data['section-%d-title' % i], data['section-%d-body' % i]) for i in xrange(1, max_num_sections + 1)]
-
-	for section_title, section_body in sections:
-		if len(section_title) > 0 and len(section_body) > 0:
-			num_sections += 1
-		else:
-			break # once we hit a gap, break
-
-	# Check if there is a gap
-	if len(filter(lambda (title, body): len(title) > 0 and len(body) > 0, sections)) > num_sections:
-		return -1 # easier than catching an exception etc
-
-	return num_sections
+from wiki.utils.constants import terms, years, exam_types
 
 """ HOW TO CREATE A NEW PAGE TYPE
 	Following template files:
@@ -32,7 +15,9 @@ def get_num_sections(data):
 """
 
 class PageType:
-	field_types = ['semester', 'subject', 'link'] # override this if necessary
+	# Defaults - override if necessary
+	uneditable_fields = ['semester', 'subject']
+	editable_fields = ['professor', 'link']
 
 	# Wrapper around short_name basically
 	def get_form_template(self):
@@ -55,8 +40,15 @@ class PageType:
 	def get_create_url(self, course):
 		return '%s/create/%s' % (course.get_url(), self.short_name)
 
-	def get_field_templates(self):
-		return ['pages/%s_field.html' % field_type for field_type in self.field_types]
+	@staticmethod
+	def get_field_templates(fields):
+		return ['pages/%s_field.html' % field for field in fields]
+
+	def get_editable_fields(self):
+		return self.get_field_templates(self.editable_fields)
+
+	def get_uneditable_fields(self):
+		return self.get_field_templates(self.uneditable_fields)
 
 	# The simplest version, override if necessary
 	def format(self, content):
@@ -69,7 +61,6 @@ class PageType:
 		validators = self.get_validators(data) + [
 			(data['term'] in terms, 'Invalid term'),
 			(int(data['year']) in years, 'Invalid year'),
-			(get_num_sections(data) > 0, 'Not enough content (or there is a gap or something)'),
 		]
 
 		error = False
@@ -83,13 +74,15 @@ class PageType:
 		if error:
 			return errors
 		else:
-			return None
+			return []
 
 class LectureNote(PageType):
 	short_name = 'lecture-notes'
 	long_name = 'Lecture notes'
 	description = 'Notes from a lecture given by a specific professor on a specific date'
-	field_types = ['semester', 'date', 'subject', 'professor', 'link']
+	uneditable_fields = ['semester', 'date']
+	# Subject IS editable in this case only because it's not part of the slug
+	editable_fields = ['subject', 'professor', 'link']
 	# If you have other fields that have not yet been created, make the template file in the template dir / pages / blah_field.html
 
 	def get_kwargs(self, data):
@@ -102,18 +95,19 @@ class LectureNote(PageType):
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
 		professor = None # for now, from data['professor']
-		return {'title': title, 'num_sections': get_num_sections(data), 'subject': data['subject'], 'link': data['link'], 'professor': professor, 'slug': slug}
+		return {'title': title, 'subject': data['subject'], 'link': data['link'], 'professor': professor, 'slug': slug}
 
 	def get_validators(self, data):
 		return [
-			(len(data['subject']) > 0, 'Invalid subject'),
+			#(len(data['subject']) > 0, 'Invalid subject'),
 		]
 
 class PastExam(PageType):
 	short_name = 'past-exam'
 	long_name = 'Past exam'
 	description = 'Student-made solutions to a past exam'
-	field_types = ['semester', 'exam', 'link']
+	uneditable_fields = ['semester', 'exam']
+	editable_fields = ['professor', 'link']
 
 	def get_kwargs(self, data):
 		term = data['term']
@@ -123,7 +117,7 @@ class PastExam(PageType):
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
 		slug = exam_type
-		return {'title': title, 'num_sections': get_num_sections(data), 'link': data['link'], 'slug': slug}
+		return {'title': title, 'link': data['link'], 'slug': slug}
 
 	def get_validators(self, data):
 		return [
@@ -138,7 +132,7 @@ class CourseSummary(PageType):
 	def get_kwargs(self, data):
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
-		return {'subject': data['subject'], 'num_sections': get_num_sections(data), 'link': data['link'], 'slug': slugify(data['subject'])}
+		return {'subject': data['subject'], 'link': data['link'], 'slug': slugify(data['subject'])}
 
 	def get_validators(self, data):
 		return [
@@ -149,9 +143,6 @@ class VocabList(PageType):
 	short_name = 'vocab-list'
 	long_name = 'Vocabulary list'
 	description = 'For memorising terms etc'
-	validators = [
-		
-	]
 
 	def get_kwargs(self, data):
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
@@ -159,7 +150,6 @@ class VocabList(PageType):
 		return {
 			'subject': data['subject'],
 			'slug': slugify(data['subject']),
-			'num_sections': get_num_sections(data),
 		}
 
 	def get_validators(self, data):
@@ -171,15 +161,12 @@ class CourseQuiz(PageType):
 	short_name = 'course-quiz'
 	long_name = 'Multiple choice quiz'
 	description = 'A quiz for testing your knowledge'
-	validators = [
-		
-	]
 
 	# Data is the request.POST dictionary
 	def get_kwargs(self, data):
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
-		return {'subject': data['subject'], 'num_sections': get_num_sections(data), 'slug': slugify(data['subject'])}
+		return {'subject': data['subject'], 'slug': slugify(data['subject'])}
 
 	def get_validators(self, data):
 		return [

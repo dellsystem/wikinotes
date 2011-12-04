@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from wiki.models.history import HistoryItem
+from wiki.utils.currents import current_year, current_term
 
 class Course(models.Model):
 	class Meta:
@@ -9,12 +10,22 @@ class Course(models.Model):
 	department = models.ForeignKey('Department')
 	number = models.IntegerField()
 	name = models.CharField(max_length=255)
-	description = models.CharField(max_length=255) # change this later
-	credits = models.IntegerField() # Note - what if it's a float etc
+	description = models.TextField(null=True)
+	credits = models.DecimalField(max_digits=2, decimal_places=1) # Can be 4.5
 	watchers = models.ManyToManyField(User)
 	# The latest_activity field makes it easier to sort and stuff ... not strictly necessary
-	latest_activity = models.ForeignKey('HistoryItem', related_name='latest_course', null=True) # stupid but won't validate without it
+	latest_activity = models.ForeignKey('HistoryItem', related_name='latest_course', null=True)
 	num_watchers = models.IntegerField(default=0) # caches it basically
+
+	def increase_num_watchers_by(self, i):
+		self.num_watchers += i
+		self.save()
+
+	def get_current_semester(self):
+		try:
+			return CourseSemester.objects.get(course=self, term=current_term, year=current_year)
+		except CourseSemester.DoesNotExist:
+			return None
 
 	def __unicode__(self):
 		return "%s %d" % (self.department.short_name, self.number)
@@ -52,11 +63,11 @@ class CourseSemester(models.Model):
 		unique_together = ('term', 'year', 'course')
 
 	course = models.ForeignKey('Course')
-	grading_scheme = models.CharField(max_length=255, null=True)
+	evaluation = models.TextField(null=True)
 	professors = models.ManyToManyField('Professor', null=True)
-	schedule = models.CharField(max_length=100, null=True)
-	midterm_info = models.CharField(max_length=255, null=True)
-	final_info = models.CharField(max_length=255, null=True)
+	midterm_info = models.TextField(null=True)
+	final_info = models.TextField(null=True)
+	readings = models.TextField(null=True)
 	term = models.CharField(max_length=6) # Winter/Summer etc
 	year = models.IntegerField(max_length=4) # Because ... yeah
 
@@ -72,3 +83,6 @@ class Professor(models.Model):
 		app_label = 'wiki'
 
 	name = models.CharField(max_length=100)
+
+	def __unicode__(self):
+		return self.name

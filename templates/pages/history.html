@@ -4,8 +4,15 @@
 {% load gravatar %}
 <div class="container">
 	<section>
-		{% include "courses/header.html" %}
-		<h2>Viewing history :: {{ page }} <small><a href="{{ page.get_url }}">Return to page &raquo;</a></small></h2>
+		<ul class="breadcrumb">
+			 <li><a href="{{ course.get_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+			<li><a href="#">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
+			<li><a href="#">{{ page.get_type.long_name }}</a> <span class="divider">&raquo;</span><li>
+			<li><a href="{{ page.get_url }}">{{ page.get_title }}</a> <span class="divider">&raquo;</span></li>
+			<li class="active">History</li>
+		</ul>
+		<h1>Viewing history :: {{ page }}</h1>
+		<hr />
 		{% if commit_history %}
 		<table class="zebra-striped">
 			<thead>
@@ -21,7 +28,7 @@
 			<tbody>
 			{% for commit in commit_history %}
 				<tr>
-					<td>{% gravatar_img_for_email commit.author.email 20 %} {{ commit.author }}</td>
+					<td>{% gravatar_img_for_user commit.author.name 20 %} <a href="/user/{{ commit.author.name }}">{{ commit.author.name }}</a></td>
 					<td>{{ commit.message|escape }}</td>
 					<td>{{ commit.date|date:"D, j M, Y H:i" }}</td>
 					<td><div style="width: {{ commit.bar_width }}px; height: 7px; background-color: #F90000;"><div style="width: {{ commit.green_percent }}%; height: 100%; background-color: #009E00;"></div></div>{{ commit.lines }} lines (+{{ commit.insertions }}, -{{ commit.deletions }})</td>
