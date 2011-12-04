@@ -1,7 +1,8 @@
 from django.db import models
-from wiki.utils.pages import page_types, page_type_choices
+from wiki.utils.pages import page_types, page_type_choices#, get_page_type
 from wiki.utils.gitutils import Git
 import os
+from wiki.models.courses import CourseSemester
 
 class Page(models.Model):
 	class Meta:
@@ -9,24 +10,38 @@ class Page(models.Model):
 		unique_together = ('course_sem', 'slug')
 
 	course_sem = models.ForeignKey('CourseSemester')
-	num_sections = models.IntegerField() # is this really necessary? sort of cache maybe?
 	subject = models.CharField(max_length=255, null=True) # only used for some (most) page types
 	link = models.CharField(max_length=255, null=True) # remember the max length. only used for some page_types
 	page_type = models.CharField(choices=page_type_choices, max_length=20)
 	title = models.CharField(max_length=255, null=True) # the format of this is determined by the page type
 	professor = models.ForeignKey('Professor', null=True)
-	slug = models.CharField(max_length=50)			
+	slug = models.CharField(max_length=50)
+
+	def load_content(self):
+		file = open('%scontent.md' % self.get_filepath())
+		content = file.read()
+		file.close()
+		return content
 
 	def edit(self, data):
-		old_filepath = self.get_filepath()
-		kwargs = page_types[self.page_type].get_kwargs(data)
-		kwargs['num_sections'] = data['num_sections']
+		page_type = page_types[self.page_type]
 		# Change the relevant attributes
-		for kwarg in kwargs:
-			setattr(self, kwarg, kwargs[kwarg])
+		for editable_field in page_type.editable_fields:
+			if editable_field != 'professor':
+				setattr(self, editable_field, data[editable_field])
 		self.save()
-		# Now move the folder lol
-		os.system("mv \"%s\" \"%s\"" % (old_filepath, self.get_filepath()))
+		# THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
+
+	def save_content(self, content, message, username):
+		path = self.get_filepath()
+		repo = Git(path)
+		filename = '%scontent.md' % path
+		file = open(filename, 'wt')
+		file.write(content)
+		file.close()
+		repo.add('content.md')
+		message = 'Minor edit' if not message else message
+		repo.commit(message, username, 'example@example.com')
 
 	def __unicode__(self):
 		return self.get_title()
@@ -34,57 +49,15 @@ class Page(models.Model):
 	def get_filepath(self):
 		return "wiki/content%s/" % self.get_url()
 
+	def get_type(self):
+		return page_types[self.page_type]
+	
 	def get_title(self):
-		type_name = page_types[self.page_type].long_name
-		if not self.title:
-			return "%s - %s (%s %s)" % (type_name, self.subject, self.course_sem.term.title(), self.course_sem.year)
+		if not self.subject:
+			return self.title
 		else:
-			return "%s - %s" % (type_name, self.title)
+			return self.subject
 
 	def get_url(self):
 		course = self.course_sem.course
 		return "%s/%s/%s-%s/%s" % (course.get_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
-
-	def load_sections(self):
-		page_type_obj = page_types[self.page_type]
-		path = self.get_filepath()
-		sections = []
-		for i in xrange(1, self.num_sections + 1):
-			filename = "%s%d.md" % (path, i)
-			file = open(filename, 'r')
-			file_lines = file.readlines()
-			title = file_lines[0][:-1] # strip the newline char
-			content = file_lines[3:]
-			section = Section(title, content, i)
-			section.format(page_type_obj)
-			sections.append(section)
-
-		return sections
-
-	def save_sections(self, data, username, email):
-		path = self.get_filepath()
-		num_sections = int(data['num_sections'])
-		repo = Git(path) # Will take care of making the directories
-		for i in xrange(1, num_sections + 1):
-			filename = "%s%d.md" % (path, i)
-			file = open(filename, 'wt')
-			title = data["section-%d-title" % i]
-			body = data["section-%d-body" % i]
-			body = body.replace('^M', '\n')
-			file.write(title + '\n')
-			file.write('--------\n\n')
-			file.write(body + '\n') # necessary for some reason
-			file.close()
-			repo.add("%d.md" % i)
-		repo.commit(data['message'], username, email)
-
-# Not actually a model, more of a helper class to manage sections more easily
-class Section:
-	def __init__(self, title, content, number):
-		self.title = title
-		self.content = content
-		self.number = number
-		self.body = "".join(content) # For editing etc
-
-	def format(self, page_type_obj):
-		self.data = page_type_obj.format(self.content) # needs a better naming scheme

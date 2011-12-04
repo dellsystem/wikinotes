@@ -61,7 +61,7 @@ section {
 #header {
 	//background-image: url(/static/img/header.png);
 	//background-position: 0px 40px;
-	#gradient > .vertical(@white, #DBF0F4);
+	#gradient > .vertical(#E7F6F9, #B1D8E0);
 	color: @grayDark;
 	
 	div.inner {
@@ -168,11 +168,17 @@ ul.toc ul {
 // for fieldsets mostly
 .grey-box {
 	#gradient > .vertical(#F3F3F3, #EEE);
-	width: 930px;
-	padding: 20px 20px 10px 10px;
+	width: 940px;
+	padding: 10px;
 	.input {
 		input, textarea {
 			width: 770px;
+		}
+	}
+	&#content-box {
+		textarea {
+			width: 930px;
+			height: 400px;
 		}
 	}
 }
@@ -182,10 +188,9 @@ ul.toc ul {
 	width: 100% !important;
 	height: 100% !important;
 	position: fixed !important;
-	top: 40px;
+	top: 0;
 	left: 0;
 	z-index: 9001;
-	// input and textarea widths/heights need to be calculated dynamically sadly
 }
 
 ol.multiple-choice {
@@ -220,5 +225,35 @@ table img {
 	}
 	&.narrow label {
 		width: 30px;
+	}
+}
+
+// Font size and line height lol
+.font-height(@size) {
+	font-size: @size;
+	line-height: @size + 5px;
+	padding-bottom: 0px;
+}
+
+#content-markdown {
+	h1 {
+		.font-height(27px);
+	}
+	h2 {
+		.font-height(23px);
+	}
+	h3 {
+		.font-height(19px);
+	}
+	h4 {
+		.font-height(16px);
+	}
+	h5 {
+		.font-height(14px);
+	}
+	h6 {
+		.font-height(12px);
+		text-transform: none;
+		color: @grayDark;
 	}
 }

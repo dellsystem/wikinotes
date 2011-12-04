@@ -3,15 +3,17 @@
 {% block content %}
 <div class="container">
 	<section>
-		{% include "courses/header.html" %}
+		<h1>{{ course.department.short_name }} {{ course.number}} <small>{{ course.name }}</small></h1>
 		<div class="row">
-			<div class="span12 columns">
+			<div class="span12">
 				<ul class="unstyled">
 					<li><strong>Description:</strong> {{ course.description }}</li>
 					<li><strong>Credits:</strong> {{ course.credits }}</li>
-					<li><strong>Current professor:</strong> Test (CourseSemester-based)</li>
-					<li><strong>Readings:</strong> Test (CourseSemester-based)</li>
-					<li><strong>Evaluation:</strong> Test (CourseSemester-based)</li>
+					{% if current_sem %}
+						{% if current_sem.professors.count %}<li><strong>Current professor{{ current_sem.professors.count|pluralize }}:</strong> {{ current_sem.professors.all|join:", " }}</li>{% endif %}
+						{% if current_sem.readings %}<li><strong>Readings:</strong> {{ current_sem.readings }}</li>{% endif %}
+						{% if current_sem.readings %}<li><strong>Evaluation:</strong> {{ current_sem.evaluation }}</li>{% endif %}
+					{% endif %}
 				</ul>
 				<h2>Browse by page type</h2>
 				{% if all_pages %}
@@ -32,51 +34,10 @@
 						{% endfor %}
 					</div>
 				</div>
+				<p>Filter by semester: lol</p>
 				{% else %}
 				<p>There are no pages associated with this course! Why not try adding some?</p>
 				{% endif %}
-				<h2>Browse by semester</h2>
-				{% if all_pages %}
-				<div class="row">
-					<div class="span2 columns">
-						<strong>Semesters</strong>
-						{% if course_sems %}
-						<ul class="unstyled">
-							{% for sem in course_sems %}
-							<li>{{ sem.get_semester }}</li>
-							{% endfor %}
-						</ul>
-						{% endif %}
-					</div>
-					<div class="span10 columns">
-						{% if course_sems %}
-							{% for sem in course_sems %}
-								<strong>{{ sem.get_semester }}</strong>
-								{% if sem.page_set.all %}
-								<ul class="unstyled">
-									{% for sem_page in sem.page_set.all %}
-									<li><a href="{{ sem_page.get_url }}">{{ sem_page }}</a></li>
-									{% endfor %}
-								</ul>
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-					</div>
-				</div>
-				{% else %}
-				<p>Still no pages lol</p>
-				{% endif %}
-				<h2>Recent activity</h2>
-				<ul class="unstyled">
-				{% if course.latest_activity %}
-				{% for item in course.recent_activity %}
-					<li>{{ item.user }} {{ item.action }} {% if item.page %}{{ item.page }}{% else %}this course{% endif %}</li>
-				{% endfor %}
-				<li><a href="{{ course.get_url }}/recent">View all recent changes &raquo;</a></li>
-				{% else %}
-				<li>Nothing has happened recently for this course. Boo.</li>
-				{% endif %}
-				</ul>{% comment %} lol it's better than p{% endcomment %}
 				<h2>Other resources</h2>
 				<ul class="unstyled">
 					<li><a href="http://www.docuum.com/McGill/{{ course.department.short_name }}/{{ course.number }}">{{ course }} on Docuum</a></li>
@@ -113,6 +74,17 @@
 						<p>{{ course.department.faculty }}</p>
 					</div>
 				</div>
+				<h4>Recent activity</h4>
+				<ul class="unstyled">
+				{% if course.latest_activity %}
+				{% for item in course.recent_activity %}
+					<li>{{ item.user }} {{ item.action }} {% if item.page %}{{ item.page }}{% else %}this course{% endif %}</li>
+				{% endfor %}
+				<li><a href="{{ course.get_url }}/recent">View all recent changes &raquo;</a></li>
+				{% else %}
+				<li>Nothing has happened recently for this course. Boo.</li>
+				{% endif %}
+				</ul>{% comment %} lol it's better than p{% endcomment %}
 			</div>
 		</div>
 	</section>

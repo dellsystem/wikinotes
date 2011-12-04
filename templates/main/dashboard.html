@@ -38,7 +38,7 @@
 					<div class="row">
 						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user user 50 %}" /></div>
 						<div class="span11 columns">
-							<p><strong><a href="{{ user.get_profile.get_url }}">{{ user.username }}</a></strong> {{ your_action.action }} {% if your_action.page %}<a href="{{ your_action.page.get_url }}">{{ your_ation.page }}</a> for {% endif %} <a href="{{ your_action.course.get_url }}">{{ your_action.course }}</a> {{ your_action.get_timesince }} ago</p>
+							<p><strong><a href="{{ user.get_profile.get_url }}">{{ user.username }}</a></strong> {{ your_action.action }} {% if your_action.page %}<a href="{{ your_action.page.get_url }}">{{ your_action.page }}</a> for {% endif %} <a href="{{ your_action.course.get_url }}">{{ your_action.course }}</a> {{ your_action.get_timesince }} ago</p>
 							{% if your_action.message %}<p>{{ your_action.message }}</p>{% endif %}
 						</div>
 					</div>

@@ -1,0 +1,12 @@
+- fields: {name: James Loveys}
+  model: wiki.professor
+  pk: 1
+- fields: {name: Gregory Dudek}
+  model: wiki.professor
+  pk: 2
+- fields: {name: Doina Precup}
+  model: wiki.professor
+  pk: 3
+- fields: {name: Michael Langer}
+  model: wiki.professor
+  pk: 4

@@ -59,43 +59,34 @@ $(document).ready(function() {
 	hideExtraSections(1);
 
 	var inFullscreen = false;
-	$('a[id^=fullscreen-section-]').click(function(event) {
-		// There is most definitely a better way of doing this ... classes and data- attributes?
-		var thisID = $(this).attr('id');
-		var thisIDNumber = parseInt(thisID.substring(19)); // awful
-		console.log(thisID);
+	$('#fullscreen').click(function(event) {
 		if (inFullscreen) {
-			exitFullscreen(thisIDNumber);
+			exitFullscreen();
 		} else {
-			enterFullscreen(thisIDNumber);
+			enterFullscreen();
 		}
 		inFullscreen = !inFullscreen;
 		return false;
 	});
 
 	var textareaHeight;
-	var enterFullscreen = function(sectionNumber) {
+	var enterFullscreen = function() {
 		console.log("entering fullscreen");
-		$('body').css('overflow-y', 'none');
-		$('#section-' + sectionNumber).addClass('fullscreen');
-		var newWidth = $('body').width() - 200;
-		var sectionBody = $('#section-' + sectionNumber + '-body');
-		textareaHeight = sectionBody.height();
-		var newHeight = $('body').height() - 140;
-		$('#section-' + sectionNumber + '-title').width(newWidth);
-		sectionBody.width(newWidth);
-		sectionBody.height(newHeight);
+		$('body').css('overflow-y', 'hidden');
+		$('#content-box').addClass('fullscreen');
+		var newWidth = $('#main').width() - 35; // not sure
+		textareaHeight = $('#content-box textarea').height();
+		var newHeight = $('body').height() - 100;
+		$('#content-box textarea').width(newWidth).height(newHeight);
+		$('#fullscreen').text('Exit fullscreen');
 	};
 
 	var exitFullscreen = function(sectionNumber) {
 		console.log("exiting fullscreen");
 		$('body').css('overflow-y', 'visible');
-		$('#section-' + sectionNumber).removeClass('fullscreen');
-		var newWidth = 800;
-		$('#section-' + sectionNumber + '-title').width(newWidth);
-		var sectionBody = $('#section-' + sectionNumber + '-body');
-		sectionBody.width(newWidth);
-		sectionBody.height(textareaHeight);
+		$('#content-box').removeClass('fullscreen');
+		$('#content-box textarea').width(930).height(400);
+		$('#fullscreen').text('Go fullscreen');
 	};
 
 	// Multiple choice quizzes, clicking on the "view answer" thing etc

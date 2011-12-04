@@ -1,0 +1,3 @@
+- fields: {course: 1, term: fall, year: 2011}
+  model: wiki.coursesemester
+  pk: 1

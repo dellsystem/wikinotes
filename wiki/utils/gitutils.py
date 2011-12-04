@@ -13,7 +13,7 @@ class Git:
 		try:
 			os.makedirs(self.full_path)
 		except OSError:
-			pass
+			print "WTF???"
 		# If the repository has not been created yet, create it
 		# Yeah leads to race conditions or whatever but, whatever, deal with later
 		if not os.path.exists("%s/.git" % self.full_path):

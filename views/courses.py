@@ -159,5 +159,6 @@ def overview(request, department, number):
 		'all_pages': all_pages,
 		'this_sem_pages': this_sem_pages,
 		'course_sems': course_sems,
+		'current_sem': course.get_current_semester(),
 	}
 	return render(request, 'courses/overview.html', data)
