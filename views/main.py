@@ -47,16 +47,21 @@ def index(request, show_welcome=False):
 def login_logout(request):
 	# Check if the user is already logged in and is trying to log out
 	if request.user.is_authenticated():
-		if request.POST['logout']:
+		if 'logout' in request.POST:
 			logout(request)
 	else:
 		if request.POST['login']:
-			username = request.POST['username']
-			password = request.POST['password']
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				if user.is_active:
-					login(request, user)
+			try:
+				username = User.objects.get(username__iexact=request.POST['username'])
+				password = request.POST['password']
+				user = authenticate(username=username, password=password)
+				if user is not None:
+					if user.is_active:
+						login(request, user)
+				else:
+					raise User.DoesNotExist
+			except User.DoesNotExist:
+				return render(request, 'main/login_error.html')
 
 	# Redirect to the index page etc
 	return index(request)
@@ -114,8 +119,8 @@ def register(request):
 			if username and not validate_username(username):
 				errors.append("Please only use alphanumeric characters and the underscore for your username.")
 
-			# Now check if the username is already being used
-			if User.objects.filter(username=username).count() > 0:
+			# Now check if the username (any case combination) is already being used
+			if User.objects.filter(username__iexact=username).count() > 0:
 				errors.append("This username is already in use! Please find a new one.")
 
 			data = {
