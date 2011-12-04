@@ -16,7 +16,7 @@
 				<div class="clearfix">
 					<label for="textarea">Bio:</label>
 					<div class="input">
-						<textarea class="xxlarge" id="ucp_bio" name="ucp_bio" rows="2">{{ user.get_profile.bio }}</textarea>
+						<textarea class="xxlarge" id="ucp_bio" name="ucp_bio" rows="2">{% if profile.bio %}{{ profile.bio }}{% endif %}</textarea>
 						<span class="help-block">
 							A short description of yourself. Limit it to 300 characters or so. Markdown is not parsed.
 						</span>
@@ -25,37 +25,37 @@
 				<div class="clearfix">
 					<label for="ucp_major">Major:</label>
 					<div class="input">
-						<input class="xlarge" id="ucp_major" name="ucp_major" size="30" type="text" value="{{ user.get_profile.major }}" />
+						<input class="xlarge" id="ucp_major" name="ucp_major" size="30" type="text" value="{% if profile.major %}{{ profile.major }}{% endif %}" />
 					</div>
 				</div>
 				<div class="clearfix">
 					<label for="ucp_website">Website:</label>
 					<div class="input">
-						<input class="xlarge" id="ucp_website" name="ucp_website" size="30" type="text" value="{{ user.get_profile.website }}" />
+						<input class="xlarge" id="ucp_website" name="ucp_website" size="30" type="text" value="{% if profile.website %}{{ profile.website }}{% endif %}" />
 					</div>
 				</div>
 				<div class="clearfix">
 					<label for="ucp_twitter">Twitter username:</label>
 					<div class="input">
-						<input class="xlarge" id="ucp_twitter" name="ucp_twitter" size="30" type="text" value="{{ user.get_profile.twitter }}" />
+						<input class="xlarge" id="ucp_twitter" name="ucp_twitter" size="30" type="text" value="{% if profile.twitter %}{{ profile.twitter }}{% endif %}" />
 					</div>
 				</div>
 				<div class="clearfix">
 					<label for="ucp_github">Github username:</label>
 					<div class="input">
-						<input class="xlarge" id="ucp_github" name="ucp_github" size="30" type="text" value="{{ user.get_profile.github }}" />
+						<input class="xlarge" id="ucp_github" name="ucp_github" size="30" type="text" value="{% if profile.github %}{{ profile.github }}{% endif %}" />
 					</div>
 				</div>
 				<div class="clearfix">
 					<label for="ucp_facebook">Facebook username:</label>
 					<div class="input">
-						<input class="xlarge" id="ucp_facebook" name="ucp_facebook" size="30" type="text" value="{{ user.get_profile.facebook }}" />
+						<input class="xlarge" id="ucp_facebook" name="ucp_facebook" size="30" type="text" value="{% if profile.facebook %}{{ profile.facebook }}{% endif %}" />
 					</div>
 				</div>
 				<div class="clearfix">
 					<label for="ucp_gplus">Google plus ID:</label>
 					<div class="input">
-						<input class="xlarge" id="ucp_gplus" name="ucp_gplus" size="30" type="text" value="{{ user.get_profile.gplus }}" />
+						<input class="xlarge" id="ucp_gplus" name="ucp_gplus" size="30" type="text" value="{% if profile.gplus %}{{ profile.gplus }}{% endif %}" />
 					</div>
 				</div>
 				<div class="actions">

@@ -147,6 +147,7 @@ def ucp(request, mode):
 		user = request.user
 		user_profile = user.get_profile()
 		data = {
+			'profile': user_profile,
 			'mode': mode,
 			'modes': modes,
 			'template': 'ucp/' + mode + '.html',
