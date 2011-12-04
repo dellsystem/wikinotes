@@ -53,10 +53,10 @@ class Page(models.Model):
 		return page_types[self.page_type]
 	
 	def get_title(self):
-		if not self.subject:
-			return self.title
-		else:
+		if not self.title:
 			return self.subject
+		else:
+			return self.title
 
 	def get_url(self):
 		course = self.course_sem.course
