@@ -21,7 +21,8 @@
 				<br />
 				<fieldset class="grey-box" id="content-box">
 					{% include "pages/edit_buttons.html" %}
-					<textarea name="content">{{ content }}</textarea>
+					<textarea name="content" id="content-textarea">{{ content }}</textarea>
+					<div id="content-preview"></div>
 					<br /><br />
 					<p class="right-align"><a href="#" id="fullscreen">Go fullscreen</a> :: <strong><a href="/help">Help! How do I format this?</a></strong></p>
 				</fieldset>
