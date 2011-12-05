@@ -142,6 +142,7 @@ $(document).ready(function() {
 			url: '/markdown',
 			success: function(data) {
 				$('#content-preview').html(data);
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'content-preview']);
 			},
 		});
 		$('#edit-buttons').hide();
