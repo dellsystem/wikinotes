@@ -100,7 +100,7 @@ def edit(request, department, number, page_type, term, year, slug):
 
 		# Add the history item
 		course.add_event(page=page, user=request.user, action='edited', message=message)
-		return render(request, "pages/success.html", data)
+		return show(request, department, number, page_type, term, year, slug)
 
 	field_templates = page_type_obj.get_editable_fields()
 	non_field_templates = ['pages/%s_data.html' % field for field in page_type_obj.editable_fields]
@@ -174,7 +174,7 @@ def create(request, department, number, page_type):
 			# Add the history item - should be done automatically one day
 			course.add_event(page=new_page, user=request.user, action='created', message=commit_message)
 			data['page'] = new_page
-			return render(request, "pages/success.html", data)
+			return show(request, department, number, page_type, course_sem.term, course_sem.year, new_page.slug)
 
 	return render(request, 'pages/create_edit.html', data)
 
