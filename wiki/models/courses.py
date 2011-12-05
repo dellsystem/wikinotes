@@ -78,6 +78,12 @@ class CourseSemester(models.Model):
 		# For printing out. Returns Term year
 		return "%s %d" % (self.term.title(), self.year)
 
+	def get_slug(self):
+		return "%s-%s" % (self.term, self.year)
+
+	def get_url(self):
+		return "%s/%s" % (self.course.get_url(), self.get_slug())
+
 class Professor(models.Model):
 	class Meta:
 		app_label = 'wiki'

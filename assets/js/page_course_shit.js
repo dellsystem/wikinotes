@@ -1,4 +1,46 @@
 $(document).ready(function() {
+	var showAllSemesters = function() {
+		$('.page-row').show();
+		$('.page-table').show(); // show the tables and the headings
+		$('.page-table').each(function() {
+			$($(this).prev()[0]).show();
+		});
+	};
+	// The filter by semester enhancement on the course overview page
+	$('.semester-filter').click(function() {
+		var semester = $(this).attr('data-semester');
+
+		// Hide everything at the end, using a fadeOut()
+		var thingsToHide = [];
+
+		$('.page-table').each(function() {
+			var numPages = parseInt($(this).attr('data-num-pages'), 10);
+			var categoryThingsToHide = []; // don't judge
+			$(this).find('.page-row').each(function() {
+				var thisPageSemester = $(this).attr('data-semester');
+				if (thisPageSemester !== semester) {
+					categoryThingsToHide.push($(this));
+				}
+			});
+
+			// If we need to hide all the rows in the table, just hide the whole table
+			if (categoryThingsToHide.length == numPages) {
+				thingsToHide.push($(this));
+				// Hide the relevant h4 as well
+				thingsToHide.push($($(this).prev()[0]));
+			}
+		});
+		showAllSemesters();
+		$(thingsToHide).each(function() {
+			$(this).hide();
+		});
+		return false;
+	});
+	$('#semester-show').click(function() {
+		showAllSemesters();
+		return false;
+	});
+
 	$('input, textarea').placeholder();
 	// for a decent fallback if JS is disabled ...
 	$('#create-page-popup').hide();
