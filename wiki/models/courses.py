@@ -51,7 +51,7 @@ class Course(models.Model):
 	# Get history items for this course; limited to 5 when called from the template
 	# Set to 0 for no limit
 	def recent_activity(self, limit=5):
-		course_history = HistoryItem.objects.filter(course=self)
+		course_history = HistoryItem.objects.filter(course=self).order_by('-timestamp')
 		if limit > 0:
 			return course_history[:limit]
 		else:
