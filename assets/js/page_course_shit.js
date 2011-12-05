@@ -69,7 +69,6 @@ $(document).ready(function() {
 
 	var textareaHeight;
 	var enterFullscreen = function() {
-		console.log("entering fullscreen");
 		$('body').css('overflow-y', 'hidden');
 		$('#content-box').addClass('fullscreen');
 		var newWidth = $('#main').width() - 35; // not sure
@@ -80,7 +79,6 @@ $(document).ready(function() {
 	};
 
 	var exitFullscreen = function(sectionNumber) {
-		console.log("exiting fullscreen");
 		$('body').css('overflow-y', 'visible');
 		$('#content-box').removeClass('fullscreen');
 		$('#content-box textarea').width(930).height(400);
