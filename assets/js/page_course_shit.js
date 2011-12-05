@@ -119,4 +119,23 @@ $(document).ready(function() {
 		$(this).siblings().removeClass('success');
 		$(this).addClass('success');
 	});
+
+	// The BBCode-like editor not sure what to call it
+	var textarea = $($('#content-box textarea')[0]);
+	$('.surround-button').click(function() {
+		var selection = textarea.getSelection();
+		var surroundingShit = $(this).attr('data-surround-with');
+		if (selection.length > 0) {
+			textarea.replaceSelection(surroundingShit + selection.text + surroundingShit);
+		}
+		return false;
+	});
+	$('.insert-button').click(function() {
+		var selection = textarea.getSelection();
+		// Insert whatever it is after the start
+		var shitToInsert = $(this).attr('data-insert');
+		// Assume that the cursor is somewhere because there's no way of checking (0 vs 0)
+		textarea.replaceSelection(shitToInsert + selection.text);
+		return false;
+	});
 });
