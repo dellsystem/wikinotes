@@ -120,6 +120,14 @@ $(document).ready(function() {
 		$(this).addClass('success');
 	});
 
+	var setEditButtonMessage = function(text, pClass) {
+		$($('#edit-buttons p')[0]).attr('class', pClass).text(text);
+	};
+
+	var clearEditButtonMessage = function() {
+		setEditButtonMessage('', '');
+	};
+
 	// The BBCode-like editor not sure what to call it
 	var textarea = $($('#content-box textarea')[0]);
 	$('.surround-button').click(function() {
@@ -127,6 +135,9 @@ $(document).ready(function() {
 		var surroundingShit = $(this).attr('data-surround-with');
 		if (selection.length > 0) {
 			textarea.replaceSelection(surroundingShit + selection.text + surroundingShit);
+			clearEditButtonMessage();
+		} else {
+			setEditButtonMessage('Please select something first', 'error');
 		}
 		return false;
 	});
@@ -136,6 +147,11 @@ $(document).ready(function() {
 		var shitToInsert = $(this).attr('data-insert');
 		// Assume that the cursor is somewhere because there's no way of checking (0 vs 0)
 		textarea.replaceSelection(shitToInsert + selection.text);
+		clearEditButtonMessage();
 		return false;
+	});
+	$('.insert-button, .surround-button').mouseover(function() {
+		var usage = $(this).attr('data-usage');
+		setEditButtonMessage(usage, '');
 	});
 });
