@@ -2,25 +2,29 @@ import os
 import git
 import gitdb
 import datetime
+from platform import system
 from math import log
 
 # Temporary, use wrapper library later
 # Ignore special characters etc for now
 class Git:
+	os_line_break = ";" if system() == "Linux" else "&";
+	
 	def __init__(self, path_to_repo):
 		print path_to_repo
 		self.full_path = path_to_repo.strip('/') # don't need leading/trailing slashes
-		try:
+		if not os.path.exists(self.full_path):
 			os.makedirs(self.full_path)
-		except OSError:
-			print "WTF???"
 		# If the repository has not been created yet, create it
 		# Yeah leads to race conditions or whatever but, whatever, deal with later
+		print "%s" % self.full_path;
 		if not os.path.exists("%s/.git" % self.full_path):
-			os.system("cd \"%s\"; git init" % self.full_path)
+			print "it doesn't exist"
+			os.system(self.os_line_break.join(["cd \"%s\""% self.full_path," git init"]))
+			print self.os_line_break.join(["cd \"%s\""% self.full_path," git init"])
 
 	def add(self, filename):
-		os.system("cd \"%s\"; git add \"%s\"" % (self.full_path, filename))
+		os.system(self.os_line_break.join(["cd \"%s\"" % self.full_path, " git add \"%s\"" % (filename)]))
 
 	# Commits all the staged files
 	def commit(self, commit_message, username, email):
@@ -29,7 +33,7 @@ class Git:
 		# If the comment is empty, fill it with the default ("Minor edit")
 		if commit_message == '':
 			commit_message = 'Minor edit'
-		os.system('cd "%s"; git commit -m "%s" --author="%s <%s>"' % (self.full_path, commit_message, username, email))
+		os.system(self.os_line_break.join(['cd "%s"' % self.full_path,' git commit -m "%s" --author="%s <%s>"' % ( commit_message, username, email)]))
 
 		# Make sure something was actually committed - later
 
