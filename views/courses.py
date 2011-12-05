@@ -203,7 +203,7 @@ def overview(request, department, number):
 	for name, obj in page_types.iteritems():
 		# Get all the pages associated with this page type (and this course etc)
 		pages = Page.objects.filter(page_type=name, course_sem__course=course)
-		types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'show_template': obj.get_show_template(), 'list_template': obj.get_list_template(), 'pages': pages})
+		types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages})
 
 	try:
 		this_sem = CourseSemester.objects.get(course=course, term='winter', year='2011')

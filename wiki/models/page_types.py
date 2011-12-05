@@ -32,7 +32,13 @@ class PageType:
 
 	# For showing all the pages of this type (on a per-course level)
 	def get_list_template(self):
-		return 'pages/%s/list.html' % self.short_name
+		return 'pages/%s/list' % self.short_name
+
+	def get_list_header(self):
+		return self.get_list_template() + '_header.html'
+
+	def get_list_body(self):
+		return self.get_list_template() + '_body.html'
 
 	def get_icon(self):
 		return '/static/img/pages/%s.png' % self.short_name

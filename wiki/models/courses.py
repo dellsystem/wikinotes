@@ -51,7 +51,7 @@ class Course(models.Model):
 	# Get history items for this course; limited to 5 when called from the template
 	# Set to 0 for no limit
 	def recent_activity(self, limit=5):
-		course_history = HistoryItem.objects.filter(course=self).order_by('-timestamp');
+		course_history = HistoryItem.objects.filter(course=self).order_by('-timestamp')
 		if limit > 0:
 			return course_history[:limit]
 		else:
@@ -77,6 +77,12 @@ class CourseSemester(models.Model):
 	def get_semester(self):
 		# For printing out. Returns Term year
 		return "%s %d" % (self.term.title(), self.year)
+
+	def get_slug(self):
+		return "%s-%s" % (self.term, self.year)
+
+	def get_url(self):
+		return "%s/%s" % (self.course.get_url(), self.get_slug())
 
 class Professor(models.Model):
 	class Meta:

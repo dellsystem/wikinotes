@@ -77,7 +77,7 @@ def recent(request, num_days=1, show_all=False):
 	return render(request, 'main/recent.html', data)
 
 def profile(request, username):
-	this_user = User.objects.get(username=username)
+	this_user = User.objects.get(username__iexact=username)
 	data = {
 		'this_user': this_user, # can't call it user because the current user is user
 		'profile': this_user.get_profile(),
