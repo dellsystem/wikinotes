@@ -1,4 +1,4 @@
 		<div id="content-markdown">
 			{% load markup %}
-			{{ content|markdown:"mathjax" }}
+			{{ content|force_escape|markdown:"mathjax" }}
 		</div>
