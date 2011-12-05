@@ -6,6 +6,7 @@ from wiki.models.history import HistoryItem
 from wiki.utils.users import validate_username
 from wiki.models.pages import Page
 from blog.models import BlogPost
+from django.http import Http404
 
 # welcome is only set to true when called from register()
 # Triggers the display of some sort of welcome message
@@ -177,3 +178,12 @@ def ucp(request, mode):
 		return render(request, 'main/ucp.html', data)
 	else:
 		return index(request)
+
+def markdown(request):
+	if 'content' in request.POST and 'csrfmiddlewaretoken' in request.POST:
+		data = {
+			'content': request.POST['content']
+		}
+		return render(request, 'main/markdown.html', data)
+	else:
+		raise Http404
