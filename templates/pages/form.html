@@ -20,7 +20,9 @@
 				</div>-->
 				<br />
 				<fieldset class="grey-box" id="content-box">
-					<textarea name="content">{{ content }}</textarea>
+					{% include "pages/edit_buttons.html" %}
+					<textarea name="content" id="content-textarea">{{ content }}</textarea>
+					<div id="content-preview"></div>
 					<br /><br />
 					<p class="right-align"><a href="#" id="fullscreen">Go fullscreen</a> :: <strong><a href="/help">Help! How do I format this?</a></strong></p>
 				</fieldset>
@@ -31,6 +33,6 @@
 						<input type="text" class="span13" name="message" value="{{ message }}" />
 					</div>
 					<br />
-					<div class="center-align"><input type="submit" name="preview" value="Preview" class="btn" /> <input type="submit" name="submit" value="Save" class="btn danger" /></div>
+					<div class="center-align"><input type="submit" name="submit" value="Save" class="btn danger" /></div>
 				</fieldset>
 			</form>

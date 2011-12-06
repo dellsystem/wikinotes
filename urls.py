@@ -17,6 +17,8 @@ urlpatterns = patterns('',
 	url(r'^user/(?P<username>\w+)$', 'views.main.profile'),
 	url(r'^ucp/?(?P<mode>\w*)$', 'views.main.ucp'),
 
+	url(r'^markdown$', 'views.main.markdown'), # for ajax previews
+
 	# Registration stuff
 	url(r'^register$', 'views.main.register'),
 
