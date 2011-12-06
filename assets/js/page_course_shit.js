@@ -119,7 +119,7 @@ $(document).ready(function() {
 	});
 
 	var setEditButtonMessage = function(text, pClass) {
-		$($('#edit-buttons p')[0]).attr('class', pClass).text(text);
+		$($('#edit-buttons p')[0]).attr('class', pClass).html(text);
 	};
 
 	var clearEditButtonMessage = function() {
@@ -174,7 +174,8 @@ $(document).ready(function() {
 	$('.insert-button').click(function() {
 		var selection = textarea.getSelection();
 		// Insert whatever it is after the start
-		var shitToInsert = $(this).attr('data-insert');
+		// Turn \n into an actual newline (use the g modifier to replace all)
+		var shitToInsert = $(this).attr('data-insert').replace(/\\n/g, '\n');
 		// Assume that the cursor is somewhere because there's no way of checking (0 vs 0)
 		textarea.replaceSelection(shitToInsert + selection.text);
 		clearEditButtonMessage();

@@ -249,7 +249,7 @@ table img {
 }
 
 #content-markdown {
-	padding-top: 5px;
+	padding-top: 10px;
 	h1 {
 		.font-height(27px);
 	}
@@ -257,21 +257,27 @@ table img {
 		.font-height(23px);
 	}
 	h3 {
-		.font-height(19px);
+		.font-height(20px);
 	}
 	h4 {
-		.font-height(16px);
+		.font-height(17px);
 	}
 	h5 {
-		.font-height(14px);
+		.font-height(15px);
 	}
 	h6 {
-		.font-height(12px);
+		.font-height(13px);
 		text-transform: none;
 		color: @grayDark;
 	}
 	p {
 		padding: 5px 0px;
+	}
+	ul {
+		margin-bottom: 0px;
+	}
+	dl {
+		padding-bottom: 0px;
 	}
 }
 
@@ -295,4 +301,9 @@ table img {
 	display: none;
 	clear: both;
 	#content-markdown;
+}
+
+#content-textarea {
+	#font > .monospace(normal, 13px, 17px);
+	color: @grayDark;
 }
