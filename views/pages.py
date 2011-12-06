@@ -7,6 +7,7 @@ from django.template import RequestContext
 from wiki.models.pages import Page
 from django.http import Http404
 import random as random_module
+from wiki.utils.docx_to_md import markdownify
 from wiki.models.history import HistoryItem
 from django.contrib.auth.models import User
 from wiki.utils.currents import current_term, current_year
@@ -126,11 +127,11 @@ def edit(request, department, number, page_type, term, year, slug):
 	return render(request, "pages/edit.html", data)
 
 def create(request, department, number, page_type):
+	
 	if not request.user.is_authenticated():
 		return register(request)
 
 	course = get_object_or_404(Course, department=department, number=int(number))
-
 	if page_type not in page_types:
 		raise Http404
 
@@ -146,8 +147,11 @@ def create(request, department, number, page_type):
 		'exam_types': exam_types,
 		'current_exam_type': exam_types[0], # default
 		'edit_mode': False,
-	}
-
+	}        
+	if "test" in request.GET:
+		content = markdownify("test.docx","test")
+		data['content'] = content
+		return render(request, 'pages/create.html', data)
 	if request.method == 'POST':
 		errors = page_type_obj.find_errors(request.POST)
 		kwargs = page_type_obj.get_kwargs(request.POST)
