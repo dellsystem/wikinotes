@@ -119,7 +119,7 @@ $(document).ready(function() {
 	});
 
 	var setEditButtonMessage = function(text, pClass) {
-		$($('#edit-buttons p')[0]).attr('class', pClass).text(text);
+		$($('#edit-buttons p')[0]).attr('class', pClass).html(text);
 	};
 
 	var clearEditButtonMessage = function() {
