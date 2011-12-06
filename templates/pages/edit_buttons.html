@@ -1,0 +1,23 @@
+<div class="float-right">
+	<ul class="pills">
+		<li class="active" id="edit-pill"><a href="#">Edit</a></li>
+		<li id="preview-pill"><a href="#">Preview</a></li>
+	</ul>
+</div>
+<div id="edit-buttons">
+	<a href="#" class="btn surround-button" data-surround-with="**" data-usage="**Text to bold** or __text to bold__"><strong>B</strong></a>
+	<a href="#" class="btn surround-button" data-surround-with="*" data-usage="*Text to emphasise* or _text to emphasise_"><em>i</em></a>
+	<a href="#" class="btn surround-button" data-surround-with="#" data-usage="#Heading text# or # Heading text or anything with a === on the next line"><strong>H1</strong></a>
+	<a href="#" class="btn surround-button" data-surround-with="##" data-usage="##Heading text or ## Heading text or anything with a ---- on the next line"><strong>H2</strong></a>
+	<a href="#" class="btn surround-button" data-surround-with="###" data-usage="###Heading text or ### Heading text; you can use up to 6 #'s"><strong>H3</strong></a>
+	<a href="#" class="btn insert-button" data-insert="***" data-usage="Enter *** for a horizontal rule">―</a>
+	<a href="#" class="btn insert-button" data-insert="[text](http://www.example.com &quot;Title&quot;)" data-usage="Hyperlinks. [Text to display](http://www.example.com &quot;Optional title attribute&quot;)"><img src="/static/img/edit_buttons/url.png" /></a>
+	<a href="#" class="btn insert-button" data-insert="![alt](image.png &quot;Title&quot;)" data-usage="Image. [Alt text](path/to/image.png &quot;Optional title attribute&quot;)"><img src="/static/img/edit_buttons/image.png" /></a>
+	<a href="#" class="btn insert-button" data-insert="$x^2$" data-usage="MathJax with LaTeX. Between single $'s for inline, double for block. Use \$ to escape a $, and use \gt and \lt instead of &gt;, &lt;"><img src="/static/img/edit_buttons/math.png" /></a>
+	<a href="#" class="btn insert-button" data-insert="&gt; quote" data-usage="For blockquotes. Just put a > before each line, or before the first line you indent subsequent lines"><img src="/static/img/edit_buttons/quote.png" /></a>
+	<a href="#" class="btn insert-button" data-insert="	code" data-usage="For code. Will be highlighted (I think). Indent four spaces, or with a tab.">&lt;&gt;</a>
+	<a href="#" class="btn insert-button" data-insert="* " data-usage="For lists. Just preface each list item with a * , + , or - . Note the space."><img src="/static/img/edit_buttons/list.png" /></a>
+	<a href="#" class="btn insert-button" data-insert="term\n: definition" data-usage="For definition lists. Term, new line, : definition. Might have some special styling too who knows">:{% comment %} needs some sort of icon lol {% endcomment %}</a>
+	<a href="#" class="btn insert-button" data-insert="Header | Header\n------ | ------\nCell   | Cell   " data-usage="For tables. Format it as shown. Link to help?"><img src="/static/img/edit_buttons/table.png" /></a>
+	<p> </p>
+</div>

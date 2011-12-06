@@ -7,6 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^$', 'views.main.index'),
+	url(r'^testing$', 'views.main.test'),
 	url(r'^login$', 'views.main.login_logout'),
 	url(r'^recent$', 'views.main.recent'),
 	url(r'^recent/all$', 'views.main.recent', {'show_all': True}),
@@ -16,6 +17,8 @@ urlpatterns = patterns('',
 	url(r'^department/(?P<department>\w{4})$', 'views.courses.department_overview'),
 	url(r'^user/(?P<username>\w+)$', 'views.main.profile'),
 	url(r'^ucp/?(?P<mode>\w*)$', 'views.main.ucp'),
+
+	url(r'^markdown$', 'views.main.markdown'), # for ajax previews
 
 	# Registration stuff
 	url(r'^register$', 'views.main.register'),

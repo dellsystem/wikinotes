@@ -69,18 +69,16 @@ $(document).ready(function() {
 
 	var textareaHeight;
 	var enterFullscreen = function() {
-		console.log("entering fullscreen");
 		$('body').css('overflow-y', 'hidden');
 		$('#content-box').addClass('fullscreen');
 		var newWidth = $('#main').width() - 35; // not sure
 		textareaHeight = $('#content-box textarea').height();
-		var newHeight = $('body').height() - 100;
+		var newHeight = $('body').height() - 130;
 		$('#content-box textarea').width(newWidth).height(newHeight);
 		$('#fullscreen').text('Exit fullscreen');
 	};
 
 	var exitFullscreen = function(sectionNumber) {
-		console.log("exiting fullscreen");
 		$('body').css('overflow-y', 'visible');
 		$('#content-box').removeClass('fullscreen');
 		$('#content-box textarea').width(930).height(400);
@@ -118,5 +116,73 @@ $(document).ready(function() {
 	$('.radio-button').click(function() {
 		$(this).siblings().removeClass('success');
 		$(this).addClass('success');
+	});
+
+	var setEditButtonMessage = function(text, pClass) {
+		$($('#edit-buttons p')[0]).attr('class', pClass).html(text);
+	};
+
+	var clearEditButtonMessage = function() {
+		setEditButtonMessage('', '');
+	};
+
+	var csrfToken = $('input[name=csrfmiddlewaretoken]').val();
+	$('#preview-pill').click(function() {
+		$('#edit-pill').removeClass('active');
+		$('#preview-pill').addClass('active');
+		$('#content-textarea').hide();
+		$('#content-preview').fadeIn(200);
+		$.ajax({
+			data: {
+				'csrfmiddlewaretoken': csrfToken,
+				'content': $('#content-textarea').val(),
+			},
+			dataType: 'html',
+			type: 'POST',
+			url: '/markdown',
+			success: function(data) {
+				$('#content-preview').html(data);
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'content-preview']);
+			},
+		});
+		$('#edit-buttons').hide();
+		return false;
+	});
+
+	$('#edit-pill').click(function() {
+		$('#preview-pill').removeClass('active');
+		$('#edit-pill').addClass('active');
+		$('#content-preview').hide();
+		$('#content-textarea').show();
+		$('#edit-buttons').show();
+		return false;
+	});
+
+	// The BBCode-like editor not sure what to call it
+	var textarea = $($('#content-box textarea')[0]);
+	$('.surround-button').click(function() {
+		var selection = textarea.getSelection();
+		var surroundingShit = $(this).attr('data-surround-with');
+		if (selection.length > 0) {
+			textarea.replaceSelection(surroundingShit + selection.text + surroundingShit);
+			clearEditButtonMessage();
+		} else {
+			setEditButtonMessage('Please select something first', 'error');
+		}
+		return false;
+	});
+	$('.insert-button').click(function() {
+		var selection = textarea.getSelection();
+		// Insert whatever it is after the start
+		// Turn \n into an actual newline (use the g modifier to replace all)
+		var shitToInsert = $(this).attr('data-insert').replace(/\\n/g, '\n');
+		// Assume that the cursor is somewhere because there's no way of checking (0 vs 0)
+		textarea.replaceSelection(shitToInsert + selection.text);
+		clearEditButtonMessage();
+		return false;
+	});
+	$('.insert-button, .surround-button').mouseover(function() {
+		var usage = $(this).attr('data-usage');
+		setEditButtonMessage(usage, '');
 	});
 });
