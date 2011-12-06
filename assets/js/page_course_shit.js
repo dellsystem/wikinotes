@@ -73,7 +73,7 @@ $(document).ready(function() {
 		$('#content-box').addClass('fullscreen');
 		var newWidth = $('#main').width() - 35; // not sure
 		textareaHeight = $('#content-box textarea').height();
-		var newHeight = $('body').height() - 100;
+		var newHeight = $('body').height() - 130;
 		$('#content-box textarea').width(newWidth).height(newHeight);
 		$('#fullscreen').text('Exit fullscreen');
 	};
@@ -142,6 +142,7 @@ $(document).ready(function() {
 			url: '/markdown',
 			success: function(data) {
 				$('#content-preview').html(data);
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'content-preview']);
 			},
 		});
 		$('#edit-buttons').hide();
