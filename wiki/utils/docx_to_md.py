@@ -224,9 +224,9 @@ def parse_math_group(element):
             for el in child.iter():
                 if el.tag == "{%s}chr" % nsprefixes['m']:
                     val = el.values()[0]
-                    if val == '←' or val == '⇐':
+                    if val == u'←' or val == u'⇐':
                         mode = "xleftarrow"
-                    if val == "→" or val == '⇒':
+                    if val == u'→' or val == u'⇒':
                         mode = "xrightarrow"
                         
         if child.tag == "{%s}e" % nsprefixes['m']:
@@ -285,13 +285,13 @@ def parse_math_nary(element):
             for s in child.getchildren():
                 if s.tag == "{%s}chr" % nsprefixes['m']:
                     char = s.values()[0]
-                    if  char == '∏':
+                    if  char == u'∏':
                         type = "prod"
-                    if char == '∬':
+                    if char == u'∬':
                         type = "iint"
-                    if char == '∭':
+                    if char == u'∭':
                         type = 'iiint'
-                    if char == '∑':
+                    if char == u'∑':
                         type = 'sum'
         
         #lower bound
@@ -452,5 +452,5 @@ def parse_picture(pic,document,name):
    # print current_picture
     return "#a picture link#"
 
-print markdownify("test.docx","name")
+#print markdownify("test.docx","name")
 
