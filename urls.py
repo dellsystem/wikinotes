@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 	url(r'^faculty/(?P<faculty>\w+)$', 'views.courses.faculty_overview'),
 	url(r'^department/(?P<department>\w{4})$', 'views.courses.department_overview'),
 	url(r'^user/(?P<username>\w+)$', 'views.main.profile'),
-	url(r'^ucp/?(?P<mode>\w*)$', 'views.main.ucp'),
+	url(r'^ucp/(?P<mode>\w*)$', 'views.main.ucp'),
 
 	url(r'^markdown$', 'views.main.markdown'), # for ajax previews
 
