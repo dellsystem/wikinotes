@@ -7,6 +7,7 @@ from django.template import RequestContext
 from wiki.models.pages import Page
 import random as random_module
 from wiki.models.history import HistoryItem
+from wiki.utils.history import collapse
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
@@ -162,3 +163,64 @@ def overview(request, department, number):
 		'current_sem': course.get_current_semester(),
 	}
 	return render(request, 'courses/overview.html', data)
+
+def recent(request, department, number):
+	course = get_object_or_404(Course, department=department, number=int(number))
+	raw_history = course.recent_activity(limit=0);
+	history = [];
+	group_count = 0;
+	group = [];
+	count = 0;
+	new_group = False;
+	for item in raw_history:
+		# new group of a same action
+		if group_count == 0:
+			new_group = False;
+			group.append(item)
+			group_count+=1
+
+		#check to see if the current item can be put into the current group	
+		else:
+			#edit
+			if(group[0].page):
+				if(group[0].page == item.page and group[0].action == item.action):
+					group.append(item)
+					group_count+=1
+				else:
+					new_group = True;
+			#(un)watch
+			else:
+				if(group[0].action == item.action):
+					group.append(item)
+					group_count+=1
+				else:
+					new_group = True;
+		if(count == len(raw_history)-1):
+			new_group=True;
+
+
+		if(new_group):
+			if(group_count>=4):#minimum num of same events before collapsing
+				history.append(collapse(group));
+			else:
+				for item in group:
+					history_item={};
+					history_item["owner"] = item.user;
+					if(item.page):
+						history_item["event"] = "%s %s" %(item.action,item.page)
+					else:
+						history_item["event"] = "%s this course" % (item.action)
+					history_item["time"] = item.timestamp;
+					history_item["time_since"]=item.get_timesince();
+					history_item["item"] = item;
+					history.append(history_item);
+			group_count = 0;
+			group = [];
+		count+=1
+
+	data = {
+			"course":course,
+			"history":history
+		}
+	print data
+	return render(request, 'courses/recent.html', data)

@@ -32,3 +32,32 @@ def humanise_timesince(start_time):
 		return "%d minute%s" % (num_minutes, plural(num_minutes))
 
 	return "a few seconds"
+
+def collapse(items):
+	users = set([item.user for item in items]);
+	history_item = {};
+	if(len(items)>len(users)):
+		if(len(users)==1):
+			history_item["owner"] = items[0].user
+		else:
+			history_item["owner"] = items[0].user
+			history_item["others"] = "and %d other" %(len(users)-1);
+			if(len(users)>2):
+				history_item["other"] +="s"
+		if(items[0].page):
+			history_item["event"] = "%s %s %d times" %(items[0].action,items[0].page,len(items))
+		else:
+			history_item["event"] = "%s this course %d times" % (items[0].action,len(items))
+	else:
+		history_item["owner"] = (items[0].user);
+		history_item["others"] ="and %d other" %(len(users)-1);
+		if(len(items)>2):
+			history_item["others"] +="s"
+		if(items[0].page):
+			history_item["event"] = "%s %s" %(items[0].action,items[0].page)
+		else:
+			history_item["event"] = "%s this course" % (items[0].action)
+	history_item["time"] = items[0].timestamp;
+	history_item["time_since"] = items[0].get_timesince();
+	history_item["items"] = items
+	return history_item
