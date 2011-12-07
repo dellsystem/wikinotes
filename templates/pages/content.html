@@ -1,6 +1,3 @@
 		<div id="content-markdown">
-			{% autoescape off %}
-			{% load wikinotes_markup %}
-			{{ content|wikinotes_markdown }}
-			{% endautoescape %}
+			{% include "main/markdown.html" %}
 		</div>

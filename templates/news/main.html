@@ -11,7 +11,7 @@
 					<hr />
 					<h4 class="float-right">{{ post.timestamp }}</h4>
 					<h4>{{ post.get_num_comments }} comment{{ post.get_num_comments|pluralize }}</h4>
-					{{ post.body|wikinotes_markdown }}
+					{{ post.body|wikinotes_markdown|safe }}
 					<br />
 				{% endfor %}
 			</div>
