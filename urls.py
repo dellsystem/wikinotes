@@ -1,35 +1,66 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.views.generic.simple import direct_to_template
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-	url(r'^$', 'views.main.index'),
-	url(r'^login$', 'views.main.login_logout'),
-	url(r'^recent$', 'views.main.recent'),
-	url(r'^recent/all$', 'views.main.recent', {'show_all': True}),
-	url(r'^recent/(?P<num_days>\d+)$', 'views.main.recent'),
-	url(r'^recent/all/(?P<num_days>\d+)$', 'views.main.recent', {'show_all': True}), # lol fix this
-	url(r'^faculty/(?P<faculty>\w+)$', 'views.courses.faculty_overview'),
-	url(r'^department/(?P<department>\w{4})$', 'views.courses.department_overview'),
-	url(r'^user/(?P<username>\w+)$', 'views.main.profile'),
-	url(r'^ucp/(?P<mode>\w*)$', 'views.main.ucp'),
-	url(r'^search', 'views.main.search'),
+"""
+Basic, reusable patterns
+"""
+department = r'(?P<department>\w{4})'
+course = department + '_(?P<number>\d{3}D?[12]?)'
+page_type = '(?P<page_type>[^/]+)'
+semester = '(?P<term>\w{4,6})-(?P<year>\d{4})'
+page = course + '/' + page_type + '/' + semester + '/(?P<slug>[^/]+)'
+sha = '(?P<hash>[a-z0-9]{1,40})'
 
-	url(r'^markdown$', 'views.main.markdown'), # for ajax previews
-
-	# Registration stuff
-	url(r'^register$', 'views.main.register'),
-
-	# News
-	url(r'^news$', 'views.news.main'),
-	url(r'^news/(?P<slug>[^/]+)$', 'views.news.view'),
-
-	# Uncomment the next line to enable the admin:
-	url(r'^admin/', include(admin.site.urls)),
-)
+"""
+Begin mappings
+"""
+direct_to_view = {
+	'main': {
+		'': 'index',
+		'login': 'login_logout',
+		'recent': 'recent',
+		'recent/(?P<num_days>\d+)': 'recent',
+		'recent/all': 'all_recent',
+		'recent/all/(?P<num_days>\d+)': 'all_recent',
+		'ucp/(?P<mode>\w*)': 'ucp',
+		'user/(?P<username>\w+)': 'profile',
+		'search': 'search',
+		'markdown': 'markdown',
+		'register': 'register'
+	},
+	'courses': {
+		'courses': 'index',
+		'courses/all': 'list_all',
+		'courses/faculty': 'faculty_browse',
+		'courses/department': 'department_browse',
+		'courses/semester': 'semester',
+		'courses/professor': 'professor',
+		'courses/popular': 'popular',
+		'courses/random': 'random',
+		'courses/active': 'active',
+		'courses/search': 'search',
+		course: 'overview',
+		course + '/recent': 'recent',
+		course + '/watch': 'watch',
+		'faculty/(?P<faculty>\w+)': 'faculty_overview',
+		'department/' + department: 'department_overview',
+	},
+	'news': {
+		'news': 'main',
+		'news/(?P<slug>[^/]+)': 'view',
+	},
+	'pages': {
+		'pages/random': 'random',
+		course + '/create/' + page_type: 'create',
+		page: 'show',
+		page + '/edit': 'edit',
+		page + '/history': 'history',
+		page + '/commit/' + sha: 'commit',
+	}
+}
 
 # Maps straight from about/history to the template file about/history.html
 template_urls = {
@@ -38,39 +69,19 @@ template_urls = {
 	'help': ['copyright'],
 }
 
+urlpatterns = patterns('',
+	url(r'^admin/', include(admin.site.urls)),
+)
+
+"""
+Begin code for mapping the mappings
+"""
+
 for prefix, filenames in template_urls.iteritems():
 	index_url = url(r'^' + prefix + '$', direct_to_template, {'template': prefix + '/index.html'})
 	urls = [url(r'^' + prefix + '/' + filename + '$', direct_to_template, {'template': prefix + '/' + filename + '.html'}) for filename in filenames]
 	urlpatterns += patterns('', index_url, *urls)
 
-# For viewing courses and the like
-urlpatterns += patterns('views.courses',
-	url(r'^courses$', 'index'),
-	url(r'^courses/all$', 'list_all'),
-	url(r'^courses/faculty$', 'faculty_browse'), # for browsing by faculty (i.e. lists all the faculties and their courses)
-	url(r'^courses/department$', 'department_browse'), # for browsing by department
-	url(r'^courses/semester$', 'semester'),
-	url(r'^courses/professor$', 'professor'),
-	url(r'^courses/popular$', 'popular'),
-	url(r'^courses/random$', 'random'),
-	url(r'^courses/active$', 'active'),
-	url(r'^courses/search$', 'search'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'overview'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/recent$', 'recent'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/watch$', 'watch'),
-)
-
-# For viewing, editing and creating pages
-urlpatterns += patterns('views.pages',
-		url(r'^pages/random$', 'random'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/create/(?P<page_type>[^/]+)$', 'create'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)$', 'show'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/edit$', 'edit'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/history$', 'history'),
-	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/(?P<page_type>[^/]+)/(?P<term>\w{4,6})-(?P<year>\d{4})/(?P<slug>[^/]+)/commit/(?P<hash>[a-z0-9]{1,40})$', 'commit'), # viewing a particular commit etc
-)
-
-# The sandbox
-urlpatterns += patterns('django.views.generic.simple',
-	(r'^sandbox/$',             'direct_to_template', {'template': 'sandbox.html'}),
-)
+for prefix, mapping in direct_to_view.iteritems():
+	urls = [url('^' + regex + '/?$', view) for regex, view in mapping.iteritems()]
+	urlpatterns += patterns('views.' + prefix, *urls)

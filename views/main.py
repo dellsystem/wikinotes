@@ -77,6 +77,9 @@ def recent(request, num_days=1, show_all=False):
 	}
 	return render(request, 'main/recent.html', data)
 
+def all_recent(request, num_days=1):
+	return recent(request, num_days=num_days, show_all=True)
+
 def profile(request, username):
 	this_user = User.objects.get(username__iexact=username)
 	data = {
