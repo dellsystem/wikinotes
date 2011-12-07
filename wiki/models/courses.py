@@ -8,7 +8,7 @@ class Course(models.Model):
 		app_label = 'wiki'
 
 	department = models.ForeignKey('Department')
-	number = models.IntegerField()
+	number = models.CharField(max_length=5)
 	name = models.CharField(max_length=255)
 	description = models.TextField(null=True)
 	credits = models.DecimalField(max_digits=2, decimal_places=1) # Can be 4.5
