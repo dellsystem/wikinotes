@@ -187,3 +187,12 @@ def markdown(request):
 		return render(request, 'main/markdown.html', data)
 	else:
 		raise Http404
+
+def search(request):
+	if 'query' in request.GET:
+		data = {
+			'query': request.GET['query']
+		}
+		return render(request, 'search/results.html', data)
+	else:
+		raise Http404

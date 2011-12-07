@@ -57,7 +57,7 @@
 			</ul>
 			<div class="float-right">
 		  		<ul class="nav">
-		  			<li><input type="text" name="search" class="xlarge" id="search-box" placeholder="Search ..." /></li>
+					<li><form action="/search" method="get" id="search-form"><input type="text" name="query" class="medium" placeholder="Search ..." /></form></li>
 					<li><a href="/recent">Recent changes</a></li>
 					{% if not user.is_authenticated %}<li><a href="/register">Register</a></li>{% endif %}
 		  		</ul>
