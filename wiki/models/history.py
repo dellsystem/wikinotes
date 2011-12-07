@@ -12,6 +12,7 @@ class HistoryManager(models.Manager):
 			query_set = query_set.exclude(page__isnull=True)
 		return query_set
 
+
 class HistoryItem(models.Model):
 	class Meta:
 		app_label = 'wiki'

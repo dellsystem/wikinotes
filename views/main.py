@@ -144,6 +144,7 @@ def register(request):
 		else:
 			return render(request, 'main/registration.html')
 
+
 def ucp(request, mode):
 	# Need a better way of dealing with logged-out users
 	modes = ['overview', 'account', 'profile', 'preferences']

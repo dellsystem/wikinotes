@@ -7,6 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^$', 'views.main.index'),
+	url(r'^testing$', 'views.main.test'),
 	url(r'^login$', 'views.main.login_logout'),
 	url(r'^recent$', 'views.main.recent'),
 	url(r'^recent/all$', 'views.main.recent', {'show_all': True}),
@@ -55,7 +56,7 @@ urlpatterns += patterns('views.courses',
 	url(r'^courses/active$', 'active'),
 	url(r'^courses/search$', 'search'),
 	url(r'^(?P<department>\w{4})_(?P<number>\d{3})$', 'overview'),
-	#url(r'^(?P<department>\w{4})_(?P<number>\d{3})/recent$', 'recent'),
+	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/recent$', 'recent'),
 	url(r'^(?P<department>\w{4})_(?P<number>\d{3})/watch$', 'watch'),
 )
 
