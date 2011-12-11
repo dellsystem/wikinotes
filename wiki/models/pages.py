@@ -1,3 +1,4 @@
+# encoding: utf-8
 from django.db import models
 from wiki.utils.pages import page_types, page_type_choices#, get_page_type
 from wiki.utils.gitutils import Git
@@ -21,7 +22,7 @@ class Page(models.Model):
 		file = open('%scontent.md' % self.get_filepath())
 		content = file.read()
 		file.close()
-		return content
+		return content.decode('utf-8')
 
 	def edit(self, data):
 		page_type = page_types[self.page_type]
@@ -37,7 +38,7 @@ class Page(models.Model):
 		repo = Git(path)
 		filename = '%scontent.md' % path
 		file = open(filename, 'wt')
-		file.write(content)
+		file.write(content.encode('utf-8'))
 		file.close()
 		repo.add('content.md')
 		message = 'Minor edit' if not message else message
