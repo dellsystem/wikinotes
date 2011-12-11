@@ -1,3 +1,33 @@
-- fields: {course: 1, term: fall, year: 2011}
+- fields:
+    course: 1
+    evaluation: null
+    final_info: null
+    midterm_info: null
+    professors: []
+    readings: null
+    term: fall
+    year: 2011
   model: wiki.coursesemester
   pk: 1
+- fields:
+    course: 37
+    evaluation: ''
+    final_info: ''
+    midterm_info: ''
+    professors: [1]
+    readings: ''
+    term: fall
+    year: 2011
+  model: wiki.coursesemester
+  pk: 2
+- fields:
+    course: 38
+    evaluation: ''
+    final_info: ''
+    midterm_info: ''
+    professors: [5]
+    readings: ''
+    term: fall
+    year: 2011
+  model: wiki.coursesemester
+  pk: 3

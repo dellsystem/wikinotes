@@ -206,10 +206,15 @@
       Philosophy 1, number: 230}
   model: wiki.course
   pk: 35
-- fields: {credits: 3, department: POLI, description: 'An introduction to Third World
-      politics. A comparative examination of the legacies of colonialism, the achievement
-      of independence, and contemporary dynamics of political and socio-economic development
-      in Africa, Asia and Latin America. Topics include mod', name: Developing Areas/Introduction,
+- fields: {credits: 3, department: POLI, description: "An introduction to Third World politics. A comparative examination of the legacies of colonialism, the achievement of independence, and contemporary dynamics of political and socio-economic development in Africa, Asia and Latin America. Topics include modernization, dependency, state-building and national integration, revolution, the role of the military, and democratization.", name: Developing Areas/Introduction,
     number: 227}
   model: wiki.course
   pk: 36
+- fields: {credits: 3, department: MATH, description: "Propositional calculus, truth-tables, switching circuits, natural deduction, first order predicate calculus, axiomatic theories, set theory.", name: Mathematical Logic,
+    number: 318}
+  model: wiki.course
+  pk: 37
+- fields: {credits: 3, department: MATH, description: "Sample space, events, conditional probability, independence of events, Bayes' Theorem. Basic combinatorial probability, random variables, discrete and continuous univariate and multivariate distributions. Independence of random variables. Inequalities, weak law of large numbers, central limit theorem.", name: Probability,
+    number: 323}
+  model: wiki.course
+  pk: 38

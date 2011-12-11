@@ -1,4 +1,4 @@
-- fields: {name: James Loveys}
+- fields: {name: James G Loveys}
   model: wiki.professor
   pk: 1
 - fields: {name: Gregory Dudek}
@@ -10,3 +10,6 @@
 - fields: {name: Michael Langer}
   model: wiki.professor
   pk: 4
+- fields: {name: William J Anderson}
+  model: wiki.professor
+  pk: 5
