@@ -12,9 +12,9 @@ class Course(models.Model):
 	name = models.CharField(max_length=255)
 	description = models.TextField(null=True)
 	credits = models.DecimalField(max_digits=2, decimal_places=1) # Can be 4.5
-	watchers = models.ManyToManyField(User)
+	watchers = models.ManyToManyField(User, null=True, blank=True)
 	# The latest_activity field makes it easier to sort and stuff ... not strictly necessary
-	latest_activity = models.ForeignKey('HistoryItem', related_name='latest_course', null=True)
+	latest_activity = models.ForeignKey('HistoryItem', related_name='latest_course', null=True, blank=True)
 	num_watchers = models.IntegerField(default=0) # caches it basically
 
 	def increase_num_watchers_by(self, i):
