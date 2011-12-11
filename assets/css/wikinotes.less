@@ -241,24 +241,21 @@ table img {
 // Font size and line height lol
 .font-height(@size) {
 	font-size: @size;
-	line-height: @size + 5;
+	line-height: @size + 10;
 	padding: 5px 0px;
 }
 
 #content-markdown {
 	padding-top: 10px;
-	h1 {
-		.font-height(27px);
-		border-bottom: 1px solid @grayLighter;
-	}
 	h2 {
-		.font-height(23px);
+		.font-height(25px);
+		border-bottom: 1px dashed @grayLight;
 	}
 	h3 {
-		.font-height(20px);
+		.font-height(21px);
 	}
 	h4 {
-		.font-height(17px);
+		.font-height(18px);
 	}
 	h5 {
 		.font-height(15px);
