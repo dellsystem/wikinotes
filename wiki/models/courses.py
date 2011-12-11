@@ -28,10 +28,10 @@ class Course(models.Model):
 			return None
 
 	def __unicode__(self):
-		return "%s %d" % (self.department.short_name, self.number)
+		return "%s %s" % (self.department.short_name, self.number)
 
 	def get_url(self):
-		return '/%s_%d' % (self.department.short_name, self.number)
+		return '/%s_%s' % (self.department.short_name, self.number)
 
 	def num_pages(self):
 		count = 0
