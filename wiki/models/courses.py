@@ -63,11 +63,11 @@ class CourseSemester(models.Model):
 		unique_together = ('term', 'year', 'course')
 
 	course = models.ForeignKey('Course')
-	evaluation = models.TextField(null=True)
-	professors = models.ManyToManyField('Professor', null=True)
-	midterm_info = models.TextField(null=True)
-	final_info = models.TextField(null=True)
-	readings = models.TextField(null=True)
+	evaluation = models.TextField(null=True, blank=True)
+	professors = models.ManyToManyField('Professor', null=True, blank=True)
+	midterm_info = models.TextField(null=True, blank=True)
+	final_info = models.TextField(null=True, blank=True)
+	readings = models.TextField(null=True, blank=True)
 	term = models.CharField(max_length=6) # Winter/Summer etc
 	year = models.IntegerField(max_length=4) # Because ... yeah
 
