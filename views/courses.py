@@ -83,7 +83,7 @@ def index(request):
 	courses = Course.objects.all()
 
 	random_courses = random_module.sample(courses, 10)
-	popular_courses = courses.order_by('-watchers')[:10]
+	popular_courses = Course.objects.order_by('-num_watchers')[:10]
 	active_courses = courses.order_by('-latest_activity__timestamp')[:10]
 
 	data = {
