@@ -78,7 +78,7 @@ Begin code for mapping the mappings
 """
 
 for prefix, filenames in template_urls.iteritems():
-	index_url = url(r'^' + prefix + '$', direct_to_template, {'template': prefix + '/index.html'})
+	index_url = url(r'^' + prefix + '/?$', direct_to_template, {'template': prefix + '/index.html'})
 	urls = [url(r'^' + prefix + '/' + filename + '$', direct_to_template, {'template': prefix + '/' + filename + '.html'}) for filename in filenames]
 	urlpatterns += patterns('', index_url, *urls)
 
