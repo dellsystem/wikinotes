@@ -25,8 +25,8 @@
 				{% for course in active_courses %}
 				<p style="display: inline-block; padding: 5px; text-align: center;" class="icon-thumb"><a href="{{ course.get_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
 				{% endfor %}
-				<h2>Top 10 random courses</h2>
-				<p>We've selected 5 courses at random for your browsing pleasure. Feel free to contribute by adding/editing content if you know the material or, if you don't, proofreading or something. You can also view a <a href="/pages/random">random page</a> associated with a <a href="/courses/random">random course</a>.</p>
+				<h2>10 random courses</h2>
+				<p>We've selected 10 courses at random for your browsing pleasure. Feel free to contribute by adding/editing content if you know the material or, if you don't, proofreading or something. You can also view a <a href="/pages/random">random page</a> associated with a <a href="/courses/random">random course</a>.</p>
 				{% for course in random_courses %}
 				<p style="display: inline-block; padding: 5px; text-align: center;" class="icon-thumb"><a href="{{ course.get_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course }}" /></a><br /><a href="{{ course.get_url }}">{{ course }}</a></p>
 				{% endfor %}
