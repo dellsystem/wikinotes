@@ -23,7 +23,8 @@ To run it on your local machine, you'll need the following dependencies:
 * python-yaml
 * python-markdown, with [this extension](https://github.com/mayoff/python-markdown-mathjax) - download the [mdx_markdown.py](https://raw.github.com/mayoff/python-markdown-mathjax/master/mdx_mathjax.py) file, rename it to mathjax.py, and place it in the extensions directory for your markdown installation. (See the [readme](https://github.com/mayoff/python-markdown-mathjax/blob/master/README.md) for more information.)
 * django-gravatar
-* gitpython (`easy_install gitpython`)
+* python-django-south (South through easy_install)
+* gitpython
 * git 1.7+ (older versions may work), both for version control and for the wiki software itself
 
 Configuration
