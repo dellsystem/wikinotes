@@ -21,7 +21,7 @@ To run it on your local machine, you'll need the following dependencies:
 * python 2.7+
 * django 1.3+
 * python-yaml
-* python-markdown, with [this extension](https://github.com/mayoff/python-markdown-mathjax) - download the [mdx_markdown.py](https://raw.github.com/mayoff/python-markdown-mathjax/master/mdx_mathjax.py) file, rename it to mathjax.py, and place it in the extensions directory for your markdown installation. (See the [readme](https://github.com/mayoff/python-markdown-mathjax/blob/master/README.md) for more information.)
+* python-markdown (all necessary extensions are either included in the default package or bundled with the source of wikinotes)
 * django-gravatar
 * python-django-south (South through easy_install)
 * gitpython
@@ -33,6 +33,6 @@ Configuration
 If you're running it for the first time, take note of the following setup instructions:
 
 * `chmod +x bootstrap`
-* `./bootstrap` - create the superuser at this point (you may also wish to run this if any database schema changes have been made since your last pull. if that doesn't fix things, delete the db.sqlite file and try again)
+* `./bootstrap` - create the superuser at this point (you may also wish to run this if any database schema changes have been made since your last pull)
 * `python manage.py runserver` (by default, this makes the platform accessible at [http://localhost:8000](http://localhost:8000); add `0.0.0.0:8000` if you want to make it publicly accessible through your IP address)
 * To run the unit tests, just do `python manage.py test` (there are quite a few tests to run because of all the dependencies, so this may take a while)
