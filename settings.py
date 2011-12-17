@@ -2,7 +2,7 @@
 
 from os import getcwd
 
-wikinotes_dir = getcwd() + '/' # temp workaround
+wikinotes_dir = "C:\\eclipse\\WorkBench\\Wikinotes\\wikinotes\\" # temp workaround
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
