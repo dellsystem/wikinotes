@@ -2,3 +2,4 @@
 db.sqlite
 data
 content
+wiki/migrations
