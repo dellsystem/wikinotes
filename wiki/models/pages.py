@@ -4,6 +4,7 @@ from wiki.utils.pages import page_types, page_type_choices#, get_page_type
 from wiki.utils.gitutils import Git
 import os
 from wiki.models.courses import CourseSemester
+from wiki.templatetags.wikinotes_markup import wikinotes_markdown
 
 class Page(models.Model):
 	class Meta:
@@ -17,6 +18,7 @@ class Page(models.Model):
 	title = models.CharField(max_length=255, null=True) # the format of this is determined by the page type
 	professor = models.ForeignKey('Professor', null=True)
 	slug = models.CharField(max_length=50)
+	content = models.TextField(null=True) # processed markdown, like a cache
 
 	def load_content(self):
 		file = open('%scontent.md' % self.get_filepath())
@@ -34,6 +36,8 @@ class Page(models.Model):
 		# THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
 
 	def save_content(self, content, message, username):
+		self.content = wikinotes_markdown(content)
+		self.save()
 		path = self.get_filepath()
 		repo = Git(path)
 		filename = '%scontent.md' % path
