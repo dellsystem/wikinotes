@@ -7,8 +7,9 @@ from django.template import RequestContext
 from wiki.models.pages import Page
 import random as random_module
 from wiki.models.history import HistoryItem
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 import re
+import json
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
@@ -129,36 +130,39 @@ def watch(request, department, number):
 	return overview(request, department, number)
 
 def search(request):
+	if 'q' not in request.GET:
+		raise Http404
+
 	query = request.GET["q"]
 	results = set()	
 	sorted_results = []
-	#assuming by id
+	# Assuming by id
 	sep = re.compile(r"[ -/_]")
 	query = sep.split(query)
 	course_name = ""
 	course_num = ""
-	print query
-	if len(query)>1:
+
+	if len(query) > 1:
 		course_name = query[0]
 		course_num = query[1]
-		for course in Course.objects.filter(department__short_name__icontains=course_name).filter(number__contains=course_num):
-			print course
+		for course in Course.objects.filter(department__short_name__icontains=course_name, number__contains=course_num):
 			results.add(course)
 	else:
 		query = "".join(query)
 		for course in Course.objects.filter(department__short_name__icontains=query):
-			print course
+			results.add(course)
+		for course in Course.objects.filter(number__contains=query):
 			results.add(course)
 		for course in Course.objects.filter(name__icontains=query):
-			print course
 			results.add(course)
+
 	for result in results:
 		sorted_results.append({
-							"name":"%s-%s (%s)" %(result.department.short_name,result.number,result.name),
+							"name":"%s %s (%s)" %(result.department.short_name,result.number,result.name),
 							"url":"%s"%result.get_absolute_url()
 							})
 	response = HttpResponse()
-	response.write(sorted_results)
+	response.write(json.dumps(sorted_results))
 	return response
 
 def overview(request, department, number):

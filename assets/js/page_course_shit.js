@@ -1,4 +1,42 @@
 $(document).ready(function() {
+	$('#course-search-box').bind('keyup focus', function() {
+		var query = $(this).val();
+		$.getJSON('/courses/search?q=' + query, function(data) {
+			var resultsBox = $('#course-search-results');
+			if (resultsBox.length) {
+				resultsBox.text('');
+			} else {
+				// If the results box loses focus, it should be hidden
+				resultsBox = $('<select id="course-search-results" tabindex="7" size="6"></select>').blur(function() { hideSearchResults(); });
+				$('#course-search-box').after(resultsBox);
+			}
+			if (data.length) {
+				// Loops through the indices of the list
+				for (i in data) {
+					course = data[i];
+					resultsBox.append('<option value="' + course.url + '">' + course.name + '</option>');
+				}
+				$('#course-search-results option').click(function() {
+					window.location.pathname = $(this).val();
+				});
+			} else {
+				resultsBox.append('<option>No results found</option>');
+			}
+		});
+	}).blur(function() {
+		hideSearchResults();
+	});
+
+	var hideSearchResults = function() {
+		// No timeout means that you can never actually click anything
+		setTimeout(function() {
+			// Only hide it if it's not actually in focus
+			if (!$('#course-search-results').is(':focus')) {
+				$('#course-search-results').remove();
+			}
+		}, 100);
+	};
+
 	var showAllSemesters = function() {
 		$('.page-row').show();
 		$('.page-table').show(); // show the tables and the headings
