@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from wiki.models.courses import Course
@@ -65,7 +65,7 @@ def login_logout(request):
 				return render(request, 'main/login_error.html')
 
 	# Redirect to the index page etc
-	return index(request)
+	return redirect('/')
 
 # Recent changes
 def recent(request, num_days=1, show_all=False):
