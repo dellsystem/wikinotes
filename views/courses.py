@@ -7,6 +7,8 @@ from django.template import RequestContext
 from wiki.models.pages import Page
 import random as random_module
 from wiki.models.history import HistoryItem
+from django.http import HttpResponse
+import re
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
@@ -68,12 +70,10 @@ def professor(request):
 	return render(request, 'courses/professor.html')
 
 def random(request):
-    courses = Course.objects.all()
-    random_course = random_module.choice(courses)
-    return overview(request, random_course.department, random_course.number)
+	courses = Course.objects.all()
+	random_course = random_module.choice(courses)
+	return overview(request, random_course.department, random_course.number)
 
-def search(request):
-	pass
 
 def index(request):
 	courses = Course.objects.all()
@@ -127,6 +127,39 @@ def watch(request, department, number):
 			user.start_watching(course)
 
 	return overview(request, department, number)
+
+def search(request):
+	query = request.GET["q"]
+	results = set()	
+	sorted_results = []
+	#assuming by id
+	sep = re.compile(r"[ -/_]")
+	query = sep.split(query)
+	course_name = ""
+	course_num = ""
+	print query
+	if len(query)>1:
+		course_name = query[0]
+		course_num = query[1]
+		for course in Course.objects.filter(department__short_name__icontains=course_name).filter(number__contains=course_num):
+			print course
+			results.add(course)
+	else:
+		query = "".join(query)
+		for course in Course.objects.filter(department__short_name__icontains=query):
+			print course
+			results.add(course)
+		for course in Course.objects.filter(name__icontains=query):
+			print course
+			results.add(course)
+	for result in results:
+		sorted_results.append({
+							"name":"%s-%s (%s)" %(result.department.short_name,result.number,result.name),
+							"url":"%s"%result.get_absolute_url()
+							})
+	response = HttpResponse()
+	response.write(sorted_results)
+	return response
 
 def overview(request, department, number):
 	course = get_object_or_404(Course, department=department, number=int(number))
