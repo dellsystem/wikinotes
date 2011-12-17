@@ -4,7 +4,7 @@ import markdown
 
 register = template.Library()
 
-md = markdown.Markdown(extensions=['downheader', 'subscript', 'superscript', 'urlize', 'nl2br', 'def_list', 'tables', 'mathjax', 'toc', 'footnotes'], safe_mode='escape', output_format='xhtml1')
+md = markdown.Markdown(extensions=['downheader', 'subscript', 'superscript', 'urlize', 'nl2br', 'def_list', 'tables', 'mathjax', 'wiki_toc', 'footnotes'], safe_mode='escape', output_format='xhtml1')
 
 # NEEDS TESTS
 @register.filter()
