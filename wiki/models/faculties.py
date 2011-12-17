@@ -12,8 +12,9 @@ class Faculty(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	def get_url(self):
-		return "/faculty/%s" % self.slug
+	@models.permalink
+	def get_absolute_url(self):
+		return ('courses_faculty_overview', (), {'faculty': self.slug})
 
 	def get_image(self):
-		return "/static/img%s.png" % self.get_url()
+		return "/static/img%s.png" % self.get_absolute_url()

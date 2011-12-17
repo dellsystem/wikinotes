@@ -30,8 +30,9 @@ class Course(models.Model):
 	def __unicode__(self):
 		return "%s %s" % (self.department.short_name, self.number)
 
-	def get_url(self):
-		return '/%s_%s' % (self.department.short_name, self.number)
+	@models.permalink
+	def get_absolute_url(self):
+		return ('courses_overview', (), {'department': self.department.short_name, 'number': self.number})
 
 	def num_pages(self):
 		count = 0
@@ -81,8 +82,8 @@ class CourseSemester(models.Model):
 	def get_slug(self):
 		return "%s-%s" % (self.term, self.year)
 
-	def get_url(self):
-		return "%s/%s" % (self.course.get_url(), self.get_slug())
+	def get_absolute_url(self):
+		return "%s/%s" % (self.course.get_absolute_url(), self.get_slug())
 
 class Professor(models.Model):
 	class Meta:

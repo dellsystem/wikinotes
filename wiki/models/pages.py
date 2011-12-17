@@ -48,7 +48,7 @@ class Page(models.Model):
 		return self.get_title()
 
 	def get_filepath(self):
-		return "wiki/content%s/" % self.get_url()
+		return "wiki/content%s/" % self.get_absolute_url()
 
 	def get_type(self):
 		return page_types[self.page_type]

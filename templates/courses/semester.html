@@ -10,11 +10,11 @@
 			<div class="span16 columns">
 				<p>Shows all the courses, listed alphabetically under the relevant semester.</p>
 				{% for dept in departments %}
-				<h2>{{ dept.long }} <small><a href="/{{ dept.short }}">&raquo; View department page</a></small></h2>
+				<h2>{{ dept.long }} <small><a href="{{ dept.get_absolute_url }}">&raquo; View department page</a></small></h2>
 				{% if dept.courses %}
 					<ul class="unstyled">
 					{% for course in dept.courses %}
-						<li><a href="{{ course.get_url }}">{{ course }}</a></li>
+						<li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
 					{% endfor %}
 					</ul>
 				{% else %}

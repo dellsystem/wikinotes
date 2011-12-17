@@ -5,7 +5,7 @@
 <div class="container">
 	<section>
 		<ul class="breadcrumb">
-			 <li><a href="{{ course.get_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
 			<li class="active">Recent activity</li>
 		</ul>
 		<h1>Recent activity</h1>
@@ -22,8 +22,8 @@
 			<tbody>
 			{% for item in history %}
 				<tr>
-					<td>{% gravatar_img_for_user item.user 20 %} <a href="{{ item.user.get_url }}">{{ item.user.username }}</a> {% if not item.page and item.group_count %} and {{ item.group_count }} other{{ item.group_count|pluralize }}{% endif %}</td>
-					<td>{{ item.action }} {% if item.page %}<a href="{{ item.page.get_url }}">{{ item.page }}</a> {% if item.group_count %}{% if item.group_count == 1 %}twice{% else %}{{ item.group_count|add:"1" }} times{% endif %}{% endif %}{% endif %}</td>
+					<td>{% gravatar_img_for_user item.user 20 %} <a href="{{ item.user.get_absolute_url }}">{{ item.user.username }}</a> {% if not item.page and item.group_count %} and {{ item.group_count }} other{{ item.group_count|pluralize }}{% endif %}</td>
+					<td>{{ item.action }} {% if item.page %}<a href="{{ item.page.get_absolute_url }}">{{ item.page }}</a> {% if item.group_count %}{% if item.group_count == 1 %}twice{% else %}{{ item.group_count|add:"1" }} times{% endif %}{% endif %}{% endif %}</td>
 					<td>{{ item.get_timesince}} ago</td>
 				</tr>
 			{% endfor %}

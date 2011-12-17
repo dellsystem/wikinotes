@@ -83,5 +83,5 @@ for prefix, filenames in template_urls.iteritems():
 	urlpatterns += patterns('', index_url, *urls)
 
 for prefix, mapping in direct_to_view.iteritems():
-	urls = [url('^' + regex + '/?$', view) for regex, view in mapping.iteritems()]
+	urls = [url('^' + regex + '/?$', view, name='%s_%s' % (prefix, view)) for regex, view in mapping.iteritems()]
 	urlpatterns += patterns('views.' + prefix, *urls)

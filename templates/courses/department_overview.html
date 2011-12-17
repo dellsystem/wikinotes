@@ -12,7 +12,7 @@
 				<img src="{{ dept.get_image }}" title="{{ dept.long_name }}" />
 			</div>
 			<div class="span14 justify-align">
-				<p><a href="{{ dept.faculty.get_url }}">{{ dept.faculty }}</a></p>
+				<p><a href="{{ dept.faculty.get_absolute_url }}">{{ dept.faculty }}</a></p>
 				<p><strong>{{ num_pages }}</strong> pages in <strong>{{ courses.count }}</strong> courses</p>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 		{% if courses %}
 		<ul>
 			{% for course in courses %}
-			<li><a href="{{ course.get_url }}">{{ course }}</a></li>
+			<li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
 			{% endfor %}
 		</ul>
 		{% endif %}

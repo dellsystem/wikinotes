@@ -29,8 +29,8 @@ class UserProfile(models.Model):
 	def is_watching(self, course):
 		return course in self.courses.all()
 
-	def get_url(self):
-		return '/user/' + self.user.username
+	def get_absolute_url(self):
+		return ('main_profile', (), {'username': self.user.username})
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

@@ -11,8 +11,9 @@ class Department(models.Model):
 	def __unicode__(self):
 		return "Department of %s (%s)" % (self.long_name, self.short_name)
 
-	def get_url(self):
-		return "/department/%s" % self.short_name
+	@models.permalink
+	def get_absolute_url(self):
+		return ('courses_department_overview', (), {'department': self.short_name})
 
 	def get_image(self):
-		return "/static/img%s.png" % self.get_url()
+		return "/static/img%s.png" % self.get_absolute_url()

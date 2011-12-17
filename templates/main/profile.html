@@ -34,7 +34,7 @@
 				{% if profile.courses.count %}
 				<ul class="unstyled">
 					{% for course in profile.courses.all %}
-					<li><a href="{{ course.get_url }}">{{ course }}</a></li>
+					<li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
 					{% endfor %}
 				</ul>
 				{% else %}
@@ -44,7 +44,7 @@
 				{% if recent_activity %}
 				<ul class="unstyled">
 					{% for activity in recent_activity %}
-					<li>{{ this_user.username }} {{ activity.action }} {% if activity.page %}<a href="{{ activity.page.get_url }}">{{ activity.page }}</a> for{% endif %} <a href="{{ activity.course.get_url }}">{{ activity.course }}</a></li>
+					<li>{{ this_user.username }} {{ activity.action }} {% if activity.page %}<a href="{{ activity.page.get_absolute_url }}">{{ activity.page }}</a> for{% endif %} <a href="{{ activity.course.get_absolute_url }}">{{ activity.course }}</a></li>
 					{% endfor %}
 				</ul>
 				{% else %}
@@ -58,7 +58,7 @@
 				{% if user_pages %}
 				<ul>
 					{% for page in user_pages %}
-					<li><a href="{{ page.get_url }}">{{ page.course_sem.course }} {{ page }}</a></li>
+					<li><a href="{{ page.get_absolute_url }}">{{ page.course_sem.course }} {{ page }}</a></li>
 					{% endfor %}
 				</ul>
 				{% else %}

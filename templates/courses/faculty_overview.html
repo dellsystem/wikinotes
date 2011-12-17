@@ -18,8 +18,8 @@
 		<div class="row">
 		{% for dept in departments %}
 			<div class="span2 center-align icon-thumb">
-				<a href="{{ dept.get_url }}"><img src="{{ dept.get_image }}" title="Department of {{ dept.long_name }} ({{ dept.short_name }})" /></a>
-				<p><a href="{{ dept.get_url }}">{{ dept.short_name }}</a></p>
+				<a href="{{ dept.get_absolute_url }}"><img src="{{ dept.get_image }}" title="Department of {{ dept.long_name }} ({{ dept.short_name }})" /></a>
+				<p><a href="{{ dept.get_absolute_url }}">{{ dept.short_name }}</a></p>
 			</div>
 		{% if forloop.counter|divisibleby:8 %}
 			</div>
@@ -33,8 +33,8 @@
 		<div class="row">
 		{% for course in courses %}
 			<div class="span2 center-align icon-thumb">
-				<a href="{{ course.get_url }}"><img src="{{ course.department.get_image }}" title="{{ course }} ({{ course.name }})" /></a>
-				<p><a href="{{ course.get_url }}">{{ course }}</a></p>
+				<a href="{{ course.get_absolute_url }}"><img src="{{ course.department.get_image }}" title="{{ course }} ({{ course.name }})" /></a>
+				<p><a href="{{ course.get_absolute_url }}">{{ course }}</a></p>
 			</div>
 		{% if forloop.counter|divisibleby:8 %}
 			</div>

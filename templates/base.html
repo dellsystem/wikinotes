@@ -88,7 +88,7 @@
 				{% else %}
 				<div style="float: right;"><p><a href="/ucp" class="btn info" style="font-weight: normal;">User control panel</a>{% if user.is_staff %} <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
 				{% load gravatar %}
-				<div style="float: left; margin-right: 10px;"><a href="{{ user.get_profile.get_url }}"><img src="{% gravatar_for_user user 70 %}" alt="Your Gravatar" /></a></div>
+				<div style="float: left; margin-right: 10px;"><a href="{{ user.get_profile.get_absolute_url }}"><img src="{% gravatar_for_user user 70 %}" alt="Your Gravatar" /></a></div>
 				{% endif %}
 				</form>
 			</div>

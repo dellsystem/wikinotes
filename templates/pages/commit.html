@@ -5,11 +5,11 @@
 <div class="container">
 	<section>
 		<ul class="breadcrumb">
-			 <li><a href="{{ course.get_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
 			<li><a href="#">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
 			<li><a href="#">{{ page.get_type.long_name }}</a> <span class="divider">&raquo;</span><li>
-			<li><a href="{{ page.get_url }}">{{ page.get_title }}</a> <span class="divider">&raquo;</span></li>
-			<li><a href="{{ page.get_url }}/history">History</a> <span class="divider">&raquo;</span></li>
+			<li><a href="{{ page.get_absolute_url }}">{{ page.get_title }}</a> <span class="divider">&raquo;</span></li>
+			<li><a href="{{ page.get_absolute_url }}/history">History</a> <span class="divider">&raquo;</span></li>
 			<li class="active">Viewing commit</li>
 		</ul>
 		<h1>Commit {{ hash }}</h1>
@@ -17,7 +17,7 @@
 		<div class="grey-box">
 			<div class="row">
 				<div class="span2 icon-thumb center-align">
-					<a href="{{ commit.author.get_url }}"><img src="{% gravatar_for_user commit.author 100 %}" /></a>
+					<a href="{{ commit.author.get_absolute_url }}"><img src="{% gravatar_for_user commit.author 100 %}" /></a>
 					{{ commit.author }}
 				</div>
 				<div class="span14">
