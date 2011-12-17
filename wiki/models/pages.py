@@ -59,6 +59,10 @@ class Page(models.Model):
 		else:
 			return self.title
 
-	def get_url(self):
+	def get_absolute_url(self):
 		course = self.course_sem.course
-		return "%s/%s/%s-%s/%s" % (course.get_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
+		return "%s/%s/%s-%s/%s" % (course.get_absolute_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
+
+	# The method can't be solely on the page type itelf, since it doesn't know what course it's for
+	def get_type_url(self):
+		return "%s/%s" % (self.course_sem.course.get_absolute_url(), self.get_type().short_name)
