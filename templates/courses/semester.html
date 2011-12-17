@@ -3,26 +3,29 @@
 {% block content %}
 <div class="container">
 	<section>
-		<div class="page-header">
-			<h1>Courses - Browse by semester</h1>
-		</div>
-		<div class="row">
-			<div class="span16 columns">
-				<p>Shows all the courses, listed alphabetically under the relevant semester.</p>
-				{% for dept in departments %}
-				<h2>{{ dept.long }} <small><a href="{{ dept.get_absolute_url }}">&raquo; View department page</a></small></h2>
-				{% if dept.courses %}
-					<ul class="unstyled">
-					{% for course in dept.courses %}
-						<li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
-					{% endfor %}
-					</ul>
-				{% else %}
-				<p>No courses in this department</p>
-				{% endif %}
-				{% endfor %}
-			</div>
-		</div>
+		<ul class="breadcrumb">
+			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+			<li class="active">{{ course_sem.get_semester }}</li>
+		</ul>
+		<h1>{{ course_sem.get_semester }}</h1>
+		<hr />
+		{% for page_type in page_types %}
+			{% if page_type.pages %}
+				<h2 id="{{ page_type.name }}">{{ page_type.long_name }}</h2>
+				<table class="page-table" data-num-pages="{{ page_type.pages.count }}">
+					<thead>
+						{% include page_type.list_header %}
+					</thead>
+					<tbody>
+						{% for page in page_type.pages %}
+							<tr class="page-row" data-semester="{{ page.course_sem.get_slug }}">
+								{% include page_type.list_body %}
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% endif %}
+		{% endfor %}
 	</section>
 </div>
 {% endblock %}

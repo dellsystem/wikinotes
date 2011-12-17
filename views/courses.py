@@ -63,10 +63,6 @@ def department_browse(request):
 
 	return render(request, 'courses/department_browse.html', data)
 
-# Not really sure how to best implement this lol
-def semester(request):
-	return render(request, 'courses/semester.html')
-
 # Meh
 def professor(request):
 	return render(request, 'courses/professor.html')
@@ -162,6 +158,25 @@ def overview(request, department, number):
 		'current_sem': course.get_current_semester(),
 	}
 	return render(request, 'courses/overview.html', data)
+
+# Filtering by semester for a specific course
+def semester(request, department, number, term, year):
+	course = get_object_or_404(Course, department=department, number=int(number))
+	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
+
+	types = []
+	for name, obj in page_types.iteritems():
+		# Get all the pages associated with this page type (and this course etc)
+		pages = Page.objects.filter(page_type=name, course_sem=course_sem)
+		types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages})
+
+	data = {
+		'course': course,
+		'course_sem': course_sem,
+		'page_types': types,
+	}
+
+	return render(request, 'courses/semester.html', data)
 
 def recent(request, department, number):
 	course = get_object_or_404(Course, department=department, number=int(number))
