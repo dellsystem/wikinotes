@@ -242,20 +242,28 @@ table img {
 .font-height(@size) {
 	font-size: @size;
 	line-height: @size + 10;
-	padding: 5px 0px;
+	padding: 13px 0px;
 }
 
 #content-markdown {
 	padding-top: 10px;
+	h2, h3, h4, h5, h6 {
+		span {
+			color: @grayLight;
+			padding-right: 8px;
+		}
+	}
 	h2 {
 		.font-height(25px);
-		border-bottom: 1px dashed @grayLight;
+		border-bottom: 1px dashed #A0A0A0;
 	}
 	h3 {
 		.font-height(21px);
+		border-bottom: 1px dashed @grayLight;
 	}
 	h4 {
 		.font-height(18px);
+		border-bottom: 1px dashed #CCC;
 	}
 	h5 {
 		.font-height(15px);
@@ -274,6 +282,12 @@ table img {
 	}
 	dl {
 		padding-bottom: 0px;
+		dt, dd {
+			line-height: 24px;
+		}
+		dd {
+			margin-left: 20px;
+		}
 	}
 	.footnote {
 		padding-top: 20px;
@@ -290,6 +304,28 @@ table img {
 		p {
 			font-size: 13px;
 		}
+	}
+	// Things after headers that are not headers should have top padding
+	h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, h2 + dl, h3 + dl, h4 + dl, h5 + dl, h6 + dl, h2 + ul, h3 + ul, h4 + ul, h5 + ul, h6 + ul, h2 + ol, h3 + ol, h4 + ol, h5 + ol, h6 + ol {
+		padding-top: 15px;
+	}
+	h2 + table, h3 + table, h4 + table, h5 + table, h6 + table, h2 + pre, h3 + pre, h4 + pre, h5 + pre, h6 + pre {
+		margin-top: 20px;
+	}
+	p + h2, p + h3, p + h4, p + h5, p + h6, dl + h2, dl + h3, dl + h4, dl + h5, dl + h6 {
+		padding-top: 30px;
+	}
+	pre > code {
+		background-color: inherit;
+		.border-radius(0px);
+	}
+	.toc {
+		margin-top: 15px;
+		width: 350px;
+		ul ul {
+			padding: 0px;
+		}
+		border: 1px solid @grayLight;
 	}
 }
 
