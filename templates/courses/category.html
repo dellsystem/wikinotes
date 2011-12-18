@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<ul class="breadcrumb">
+			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+			<li class="active">{{ category.long_name }}</li>
+		</ul>
+		<h1>Viewing category :: {{ category.long_name }}</h1>
+		<hr />
+		<br />
+		{% if pages %}
+		<table class="zebra-striped">
+			<thead>
+				<tr>
+					<th style="width: 60%;">Page</th>
+					<th style="width: 20%;">Semester</th>
+					<th style="width: 20%;">Professor</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for page in pages %}
+				<tr>
+					<td>{% include page.get_type.get_cell_template %}</td>
+					<td><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.get_semester }}</a></td>
+					<td>N/A</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<p>No pages in this category.</p>
+		{% endif %}
+	</section>
+</div>
+{% endblock %}

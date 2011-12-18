@@ -201,17 +201,12 @@ def overview(request, department, number):
 def semester(request, department, number, term, year):
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
-
-	types = []
-	for name, obj in page_types.iteritems():
-		# Get all the pages associated with this page type (and this course etc)
-		pages = Page.objects.filter(page_type=name, course_sem=course_sem)
-		types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages})
+	pages = Page.objects.filter(course_sem=course_sem)
 
 	data = {
 		'course': course,
 		'course_sem': course_sem,
-		'page_types': types,
+		'pages': pages,
 	}
 
 	return render(request, 'courses/semester.html', data)
@@ -272,3 +267,16 @@ def series(request, department, number, slug):
 	}
 
 	return render(request, 'courses/series.html', data)
+
+def category(request, department, number, page_type):
+	course = get_object_or_404(Course, department=department, number=int(number))
+	if page_type not in page_types:
+		raise Http404
+	else:
+		category = page_types[page_type]
+		data = {
+			'course': course,
+			'category': category,
+			'pages': Page.objects.filter(course_sem__course=course, page_type=page_type),
+		}
+		return render(request, 'courses/category.html', data)
