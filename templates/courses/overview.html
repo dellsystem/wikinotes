@@ -53,6 +53,18 @@
 				{% else %}
 				<p>There are no pages associated with this course! Why not try adding some?</p>
 				{% endif %}
+				<h2>Browse by series</h2>
+				{% if course.series_set.count %}
+				<ul class="unstyled">
+				{% for series in course.series_set.all %}
+					{% with series_total=series.seriespage_set.count %}
+					<li><a href="{{ series.get_absolute_url }}">{{ series.name }}</a> ({{ series_total }} page{{ series_total|pluralize }})</li>
+					{% endwith %}
+				{% endfor %}
+				</ul>
+				{% else %}
+				<p>This course does not have any series.</p>
+				{% endif %}
 				<h2>Other resources</h2>
 				<ul class="unstyled">
 					<li><a href="http://www.docuum.com/McGill/{{ course.department.short_name }}/{{ course.number }}">{{ course }} on Docuum</a></li>

@@ -19,6 +19,13 @@ class PageType:
 	uneditable_fields = ['semester', 'subject']
 	editable_fields = ['professor', 'link']
 
+	# Some of these are unused, clean them up sometime
+	def get_cell_template(self):
+		return 'pages/%s/cell.html' % self.short_name
+
+	def get_metadata_template(self):
+		return 'pages/%s/metadata.html' % self.short_name
+
 	# Wrapper around short_name basically
 	def get_form_template(self):
 		return 'pages/%s/create_form.html' % self.short_name

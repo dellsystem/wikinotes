@@ -11,7 +11,8 @@ department = r'(?P<department>\w{4})'
 course = department + '_(?P<number>\d{3}D?[12]?)'
 page_type = '(?P<page_type>[^/]+)'
 semester = '(?P<term>\w{4,6})-(?P<year>\d{4})'
-page = course + '/' + page_type + '/' + semester + '/(?P<slug>[^/]+)'
+slug = '(?P<slug>[^/]+)'
+page = course + '/' + page_type + '/' + semester + '/' + slug
 sha = '(?P<hash>[a-z0-9]{1,40})'
 
 """

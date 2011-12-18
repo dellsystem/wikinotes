@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from wiki.models.courses import Course, CourseSemester
 from wiki.models.faculties import Faculty
 from wiki.models.departments import Department
+from wiki.models.series import Series
 from wiki.utils.pages import page_types
 from django.template import RequestContext
 from wiki.models.pages import Page
@@ -260,3 +261,14 @@ def recent(request, department, number):
 	}
 
 	return render(request, 'courses/recent.html', data)
+
+def series(request, department, number, slug):
+	course = get_object_or_404(Course, department=department, number=int(number))
+	series = get_object_or_404(Series, course=course, slug=slug)
+
+	data = {
+		'course': course,
+		'series': series,
+	}
+
+	return render(request, 'courses/series.html', data)

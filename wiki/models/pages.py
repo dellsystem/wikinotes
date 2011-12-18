@@ -56,12 +56,20 @@ class Page(models.Model):
 
 	def get_type(self):
 		return page_types[self.page_type]
-	
+
 	def get_title(self):
 		if not self.title:
 			return self.subject
 		else:
 			return self.title
+
+	def get_metadata(self):
+		metadata = {} # Key: name, value: content
+		for field in self.get_type().editable_fields:
+			content = self.__getattribute__(field)
+			if content:
+				metadata[field] = content
+		return metadata
 
 	def get_absolute_url(self):
 		course = self.course_sem.course
