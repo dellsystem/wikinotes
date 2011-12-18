@@ -46,12 +46,14 @@ direct_to_view = {
 		course + '/recent': 'recent',
 		course + '/watch': 'watch',
 		course + '/' + semester: 'semester',
+		course + '/' + page_type: 'category',
+		course + '/series/' + slug: 'series',
 		'faculty/(?P<faculty>\w+)': 'faculty_overview',
 		'department/' + department: 'department_overview',
 	},
 	'news': {
 		'news': 'main',
-		'news/(?P<slug>[^/]+)': 'view',
+		'news/' + slug: 'view',
 	},
 	'pages': {
 		'pages/random': 'random',
