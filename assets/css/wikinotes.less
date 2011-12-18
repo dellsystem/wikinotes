@@ -306,7 +306,11 @@ table img {
 		}
 	}
 	table {
-		margin: 7px 0px; // hopefully this won't mess up the sticky footer
+		thead {
+			#gradient > .vertical(#53B8D6, #53B8D6-#111);
+			color: @white;
+		}
+		margin: 10px 0px; // hopefully this won't mess up the sticky footer
 	}
 	blockquote {
 		padding: 7px 15px;
@@ -319,7 +323,7 @@ table img {
 	h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, h2 + dl, h3 + dl, h4 + dl, h5 + dl, h6 + dl, h2 + ul, h3 + ul, h4 + ul, h5 + ul, h6 + ul, h2 + ol, h3 + ol, h4 + ol, h5 + ol, h6 + ol {
 		padding-top: 15px;
 	}
-	h2 + table, h3 + table, h4 + table, h5 + table, h6 + table, h2 + pre, h3 + pre, h4 + pre, h5 + pre, h6 + pre {
+	table + table, h2 + table, h3 + table, h4 + table, h5 + table, h6 + table, h2 + pre, h3 + pre, h4 + pre, h5 + pre, h6 + pre {
 		margin-top: 20px;
 	}
 	p + h2, p + h3, p + h4, p + h5, p + h6, dl + h2, dl + h3, dl + h4, dl + h5, dl + h6 {
