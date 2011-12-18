@@ -9,23 +9,27 @@
 		</ul>
 		<h1>{{ course_sem.get_semester }}</h1>
 		<hr />
-		{% for page_type in page_types %}
-			{% if page_type.pages %}
-				<h2 id="{{ page_type.name }}">{{ page_type.long_name }}</h2>
-				<table class="page-table" data-num-pages="{{ page_type.pages.count }}">
-					<thead>
-						{% include page_type.list_header %}
-					</thead>
-					<tbody>
-						{% for page in page_type.pages %}
-							<tr class="page-row" data-semester="{{ page.course_sem.get_slug }}">
-								{% include page_type.list_body %}
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			{% endif %}
-		{% endfor %}
+		{% if pages %}
+			<br />
+			<table class="zebra-striped">
+				<thead>
+					<tr>
+						<th style="width: 60%;">Page</th>
+						<th style="width: 20%;">Category</th>
+						<th style="width: 20%;">Professor</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for page in pages %}
+					<tr>
+						<td>{% include page.get_type.get_cell_template %}</td>
+						<td><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a></td>
+						<td>N/A</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
 	</section>
 </div>
 {% endblock %}
