@@ -10,6 +10,7 @@ class Page(models.Model):
 	class Meta:
 		app_label = 'wiki'
 		unique_together = ('course_sem', 'slug')
+		ordering = ['id']
 
 	course_sem = models.ForeignKey('CourseSemester')
 	subject = models.CharField(max_length=255, null=True) # only used for some (most) page types
