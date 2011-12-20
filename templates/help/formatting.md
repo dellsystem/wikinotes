@@ -16,7 +16,7 @@ We've also modified the following aspects of standard Markdown behaviour:
 
 We've tried to keep the formatting style as simple, concise and readable as possible, while still allowing for a wide range of formatting options. Elements have been borrowed from [GitHub Flavored Markdown (GFM)](http://github.github.com/github-flavored-markdown/) and [StackOverflow's Markdown](http://stackoverflow.com/editing-help), and some of the additional features were inspired by what was available on our MediaWiki site. Below you can find a fairly comprehensive listing of the components of Wikinotes Markdown, but if there's something you're not sure about, don't hestitate to [shoot us an email](/about#contact-us).
 
-You can find the source of our Markdown parser (which uses the python-markdown library and several extensions) in our [GitHub repository](https://github.com/dellsystem/wikinotes/blob/master/wiki/templatetags/wikinotes_markup.py). The markdown source for this page can be found [within the repository](later) as well.
+You can find the source of our Markdown parser (which uses the python-markdown library and several extensions) in our [GitHub repository](https://github.com/dellsystem/wikinotes/blob/master/wiki/templatetags/wikinotes_markup.py). The markdown source for this page can be found [within the repository](https://github.com/dellsystem/wikinotes/blob/master/wiki/templates/help/formatting.md) as well.
 
 [TOC]
 
