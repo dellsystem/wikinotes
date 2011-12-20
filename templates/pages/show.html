@@ -20,6 +20,8 @@
 					<li><strong>{{ field.title }}</strong>: {% if content %}{{ content|urlize }}{% endif %}</li>
 				{% endfor %}
 			</ul>
+			{% else %}
+			&nbsp;
 			{% endif %}
 			{% endwith %}
 			</div>
