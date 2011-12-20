@@ -7,6 +7,8 @@ from wiki.utils.users import validate_username
 from wiki.models.pages import Page
 from blog.models import BlogPost
 from django.http import Http404
+from urls import static_urls
+import os
 
 # welcome is only set to true when called from register()
 # Triggers the display of some sort of welcome message
@@ -199,3 +201,16 @@ def search(request):
 		return render(request, 'search/results.html', data)
 	else:
 		raise Http404
+
+def static(request, mode='', page=''):
+	section_pages = ['overview'] + static_urls[mode]
+	markdown_file = '%s/%s.md' % (mode, page)
+	html_file = '%s/%s.html' % (mode, page)
+	data = {
+		'html_file': html_file if os.path.isfile('templates/' + html_file) else None,
+		'markdown_file': markdown_file if os.path.isfile('templates/' + markdown_file) else None,
+		'page': page,
+		'mode': mode,
+		'section_pages': section_pages,
+	}
+	return render(request, 'static.html', data)

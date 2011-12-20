@@ -2,7 +2,7 @@
 
 by the WikiNotes team
 
-WikiNotes is a wiki-based note-sharing platform created to facilitate student collaboration. Although it is being created primarily for use by our [existing website for McGill students](http://www.wikinotes.ca), we will be releasing the code under the [GPLv3](http://opensource.org/licenses/GPL-3.0) so that non-McGill students (or anyone, really) can benefit from it as well. This platform is currently under heavy development, but we're hoping to get a beta up and running by late November - stay tuned.
+WikiNotes is a wiki-based note-sharing platform created to facilitate student collaboration. Although it is being created primarily for use by our [existing website for McGill students](http://www.wikinotes.ca), we will be releasing the code under the [GPLv3](http://opensource.org/licenses/GPL-3.0) so that non-McGill students (or anyone, really) can benefit from it as well. This platform is currently under heavy development, with a beta available at http://beta.wikinotes.ca
 
 Want to find out more about us? Visit our [about page](http://www.wikinotes.ca/wiki/wikinotes:About), join our IRC channel (#wikinotes on freenode) or drop us a line at admin@wikinotes.ca.
 
@@ -21,11 +21,12 @@ To run it on your local machine, you'll need the following dependencies:
 * python 2.7+
 * django 1.3+
 * python-yaml
-* python-markdown (all necessary extensions are either included in the default package or bundled with the source of wikinotes)
+* python-markdown 2.1.0 (all necessary extensions are either included in the default package or bundled with the source of wikinotes)
 * django-gravatar
 * python-django-south (South through easy_install)
 * gitpython
 * git 1.7+ (older versions may work), both for version control and for the wiki software itself
+* pygments
 
 Configuration
 -------------
@@ -35,4 +36,4 @@ If you're running it for the first time, take note of the following setup instru
 * `chmod +x bootstrap`
 * `./bootstrap` - create the superuser at this point (you may also wish to run this if any database schema changes have been made since your last pull)
 * `python manage.py runserver` (by default, this makes the platform accessible at [http://localhost:8000](http://localhost:8000); add `0.0.0.0:8000` if you want to make it publicly accessible through your IP address)
-* To run the unit tests, just do `python manage.py test` (there are quite a few tests to run because of all the dependencies, so this may take a while)
+* To run the unit tests, just do `python manage.py test wiki`

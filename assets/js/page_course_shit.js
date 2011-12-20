@@ -140,7 +140,7 @@ $(document).ready(function() {
 
 	// Tables are by default sortable, add the nosort class to prevent that
 	// http://tablesorter.com/docs/example-meta-sort-list.html for initial sorting order
-	$('table').not('.nosort').tablesorter();
+	$('table').filter('.sort').tablesorter();
 
 	// Dynamically set tabindex, I'm sorry but it really is difficult to do this otherwise
 	var tabindex = 1;

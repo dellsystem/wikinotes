@@ -37,8 +37,8 @@ class SuperscriptPattern(markdown.inlinepatterns.Pattern):
 
 		text = supr
 
-		el = markdown.etree.Element("sup")
-		el.text = markdown.AtomicString(text)
+		el = markdown.util.etree.Element("sup")
+		el.text = markdown.util.AtomicString(text)
 		return el
 
 class SuperscriptExtension(markdown.Extension):

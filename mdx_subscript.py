@@ -27,8 +27,8 @@ class SubscriptPattern(markdown.inlinepatterns.Pattern):
 
 		text = subsc
 
-		el = markdown.etree.Element("sub")
-		el.text = markdown.AtomicString(text)
+		el = markdown.util.etree.Element("sub")
+		el.text = markdown.util.AtomicString(text)
 		return el
 
 class SubscriptExtension(markdown.Extension):

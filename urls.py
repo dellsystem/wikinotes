@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import patterns, include, url
-from django.views.generic.simple import direct_to_template
 
 from django.contrib import admin
 admin.autodiscover()
@@ -65,11 +64,11 @@ direct_to_view = {
 	}
 }
 
-# Maps straight from about/history to the template file about/history.html
-template_urls = {
+# Maps straight from about/history to the static view in main.py
+static_urls = {
 	'about': ['history', 'licensing', 'platform'], # the index one is implicit
 	'contributing': ['moderating', 'development', 'content', 'guidelines'],
-	'help': ['copyright'],
+	'help': ['copyright', 'formatting'],
 }
 
 urlpatterns = patterns('',
@@ -80,9 +79,9 @@ urlpatterns = patterns('',
 Begin code for mapping the mappings
 """
 
-for prefix, filenames in template_urls.iteritems():
-	index_url = url(r'^' + prefix + '/?$', direct_to_template, {'template': prefix + '/index.html'})
-	urls = [url(r'^' + prefix + '/' + filename + '$', direct_to_template, {'template': prefix + '/' + filename + '.html'}) for filename in filenames]
+for prefix, filenames in static_urls.iteritems():
+	index_url = url(r'^' + prefix + '(?:/overview)?/?$', 'views.main.static', {'mode': prefix, 'page': 'overview'})
+	urls = [url(r'^' + prefix + '/' + filename + '/?$', 'views.main.static', {'mode': prefix, 'page': filename}) for filename in filenames]
 	urlpatterns += patterns('', index_url, *urls)
 
 for prefix, mapping in direct_to_view.iteritems():

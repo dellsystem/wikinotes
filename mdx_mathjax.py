@@ -10,7 +10,9 @@ class MathJaxPattern(markdown.inlinepatterns.Pattern):
 		markdown.inlinepatterns.Pattern.__init__(self, r'(?<!\\)(\$\$?)(.+?)\2')
 
 	def handleMatch(self, m):
-		return markdown.AtomicString(m.group(2) + m.group(3) + m.group(2))
+		el = markdown.util.etree.Element("span")
+		el.text = markdown.util.AtomicString(m.group(2) + m.group(3) + m.group(2))
+		return el
 
 class MathJaxExtension(markdown.Extension):
 	def extendMarkdown(self, md, md_globals):

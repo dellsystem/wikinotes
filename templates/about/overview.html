@@ -1,13 +1,3 @@
-{% extends "base.html" %}
-
-{% load gravatar %}
-
-{% block content %}
-<div class="container">
-	<section>
-		<div class="row">
-			<div class="span12">
-				<h1 id="about-wikinotes">About WikiNotes</h1>
 				<p>Wikinotes is a rapidly growing student group that strives to provide free and open student-generated course content through an easily editable wiki. Founded in September 2010 by McGill students and for McGill students, WikiNotes aims to have a comprehensive and high-quality set of course materials, available to the general public under an <a href="/about/licensing">open license</a>. We provide a wide variety of content, including lecture notes, solutions to past exams, student-written practice questions and course overviews, all of which is intended to function as a supplement to instructor-provided course materials and is moderated for quality. Integrating the collaborative power of the Internet with original material, WikiNotes provides an openly accessible and easy-to-use platform to facilitate the sharing of knowledge and resources among students.</p>
 				<p>You can find out more about how WikiNotes began on our <a href="/about/history">history</a> page.
 				<h2 id="the-team">The team</h2>
@@ -64,10 +54,10 @@
 					</div>
 				</div>
 				<h2 id="legal-information">Legal information for students and professors</h2>
-				<h5>Licensing</h5>
+				<h3>Licensing</h3>
 				<p>We're big fans of open access to information, so all of our course-related content is available under a <a href="http://creativecommons.org/">Creative Commons</a> license. You can find out more about what that means for you as a contributor and as a reader on our <a href="/about/licensing">licensing page</a>.</p>
 				<p>We're also big supporters of open source software, and so we've released the source of our platform under the GPL. <a href="/about/platform">Find out more about our platform here</a>.</p>
-				<h5>Copyright violations</h5>
+				<h3>Copyright violations</h3>
 				<p>Although we believe in freely disseminating information, we also wish to respect the intellectual property rights of professors, publishers and other students. In this vein, we ask that contributors refrain from uploading anything they do not have the rights to upload. This can be a bit of a grey area, but you can find an overview of the content we encourage <a href="/contributing/content">here</a>.</p>
 				<p>If you see something on this site that you believe violates your intellectual property rights, please see our page on  <a href="/help/copyright">reporting copyright violations</a>.</p>
 				<h2>Get involved</h2>
@@ -102,9 +92,3 @@ Coding, coffee, and concrete innovation</a></li>
 				<li><strong>Twitter</strong>: <a href="http://www.twitter.com/#!/wikinotes_ca">@wikinotes_ca</a></li>
 				<li><strong>IRC</strong>: You can usually find some of our admins idling in <a href="http://webchat.freenode.net/?channels=wikinotes">#wikinotes</a> on freenode.</li>
 				</li>
-			</div>
-			{% include "about/sidebar.html" %}
-		</div>
-	</section>
-</div>
-{% endblock %}

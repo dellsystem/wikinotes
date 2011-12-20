@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load wikinotes_markup %}
 <div class="container">
 	<section>
 		<div class="row">
 			<div class="span12">
-			<h1>Help</h1>
-			<p>Coming soon</p>
+			<div id="content-markdown">
+			<h1>Formatting</h1>
+			<hr />
+			{% filter wikinotes_markdown %}{% include "help/formatting.md" %}{% endfilter %}
+			</div>
 			</div>
 			{% include "help/sidebar.html" %}
 		</div>
