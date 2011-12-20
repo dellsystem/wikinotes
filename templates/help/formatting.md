@@ -206,11 +206,57 @@ You can specify multiple colour schemes (or add the `sort` attribute) for one ta
 
 ## Blockquotes
 
-Same as in [regular markdown](http://daringfireball.net/projects/markdown/syntax#blockquote). You can nest them, and add other block elements as well.
+Same as in [regular markdown](http://daringfireball.net/projects/markdown/syntax#blockquote). You can nest them, and add other block elements as well. For example:
+
+	> This is a blockquote
+	> This is the second line
+	>
+	> > This is a nested blockquote
+	>
+	> Back to the original blockquote
+
+will render as
+
+> This is a blockquote
+> This is the second line
+>
+> > This is a nested blockquote
+>
+> Back to the original blockquote
 
 ## Lists
 
-Same as in [regular markdown](http://daringfireball.net/projects/markdown/syntax#list).
+Same as in [standard markdown](http://daringfireball.net/projects/markdown/syntax#list). To create an unordered list, you can use \*, +, or - as the list delimiters. For example:
+
+	* List item one
+	* List item two
+	* List item spanning
+	multiple lines
+	* Last list item
+
+becomes
+
+* List item one
+* List item two
+* List item spanning
+multiple lines
+* Last list item
+
+You can create ordered lists simply by numbering your list items. The numbers don't have to be in order, but it's probably better if they are. For example:
+
+	1. List item one
+	2. List item two
+	3. List item spanning
+	multiple lines
+	4. Last list item
+
+becomes
+
+1. List item one
+2. List item two
+3. List item spanning
+multiple lines
+4. Last list item
 
 ## Code blocks
 
