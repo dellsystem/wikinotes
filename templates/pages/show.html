@@ -21,7 +21,7 @@
 				{% endfor %}
 			</ul>
 			{% else %}
-			&nbsp;
+			{% if page.seriespage_set.count > 0 %}&nbsp;{% endif %}
 			{% endif %}
 			{% endwith %}
 			</div>
