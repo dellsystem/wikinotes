@@ -456,7 +456,7 @@ HTML tags are automatically escaped for security reasons.[^lolwebct] If there's 
 
 ## Math markup
 
-We use [MathJax](http://www.mathjax.org/) for client-side processing of LaTeX math markup. There is a fairly useful list on [Wikipedia](http://en.wikipedia.org/wiki/Help:Displaying_a_formula) of the most common symbols and expressions. Instead of <math></math> tags, we use the dollar sign - \$ for inline, \$\$ for display. For example:
+We use [MathJax](http://www.mathjax.org/) for client-side processing of LaTeX math markup. There is a fairly useful list on [Wikipedia](http://en.wikipedia.org/wiki/Help%3aDisplaying_a_formula) of the most common symbols and expressions. Instead of <math></math> tags, we use the dollar sign - \$ for inline, \$\$ for display. For example:
 
 	This is text $a^2 + b^2 = c^2$ and that was the Pythagorean theorem.
 
