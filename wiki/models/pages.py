@@ -25,8 +25,7 @@ class Page(models.Model):
 		file = open('%scontent.md' % self.get_filepath())
 		content = file.read()
 		if self.content==None:
-			self.content=wikinotes_markdown(content)
-			self.save()
+			self.cache_markdown(content)
 		file.close()
 		return content.decode('utf-8')
 
@@ -38,10 +37,15 @@ class Page(models.Model):
 				setattr(self, editable_field, data[editable_field])
 		self.save()
 		# THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
-
-	def save_content(self, content, message, username):
-		self.content = wikinotes_markdown(content)
+	
+	
+	def cache_markdown(self,content):
+		md = wikinotes_markdown(content)
+		self.content = md
 		self.save()
+	
+	def save_content(self, content, message, username):
+		self.cache_markdown(content)
 		path = self.get_filepath()
 		repo = Git(path)
 		filename = '%scontent.md' % path
