@@ -13,6 +13,19 @@ from wiki.utils.currents import current_term, current_year
 from views.main import register
 from datetime import datetime
 
+def time_page(page):
+	import time
+	import settings
+	def wrap(*args,**kwargs):
+		startTime = time.clock()
+		res = page(*args,**kwargs)
+		if settings.DEBUG:
+			print "%s() rendered in %f seconds" %(page.__name__,time.clock()-startTime)
+		return res
+	return wrap
+
+
+@time_page
 def show(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department, number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
@@ -182,3 +195,4 @@ def random(request):
 	pages = Page.objects.all()
 	random_page = random_module.choice(pages)
 	return show(request, random_page.course_sem.course.department, random_page.course_sem.course.number, random_page.page_type, random_page.course_sem.term, random_page.course_sem.year, random_page.slug)
+
