@@ -24,6 +24,9 @@ class Page(models.Model):
 	def load_content(self):
 		file = open('%scontent.md' % self.get_filepath())
 		content = file.read()
+		if self.content==None:
+			self.content=wikinotes_markdown(content)
+			self.save()
 		file.close()
 		return content.decode('utf-8')
 
