@@ -1,10 +1,13 @@
 # encoding: utf-8
-from django.db import models
+from django.db import models, transaction
 from wiki.utils.pages import page_types, page_type_choices#, get_page_type
 from wiki.utils.gitutils import Git
 import os
 from wiki.models.courses import CourseSemester
 from wiki.templatetags.wikinotes_markup import wikinotes_markdown
+import re
+import hashlib
+import time
 
 class Page(models.Model):
 	class Meta:
@@ -41,8 +44,33 @@ class Page(models.Model):
 	
 	def cache_markdown(self,content):
 		md = wikinotes_markdown(content)
+		md = self.__check_cache(md)
 		self.content = md
 		self.save()
+	
+	# gets the parsed markdown regardless whether it's cached or not, if not, it caches it
+	def get_markdown_cache(self,useragent):
+		if self.content:
+			eqns = list(self.eqns.all())
+			content = self.content.splitlines()
+			engines = ["WebKit","Firefox","Trident","Presto"]
+			engine = ""
+			for e in engines:
+				if e in useragent:
+					engine = e
+			modified = []
+			for line in content:
+				for eqn in eqns:					
+					cache = getattr(eqn,engine)
+					if len(cache):
+						line = line.replace(eqn.hash,cache)
+					else:
+						line = line.replace(eqn.hash,eqn.eqn)
+				modified.append(line)
+			return "\n".join(modified)
+		else:
+			load_content()
+			return get_markdown_cache()
 	
 	def save_content(self, content, message, username):
 		self.cache_markdown(content)
@@ -86,3 +114,63 @@ class Page(models.Model):
 	# The method can't be solely on the page type itelf, since it doesn't know what course it's for
 	def get_type_url(self):
 		return "%s/%s" % (self.course_sem.course.get_absolute_url(), self.get_type().short_name)
+
+	# private cache functions, should not be accessed anywhere else
+	def __find_blocks(self,txt,tags):
+		positions=[]
+		for tag in tags:
+			tag_split = re.compile(r"<%s.*?>.*?</%s>"%(tag,tag),re.MULTILINE)
+			matches = tag_split.finditer(txt)
+			for m in matches:
+				positions.append({'begin':m.start(0),'end':m.end(0)})
+		return positions
+
+	def __get_hash(self,match):
+		eqn_type = ""
+		exp=""
+		raw = match.group(0)
+		if match.group(2):
+			eqn_type = "block"
+			exp = match.group(3).replace("&amp;","&")
+			
+		if match.group(6):
+			eqn_type = "inline"
+			exp=match.group(7).replace("&amp;","&")
+		exp = "%s-%s" %(eqn_type,exp)
+		h = hashlib.sha256()
+		h.update(exp)
+		exp_hash = h.hexdigest()
+		MathjaxCache.objects.get_or_create(eqn=raw,hash=exp_hash,page=self)
+		return exp_hash
+			
+	def __check_cache(self,txt):
+		textblocks = self.__find_blocks(txt,["pre","code"])
+		textblocks = sorted(textblocks, key=lambda k: k['begin'])
+		start = 0
+		modified = []
+		textblocks.append({'begin':len(txt),'end':len(txt)})
+		m = re.compile(r"((\$\$)(.*?)(\$\$))|((\$)(.*?)(\$))")
+		with transaction.commit_on_success():
+			for block in textblocks:
+				if start>block['begin']:
+					continue
+				cur_block = txt[start:block['begin']]
+				modified.append(m.sub(self.__get_hash,cur_block))
+				modified.append(txt[block['begin']:block['end']])
+				start = block['end']
+		txt = "".join(modified)
+		
+		# hackish way of forcing mathjax to give the proper css even when there are no equations on the page
+		txt += "$ $"
+		return txt
+
+class MathjaxCache(models.Model):
+	class Meta:
+		app_label = 'wiki'
+	page = models.ForeignKey("Page", related_name='eqns')
+	hash = models.CharField(max_length=256)
+	eqn = models.TextField()
+	Firefox = models.TextField()
+	WebKit = models.TextField()
+	Trident = models.TextField()
+	Presto = models.TextField()

@@ -35,7 +35,7 @@ def show(request, department, number, page_type, term, year, slug):
 		'course': course,
 		'page': page,
 		'page_type': page_type_obj,
-		'content': page.load_content(),
+		'content': page.get_markdown_cache(request.META['HTTP_USER_AGENT']),
 		'edit_url': page.get_absolute_url() + '/edit',
 		'history_url': page.get_absolute_url() + '/history',
 	}
@@ -85,6 +85,8 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 	}
 
 	return render(request, "pages/commit.html", data)
+
+@time_page
 def edit(request, department, number, page_type, term, year, slug):
 	if not request.user.is_authenticated():
 		return register(request)
