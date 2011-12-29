@@ -59,14 +59,16 @@ class Page(models.Model):
 				if e in useragent:
 					engine = e
 			modified = []
-			for line in content:
-				for eqn in eqns:					
+			def repl(line):
+				useable = filter(lambda eqn:eqn.hash in line,eqns)
+				for eqn in useable:					
 					cache = getattr(eqn,engine)
 					if len(cache):
 						line = line.replace(eqn.hash,cache)
 					else:
 						line = line.replace(eqn.hash,eqn.eqn)
-				modified.append(line)
+				return line
+			modified = map(repl,content)
 			return "\n".join(modified)
 		else:
 			load_content()
