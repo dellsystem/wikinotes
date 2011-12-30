@@ -52,24 +52,22 @@ class Page(models.Model):
 	def get_markdown_cache(self,useragent):
 		if self.content:
 			eqns = list(self.eqns.all())
-			content = self.content.splitlines()
 			engines = ["WebKit","Firefox","Trident","Presto"]
-			engine = ""
+			engine = "WebKit"
 			for e in engines:
 				if e in useragent:
 					engine = e
-			modified = []
-			def repl(line):
-				useable = filter(lambda eqn:eqn.hash in line,eqns)
-				for eqn in useable:					
-					cache = getattr(eqn,engine)
-					if len(cache):
-						line = line.replace(eqn.hash,cache)
-					else:
-						line = line.replace(eqn.hash,eqn.eqn)
-				return line
-			modified = map(repl,content)
-			return "\n".join(modified)
+			hash_map = {}
+			for eqn in eqns:
+				cache = getattr(eqn,engine)
+				hash_map[eqn.hash] = cache if len(cache) else eqn.eqn
+			hash = re.compile(r'[a-f0-9]{64}')		
+			def repl(m):
+				sha = m.group(0)
+				if sha in hash_map:
+					return hash_map[sha]
+				return sha
+			return hash.sub(repl,self.content)
 		else:
 			load_content()
 			return get_markdown_cache()
