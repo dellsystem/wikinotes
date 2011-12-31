@@ -126,6 +126,7 @@ class TocTreeprocessor(markdown.treeprocessors.Treeprocessor):
 					link.attrib["href"] = '#' + id
 
 					c.text = placeholder + c.text
+					c.attrib['class'] = 'header'
 
 					if self.config["anchorlink"] in [1, '1', True, 'True', 'true']:
 						anchor = etree.Element("a")
