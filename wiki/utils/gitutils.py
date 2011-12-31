@@ -41,6 +41,15 @@ class Git:
 		commit = git.objects.commit.Commit(repo, hexsha)
 		return commit
 
+	# Pass it a commit object. Returns the commit object for the previous commit in the master branch
+	def get_previous(self, this_commit):
+		is_next = False
+		for commit in git.Repo(self.full_path).iter_commits():
+			if is_next:
+				return commit
+			else:
+				is_next = this_commit.hexsha == commit.hexsha
+
 	def get_history(self):
 		commits = []
 		for commit in git.Repo(self.full_path).iter_commits():

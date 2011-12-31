@@ -29,14 +29,26 @@
 			</div>
 		</div>
 		<br />
-		<h2>Raw</h2>
+		<h2>Diff</h2>
+		<hr />
+		<br />
+		{% if commit.diff %}
+		<p>Starting from line {{ commit.diff.first_line }}. {{ commit.diff.lines_before }} line{{ commit.diff.lines_before|pluralize }} in the previous commit, {{ commit.diff.lines_after }} line{{ commit.diff.lines_after|pluralize }} after.</p>
+		<pre id="commit-diff">{% for diff_line in commit.diff.lines %}<span class="{% if diff_line.0 == '+' %}diff-green{% else %}{% if diff_line.0 == '-' %}diff-red{% endif %}{% endif %}">{{ diff_line }}</span>
+{% endfor %}</pre>
+		{% else %}
+		<p>This was the first commit. See <a href="#raw">raw</a> below for the changes made.</p>
+		{% endif %}
+		<br />
+		<h2 id="raw">Raw</h2>
 		<hr />
 		<br />
 		<pre>{{ content }}</pre>
 		</p>
 		<h2>Preview</h2>
 		<hr />
-		{% include "pages/content.html" %}
+		<div class="markdown">
+			{% include "main/markdown.html" %}
 		</div>
 	</section>
 </div>

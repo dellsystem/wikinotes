@@ -46,7 +46,8 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = page_types[page_type]
-	commit = Git(page.get_filepath()).get_commit(hash)
+	repo = Git(page.get_filepath()) # make this an object on the page
+	commit = repo.get_commit(hash)
 	files = {}
 	for blob in commit.tree:
 		raw = blob.data_stream.read().split('\n')
@@ -58,6 +59,16 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 
 	raw_file = files.items()[0][1]['raw']
 
+	previous = repo.get_previous(commit)
+	if previous:
+		diff_lines = previous.diff(commit.hexsha, create_patch=True)[0].diff.splitlines()[2:]
+		diff_info = diff_lines[0].split(' ')
+		diff_before = diff_info[1].split(',')
+		diff_after = diff_info[2].split(',')
+		diff = {'first_line': diff_before[0][1:], 'lines_before': diff_before[1], 'lines_after': diff_after[1], 'lines': [' '.join(diff_info[4:])] + diff_lines[3:]}
+	else:
+		diff = None
+
 	data = {
 		'course': course,
 		'page': page,
@@ -67,7 +78,8 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 			'date': datetime.fromtimestamp(commit.authored_date), # returns a unix timestamp in 0.3.2
 			'author': User.objects.get(username=commit.author.name),
 			'message': commit.message,
-			'stats': commit.stats.total
+			'stats': commit.stats.total,
+			'diff': diff
 		},
 	}
 
