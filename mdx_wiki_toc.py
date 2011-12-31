@@ -72,12 +72,15 @@ class TocTreeprocessor(markdown.treeprocessors.Treeprocessor):
 			if header_rgx.match(c.tag):
 				try:
 					tag_level = int(c.tag[-1])
+					level_diff = last_tag_level - tag_level
 
 					if tag_level > last_tag_level:
 						this_level = last_level + 1
+						# Mimic the behaviour of the table of contents
+						if level_diff < 1:
+							tag_level = last_tag_level + 1
 					elif tag_level < last_tag_level:
 						# If the tag difference is MORE than one, go up that many
-						level_diff = last_tag_level - tag_level
 						if level_diff > 1:
 							this_level = last_level - level_diff
 						else:
