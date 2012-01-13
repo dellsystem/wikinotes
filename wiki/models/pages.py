@@ -1,5 +1,5 @@
 # encoding: utf-8
-from django.db import models, transaction
+from django.db import models, transaction, connection
 from wiki.utils.pages import page_types, page_type_choices#, get_page_type
 from wiki.utils.gitutils import Git
 import os
@@ -51,16 +51,18 @@ class Page(models.Model):
 	# gets the parsed markdown regardless whether it's cached or not, if not, it caches it
 	def get_markdown_cache(self,useragent):
 		if self.content:
-			eqns = list(self.eqns.all())
 			engines = ["WebKit","Firefox","Trident","Presto"]
 			engine = "WebKit"
 			for e in engines:
 				if e in useragent:
 					engine = e
+			cursor = connection.cursor()
+			cursor.execute('SELECT hash,eqn,%s FROM wiki_mathjaxcache WHERE page_id = %s' % (engine,self.pk))
+			eqns = cursor.fetchall()
 			hash_map = {}
 			for eqn in eqns:
-				cache = getattr(eqn,engine)
-				hash_map[eqn.hash] = cache if len(cache) else eqn.eqn
+				cache = eqn[2]
+				hash_map[eqn[0]] = cache if len(cache) else eqn[1]
 			hash = re.compile(r'[a-f0-9]{64}')		
 			def repl(m):
 				sha = m.group(0)
