@@ -27,7 +27,7 @@ class Page(models.Model):
 	def load_content(self):
 		file = open('%scontent.md' % self.get_filepath())
 		content = file.read()
-		if self.content==None:
+		if self.content == None:
 			self.cache_markdown(content)
 		file.close()
 		return content.decode('utf-8')
@@ -71,8 +71,8 @@ class Page(models.Model):
 				return sha
 			return hash.sub(repl,self.content)
 		else:
-			load_content()
-			return get_markdown_cache()
+			self.load_content()
+			return self.get_markdown_cache()
 	
 	def save_content(self, content, message, username):
 		self.cache_markdown(content)
@@ -137,7 +137,7 @@ class Page(models.Model):
 			
 		if match.group(6):
 			eqn_type = "inline"
-			exp=match.group(7).replace("&amp;","&")
+			exp = match.group(7).replace("&amp;","&")
 		exp = "%s-%s" %(eqn_type,exp)
 		h = hashlib.sha256()
 		h.update(exp)
