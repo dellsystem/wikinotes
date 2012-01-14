@@ -119,7 +119,7 @@ class Page(models.Model):
 
 	# private cache functions, should not be accessed anywhere else
 	def __find_blocks(self,txt,tags):
-		positions=[]
+		positions = []
 		for tag in tags:
 			tag_split = re.compile(r"<%s.*?>.*?</%s>"%(tag,tag),re.MULTILINE)
 			matches = tag_split.finditer(txt)
@@ -129,7 +129,7 @@ class Page(models.Model):
 
 	def __get_hash(self,match):
 		eqn_type = ""
-		exp=""
+		exp = ""
 		raw = match.group(0)
 		if match.group(2):
 			eqn_type = "block"
@@ -147,14 +147,14 @@ class Page(models.Model):
 			
 	def __check_cache(self,txt):
 		textblocks = self.__find_blocks(txt,["pre","code"])
-		textblocks = sorted(textblocks, key=lambda k: k['begin'])
+		textblocks = sorted(textblocks, key = lambda k: k['begin'])
 		start = 0
 		modified = []
 		textblocks.append({'begin':len(txt),'end':len(txt)})
 		m = re.compile(r"((\$\$)(.*?)(\$\$))|((\$)(.*?)(\$))")
 		with transaction.commit_on_success():
 			for block in textblocks:
-				if start>block['begin']:
+				if start > block['begin']:
 					continue
 				cur_block = txt[start:block['begin']]
 				modified.append(m.sub(self.__get_hash,cur_block))
