@@ -40,7 +40,7 @@ direct_to_view = {
 		'courses/popular': 'popular',
 		'courses/random': 'random',
 		'courses/active': 'active',
-		'courses/search': 'search',
+		'courses/get_all': 'get_all',
 		course: 'overview',
 		course + '/recent': 'recent',
 		course + '/watch': 'watch',

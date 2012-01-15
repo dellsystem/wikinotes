@@ -2,12 +2,16 @@
 
 {% block content %}
 
-<div class="leading-bar"> 
-	<div class="container"> 
-		<h6>An unofficial open source wiki-based resource for the courses at McGill university.</h6>
-		<form>
-			<input type="text" placeholder="Search for a course" id="course-search-box" />
-		</form>
+<div class="leading-bar">
+	<div class="container">
+		<div class="row">
+			<div class="span5">
+				{% include "main/course_search.html" %}
+			</div>
+			<div class="span11 right-align">
+				<h6>A free and open source wiki resource for the courses at McGill university.</h6>
+			</div>
+		</div>
 	</div> 
 </div> 
 

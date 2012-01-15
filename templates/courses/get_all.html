@@ -1,0 +1,4 @@
+<option value=""></option>{% for course in courses %}<option value="{{ course.get_absolute_url }}">{{ course }} - {{ course.name }}</option>{% endfor %}
+{% comment %}
+Cannot use parentheses to show the course name because then chosen won't allow you to search for it properly
+{% endcomment %}
