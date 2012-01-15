@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
+from django.db import transaction
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
 from wiki.utils.users import validate_username
-from wiki.models.pages import Page
+from wiki.models.pages import Page,MathjaxCache
 from blog.models import BlogPost
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from urls import static_urls
 import os
+import json
+import hashlib
 
 # welcome is only set to true when called from register()
 # Triggers the display of some sort of welcome message
@@ -186,7 +189,26 @@ def markdown(request):
 		return render(request, 'main/markdown.html', data)
 	else:
 		raise Http404
-
+	
+def mathjaxcache(request):
+	if request.POST and 'data' in request.POST and 'csrfmiddlewaretoken' in request.POST:
+		cache_objs = json.loads(request.POST['data'])
+		with transaction.commit_on_success():
+			for obj in cache_objs['objs']:
+				eqn_type = obj['t']
+				exp = obj['e']
+				h = hashlib.sha256()
+				h.update("%s-%s" % (eqn_type,exp))
+				exp_hash = h.hexdigest()
+				caches = MathjaxCache.objects.filter(hash=exp_hash)
+				for cache in caches:
+					setattr(cache,cache_objs['useragent'],obj['p'])
+					cache.save()
+		return HttpResponse(":O")
+	else:
+		print request.POST
+		raise Http404
+	
 def search(request):
 	if 'query' in request.GET:
 		data = {

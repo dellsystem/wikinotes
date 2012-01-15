@@ -29,7 +29,8 @@ direct_to_view = {
 		'user/(?P<username>\w+)': 'profile',
 		'search': 'search',
 		'markdown': 'markdown',
-		'register': 'register'
+		'register': 'register',
+		'mathjax_cache':'mathjaxcache'
 	},
 	'courses': {
 		'courses': 'index',

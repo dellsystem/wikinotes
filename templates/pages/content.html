@@ -1,7 +1,3 @@
 		<div id="content-markdown">
-			{% if page.content %}
-				{{ page.content|safe }}
-			{% else %}
-				{% include "main/markdown.html" %}
-			{% endif %}
+			{{content|safe}}
 		</div>
