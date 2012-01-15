@@ -25,7 +25,6 @@
 				</div>
 				{% endif %}
 				<h1>Your dashboard</h1>
-				<h2>Recent activity</h2>
 				{% if history_items %}
 				{% for history_item in history_items %}
 					<div class="row">
@@ -38,20 +37,6 @@
 				{% endfor %}
 				{% else %}
 				<p>{% if user.get_profile.courses.count %}There has been no recent activity on any of your courses! Start watching some more?{% else %}You are not watching any courses!{% endif %} You can find several ways to browse for courses <a href="/courses">here</a>.</p>
-				{% endif %}
-				<h2>Your actions</h2>
-				{% if your_actions %}
-				{% for your_action in your_actions %}
-					<div class="row">
-						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user user 50 %}" /></div>
-						<div class="span11 columns">
-							<p><strong><a href="{{ user.get_profile.get_absolute_url }}">{{ user.username }}</a></strong> {{ your_action.action }} {% if your_action.page %}<a href="{{ your_action.page.get_absolute_url }}">{{ your_action.page }}</a> for {% endif %} <a href="{{ your_action.course.get_absolute_url }}">{{ your_action.course }}</a> {{ your_action.get_timesince }} ago</p>
-							{% if your_action.message %}<p>{{ your_action.message }}</p>{% endif %}
-						</div>
-					</div>
-				{% endfor %}
-				{% else %}
-					<p>You have not done anything yet! Why not find a random page to edit or something.</p>
 				{% endif %}
 			</div>
 			<div class="span4 columns" id="right-bar">
