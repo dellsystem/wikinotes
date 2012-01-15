@@ -1,8 +1,11 @@
 # Django settings for wikinotes project.
-
+from sys import path
 from os import getcwd
 
 wikinotes_dir = getcwd() + '/' # temp workaround
+
+# Add the mdx_* markdown extensions to the path so they don't have to be in the root directory
+path.append(wikinotes_dir + 'mdx')
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
