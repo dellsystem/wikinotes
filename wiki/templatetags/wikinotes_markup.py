@@ -14,7 +14,8 @@ Standard extensions used, unmodified:
 
 All extensions beginning with wiki_ are modified version of standard extensions.
 """
-md = markdown.Markdown(extensions=['footnotes', 'wiki_toc', 'downheader', 'wiki_tables', 'wiki_codehilite', 'wiki_fenced_code', 'wiki_def_list', 'nl2br', 'subscript', 'superscript', 'mathjax', 'urlize'], safe_mode='escape', output_format='xhtml1')
+
+md = markdown.Markdown(extensions=['wiki_footnotes', 'wiki_toc', 'downheader', 'wiki_tables', 'wiki_codehilite', 'wiki_fenced_code', 'wiki_def_list', 'nl2br', 'subscript', 'superscript', 'mathjax', 'urlize'], safe_mode='escape', output_format='xhtml1')
 
 # NEEDS TESTS
 @register.filter()
