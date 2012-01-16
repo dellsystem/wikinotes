@@ -11,13 +11,14 @@
 	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
-	<!-- Le styles --> 
+	{% if compile_less %}
+	<link href="/static/css/bootstrap.css" rel="stylesheet" />
+	{% else %}
 	<link href="/static/css/bootstrap.less" rel="stylesheet/less" /> 
-	<link href="/static/css/prettify.css" rel="stylesheet">
-
-	<!-- Le javascript --> 
-	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/less.min.js"></script>
+	{% endif %}
+
+	<script src="/static/js/jquery.min.js"></script>
 	<script src="/static/js/placeholder.min.js"></script>
 	<script src="/static/js/jquery.fieldselection.min.js"></script>
 	<script src="/static/js/page_course_shit.js"></script>

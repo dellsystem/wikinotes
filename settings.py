@@ -7,6 +7,8 @@ wikinotes_dir = getcwd() + '/' # temp workaround
 # Add the mdx_* markdown extensions to the path so they don't have to be in the root directory
 path.append(wikinotes_dir + 'mdx')
 
+COMPILE_LESS = False
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -157,3 +159,13 @@ LOGGING = {
 
 # The alternative to subclassing the user module
 AUTH_PROFILE_MODULE = 'wiki.UserProfile'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+	'django.contrib.auth.context_processors.auth',
+	'django.core.context_processors.debug',
+	'django.core.context_processors.i18n',
+	'django.core.context_processors.media',
+	'django.core.context_processors.static',
+	'django.contrib.messages.context_processors.messages',
+	'wiki.context_processors.less_compilation',
+)
