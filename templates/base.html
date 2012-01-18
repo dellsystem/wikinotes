@@ -56,7 +56,7 @@
 				<li><a href="/help">Help</a></li>
 				<li><a href="/contributing">Contributing</a></li>
 			</ul>
-			<div class="float-right">
+			<div class="right-float">
 		  		<ul class="nav">
 					<li><form action="/search" method="get" id="search-form"><input type="text" name="query" class="medium" placeholder="Search ..." /></form></li>
 					<li><a href="/recent">Recent changes</a></li>
@@ -80,14 +80,14 @@
 					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
 					<input type="submit" class="btn danger" value="Log in" name="login" />
 				</p>
-				<div class="float-right">
+				<div class="right-float">
 					<span><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;</span>
 				</div>
 				<div id="stay-logged-in">
 					<input type="checkbox" /><span> Stay logged in</span>
 				</div>
 				{% else %}
-				<div style="float: right;"><p><a href="/ucp" class="btn info" style="font-weight: normal;">User control panel</a>{% if user.is_staff %} <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
+				<div class="right-float"><p><a href="/ucp" class="btn info" style="font-weight: normal;">User control panel</a>{% if user.is_staff %} <a href="/admin" class="btn" style="font-weight: normal; color: #000;">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
 				{% load gravatar %}
 				<div style="float: left; margin-right: 10px;"><a href="{{ user.get_profile.get_absolute_url }}"><img src="{% gravatar_for_user user 70 %}" alt="Your Gravatar" /></a></div>
 				{% endif %}
