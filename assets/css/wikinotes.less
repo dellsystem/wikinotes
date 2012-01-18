@@ -283,13 +283,29 @@ table img {
 	}
 }
 
-#content-preview {
+.hidden {
 	display: none;
+}
+
+#inline-edit-box {
+	.hidden;
+	padding-top: 15px;
+	textarea {
+		width: 932px; // 8px of left-right padding
+		height: 150px;
+	}
+	.edit-buttons {
+		padding-top: 10px;
+	}
+}
+
+#content-preview {
+	.hidden;
 	clear: both;
-	#content-markdown;
-	width: 900px;
-	padding: 19px;
-	border: 1px solid (@grayLight + #222);
+	.markdown;
+	width: 940px;
+	//padding: 19px;
+	//border: 1px solid (@grayLight + #222);
 	background-color: @white;
 }
 
@@ -297,6 +313,17 @@ table img {
 	#font > .monospace(normal, 13px, 17px);
 	color: @grayDark;
 }
+
+.inline-edit {
+	float: right;
+	clear: both;
+	position: relative;
+	top: 10px;
+	.inline-edit-preview {
+		.hidden;
+	}
+}
+
 #commit-diff {
 	.diff-green {
 		background-color: @green;
