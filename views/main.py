@@ -30,6 +30,7 @@ def index(request, show_welcome=False):
 
 		# Show the user's dashboard
 		data = {
+			'title': 'Your dashboard',
 			'watched_courses': watched_courses,
 			'history_items': history_items[::-1],
 			'show_welcome': show_welcome,
@@ -66,6 +67,7 @@ def login_logout(request):
 # Recent changes
 def recent(request, num_days=1, show_all=False):
 	data = {
+		'title': 'Recent activity',
 		'history': HistoryItem.objects.get_since_x_days(num_days, show_all),
 		'num_days': num_days,
 		'base_url': '/recent/all' if show_all else '/recent', # better way of doing this?
@@ -79,6 +81,7 @@ def all_recent(request, num_days=1):
 def profile(request, username):
 	this_user = User.objects.get(username__iexact=username)
 	data = {
+		'title': 'Viewing profile (%s)' % this_user.username,
 		'this_user': this_user, # can't call it user because the current user is user
 		'profile': this_user.get_profile(),
 		'recent_activity': HistoryItem.objects.filter(user=this_user),
@@ -124,6 +127,7 @@ def register(request):
 				errors.append("This username is already in use! Please find a new one.")
 
 			data = {
+				'title': 'Create an account (errors)',
 				'errors': errors,
 				'username': username,
 				'email': email,
@@ -141,7 +145,7 @@ def register(request):
 				login(request, new_user)
 				return index(request, show_welcome=True)
 		else:
-			return render(request, 'main/registration.html')
+			return render(request, 'main/registration.html', {'title': 'Create an account'})
 
 def ucp(request, mode):
 	# Need a better way of dealing with logged-out users
@@ -152,6 +156,7 @@ def ucp(request, mode):
 		user = request.user
 		user_profile = user.get_profile()
 		data = {
+			'title': 'User control panel (%s)' % mode,
 			'profile': user_profile,
 			'mode': mode,
 			'modes': modes,
@@ -190,6 +195,7 @@ def markdown(request):
 def search(request):
 	if 'query' in request.GET:
 		data = {
+			'title': 'Search results',
 			'query': request.GET['query']
 		}
 		return render(request, 'search/results.html', data)
@@ -201,6 +207,7 @@ def static(request, mode='', page=''):
 	markdown_file = '%s/%s.md' % (mode, page)
 	html_file = '%s/%s.html' % (mode, page)
 	data = {
+		'title': mode.title() + ' (' + page.title() + ')',
 		'html_file': html_file if os.path.isfile('templates/' + html_file) else None,
 		'markdown_file': markdown_file if os.path.isfile('templates/' + markdown_file) else None,
 		'page': page,

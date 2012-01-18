@@ -17,6 +17,7 @@ def faculty_overview(request, faculty):
 	courses = Course.objects.all().filter(department__faculty=faculty_object).order_by('department__short_name', 'number')
 	departments = Department.objects.all().filter(faculty=faculty_object).order_by('short_name')
 	data = {
+		'title': faculty_object,
 		'faculty': faculty_object,
 		'courses': courses,
 		'departments': departments
@@ -29,6 +30,7 @@ def department_overview(request, department):
 	# Figure out the number of pages associated with courses in this department
 	num_pages = Page.objects.filter(course_sem__course__department=dept).count()
 	data = {
+		'title': dept,
 		'dept': dept,
 		'courses': courses,
 		'num_pages': num_pages
@@ -46,6 +48,7 @@ def faculty_browse(request):
 		faculties.append({'name': faculty.name, 'slug': faculty.slug, 'courses': faculty_courses})
 
 	data = {
+		'title': 'Browse by faculty',
 		'faculties': faculties,
 	}
 
@@ -62,6 +65,7 @@ def department_browse(request):
 		departments.append({'long': department.long_name, 'short': department.short_name, 'courses': department_courses})
 
 	data = {
+		'title': 'Browse by department',
 		'departments': departments,
 	}
 
@@ -69,13 +73,12 @@ def department_browse(request):
 
 # Meh
 def professor(request):
-	return render(request, 'courses/professor.html')
+	return render(request, 'courses/professor.html', {'title': 'Browse by professor'})
 
 def random(request):
 	courses = Course.objects.all()
 	random_course = random_module.choice(courses)
 	return overview(request, random_course.department, random_course.number)
-
 
 def index(request):
 	courses = Course.objects.all()
@@ -85,6 +88,7 @@ def index(request):
 	active_courses = courses.order_by('-latest_activity__timestamp')[:10]
 
 	data = {
+		'title': 'Courses',
 		'random_courses': random_courses,
 		'popular_courses': popular_courses,
 		'active_courses': active_courses,
@@ -111,6 +115,7 @@ def list_all(request, sort_by=''):
 		courses = Course.objects.all().order_by('department', 'number')
 
 	data = {
+		'title': 'Courses by %s' % sort_by,
 		'mode': sort_by,
 		'courses': courses,
 	}
@@ -155,6 +160,7 @@ def overview(request, department, number):
 	# Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
 	all_pages = Page.objects.filter(course_sem__course=course)
 	data = {
+		'title': course,
 		'is_watching': request.user.get_profile().is_watching(course) if request.user.is_authenticated() else False,
 		'course': course,
 		'page_types': types,
@@ -172,6 +178,7 @@ def semester(request, department, number, term, year):
 	pages = Page.objects.filter(course_sem=course_sem)
 
 	data = {
+		'title': course_sem,
 		'course': course,
 		'course_sem': course_sem,
 		'pages': pages,
@@ -219,6 +226,7 @@ def recent(request, department, number):
 					item.action += ' this course'
 
 	data = {
+		'title': '%s (Recent activity)' % course,
 		'course': course,
 		'history': reversed(history) # have to reverse it again to get the right order
 	}
@@ -230,6 +238,7 @@ def series(request, department, number, slug):
 	series = get_object_or_404(Series, course=course, slug=slug)
 
 	data = {
+		'title': series,
 		'course': course,
 		'series': series,
 	}
@@ -243,6 +252,7 @@ def category(request, department, number, page_type):
 	else:
 		category = page_types[page_type]
 		data = {
+			'title': '%s (%s)' % (category.long_name, course),
 			'course': course,
 			'category': category,
 			'pages': Page.objects.filter(course_sem__course=course, page_type=page_type),

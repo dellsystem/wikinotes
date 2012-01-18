@@ -19,6 +19,7 @@ def show(request, department, number, page_type, term, year, slug):
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = page_types[page_type]
 	data = {
+		'title': '%s (%s)' % (page, course),
 		'course': course,
 		'page': page,
 		'page_type': page_type_obj,
@@ -34,6 +35,7 @@ def history(request, department, number, page_type, term, year, slug):
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	commit_history = Git(page.get_filepath()).get_history()
 	data = {
+		'title': 'Page history (%s)' % page,
 		'course': course,
 		'page': page, # to distinguish it from whatever
 		'commit_history': commit_history,
@@ -70,6 +72,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 		diff = None
 
 	data = {
+		'title': 'Commit information (%s)' % page,
 		'course': course,
 		'page': page,
 		'hash': hash,
@@ -118,6 +121,7 @@ def edit(request, department, number, page_type, term, year, slug):
 	non_field_templates = ['pages/%s_data.html' % field for field in page_type_obj.editable_fields]
 
 	data = {
+		'title': 'Edit (%s)' % page,
 		'course': course,
 		'page': page,
 		# ONLY SHOW THE BELOW FOR MODERATORS (once that is implemented)
@@ -140,6 +144,7 @@ def create(request, department, number, page_type):
 
 	page_type_obj = page_types[page_type]
 	data = {
+		'title': 'Create a page (%s)' % course,
 		'course': course,
 		'page_type': page_type_obj,
 		'terms': terms,
