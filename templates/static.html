@@ -6,8 +6,8 @@
 	<section>
 		<div class="row">
 			<div class="span12">
-			<div id="content-markdown">
-			<h1>{{ page.title }}</h1>
+			<div class="markdown">
+			<h1>{{ mode.title }} <small>{{ page.title }}</small></h1>
 			<hr />
 			{% if markdown_file %}
 				{% filter wikinotes_markdown %}{% include markdown_file %}{% endfilter %}
