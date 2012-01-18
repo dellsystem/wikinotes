@@ -514,7 +514,7 @@ footer {
   }
   // Info appears as a neutral blue
   &.info {
-    .gradientBar(#5bc0de, #339bb9);
+    .gradientBar(@blue, @blueDark);
   }
 }
 
@@ -544,12 +544,6 @@ footer {
   // Focus state for keyboard and accessibility
   &:focus {
     outline: 1px dotted #666;
-  }
-
-  // Primary Button Type
-  &.primary {
-    color: @white;
-    .gradientBar(@blue, @blueDark)
   }
 
    // Transitions
