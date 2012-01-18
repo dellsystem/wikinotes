@@ -14,7 +14,7 @@
 		<h1>Viewing history :: {{ page }}</h1>
 		<hr />
 		{% if commit_history %}
-		<table class="zebra-striped">
+		<table class="zebra-striped" id="commit-history">
 			<thead>
 				<tr>
 					<th style="width: 15%;">Author</th>
@@ -31,7 +31,7 @@
 					<td>{% gravatar_img_for_user commit.author.name 20 %} <a href="/user/{{ commit.author.name }}">{{ commit.author.name }}</a></td>
 					<td>{{ commit.message|escape }}</td>
 					<td>{{ commit.date|date:"D, j M, Y H:i" }}</td>
-					<td><div style="width: {{ commit.bar_width }}px; height: 7px; background-color: #F90000;"><div style="width: {{ commit.green_percent }}%; height: 100%; background-color: #009E00;"></div></div>{{ commit.lines }} lines (+{{ commit.insertions }}, -{{ commit.deletions }})</td>
+					<td><div class="red-bar" style="width: {{ commit.bar_width }}px;"><div class="green-bar" style="width: {{ commit.green_percent }}%;"></div></div>{{ commit.lines }} lines (+{{ commit.insertions }}, -{{ commit.deletions }})</td>
 					<td><a href="{{ commit.url }}">View details</a>{% if not forloop.last %} :: <a href="{{ commit.undo_url }}">Undo</a>{% endif %}</td>
 					<td><input type="checkbox" /></td>
 				</tr>

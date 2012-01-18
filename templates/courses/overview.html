@@ -73,7 +73,7 @@
 				{% include "pages/create_popup.html" %}
 			</div>
 			<div class="span4 columns" id="right-bar">
-				<div class="row" style="margin-bottom: 0px;">
+				<div class="row">
 				{% if user.is_authenticated %}
 				<form method="post" action="{{ course.get_absolute_url }}/watch">
 				{% csrf_token %}
@@ -91,6 +91,7 @@
 				{% endif %}
 				</div>
 				<hr />
+				<br />
 				<div class="row">
 					<div class="half-column icon-thumb">
 						<p><a href="{{ course.department.get_absolute_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course.department }}" /></a></p>

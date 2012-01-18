@@ -224,9 +224,18 @@ table img {
 	width: 36px;
 }
 
-.icon-thumb img {
-	width: 80px;
-	height: 80px;
+.icon-thumb {
+	img {
+		width: 80px;
+		height: 80px;
+	}
+}
+
+.course-icons {
+	display: inline-block;
+	padding: 5px;
+	text-align: center;
+	.icon-thumb;
 }
 
 .radio-group {
@@ -297,4 +306,33 @@ table img {
 		background-color: @red;
 		color: @white;
 	}
+}
+
+#commit-history {
+	.green-bar {
+		height: 7px;
+		background-color: @green;
+	}
+	.red-bar {
+		.green-bar;
+		background-color: lighten(@red, 15%);
+	}
+}
+
+// Awful
+#create-page-popup .modal-body div div {
+	display: inline-block;
+	width: 70px;
+	vertical-align: top;
+}
+
+#wikinotes-video {
+	background-color: #111;
+	text-align: center;
+	padding: 15px;
+}
+
+#your-gravatar {
+	float: left;
+	margin-right: 10px;
 }

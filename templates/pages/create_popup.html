@@ -5,7 +5,7 @@
 			<p>Choose the type of page you want to create from the options below. If your page doesn't belong in any case of the first four categories, choose the "Course summary" option. You will be able to upload files and import etc afterwards, if applicable. The images being used right now are placeholders, lol</p>
 			<div class="center-align">
 				{% for page_type in page_types %}
-				<div style="display: inline-block; width: 70px; vertical-align: top;">
+				<div>
 					<p><a href="{{ page_type.url }}" title="{{ page_type.desc }}"><img src="{{ page_type.icon }}" alt="{{ page_type.name }}" /></a></p>
 					<p><a href="{{ page_type.url }}" title="{{ page_type.desc }}">{{ page_type.long_name }}</a></p>
 				</div>
