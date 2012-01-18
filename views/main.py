@@ -148,7 +148,6 @@ def register(request):
 			return render(request, 'main/registration.html', {'title': 'Create an account'})
 
 def ucp(request, mode):
-	# Need a better way of dealing with logged-out users
 	modes = ['overview', 'account', 'profile', 'preferences']
 	if mode == '' or mode not in modes:
 		mode = 'overview'
@@ -181,7 +180,7 @@ def ucp(request, mode):
 
 		return render(request, 'main/ucp.html', data)
 	else:
-		return index(request)
+		return register(request)
 
 def markdown(request):
 	if 'content' in request.POST and 'csrfmiddlewaretoken' in request.POST:
