@@ -60,7 +60,7 @@ direct_to_view = (
 		(page, 'show'),
 		(page + '/edit', 'edit'),
 		(page + '/history', 'history'),
-		(page + '/raw', 'raw'),
+		#(page + '/raw', 'raw'),
 		(page + '/commit/' + sha, 'commit'),
 		#(page + '/inline', 'inline'),
 	))
