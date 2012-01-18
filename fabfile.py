@@ -1,8 +1,5 @@
 from fabric.api import *
 
-def beta():
-	env.hosts = ['deploy@beta.wikinotes.ca']
-
 def less():
 	local("lessc -x assets/css/bootstrap.less > assets/css/bootstrap.css")
 
