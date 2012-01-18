@@ -4,7 +4,10 @@ def less():
 	local("lessc -x assets/css/bootstrap.less > assets/css/bootstrap.css")
 
 def kill():
-	run("kill $(ps aux | grep gunicorn | awk '{ print $2 }' | sort -nr | tail -n 1)")
+	# First check if it's running in the first place
+	num_processes = int(run('ps au | grep gunicorn_django | wc -l'))
+	if num_processes > 2: # 2 because, the grep and the bash -l process
+		run("kill $(ps aux | grep gunicorn | awk '{ print $2 }' | sort -nr | tail -n 1)")
 
 def update():
 	run("cd /srv/beta/wikinotes; git pull")
