@@ -62,7 +62,7 @@ direct_to_view = (
 		(page + '/history', 'history'),
 		(page + '/raw', 'raw'),
 		(page + '/commit/' + sha, 'commit'),
-		(page + '/inline', 'inline'),
+		#(page + '/inline', 'inline'),
 	))
 )
 
