@@ -3,8 +3,33 @@
 {% block content %}
 <div class="container">
 	<section>
-		<h1>Search results for {{ query }}</h1>
-		<p>The search feature is still under construction. Got a suggestion for how search should behave? <a href="/about#contact-us">Let us know!</a></p>
+	<form action="/search" method="get" id="search-result">
+	<input type="text" name="query" class="xlarge" value="{{ query }}" />
+	<input class="btn primary" type="submit" value="Search" />
+	</form>
+	Search completed in {{time}} seconds
+	<br />
+	<br />
+	<div class="results">
+	{% for result in results %}
+		<div class="search-result">
+			<h3><a href="{{result.page_url}}">{{result.page_title}}</a></h3>
+			<div>			
+			{{result.preview_text|safe}}
+			</div>
+			<h5>Mentioned in commits
+			{% for commit in result.commits_mentioned%}
+			<a href={{commit.url}}>{{commit.name}}</a>, 
+			{% endfor %}
+			{% if result.commits_hidden > 0 %}
+			and <a href="#">{{result.commits_hidden}} other{{result.commits_hidden|pluralize}}</a>
+			{% endif %}
+			</h5> 
+		</div>
+		<br />
+		<hr />
+	{% endfor %}
+	</div>
 	</section>
 </div>
 {% endblock %}
