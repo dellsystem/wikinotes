@@ -6,3 +6,4 @@ from pages import *
 from history import *
 from users import *
 from series import *
+from searchindex import *

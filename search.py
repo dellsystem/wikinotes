@@ -1,3 +1,4 @@
+# encoding: utf-8
 import sys
 import subprocess
 import re
@@ -7,7 +8,7 @@ import hashlib
 from django.db import connection, transaction
 import itertools
 import time
-
+from django.utils.encoding import smart_str, smart_unicode
 def index_entire_history(file_path, page_id, *args, **kwargs):
 	print "indexing %s - %s" % (file_path.split('/')[2] , file_path.split("/")[5])
 	try:
@@ -338,7 +339,7 @@ ignore_words = ["the", "be", "to", "of", "and", "a",
 			"most", "us", "toc", "iff", "neg", "let", "lor"]
 
 def get_valid_keywords(line):
-	line = unicode(line)
+	line = smart_str(line)
 	#split on delimiters
 	delim = re.compile(r"[\.,:;\[\]\(\)\-_\\/=\+\}\{><\|]")
 	line = delim.sub(" ", line)
