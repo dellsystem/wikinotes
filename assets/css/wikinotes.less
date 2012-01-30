@@ -145,7 +145,7 @@ section {
 
 .course-icon {
 	width: 100px;
-	display: inline-block;
+	.inline-block;
 }
 
 ul.toc ul {
@@ -232,7 +232,7 @@ table img {
 }
 
 .course-icons {
-	display: inline-block;
+	.inline-block;
 	padding: 5px;
 	text-align: center;
 	.icon-thumb;
@@ -245,7 +245,7 @@ table img {
 		width: 50px;
 		text-align: center;
 	}
-	display: inline-block;
+	.inline-block;
 	margin: 0px 5px;
 	&.wide label {
 		width: 50px;
@@ -346,9 +346,16 @@ table img {
 	}
 }
 
+.inline-block {
+	display: inline-block;
+	// IE-specific:
+	zoom: 1;
+	*display: inline;
+}
+
 // Awful
 #create-page-popup .modal-body div div {
-	display: inline-block;
+	.inline-block;
 	width: 70px;
 	vertical-align: top;
 }
