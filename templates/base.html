@@ -82,9 +82,9 @@
 				<div class="right-float">
 					<span><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;</span>
 				</div>
-				<div id="stay-logged-in">
-					<input type="checkbox" /><span> Stay logged in</span>
-				</div>
+				<label id="stay-logged-in">
+					<input type="checkbox" /> <span>Stay logged in</span>
+				</label>
 				{% else %}
 				<div class="right-float"><p><a href="/ucp" class="btn info">User control panel</a>{% if user.is_staff %} <a href="/admin" class="btn">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
 				{% load gravatar %}
