@@ -13,11 +13,11 @@ class Page(models.Model):
 		ordering = ['id']
 
 	course_sem = models.ForeignKey('CourseSemester')
-	subject = models.CharField(max_length=255, null=True) # only used for some (most) page types
-	link = models.CharField(max_length=255, null=True) # remember the max length. only used for some page_types
+	subject = models.CharField(max_length=255, null=True, blank=True) # only used for some (most) page types
+	link = models.CharField(max_length=255, null=True, blank=True) # remember the max length. only used for some page_types
 	page_type = models.CharField(choices=page_type_choices, max_length=20)
-	title = models.CharField(max_length=255, null=True) # the format of this is determined by the page type
-	professor = models.ForeignKey('Professor', null=True)
+	title = models.CharField(max_length=255, null=True, blank=True) # the format of this is determined by the page type
+	professor = models.ForeignKey('Professor', null=True, blank=True)
 	slug = models.CharField(max_length=50)
 	content = models.TextField(null=True) # processed markdown, like a cache
 
