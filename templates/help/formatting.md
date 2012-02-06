@@ -163,6 +163,13 @@ The pipe (|) characters don't have to be lined up. It's also possible to put the
 
 You can align individual columns using a colon (:) to indicate the direction of alignment. For example:
 
+	Right alignment | Left alignment | Center alignment
+	---------------:|:---------------|:---------------:
+	Content cell 1  | Content cell 2 | Content cell 3
+	Content cell 4  | Content cell 4 | Content cell 6
+
+which produces
+
 Right alignment | Left alignment | Center alignment
 ---------------:|:---------------|:---------------:
 Content cell 1  | Content cell 2 | Content cell 3

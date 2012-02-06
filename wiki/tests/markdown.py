@@ -200,6 +200,14 @@ Content cell 3 | Content cell 4
 
 <h4 class="header" id="column-alignment"><span>2.3.2</span>Column alignment</h4>
 <p>You can align individual columns using a colon (:) to indicate the direction of alignment. For example:</p>
+<div class="codehilite"><pre>Right alignment | Left alignment | Center alignment
+---------------:|:---------------|:---------------:
+Content cell 1  | Content cell 2 | Content cell 3
+Content cell 4  | Content cell 4 | Content cell 6
+</pre></div>
+
+
+<p>which produces</p>
 <table>
 <thead>
 <tr>
