@@ -53,13 +53,13 @@
 			color: @white;
 		}
 		margin: 10px 0px; // hopefully this won't mess up the sticky footer
-		& .clear {
+		&.clear {
 			thead {
 				color: @black;
 				#gradient > .vertical(@white, @white); // overriding etc
 			}
 		}
-		& .autumn {
+		&.autumn {
 			thead {
 				#gradient > .vertical(@orange, lighten(@orange, 10%));
 			}
@@ -67,12 +67,12 @@
 				background-color: #FCFFE5;
 			}
 		}
-		& .fresh {
+		&.fresh {
 			thead {
 				#gradient > .vertical(@green, lighten(@green, 10%));
 			}
 		}
-		& .iris {
+		&.iris {
 			thead {
 				#gradient > .vertical(@purple, lighten(@purple, 10%));
 			}
@@ -80,12 +80,12 @@
 				background-color: #FAE6F6;
 			}
 		}
-		& .ribbon {
+		&.ribbon {
 			thead {
 				#gradient > .vertical(@red, lighten(@red, 10%));
 			}
 		}
-		& .lights {
+		&.lights {
 			thead {
 				#gradient > .vertical(#BFD4FE, #B9CFFE);
 				color: @black;
