@@ -493,13 +493,13 @@ last term
 </pre></div>
 
 
-<p>will become: This is text<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> and more text<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup></p>
+<p>will become: This is text<sup id="fnref:1"><a href="#fn:1" rel="footnote" title="lol">1</a></sup> and more text<sup id="fnref:2"><a href="#fn:2" rel="footnote" title="lol">2</a></sup></p>
 <p>Although the footnotes will automatically become numbers, you don't need to number them properly, or even use numbers:</p>
 <div class="codehilite"><pre>This is text[^lol] and more text[^5]
 </pre></div>
 
 
-<p>will show up as: This is text<sup id="fnref:lol"><a href="#fn:lol" rel="footnote">3</a></sup> and more text<sup id="fnref:5"><a href="#fn:5" rel="footnote">4</a></sup>.</p>
+<p>will show up as: This is text<sup id="fnref:lol"><a href="#fn:lol" rel="footnote" title="lol">3</a></sup> and more text<sup id="fnref:5"><a href="#fn:5" rel="footnote" title="lol">4</a></sup>.</p>
 <p>You can define footnotes at the bottom of the page. (Or rather, anything after the footnotes will be considered part of the footnotes.) Footnote definitions can be multiple lines, with blockquotes, code blocks, and other block elements. Just be sure to indent subsequent lines with an additional four spaces (or tab).</p>
 <p>Although failing to define a footnote won't break anything, it may mess up the formatting a bit, so we don't recommend it.</p>
 <h2 class="header" id="miscellaneous"><span>3</span>Miscellaneous</h2>
@@ -516,7 +516,7 @@ Or at least it will be soon<br />
 After this line ends</p>
 <p>Included as an extension in the standard Markdown library as of version 2.1.0.</p>
 <h3 class="header" id="inline-html"><span>3.2</span>Inline HTML</h3>
-<p>HTML tags are automatically escaped for security reasons.<sup id="fnref:lolwebct"><a href="#fn:lolwebct" rel="footnote">5</a></sup> If there's some styling or formatting technique you need that doesn't have an adequate Markdown replacement, please <a href="/about#contact-us">let us know</a>.</p>
+<p>HTML tags are automatically escaped for security reasons.<sup id="fnref:lolwebct"><a href="#fn:lolwebct" rel="footnote" title="lol">5</a></sup> If there's some styling or formatting technique you need that doesn't have an adequate Markdown replacement, please <a href="/about#contact-us">let us know</a>.</p>
 <h3 class="header" id="math-markup"><span>3.3</span>Math markup</h3>
 <p>We use <a href="http://www.mathjax.org/">MathJax</a> for client-side processing of LaTeX math markup. There is a fairly useful list on <a href="http://en.wikipedia.org/wiki/Help%3aDisplaying_a_formula">Wikipedia</a> of the most common symbols and expressions. Instead of &lt;math&gt;&lt;/math&gt; tags, we use the dollar sign - \$ for inline, \$\$ for display. For example:</p>
 <div class="codehilite"><pre>This is text $a^2 + b^2 = c^2$ and that was the Pythagorean theorem.
