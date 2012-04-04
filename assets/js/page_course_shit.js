@@ -110,7 +110,7 @@ $(document).ready(function() {
 					// Work on selected case later
 					var previousNewline = 0;
 					var tempText = text;
-					while (tempText.indexOf('\n') < selection.start && tempText.indexOf('\n') >= 0) {
+					while (tempText.indexOf('\n') <= selection.start && tempText.indexOf('\n') >= 0) {
 						previousNewline += tempText.indexOf('\n') + 1;
 						tempText = tempText.substring(tempText.indexOf('\n') + 1);
 					}
