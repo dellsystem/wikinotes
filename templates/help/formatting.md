@@ -265,6 +265,28 @@ becomes
 multiple lines
 4. Last list item
 
+### Nested lists
+
+You can also nest lists, by indenting each line in a sublist by four spaces or a tab:
+
+	* List item 1
+	* List item 2
+		* Sublist 1 item 1
+		* Sublist 1 item 2
+			* Sublist 2 item 1
+		* Sublist 1 item 3
+	* List item 3
+
+becomes
+
+* List item 1
+* List item 2
+	* Sublist 1 item 1
+	* Sublist 1 item 2
+		* Sublist 2 item 1
+	* Sublist 1 item 3
+* List item 3
+
 ## Code blocks
 
 ### Tabbed code blocks
