@@ -140,7 +140,10 @@ def get_all(request):
 	return render(request, 'courses/get_all.html', {'courses': courses})
 
 def overview(request, department, number):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	try:
+		course = get_object_or_404(Course, department=department, number=int(number))
+	except Http404:
+		return render(request, "courses/404.html", {'department': department, 'number': number})
 
 	# We can't use it directly in the template file, it just won't work
 	types = []
