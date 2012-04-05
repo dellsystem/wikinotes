@@ -10,6 +10,138 @@ $(document).ready(function() {
 		},
 	});
 
+	// If there's an ol on the page ... (MUST be an ol to be considered a q)
+	var orderedLists = $('.markdown ol');
+	var	answerPrefix = 'ANSWER: '
+	var containsQuestion = false;
+	if (orderedLists.length > 0) {
+		var questionNumber = 1; // for numbering the questions (classes etc)
+		// For each ordered list ...
+		$.each(orderedLists, function(i, orderedList) {
+			// For each li in the ordered list (a potential question)
+			var potentialQs = $(orderedList).children();
+			$.each(potentialQs, function(j, potentialQ) {
+				var answers = $(potentialQ).children().filter('ul').children();
+
+				// Make all the answers bold when you click them
+				$(answers).addClass('js-answer');
+
+				// Check if there are at least two "answers" (incl. the explanation)
+				if (answers.length < 3) {
+					return;
+				} else {
+					// Still potential - check that the last "answer" starts with ANSWER:
+					var lastOne = answers[answers.length - 1];
+					var explanation = lastOne.innerText;
+					if (explanation.lastIndexOf(answerPrefix, 0) === 0) {
+						// Figure out the actual answer
+						// Text between the first space and the next space/period/;/,
+						var actualAnswer = explanation.substring(answerPrefix.length, answerPrefix.length + 3);
+						// Store the actual answer in the question element
+						$(potentialQ).attr('data-answer', actualAnswer).addClass('is-question');
+						$(lastOne).removeClass('js-answer').html('<a href="#" class="js-show-answer">Show answer &raquo;</a> <span class="js-explanation">' + explanation.substring(answerPrefix.length) + '</span>');
+						containsQuestion = true;
+					}
+				}
+
+				// Make each answer into a radio button
+				$.each(answers, function(index, answer) {
+					answer.innerHTML = '<label><input type="radio" name="question-' + questionNumber + '" /> <span>' + answer.innerHTML + '</span></label>';
+				});
+				questionNumber++;
+			});
+		});
+
+		// Now handle clicking of js-show-answer etc
+		$('.js-show-answer').click(function() {
+			$(this).next().show();
+			return false;
+		});
+
+		$('.js-answer').click(function() {
+			// Remove bold from all the other answers here
+			$(this).parent().children().removeClass('answer-clicked');
+			$(this).addClass('answer-clicked');
+		});
+
+		// Click handler for the reset quiz thing
+		$('#js-reset-quiz').click(function() {
+			// First, hide the answer statistics thing
+			$('#grade-answers span').hide();
+			// Remove the correct/incorrect classes from the js-explanations
+			$('.js-explanation').removeClass('correct').removeClass('incorrect').hide();
+			// Remove the answer-clicked class
+			$('.answer-clicked').removeClass('answer-clicked');
+			// Clear all the radio buttons
+			$('.js-answer input').prop('checked', false);
+			return false;
+		});
+
+		var setClass = function(object, thisClass, otherClass) {
+			if ($(object).hasClass(thisClass)) {
+				/// Done, return
+				return;
+			} else {
+				if ($(object).hasClass(otherClass)) {
+					$(object).removeClass(otherClass);
+				}
+				// Just add the class
+				$(object).addClass(thisClass);
+			}
+		};
+		
+		var setCorrect = function(object) {
+			setClass(object, 'correct', 'incorrect');
+		};
+		
+		var setIncorrect = function(object) {
+			setClass(object, 'incorrect', 'correct');
+		};
+
+		// Click handler for the grade answers thing
+		$('#grade-answers').show();
+		$('#js-grade-answers').click(function() {
+			var questions = $('.markdown ol').find('.is-question');
+			var correct = 0;
+			var total = 0;
+			// For each question, check if the right answer is selected
+			$.each(questions, function(i, question) {
+				// First store the actual answer
+				var actual = $(this).attr('data-answer');
+				// Find the selected one
+				var selected = $(this).find('.answer-clicked span');
+
+				if (selected.length == 1 && selected[0].innerText.lastIndexOf(actual, 0) === 0) {
+					// This one is correct - increment counter, and change class of the showAnswer thing
+					correct++;
+					setCorrect($(this).find('.js-explanation'));
+				} else {
+					setIncorrect($(this).find('.js-explanation'));
+				}
+				total++;
+			});
+			var percentage = Math.round(correct / total * 100);
+			var span = $(this).next();
+			// Show the span, then change the values
+			$(span).show();
+			var values = $(span).find('i');
+			$(values[0]).text(correct);
+			$(values[1]).text(total);
+			$(values[2]).text(percentage);
+
+			// Make it green if total == correct
+			if (total == correct) {
+				setCorrect(span);
+			} else {
+				setIncorrect(span);
+			}
+
+			// Show all the explanations
+			$('.js-explanation').show();
+			return false;
+		});
+	}
+
 	var showAllSemesters = function() {
 		$('.page-row').show();
 		$('.page-table').show(); // show the tables and the headings

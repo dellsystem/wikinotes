@@ -151,4 +151,40 @@
 	hr {
 		margin: 7px 0px;
 	}
+	.answer-clicked label {
+		font-weight: bold;
+		cursor: pointer;
+	}
+}
+
+.correct {
+	color: @green !important;
+}
+
+.incorrect {
+	color: #FF0000;
+}
+
+#grade-answers {
+	margin-top: 10px;
+	.hidden;
+	span {
+		.incorrect;
+		margin-left: 5px;
+		.hidden;
+		i {
+			font-style: normal;
+		}
+	}
+}
+
+.is-question ul {
+	list-style-type: none;
+	label {
+		float: none;
+	}
+}
+
+.js-explanation {
+	.hidden;
 }
