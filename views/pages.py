@@ -150,6 +150,7 @@ def create(request, department, number, page_type):
 		'terms': terms,
 		'field_templates': page_type_obj.get_uneditable_fields() + page_type_obj.get_editable_fields(),
 		'years': years,
+		'page_type_url': page_type_obj.get_url(course), # can't call it on page_type_obj directly
 		'current_term': current_term,
 		'current_year': current_year,
 		'exam_types': exam_types,

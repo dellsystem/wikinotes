@@ -78,4 +78,4 @@ class Page(models.Model):
 
 	# The method can't be solely on the page type itelf, since it doesn't know what course it's for
 	def get_type_url(self):
-		return "%s/%s" % (self.course_sem.course.get_absolute_url(), self.get_type().short_name)
+		return self.get_type().get_url(self.course_sem.course)

@@ -7,7 +7,7 @@
 			<h1>Creating a page :: {{ page_type.long_name }}</h1>
 			<ul class="breadcrumb">
 				<li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
-				<li><a href="#">{{ page_type.long_name }}</a> <span class="divider">&raquo;</span><li>
+				<li><a href="{{ page_type_url }}">{{ page_type.long_name }}</a> <span class="divider">&raquo;</span><li>
 				<li class="active">{% if edit_mode %}Edit{% else %}Create{% endif %}</li>
 			</ul>
 			{% include "pages/form.html" %}
