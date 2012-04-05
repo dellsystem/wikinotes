@@ -10,6 +10,9 @@
 				<li><a href="{{ page_type_url }}">{{ page_type.long_name }}</a> <span class="divider">&raquo;</span><li>
 				<li class="active">{% if edit_mode %}Edit{% else %}Create{% endif %}</li>
 			</ul>
+			{% if does_not_exist %}
+			<div class="alert-message block-message"><p>The page you requested does not exist! Create it now?</p></div>
+			{% endif %}
 			{% include "pages/form.html" %}
 		</div>
 	</section>

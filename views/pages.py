@@ -13,10 +13,19 @@ from wiki.utils.currents import current_term, current_year
 from views.main import register
 from datetime import datetime
 
+
 def show(request, department, number, page_type, term, year, slug):
-	course = get_object_or_404(Course, department=department, number=int(number))
-	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+	try:
+		course = get_object_or_404(Course, department=department, number=int(number))
+	except Http404:
+		return render(request, "courses/404.html", {'department': department, 'number': number})
+	try:
+		course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
+		page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+	except Http404:
+		# Page doesn't exist - go to create with the semester, subject, etc filled out
+		return create(request, department, number, page_type, semester=(term, year))
+
 	page_type_obj = page_types[page_type]
 	data = {
 		'title': '%s (%s)' % (page, course),
@@ -133,7 +142,8 @@ def edit(request, department, number, page_type, term, year, slug):
 	}
 	return render(request, "pages/edit.html", data)
 
-def create(request, department, number, page_type):
+# semester should only be filled out if the page doesn't exist and we want to create it
+def create(request, department, number, page_type, semester=None):
 	if not request.user.is_authenticated():
 		return register(request)
 
@@ -157,6 +167,11 @@ def create(request, department, number, page_type):
 		'current_exam_type': exam_types[0], # default
 		'edit_mode': False,
 	}
+
+	if semester is not None:
+		data['current_term'] = semester[0]
+		data['current_year'] = int(semester[1])
+		data['does_not_exist'] = True
 
 	if request.method == 'POST':
 		errors = page_type_obj.find_errors(request.POST)
