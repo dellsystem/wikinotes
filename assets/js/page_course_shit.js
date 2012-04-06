@@ -54,94 +54,97 @@ $(document).ready(function() {
 			});
 		});
 
-		// Now handle clicking of js-show-answer etc
-		$('.js-show-answer').click(function() {
-			$(this).next().show();
-			return false;
-		});
-
-		$('.js-answer').click(function() {
-			// Remove bold from all the other answers here
-			$(this).parent().children().removeClass('answer-clicked');
-			$(this).addClass('answer-clicked');
-		});
-
-		// Click handler for the reset quiz thing
-		$('#js-reset-quiz').click(function() {
-			// First, hide the answer statistics thing
-			$('#grade-answers span').hide();
-			// Remove the correct/incorrect classes from the js-explanations
-			$('.js-explanation').removeClass('correct').removeClass('incorrect').hide();
-			// Remove the answer-clicked class
-			$('.answer-clicked').removeClass('answer-clicked');
-			// Clear all the radio buttons
-			$('.js-answer input').prop('checked', false);
-			return false;
-		});
-
-		var setClass = function(object, thisClass, otherClass) {
-			if ($(object).hasClass(thisClass)) {
-				/// Done, return
-				return;
-			} else {
-				if ($(object).hasClass(otherClass)) {
-					$(object).removeClass(otherClass);
-				}
-				// Just add the class
-				$(object).addClass(thisClass);
-			}
-		};
-		
-		var setCorrect = function(object) {
-			setClass(object, 'correct', 'incorrect');
-		};
-		
-		var setIncorrect = function(object) {
-			setClass(object, 'incorrect', 'correct');
-		};
-
-		// Click handler for the grade answers thing
-		$('#grade-answers').show();
-		$('#js-grade-answers').click(function() {
-			var questions = $('.markdown ol').find('.is-question');
-			var correct = 0;
-			var total = 0;
-			// For each question, check if the right answer is selected
-			$.each(questions, function(i, question) {
-				// First store the actual answer
-				var actual = $(this).attr('data-answer');
-				// Find the selected one
-				var selected = $(this).find('.answer-clicked span');
-
-				if (selected.length == 1 && selected[0].innerText.lastIndexOf(actual, 0) === 0) {
-					// This one is correct - increment counter, and change class of the showAnswer thing
-					correct++;
-					setCorrect($(this).find('.js-explanation'));
-				} else {
-					setIncorrect($(this).find('.js-explanation'));
-				}
-				total++;
+		// Now, only if there are questions on the page ...
+		if (containsQuestion) {
+			// Now handle clicking of js-show-answer etc
+			$('.js-show-answer').click(function() {
+				$(this).next().show();
+				return false;
 			});
-			var percentage = Math.round(correct / total * 100);
-			var span = $(this).next();
-			// Show the span, then change the values
-			$(span).show();
-			var values = $(span).find('i');
-			$(values[0]).text(correct);
-			$(values[1]).text(total);
-			$(values[2]).text(percentage);
 
-			// Make it green if total == correct
-			if (total == correct) {
-				setCorrect(span);
-			} else {
-				setIncorrect(span);
-			}
+			$('.js-answer').click(function() {
+				// Remove bold from all the other answers here
+				$(this).parent().children().removeClass('answer-clicked');
+				$(this).addClass('answer-clicked');
+			});
 
-			// Show all the explanations
-			$('.js-explanation').show();
-			return false;
-		});
+			// Click handler for the reset quiz thing
+			$('#js-reset-quiz').click(function() {
+				// First, hide the answer statistics thing
+				$('#grade-answers span').hide();
+				// Remove the correct/incorrect classes from the js-explanations
+				$('.js-explanation').removeClass('correct').removeClass('incorrect').hide();
+				// Remove the answer-clicked class
+				$('.answer-clicked').removeClass('answer-clicked');
+				// Clear all the radio buttons
+				$('.js-answer input').prop('checked', false);
+				return false;
+			});
+
+			var setClass = function(object, thisClass, otherClass) {
+				if ($(object).hasClass(thisClass)) {
+					/// Done, return
+					return;
+				} else {
+					if ($(object).hasClass(otherClass)) {
+						$(object).removeClass(otherClass);
+					}
+					// Just add the class
+					$(object).addClass(thisClass);
+				}
+			};
+		
+			var setCorrect = function(object) {
+				setClass(object, 'correct', 'incorrect');
+			};
+		
+			var setIncorrect = function(object) {
+				setClass(object, 'incorrect', 'correct');
+			};
+
+			// Click handler for the grade answers thing
+			$('#grade-answers').show();
+			$('#js-grade-answers').click(function() {
+				var questions = $('.markdown ol').find('.is-question');
+				var correct = 0;
+				var total = 0;
+				// For each question, check if the right answer is selected
+				$.each(questions, function(i, question) {
+					// First store the actual answer
+					var actual = $(this).attr('data-answer');
+					// Find the selected one
+					var selected = $(this).find('.answer-clicked span');
+
+					if (selected.length == 1 && selected[0].innerText.lastIndexOf(actual, 0) === 0) {
+						// This one is correct - increment counter, and change class of the showAnswer thing
+						correct++;
+						setCorrect($(this).find('.js-explanation'));
+					} else {
+						setIncorrect($(this).find('.js-explanation'));
+					}
+					total++;
+				});
+				var percentage = Math.round(correct / total * 100);
+				var span = $(this).next();
+				// Show the span, then change the values
+				$(span).show();
+				var values = $(span).find('i');
+				$(values[0]).text(correct);
+				$(values[1]).text(total);
+				$(values[2]).text(percentage);
+
+				// Make it green if total == correct
+				if (total == correct) {
+					setCorrect(span);
+				} else {
+					setIncorrect(span);
+				}
+
+				// Show all the explanations
+				$('.js-explanation').show();
+				return false;
+			});
+		}
 	}
 
 	var showAllSemesters = function() {
