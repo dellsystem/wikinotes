@@ -46,7 +46,9 @@ $(document).ready(function() {
 
 				// Make each answer into a radio button
 				$.each(answers, function(index, answer) {
-					answer.innerHTML = '<label><input type="radio" name="question-' + questionNumber + '" /> <span>' + answer.innerHTML + '</span></label>';
+					if ($(answer).hasClass('js-answer')) {
+						answer.innerHTML = '<label><input type="radio" name="question-' + questionNumber + '" /> <span>' + answer.innerHTML + '</span></label>';
+					}
 				});
 				questionNumber++;
 			});
