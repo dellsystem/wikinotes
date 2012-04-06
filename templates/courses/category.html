@@ -7,6 +7,9 @@
 			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
 			<li class="active">{{ category.long_name }}</li>
 		</ul>
+		<div class="right-float">
+			<a href="{{ create_url }}" class="btn danger">Create page</a>
+		</div>
 		<h1>Viewing category :: {{ category.long_name }}</h1>
 		<hr />
 		<br />

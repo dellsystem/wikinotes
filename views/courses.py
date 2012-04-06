@@ -259,5 +259,6 @@ def category(request, department, number, page_type):
 			'course': course,
 			'category': category,
 			'pages': Page.objects.filter(course_sem__course=course, page_type=page_type),
+			'create_url': category.get_create_url(course),
 		}
 		return render(request, 'courses/category.html', data)
