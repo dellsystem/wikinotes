@@ -46,7 +46,7 @@ direct_to_view = (
 		#(page + '/raw', 'raw'),
 		(page + '/commit/' + sha, 'commit'),
 		#(page + '/inline', 'inline'),
-	))
+	)),
 	('courses', (
 		('courses', 'index'),
 		('courses/all', 'list_all'),
