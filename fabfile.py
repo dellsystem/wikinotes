@@ -5,7 +5,7 @@ def less():
 
 def kill():
 	# First check if it's running in the first place
-	num_processes = int(run('ps au | grep gunicorn_django | wc -l'))
+	num_processes = int(run('ps aux | grep gunicorn_django | wc -l'))
 	if num_processes > 2: # 2 because, the grep and the bash -l process
 		run("killall gunicorn_django")
 
