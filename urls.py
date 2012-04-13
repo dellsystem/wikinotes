@@ -33,30 +33,6 @@ direct_to_view = (
 		('markdown', 'markdown'),
 		('register', 'register')
 	)),
-	('courses', (
-		('courses', 'index'),
-		('courses/all', 'list_all'),
-		('courses/faculty', 'faculty_browse'),
-		('courses/department', 'department_browse'),
-		('courses/professor', 'professor'),
-		('courses/popular', 'popular'),
-		('courses/random', 'random'),
-		('courses/active', 'active'),
-		('courses/get_all', 'get_all'),
-		(department, 'department_overview'),
-		(faculty, 'faculty_overview'),
-		# Redirect department/number to department_number
-		(department + '/' + number + '.*', 'remove_slash'),
-		(course, 'overview'),
-		(course + '/recent', 'recent'),
-		(course + '/watch', 'watch'),
-		(course + '/series/' + slug, 'series'),
-		(course + '/' + semester, 'semester'),
-		(course + '/' + page_type, 'category'),
-		# The mappings below are kept for "compatibility" but aren't really needed
-		('faculty/' + faculty, 'faculty_overview'),
-		('department/' + department, 'department_overview'),
-	)),
 	('news', (
 		('news', 'main'),
 		('news/' + slug, 'view'),
@@ -71,6 +47,30 @@ direct_to_view = (
 		(page + '/commit/' + sha, 'commit'),
 		#(page + '/inline', 'inline'),
 	))
+	('courses', (
+		('courses', 'index'),
+		('courses/all', 'list_all'),
+		('courses/faculty', 'faculty_browse'),
+		('courses/department', 'department_browse'),
+		('courses/professor', 'professor'),
+		('courses/popular', 'popular'),
+		('courses/random', 'random'),
+		('courses/active', 'active'),
+		('courses/get_all', 'get_all'),
+		# Redirect department/number to department_number
+		(department + '/' + number + '.*', 'remove_slash'),
+		(course, 'overview'),
+		(course + '/recent', 'recent'),
+		(course + '/watch', 'watch'),
+		(course + '/series/' + slug, 'series'),
+		(course + '/' + semester, 'semester'),
+		(course + '/' + page_type, 'category'),
+		(department, 'department_overview'),
+		(faculty, 'faculty_overview'),
+		# The mappings below are kept for "compatibility" but aren't really needed
+		('faculty/' + faculty, 'faculty_overview'),
+		('department/' + department, 'department_overview'),
+	)),
 )
 
 # Maps straight from about/history to the static view in main.py
