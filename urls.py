@@ -7,7 +7,8 @@ admin.autodiscover()
 Basic, reusable patterns
 """
 department = r'(?P<department>\w{4})'
-course = department + '_(?P<number>\d{3}D?[12]?)'
+number = '(?P<number>\d{3}D?[12]?)'
+course = department + '_' + number
 page_type = '(?P<page_type>[^/]+)'
 semester = '(?P<term>\w{4,6})-(?P<year>\d{4})'
 slug = '(?P<slug>[^/]+)'
@@ -41,6 +42,9 @@ direct_to_view = (
 		('courses/random', 'random'),
 		('courses/active', 'active'),
 		('courses/get_all', 'get_all'),
+		(department, 'department_overview'),
+		# Redirect department/number to department_number
+		(department + '/' + number + '.*', 'remove_slash'),
 		(course, 'overview'),
 		(course + '/recent', 'recent'),
 		(course + '/watch', 'watch'),
@@ -48,6 +52,7 @@ direct_to_view = (
 		(course + '/' + semester, 'semester'),
 		(course + '/' + page_type, 'category'),
 		('faculty/(?P<faculty>\w+)', 'faculty_overview'),
+		# The mapping below is kept for "compatibility" but isn't really needed
 		('department/' + department, 'department_overview'),
 	)),
 	('news', (

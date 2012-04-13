@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from wiki.models.courses import Course, CourseSemester
 from wiki.models.faculties import Faculty
 from wiki.models.departments import Department
@@ -11,6 +11,12 @@ from wiki.models.history import HistoryItem
 from django.http import Http404
 import re
 import json
+
+# Remove the slash and replace it with an underscore. math/133 --> math_133
+def remove_slash(request, department, number):
+	path = request.path_info
+	real_path = path[:5] + '_' + path[6:]
+	return redirect(real_path)
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
@@ -25,7 +31,7 @@ def faculty_overview(request, faculty):
 	return render(request, 'courses/faculty_overview.html', data)
 
 def department_overview(request, department):
-	dept = get_object_or_404(Department, short_name=department)
+	dept = get_object_or_404(Department, short_name=department.upper())
 	courses = Course.objects.all().filter(department=dept).order_by('department__short_name', 'number')
 	# Figure out the number of pages associated with courses in this department
 	num_pages = Page.objects.filter(course_sem__course__department=dept).count()
@@ -122,7 +128,7 @@ def list_all(request, sort_by=''):
 	return render(request, 'courses/all.html', data)
 
 def watch(request, department, number):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 
 	if request.method == 'POST' and request.user.is_authenticated():
 		user = request.user.get_profile()
@@ -141,9 +147,9 @@ def get_all(request):
 
 def overview(request, department, number):
 	try:
-		course = get_object_or_404(Course, department=department, number=int(number))
+		course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	except Http404:
-		return render(request, "courses/404.html", {'department': department, 'number': number})
+		return render(request, "courses/404.html", {'department': department.upper(), 'number': number})
 
 	# We can't use it directly in the template file, it just won't work
 	types = []
@@ -176,7 +182,7 @@ def overview(request, department, number):
 
 # Filtering by semester for a specific course
 def semester(request, department, number, term, year):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
 	pages = Page.objects.filter(course_sem=course_sem)
 
@@ -190,7 +196,7 @@ def semester(request, department, number, term, year):
 	return render(request, 'courses/semester.html', data)
 
 def recent(request, department, number):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	raw_history = course.recent_activity(limit=0) # order: newest to oldest
 	temp_history = []
 
@@ -237,7 +243,7 @@ def recent(request, department, number):
 	return render(request, 'courses/recent.html', data)
 
 def series(request, department, number, slug):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	series = get_object_or_404(Series, course=course, slug=slug)
 
 	data = {
@@ -249,7 +255,7 @@ def series(request, department, number, slug):
 	return render(request, 'courses/series.html', data)
 
 def category(request, department, number, page_type):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	if page_type not in page_types:
 		raise Http404
 	else:

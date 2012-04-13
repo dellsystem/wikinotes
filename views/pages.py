@@ -15,6 +15,7 @@ from datetime import datetime
 
 
 def show(request, department, number, page_type, term, year, slug):
+	department = department.upper()
 	try:
 		course = get_object_or_404(Course, department=department, number=int(number))
 	except Http404:
@@ -39,7 +40,7 @@ def show(request, department, number, page_type, term, year, slug):
 	return render(request, "pages/show.html", data)
 
 def history(request, department, number, page_type, term, year, slug):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	commit_history = Git(page.get_filepath()).get_history()
@@ -53,7 +54,7 @@ def history(request, department, number, page_type, term, year, slug):
 
 # View page information for a specific commit
 def commit(request, department, number, page_type, term, year, slug, hash):
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = page_types[page_type]
@@ -103,7 +104,7 @@ def edit(request, department, number, page_type, term, year, slug):
 	if page_type not in page_types:
 		raise Http404
 
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = page_types[page_type]
@@ -147,7 +148,7 @@ def create(request, department, number, page_type, semester=None):
 	if not request.user.is_authenticated():
 		return register(request)
 
-	course = get_object_or_404(Course, department=department, number=int(number))
+	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 
 	if page_type not in page_types:
 		raise Http404
@@ -214,4 +215,4 @@ def create(request, department, number, page_type, semester=None):
 def random(request):
 	pages = Page.objects.all()
 	random_page = random_module.choice(pages)
-	return show(request, random_page.course_sem.course.department, random_page.course_sem.course.number, random_page.page_type, random_page.course_sem.term, random_page.course_sem.year, random_page.slug)
+	return show(request, random_page.course_sem.course.department.upper(), random_page.course_sem.course.number, random_page.page_type, random_page.course_sem.term, random_page.course_sem.year, random_page.slug)
