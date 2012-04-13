@@ -6,6 +6,7 @@ admin.autodiscover()
 """
 Basic, reusable patterns
 """
+faculty = r'(?P<faculty>\w+)'
 department = r'(?P<department>\w{4})'
 number = '(?P<number>\d{3}D?[12]?)'
 course = department + '_' + number
@@ -43,6 +44,7 @@ direct_to_view = (
 		('courses/active', 'active'),
 		('courses/get_all', 'get_all'),
 		(department, 'department_overview'),
+		(faculty, 'faculty_overview'),
 		# Redirect department/number to department_number
 		(department + '/' + number + '.*', 'remove_slash'),
 		(course, 'overview'),
@@ -51,8 +53,8 @@ direct_to_view = (
 		(course + '/series/' + slug, 'series'),
 		(course + '/' + semester, 'semester'),
 		(course + '/' + page_type, 'category'),
-		('faculty/(?P<faculty>\w+)', 'faculty_overview'),
-		# The mapping below is kept for "compatibility" but isn't really needed
+		# The mappings below are kept for "compatibility" but aren't really needed
+		('faculty/' + faculty, 'faculty_overview'),
 		('department/' + department, 'department_overview'),
 	)),
 	('news', (
