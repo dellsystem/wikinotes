@@ -18,10 +18,7 @@ def index(request, show_welcome=False):
 		watched_courses = user.courses.all()
 
 		# First get things done to courses user is watching (exclude self actions)
-		history_items = HistoryItem.objects.filter(course__in=watched_courses).exclude(user=request.user)
-
-		# Now get things the user has done
-		your_actions = HistoryItem.objects.filter(user=user).order_by('-timestamp')
+		history_items = HistoryItem.objects.filter(course__in=watched_courses).exclude(user=request.user).order_by('-timestamp')
 
 		try:
 			latest_post = BlogPost.objects.order_by('-timestamp')[0]
@@ -32,7 +29,7 @@ def index(request, show_welcome=False):
 		data = {
 			'title': 'Your dashboard',
 			'watched_courses': watched_courses,
-			'history_items': history_items[::-1],
+			'history_items': history_items[:20],
 			'show_welcome': show_welcome,
 			'latest_post': latest_post,
 		}
