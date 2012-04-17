@@ -1,5 +1,5 @@
-<p>Welcome to your user control panel. There is not much here, so I'll just present you with some useless statistics:</p>
+<p>Welcome to your user control panel, {{ user }}. To edit your login details and email, click on <a href="/ucp/account">Account</a> (not yet implemented). To edit your profile information, click on <a href="/ucp/profile">Profile</a>. To edit your site preferences, click on <a href="/ucp/preferences">Preferences</a>.</p>
 
-<p>You have been a member </p>
+<p>You have been a member since {{ user.date_joined|date:"F j, Y" }}.</p>
 
-<p>Found a bug? Contact dellsystem@wikinotes.ca.</p>
+<p>Found a bug? Contact develop@wikinotes.ca.</p>
