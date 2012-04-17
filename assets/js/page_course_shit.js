@@ -32,7 +32,7 @@ $(document).ready(function() {
 				} else {
 					// Still potential - check that the last "answer" starts with ANSWER:
 					var lastOne = answers[answers.length - 1];
-					var explanation = lastOne.innerText;
+					var explanation = lastOne.innerHTML;
 					if (explanation.lastIndexOf(answerPrefix, 0) === 0) {
 						// Figure out the actual answer
 						// Text between the first space and the next space/period/;/,
