@@ -1,0 +1,1 @@
+Although this section of the website is still under construction, you can check out our mostly up-to-date and fairly comprehensive [formatting docs](/help/formatting) to learn how to use the markup on this site.
