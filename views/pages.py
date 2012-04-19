@@ -71,16 +71,6 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 
 	raw_file = files.items()[0][1]['raw']
 
-	previous = repo.get_previous(commit)
-	if previous:
-		diff_lines = previous.diff(commit.hexsha, create_patch=True)[0].diff.splitlines()[2:]
-		diff_info = diff_lines[0].split(' ')
-		diff_before = diff_info[1].split(',')
-		diff_after = diff_info[2].split(',')
-		diff = {'first_line': diff_before[0][1:], 'lines_before': diff_before[1], 'lines_after': diff_after[1], 'lines': [' '.join(diff_info[4:])] + diff_lines[3:]}
-	else:
-		diff = None
-
 	data = {
 		'title': 'Commit information (%s)' % page,
 		'course': course,
@@ -92,7 +82,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 			'author': User.objects.get(username=commit.author.name),
 			'message': commit.message,
 			'stats': commit.stats.total,
-			'diff': diff
+			'diff': repo.get_diff(commit)
 		},
 	}
 

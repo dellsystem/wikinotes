@@ -50,6 +50,37 @@ class Git:
 			else:
 				is_next = this_commit.hexsha == commit.hexsha
 
+	# If there is no diff, it'll return None, which is fine
+	def get_diff(self, this_commit):
+		previous = self.get_previous(this_commit)
+
+		if previous:
+			diff = previous.diff(this_commit.hexsha, create_patch=True)[0].diff
+			diff_lines = diff.splitlines()[2:]
+			sections = []
+			previous_i = 0
+			for i, line in enumerate(diff_lines):
+				if line.startswith('@'):
+					section_info = line.split(' ')
+					section_before = section_info[1].split(',')
+					section_after = section_info[2].split(',')
+
+					num_lines_before = 0 if len(section_before) == 1 else section_before[1]
+					num_lines_after = 0 if len(section_after) == 1 else section_after[1]
+					first_line = max(0, int(section_after[0][1:]))
+					sections.append({'first_line': first_line, 'lines_before': num_lines_before, 'lines_after': num_lines_after, 'start_index': i + 1})
+					previous_i = i
+
+			# Set the lines for each section
+			# THIS IS THE ONLY WAY I COULD FIGURE OUT HOW TO DO IT
+			# I'm sorry
+			end_index = len(diff_lines)
+			for i, section in enumerate(reversed(sections)):
+				sections[-1-i]['lines'] = diff_lines[section['start_index']:end_index]
+				end_index = section['start_index'] - 1
+
+			return sections
+
 	def get_history(self):
 		commits = []
 		for commit in git.Repo(self.full_path).iter_commits():
