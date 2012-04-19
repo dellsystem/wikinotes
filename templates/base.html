@@ -78,6 +78,7 @@
 					<input class="medium" type="text" placeholder="Username" name="username" />
 					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
 					<input type="submit" class="btn danger" value="Log in" name="login" />
+					<input type="hidden" value="{{ request.path }}" name="path" />
 				</p>
 				<div class="right-float">
 					<span><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;</span>

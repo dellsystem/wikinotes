@@ -58,8 +58,10 @@ def login_logout(request):
 			except User.DoesNotExist:
 				return render(request, 'main/login_error.html')
 
-	# Redirect to the index page etc
-	return redirect('/')
+	# Redirect to the page the user was on, or / if none is specified
+	path = request.POST.get('path', '/')
+	# Check if the path starts with / eventually? Necessary?
+	return redirect(path)
 
 # Recent changes
 def recent(request, num_days=1, show_all=False):
