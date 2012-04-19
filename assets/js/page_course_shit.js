@@ -23,16 +23,15 @@ $(document).ready(function() {
 			$.each(potentialQs, function(j, potentialQ) {
 				var answers = $(potentialQ).children().filter('ul').children();
 
-				// Make all the answers bold when you click them
-				$(answers).addClass('js-answer');
-
-				// Check if there are at least two "answers" (incl. the explanation)
-				if (answers.length < 3) {
+				// There must be 3 or more "answers" (including the explanation)
+				if (answers.length < 3) { // <3
 					return;
 				} else {
 					// Still potential - check that the last "answer" starts with ANSWER:
 					var lastOne = answers[answers.length - 1];
 					var explanation = lastOne.innerHTML;
+
+					// This is definitely an MC question
 					if (explanation.lastIndexOf(answerPrefix, 0) === 0) {
 						// Figure out the actual answer
 						// Text between the first space and the next space/period/;/,
@@ -41,6 +40,9 @@ $(document).ready(function() {
 						$(potentialQ).attr('data-answer', actualAnswer).addClass('is-question');
 						$(lastOne).removeClass('js-answer').html('<a href="#" class="js-show-answer">Show answer &raquo;</a> <span class="js-explanation">' + explanation.substring(answerPrefix.length) + '</span>');
 						containsQuestion = true;
+
+						// Make all the answers bold when you click them
+						$(answers).addClass('js-answer');
 					}
 				}
 
