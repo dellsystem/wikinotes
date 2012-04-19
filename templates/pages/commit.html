@@ -24,8 +24,8 @@
 				<div class="span14">
 					<ul class="unstyled">
 						<li><strong>Timestamp:</strong> {{ commit.date|date:"F j Y, H:i" }}</li>
-						<li><strong>Edit message:</strong> {{ commit.message }}</li>
 						<li><strong>Statistics:</strong> {{ commit.stats.lines }} line{{ commit.stats.lines|pluralize }} changed ({{ commit.stats.deletions }} deletion{{ commit.stats.deletions|pluralize }}, {{ commit.stats.insertions }} insertion{{ commit.stats.insertions|pluralize }})</li>
+						<li><strong>Edit message:</strong> {{ commit.message }}</li>
 				</div>
 			</div>
 		</div>
