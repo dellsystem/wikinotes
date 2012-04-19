@@ -72,19 +72,28 @@ def recent(request, num_days=1, show_all=False):
 	}
 	return render(request, 'main/recent.html', data)
 
+def explore(request):
+	data = {
+		'lol': range(4)
+	}	
+	return render(request, 'main/explore.html', data)
+
 def all_recent(request, num_days=1):
 	return recent(request, num_days=num_days, show_all=True)
 
 def profile(request, username):
-	this_user = User.objects.get(username__iexact=username)
-	data = {
-		'title': 'Viewing profile (%s)' % this_user.username,
-		'this_user': this_user, # can't call it user because the current user is user
-		'profile': this_user.get_profile(),
-		'recent_activity': HistoryItem.objects.filter(user=this_user),
-		'user_pages': Page.objects.filter(historyitem__user=this_user),
-	}
-	return render(request, 'main/profile.html', data)
+	try:
+		this_user = User.objects.get(username__iexact=username)
+		data = {
+			'title': 'Viewing profile (%s)' % this_user.username,
+			'this_user': this_user, # can't call it user because the current user is user
+			'profile': this_user.get_profile(),
+			'recent_activity': HistoryItem.objects.filter(user=this_user),
+			'user_pages': Page.objects.filter(historyitem__user=this_user),
+		}
+		return render(request, 'main/profile.html', data)
+	except User.DoesNotExist:
+		raise Http404
 
 def register(request):
 	# If the user is already logged in, go to the dashboard page
