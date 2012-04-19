@@ -6,6 +6,7 @@ Wikinotes uses a superset of the **[Markdown](http://daringfireball.net/projects
 * [Subscript and superscript](#subscript-and-superscript)
 * [Math markup with MathJax](#math-markup-with-mathjax)
 * [Syntax highlighting and fenced code blocks](#code-blocks)
+* [Mentions](#mentions)
 
 We've also modified the following aspects of standard Markdown behaviour:
 
@@ -101,6 +102,12 @@ Subscript is just ~this~. Superscript is ^this^. Syntax:
 We use the [subscript](https://github.com/sgraber/markdown.subscript) and [superscript](https://github.com/sgraber/markdown.superscript) extensions written by Shane Graber for this.
 
 If you need to write mathematical expressions, it is preferred that you use [LaTeX math markup](#math-markup), which will be processed by MathJax and converted into beautifully typeset math.
+
+## Mentions
+
+We've added a mention feature, akin to the one used by Twitter, Github, Facebook et al., which allows you to mention a user simply by prefixing their username with the @ symbol. For example, to mention the user dellsystem, one would type `@dellsystem` which would result in @dellsystem.
+
+You can also mention nonexistent users (like this: @notauseryet) but please don't as that might confuse people.
 
 # Block elements
 
