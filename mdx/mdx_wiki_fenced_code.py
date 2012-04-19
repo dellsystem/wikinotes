@@ -69,7 +69,7 @@ from mdx_wiki_codehilite import CodeHilite, CodeHiliteExtension
 
 # Global vars
 FENCED_BLOCK_RE = re.compile( \
-	r'(?P<fence>^[~`]{3,})(?P<lang>[a-zA-Z0-9_-]*)(?P<linenos>[!]?)\n(?P<code>.*?)(?P=fence)[ ]*$',
+	r'(?P<fence>^[~`]{3,})(?P<lang>[a-zA-Z0-9+_-]*)(?P<linenos>[!]?)\n(?P<code>.*?)(?P=fence)[ ]*$',
 	re.MULTILINE|re.DOTALL
 	)
 CODE_WRAP = '<pre><code%s>%s</code></pre>'
