@@ -37,6 +37,8 @@ class Page(models.Model):
 		# THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
 
 	def save_content(self, content, message, username):
+		# If the file doesn't end with a newline, add one
+		content += '' if content.endswith('\n') else '\n'
 		self.content = wikinotes_markdown(content)
 		self.save()
 		path = self.get_filepath()
