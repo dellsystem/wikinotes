@@ -18,6 +18,7 @@
 			<div class="row">
 				<div class="span2 icon-thumb center-align">
 					<a href="{{ commit.author.get_absolute_url }}"><img src="{% gravatar_for_user commit.author 100 %}" /></a>
+					<br />
 					{{ commit.author }}
 				</div>
 				<div class="span14">
