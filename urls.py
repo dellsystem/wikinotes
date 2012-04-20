@@ -77,7 +77,7 @@ direct_to_view = (
 static_urls = {
 	'about': ['history', 'licensing', 'platform'], # the index one is implicit
 	'contributing': ['moderating', 'development', 'content', 'guidelines'],
-	'help': ['copyright', 'formatting'],
+	'help': ['copyright', 'formatting', 'lexers'],
 }
 
 urlpatterns = patterns('',
