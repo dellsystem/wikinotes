@@ -30,16 +30,19 @@
 						</div>
 					</div>
 				</div>
-				<h2>{% if this_user.first_name %}{{ this_user.first_name }}{% else %}{{ this_user.username }}{% endif %}'s courses</h2>
-				{% if profile.courses.count %}
-				<ul class="unstyled">
-					{% for course in profile.courses.all %}
-					<li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
-					{% endfor %}
-				</ul>
-				{% else %}
-				<p>{{ this_user.username }} isn't watching any courses.</p>
-				{% endif %}
+				<h2>Watched courses</h2>
+
+				<div class="row">
+				{% for course in profile.courses.all %}
+					<div class="span2 center-align icon-thumb">
+						<a href="{{ course.get_absolute_url }}"><img src="{{ course.department.get_image }}" title="{{ course.name }}" /></a>
+						<p><a href="{{ course.get_absolute_url }}">{{ course }}</a></p>
+					</div>
+				{% empty %}
+					<p>{{ this_user.username }} isn't watching any courses.</p>
+				{% endfor %}
+				</div>
+
 				<h2>Recent activity</h2>
 				{% if recent_activity %}
 				<ul class="unstyled">
