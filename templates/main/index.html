@@ -2,6 +2,16 @@
 
 {% block content %}
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div class="leading-bar">
 	<div class="container">
 		<div class="row">
@@ -40,21 +50,24 @@
 			<div class="span-one-third column"> 
 	  			<h3>Contribute.</h3> 
 				<p>Give back to the community by adding lecture notes, editing content or even just spreading the word. If you're interested in contributing or becoming a moderator, please <a href="/register">register</a> and check out our <a href="/contributing">contributor guidelines</a>.</p>
-				<p><!-- Place this tag where you want the +1 button to render -->
+				<div class="row">
+					<div class="span3">
 					<g:plusone annotation="none"></g:plusone>
-
-					<!-- Place this render call where appropriate -->
-					<script type="text/javascript">
-					  (function() {
-						var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-						po.src = 'https://apis.google.com/js/plusone.js';
-						var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-					  })();
-					</script>
-					<a href="http://www.twitter.com/#!/wikinotes_ca"><img src="/static/img/twitter.png" width="24" height="24" alt="Twitter" title="Follow us on Twitter" /></a>
-					<a href="http://www.facebook.com/#!/wikinotes.ca"><img src="/static/img/facebook.png" alt="Facebook" width="24" height="24" /></a>
-					<a href="/rss"><img src="/static/img/rss.png" alt="RSS Feed" width="24" height="24" /></a>
-				</p>
+				<script type="text/javascript">
+				  (function() {
+					var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+					po.src = 'https://apis.google.com/js/plusone.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+				  })();
+				</script>
+				<a href="http://www.twitter.com/#!/wikinotes_ca"><img src="/static/img/twitter.png" width="24" height="24" alt="Twitter" title="Follow us on Twitter" /></a>
+				<a href="http://www.facebook.com/#!/wikinotes.ca"><img src="/static/img/facebook.png" alt="Facebook" width="24" height="24" /></a>
+				<a href="/rss"><img src="/static/img/rss.png" alt="RSS Feed" width="24" height="24" /></a>
+					</div>
+					<div class="span2">
+						<div class="fb-like" data-href="https://www.facebook.com/wikinotes.ca" data-send="false" data-layout="button_count" data-width="400" data-show-faces="false"></div>
+					</div>
+				</div>
 			</div> 
 		</div><!-- /row -->
 		</section>
