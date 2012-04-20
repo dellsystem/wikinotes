@@ -52,7 +52,7 @@ class Page(models.Model):
 		repo.commit(message, username, 'example@example.com')
 
 	def __unicode__(self):
-		return self.get_title()
+		return '%s - %s' % (self.get_title(), self.course_sem)
 
 	def get_filepath(self):
 		return "wiki/content%s/" % self.get_absolute_url()
