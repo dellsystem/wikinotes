@@ -22,3 +22,6 @@ def deploy():
 	# Don't need to do collectstatic because it is aliased to assets/ T_T
 	# Start running the new one
 	run("cd /srv/beta; source bin/activate; cd wikinotes; nohup gunicorn_django --workers=2 >> log &", pty=False)
+
+def broadcast():
+	local("python manage.py runserver 0.0.0.0:8000")
