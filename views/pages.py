@@ -115,6 +115,12 @@ def edit(request, department, number, page_type, term, year, slug):
 
 		# Add the history item
 		course.add_event(page=page, user=request.user, action='edited', message=message)
+
+		# If the user isn't watching the course already, start watching
+		user = request.user.get_profile()
+		if not user.is_watching(course):
+			user.start_watching(course)
+
 		return redirect(page.get_absolute_url())
 
 	field_templates = page_type_obj.get_editable_fields()
@@ -198,6 +204,12 @@ def create(request, department, number, page_type, semester=None):
 			# Add the history item - should be done automatically one day
 			course.add_event(page=new_page, user=request.user, action='created', message=commit_message)
 			data['page'] = new_page
+
+			# If the user isn't watching the course already, start watching
+			user = request.user.get_profile()
+			if not user.is_watching(course):
+				user.start_watching(course)
+
 			return redirect(new_page.get_absolute_url())
 
 	return render(request, 'pages/create.html', data)
