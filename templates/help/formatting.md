@@ -359,6 +359,8 @@ Including a shebang line will always trigger the appearance of line numbers, alt
 
 If you don't set the language, Pygments will not try to guess the language, and so the code will appear in one colour.
 
+For a list of available languages and what to enter to enable highlighting for that language, see the [lexers help page](/help/lexers).
+
 ### Line numbers
 
 If you're going to be discussing a code block on a page, we recommend the use of line numbers. There are four different ways to force line numbers, depending on whether or not you set the language and whether you use tabbing or fencing.
