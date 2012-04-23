@@ -20,6 +20,9 @@ def index(request, show_welcome=False):
 		# First get things done to courses user is watching (exclude self actions)
 		history_items = HistoryItem.objects.filter(course__in=watched_courses).exclude(user=request.user).order_by('-timestamp')
 
+		# Get 5 recently edited pages
+		recent_pages = Page.objects.filter(historyitem__user=request.user).order_by('-historyitem__timestamp').all()[:5]
+
 		try:
 			latest_post = BlogPost.objects.order_by('-timestamp')[0]
 		except IndexError:
@@ -28,6 +31,7 @@ def index(request, show_welcome=False):
 		# Show the user's dashboard
 		data = {
 			'title': 'Your dashboard',
+			'recent_pages': recent_pages,
 			'watched_courses': watched_courses,
 			'history_items': history_items[:20],
 			'show_welcome': show_welcome,

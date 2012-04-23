@@ -40,6 +40,16 @@
 				{% endif %}
 			</div>
 			<div class="span4 columns" id="right-bar">
+				<h4>Recently edited pages</h4>
+				{% if recent_pages %}
+				<ul class="unstyled">
+					{% for page in recent_pages %}
+					<li><a href="{{ page.get_absolute_url }}">{{ page }}</a></li>
+					{% endfor %}
+				</ul>
+				{% else %}
+					<p>You haven't edited any pages recently.</p>
+				{% endif %}
 				<h4>Watched courses</h4>
 				{% if watched_courses %}
 				<ul class="unstyled">
