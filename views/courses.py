@@ -11,7 +11,7 @@ from wiki.models.history import HistoryItem
 from django.http import Http404
 import re
 import json
-
+from itertools import chain
 # Remove the slash and replace it with an underscore. math/133 --> math_133
 def remove_slash(request, department, number):
 	path = request.path_info
@@ -91,8 +91,7 @@ def index(request):
 
 	random_courses = random_module.sample(courses, 10)
 	popular_courses = courses.filter(num_watchers__gt=0).order_by('-num_watchers')[:10]
-	active_courses = courses.filter(latest_activity__isnull=False).order_by('-latest_activity__timestamp')[:10]
-
+	active_courses =list(chain(courses.filter(latest_activity__isnull=False).order_by('-latest_activity__timestamp'),courses.filter(latest_activity__isnull=True)))[:10]
 	data = {
 		'title': 'Courses',
 		'random_courses': random_courses,
