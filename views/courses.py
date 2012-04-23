@@ -90,8 +90,8 @@ def index(request):
 	courses = Course.objects.all()
 
 	random_courses = random_module.sample(courses, 10)
-	popular_courses = Course.objects.order_by('-num_watchers')[:10]
-	active_courses = courses.order_by('-latest_activity__timestamp')[:10]
+	popular_courses = courses.filter(num_watchers__gt=0).order_by('-num_watchers')[:10]
+	active_courses = courses.filter(latest_activity__isnull=False).order_by('-latest_activity__timestamp')[:10]
 
 	data = {
 		'title': 'Courses',
@@ -108,17 +108,14 @@ def active(request):
 	return list_all(request, 'activity')
 
 def list_all(request, sort_by=''):
+	all_courses = Course.objects.all()
+
 	if sort_by == 'popularity':
-		courses = Course.objects.all().order_by('-num_watchers')[:5]
+		courses = all_courses.order_by('-num_watchers')
 	elif sort_by == 'activity':
-		history = HistoryItem.objects.all().order_by('-timestamp')
-		courses = []
-		for item in history:
-			if item.course not in courses:
-				courses.append(item.course)
-				# lol brute force
+		courses = all_courses.order_by('-latest_activity__timestamp')
 	else:
-		courses = Course.objects.all().order_by('department', 'number')
+		courses = all_courses.order_by('department', 'number')
 
 	data = {
 		'title': 'Courses by %s' % sort_by,
