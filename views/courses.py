@@ -108,12 +108,12 @@ def active(request):
 	return list_all(request, 'activity')
 
 def list_all(request, sort_by=''):
-	all_courses = Course.objects.all()
+	all_courses = Course.objects
 
 	if sort_by == 'popularity':
 		courses = all_courses.order_by('-num_watchers')
 	elif sort_by == 'activity':
-		courses = all_courses.order_by('-latest_activity__timestamp')
+		courses = all_courses.filter(latest_activity__isnull=False).order_by('-latest_activity__timestamp').all() | all_courses.filter(latest_activity__isnull=True).all()
 	else:
 		courses = all_courses.order_by('department', 'number')
 
