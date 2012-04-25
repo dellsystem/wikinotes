@@ -21,7 +21,16 @@ def index(request, show_welcome=False):
 		history_items = HistoryItem.objects.filter(course__in=watched_courses).exclude(user=request.user).order_by('-timestamp')
 
 		# Get 5 recently edited pages
-		recent_pages = Page.objects.filter(historyitem__user=request.user).order_by('-historyitem__timestamp').all()[:5]
+		edited_pages = Page.objects.filter(historyitem__user=request.user).order_by('-historyitem__timestamp')
+		# Get the top 5 distinct ones manually ... this is stupid but whatever, see #130
+		recent_pages = set()
+		i = 0
+		for page in edited_pages:
+			if page not in recent_pages:
+				recent_pages.add(page)
+				i += 1
+			if i >= 5:
+				break
 
 		try:
 			latest_post = BlogPost.objects.order_by('-timestamp')[0]
