@@ -27,13 +27,15 @@
 				<h1>Your dashboard</h1>
 				{% if history_items %}
 				{% for history_item in history_items %}
+					{% with user_profile=history_item.user.get_profile %}
 					<div class="row">
-						<div class="span1 column"><img src="{% load gravatar %}{% gravatar_for_user history_item.user 50 %}" /></div>
+						<div class="span1 column"><a href="{{ user_profile.get_absolute_url }}"><img src="{% load gravatar %}{% gravatar_for_user history_item.user 50 %}" /></a></div>
 						<div class="span11 columns">
-							<p><strong><a href="{{ history_item.user.get_profile.get_absolute_url }}">{{ history_item.user.username }}</a></strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_absolute_url }}">{{ history_item.page }}</a> for {% endif %} <a href="{{ history_item.course.get_absolute_url }}">{{ history_item.course }}</a> {{ history_item.get_timesince }} ago</p>
+							<p><strong><a href="{{ user_profile.get_absolute_url }}">{{ history_item.user.username }}</a></strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_absolute_url }}">{{ history_item.page }}</a>{% else %} <a href="{{ history_item.course.get_absolute_url }}">{{ history_item.course }}</a>{% endif %} {{ history_item.get_timesince }} ago</p>
 							{% if history_item.message %}<p>{{ history_item.message }}</p>{% endif %}
 						</div>
 					</div>
+					{% endwith %}
 				{% endfor %}
 				{% else %}
 				<p>{% if user.get_profile.courses.count %}There has been no recent activity on any of your courses! Start watching some more?{% else %}You are not watching any courses!{% endif %} You can find several ways to browse for courses <a href="/courses">here</a>.</p>
