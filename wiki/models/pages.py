@@ -48,7 +48,6 @@ class Page(models.Model):
 		file.write(content.encode('utf-8'))
 		file.close()
 		repo.add('content.md')
-		message = 'Minor edit' if not message else message
 		repo.commit(message, username, 'example@example.com')
 
 	def __unicode__(self):
