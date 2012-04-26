@@ -20,7 +20,7 @@ from markdown.util import etree
 
 class TableProcessor(markdown.blockprocessors.BlockProcessor):
 	""" Process Tables. """
-	allowed_classes = ['sort', 'clear', 'autumn', 'lights', 'ribbon', 'fresh', 'iris'] # lol
+	allowed_classes = ['sort', 'clear', 'autumn', 'lights', 'ribbon', 'fresh', 'iris', 'column'] # lol
 
 	def test(self, parent, block):
 		rows = block.split('\n')

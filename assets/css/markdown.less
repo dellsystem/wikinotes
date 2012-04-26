@@ -53,6 +53,15 @@
 			color: @white;
 		}
 		margin: 10px 0px; // hopefully this won't mess up the sticky footer
+		&.column {
+			.clear;
+			th, td {
+				font-weight: normal;
+				&:first-child {
+					font-weight: bold;
+				}
+			}
+		}
 		&.clear {
 			thead {
 				color: @black;
