@@ -134,8 +134,15 @@ class TestMarkdown(unittest.TestCase):
 									"This is a footnote[^1^]"
 									"Even though it's on my head[^2^]"
 									,
-		'math'						:"$\sqrt{a^2+b^2}$"
-	}
+		'math'						:"$\sqrt{a^2+b^2}$",
+		'merged_tables'				:
+									"header 1 || header 2 merged\n"
+									"---------|--------|--------\n"
+									"c1       | c2     | c3\n"
+									"||        entire row\n"
+									"c5       || second two\n"
+									"| first two | c6"
+									}
 
 	expected = {
 		'line_num_fenced'			: 
@@ -395,13 +402,40 @@ class TestMarkdown(unittest.TestCase):
 		'math'						: '<p><span>$\sqrt{a^2+b^2}$</span></p>'
 									,
 		'superscript'				: '<p>E=mc<sup>2</sup></p>'
+									,
+		'merged_tables'				:
+									"<table>\n"
+									"<thead>\n"
+									"<tr>\n"
+									"<th>header 1</th>\n"
+									"<th colspan=\"2\">header 2 merged</th>\n"
+									"</tr>\n"
+									"</thead>\n"
+									"<tbody>\n"
+									"<tr>\n"
+									"<td>c1</td>\n"
+									"<td>c2</td>\n"
+									"<td>c3</td>\n"
+									"</tr>\n"
+									"<tr>\n"
+									"<td colspan=\"3\">entire row</td>\n"
+									"</tr>\n"
+									"<tr>\n"
+									"<td>c5</td>\n"
+									"<td colspan=\"2\">second two</td>\n"
+									"</tr>\n"
+									"<tr>\n"
+									"<td colspan=\"2\">first two</td>\n"
+									"<td>c6</td>\n"
+									"</tr>\n"
+									"</tbody>\n"
+									"</table>"
 									
 	}
 	def generate_tests(cname, cparent, attr):
 		
 		def generate(key):
 			def test(test):
-				print "testing "+key
 				test.assertEqual(md(test.elements[key]),test.expected[key])
 			return test
 		for key in attr["elements"].keys():
@@ -412,5 +446,8 @@ class TestMarkdown(unittest.TestCase):
 	
 	__metaclass__ = generate_tests
 
-		
-			
+	def test_null(self):
+		colspan = ("cell 1 | cell 2 ||    cell 4(merged)\n"
+				  "-------|-------|-------|--------\n"
+				  "aaa    ||     merged   | sdsfsdf")
+		print md(colspan)
