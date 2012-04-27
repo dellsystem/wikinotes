@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from wiki.utils.currents import current_term, current_year
 from views.main import register
 from datetime import datetime
+from search import index_commit
 
 
 def show(request, department, number, page_type, term, year, slug):
@@ -104,6 +105,7 @@ def edit(request, department, number, page_type, term, year, slug):
 		username = request.user.username
 		message = request.POST['message'] if request.POST['message'] else 'Minor edit'
 		page.save_content(request.POST['content'], message, username)
+		index_commit(page.get_filepath(), page.pk)
 		data = {
 			'course': course,
 			'page': page,
@@ -186,7 +188,7 @@ def create(request, department, number, page_type, semester=None):
 			except ValueError:
 				pass # defaults to the current year
 			data['current_exam_type'] = request.POST['exam_type'] if 'exam_type' in request.POST else ''
-			data['subject'] =  request.POST['subject'] if 'subject' in request.POST else ''
+			data['subject'] = request.POST['subject'] if 'subject' in request.POST else ''
 
 			data['content'] = request.POST['content']
 			data['message'] = request.POST['message']
@@ -200,7 +202,7 @@ def create(request, department, number, page_type, semester=None):
 			username = request.user.username
 			email = request.user.email
 			new_page.save_content(request.POST['content'], commit_message, username)
-
+			index_commit(new_page.get_filepath(), new_page.pk)
 			# Add the history item - should be done automatically one day
 			course.add_event(page=new_page, user=request.user, action='created', message=commit_message)
 			data['page'] = new_page

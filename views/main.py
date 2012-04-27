@@ -6,9 +6,14 @@ from wiki.models.history import HistoryItem
 from wiki.utils.users import validate_username
 from wiki.models.pages import Page
 from blog.models import BlogPost
+from wiki.models.searchindex import Result
 from django.http import Http404
 from urls import static_urls
 import os
+import re
+from time import clock
+from search import search as search_module
+from django.utils.html import escape
 
 # welcome is only set to true when called from register()
 # Triggers the display of some sort of welcome message
@@ -214,9 +219,51 @@ def markdown(request):
 
 def search(request):
 	if 'query' in request.GET:
+		start = clock()
+		results = search_module(request.GET["query"], 0)
+		parsed_results = []
+		for result in results:
+			presult = Result()
+			page = Page.objects.get(pk=result["id"])
+			presult.page_url = page.get_absolute_url()
+			presult.page_title = presult.page_url.replace("_", " ").strip("/").replace("/", " / ")
+			line_nums = [k["line"] for k in result["lines"]]
+			content = page.load_content().splitlines()
+			content_length = len(content)
+			preview_line_nums = []
+			if len(line_nums):
+				preview_line_nums = line_nums[:2]
+			else:
+				preview_line_nums = [0]
+
+			# get the surrounding lines for context
+			preview_lines = map(lambda k: escape(content[k - 1]), preview_line_nums)
+			preview = " ...<br />... ".join(preview_lines)
+
+			#not working perfectly, suppose to contract long paragraphs to only show the parts containing the words
+			"""
+			if len(preview) > 200:
+				seg_length = 200 / len(result['words'])
+				p = re.compile("(([^ ]* (.){0,%d})(%s)(.{0,%d} [^ ]*) +)+" % (seg_length, "|".join(result['words']), seg_length), re.IGNORECASE)
+				shortened = []
+				for match in p.finditer(preview):
+					shortened.append(match.group(0))
+				preview = "..." + " ... ".join(shortened) + " ..."
+			"""
+			# highlight found words
+			p = re.compile("|".join(result['words']), re.IGNORECASE)
+			preview = p.sub(lambda m: "<strong>%s</strong>" % m.group(0), preview)
+
+			presult.preview_text = preview
+
+			for commit in result["commits"][:3]:
+				presult.commits_mentioned.append({"name":commit["commit"][:10], "url":(presult.page_url + "/commit/" + commit["commit"])})
+			presult.commits_hidden = len(result["commits"]) - 3 if len(result["commits"]) > 3 else 0
+			parsed_results.append(presult)
 		data = {
-			'title': 'Search results',
-			'query': request.GET['query']
+			'query': request.GET['query'],
+			'results':parsed_results,
+			'time':"%0.4f" % (clock() - start)
 		}
 		return render(request, 'search/results.html', data)
 	else:
