@@ -72,9 +72,20 @@ class TableProcessor(markdown.blockprocessors.BlockProcessor):
 		cells = self._split_row(row, border)
 		# We use align here rather than cells to ensure every row
 		# contains the same number of columns.
+		span = 0
 		for i, a in enumerate(align):
-			c = etree.SubElement(tr, tag)
 			try:
+				if cells[i] == "":
+					span += 1
+					continue
+			except:
+				pass
+			c = etree.SubElement(tr, tag)
+			
+			try:
+				if span > 0:
+					c.set('colspan',"%d" % (span+1))
+					span = 0
 				c.text = cells[i].strip()
 			except IndexError:
 				c.text = ""
