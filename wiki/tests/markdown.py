@@ -1,8 +1,8 @@
 from django.utils import unittest
 from wiki.templatetags.wikinotes_markup import wikinotes_markdown as md
-
-
+	
 class TestMarkdown(unittest.TestCase):
+
 	elements = {
 		"bold"						: "**bold**",
 		"italic"					: "*italic*",
@@ -397,13 +397,20 @@ class TestMarkdown(unittest.TestCase):
 		'superscript'				: '<p>E=mc<sup>2</sup></p>'
 									
 	}
+	def generate_tests(cname, cparent, attr):
+		
+		def generate(key):
+			def test(test):
+				print "testing "+key
+				test.assertEqual(md(test.elements[key]),test.expected[key])
+			return test
+		for key in attr["elements"].keys():
+			test_name = "test_"+key
+			test_method = generate(key)
+			attr[test_name] = test_method
+		return type(cname, cparent, attr)
+	
+	__metaclass__ = generate_tests
 
-
-	def setUp(self):
-		pass
-
-	def test_markdown(self):
-		for key in self.elements.keys():
-			self.assertEqual(md(self.elements[key]),self.expected[key])
 		
 			
