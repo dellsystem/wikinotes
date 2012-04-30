@@ -35,7 +35,12 @@ class Page(models.Model):
 				setattr(self, editable_field, data[editable_field])
 		self.save()
 		# THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
-
+	def latest_commit(self):
+		path = self.get_filepath()
+		repo = Git(path)
+		return repo.get_latest_commit()
+		
+		
 	def save_content(self, content, message, username):
 		# If the file doesn't end with a newline, add one
 		content += '' if content.endswith('\n') else '\n'
