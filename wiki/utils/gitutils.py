@@ -2,6 +2,7 @@ import os
 import git
 import gitdb
 import datetime
+from subprocess import Popen,PIPE
 from math import log
 
 # Temporary, use wrapper library later
@@ -17,10 +18,10 @@ class Git:
 		# If the repository has not been created yet, create it
 		# Yeah leads to race conditions or whatever but, whatever, deal with later
 		if not os.path.exists("%s/.git" % self.full_path):
-			os.system("cd \"%s\"; git init" % self.full_path)
+			os.system("cd \"%s\"& git init" % self.full_path)
 
 	def add(self, filename):
-		os.system("cd \"%s\"; git add \"%s\"" % (self.full_path, filename))
+		os.system("cd \"%s\"& git add \"%s\"" % (self.full_path, filename))
 
 	# Commits all the staged files
 	def commit(self, commit_message, username, email):
@@ -29,7 +30,7 @@ class Git:
 		# If the comment is empty, fill it with the default ("Minor edit")
 		if commit_message == '':
 			commit_message = 'Minor edit'
-		os.system('cd "%s"; git commit -m "%s" --author="%s <%s>"' % (self.full_path, commit_message, username, email))
+		os.system('cd "%s"& git commit -m "%s" --author="%s <%s>"' % (self.full_path, commit_message, username, email))
 
 		# Make sure something was actually committed - later
 
@@ -49,6 +50,12 @@ class Git:
 				return commit
 			else:
 				is_next = this_commit.hexsha == commit.hexsha
+
+	def get_latest_commit(self):
+		command = "cd %s & git log --format=%%H -n 1" %(self.full_path)
+		hash = Popen(command,shell=True,stdout=PIPE).communicate()[0].strip()
+		return hash
+		
 
 	# If there is no diff, it'll return None, which is fine
 	def get_diff(self, this_commit):
