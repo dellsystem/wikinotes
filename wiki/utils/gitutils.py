@@ -87,7 +87,7 @@ class Git:
 		commits = []
 		for commit in git.Repo(self.full_path).iter_commits():
 			num_lines = commit.stats.total['lines']
-			bar_width = int(log(num_lines)) * 20
+			bar_width = int(log(num_lines) * 20)
 			max_width = 100
 			min_width = 20
 			commit_dict = {
