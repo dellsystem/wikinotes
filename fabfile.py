@@ -25,3 +25,6 @@ def deploy():
 
 def broadcast():
 	local("python manage.py runserver 0.0.0.0:8000")
+
+def server():
+    local("python manage.py runserver --insecure")
