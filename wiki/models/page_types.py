@@ -77,6 +77,7 @@ class PageType:
 		validators = self.get_validators(data) + [
 			(data['term'] in terms, 'Invalid term'),
 			(int(data['year']) in years, 'Invalid year'),
+			(len(data['content'].strip()) > 0, 'No content'),
 		]
 
 		error = False

@@ -1,44 +1,43 @@
-import os
 import git
 import gitdb
 import datetime
 from math import log
+from os import makedirs, environ
 
-# Temporary, use wrapper library later
-# Ignore special characters etc for now
+class NoChangesError(Exception):
+	pass
+
 class Git:
 	def __init__(self, path_to_repo):
-		print path_to_repo
 		self.full_path = path_to_repo.strip('/') # don't need leading/trailing slashes
 		try:
-			os.makedirs(self.full_path)
+			makedirs(self.full_path)
+
+			# Initialise the repository (if it doesn't already exist)
+			git.Repo.init(self.full_path)
 		except OSError:
-			print "WTF???"
-		# If the repository has not been created yet, create it
-		# Yeah leads to race conditions or whatever but, whatever, deal with later
-		if not os.path.exists("%s/.git" % self.full_path):
-			os.system("cd \"%s\"; git init" % self.full_path)
+			# It already exists, that's fine
+			pass
 
-	def add(self, filename):
-		os.system("cd \"%s\"; git add \"%s\"" % (self.full_path, filename))
+		self.repo = git.Repo(self.full_path)
 
-	# Commits all the staged files
+	# Adds and commits content.md
 	def commit(self, commit_message, username, email):
-		# First escape quotation marks
-		commit_message = commit_message.replace('"', '\\"')
-		# If the comment is empty, fill it with the default ("Minor edit")
-		if commit_message == '':
-			commit_message = 'Minor edit'
-		os.system('cd "%s"; git commit -m "%s" --author="%s <%s>"' % (self.full_path, commit_message, username, email))
+		# Only commits it if there was a change; otherwise, raises an error
+		environ['GIT_AUTHOR_NAME'] = username # no other way to do this lol
 
-		# Make sure something was actually committed - later
+		# untracked_files is true so that even the first time it will work
+		if self.repo.is_dirty(untracked_files=True):
+			self.repo.index.add(["content.md"])
+			self.repo.index.commit(commit_message)
+		else:
+			raise NoChangesError
 
 	# Pass it the SHA1 hash etc
 	# It's not like we'll ever need to use hash() anyway lol
 	def get_commit(self, hash):
-		repo = git.Repo(self.full_path)
-		hexsha = gitdb.util.hex_to_bin(hash) # have to convert it to hex first or something
-		commit = git.objects.commit.Commit(repo, hexsha)
+		hexsha = gitdb.util.hex_to_bin(hash) # have to convert it first
+		commit = git.objects.commit.Commit(self.repo, hexsha)
 		return commit
 
 	# Pass it a commit object. Returns the commit object for the previous commit in the master branch
@@ -49,6 +48,9 @@ class Git:
 				return commit
 			else:
 				is_next = this_commit.hexsha == commit.hexsha
+
+	def get_latest_commit(self):
+		return self.repo.head.commit.hexsha
 
 	# If there is no diff, it'll return None, which is fine
 	def get_diff(self, this_commit):
@@ -102,3 +104,7 @@ class Git:
 			}
 			commits.append(commit_dict)
 		return commits
+
+	# No changes - clean working slate
+	def is_unchanged(self):
+		return not self.repo.is_dirty()

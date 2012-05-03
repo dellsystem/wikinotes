@@ -36,19 +36,23 @@ class Page(models.Model):
 		self.save()
 		# THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
 
+	def get_latest_commit(self):
+		repo = self.get_repo()
+		return repo.get_latest_commit()
+
 	def save_content(self, content, message, username):
+		path = self.get_filepath()
 		# If the file doesn't end with a newline, add one
-		content += '' if content.endswith('\n') else '\n'
+		content += '' if content.endswith('\r\n') else '\r\n'
 		self.content = wikinotes_markdown(content)
 		self.save()
-		path = self.get_filepath()
-		repo = Git(path)
+		repo = self.get_repo()
 		filename = '%scontent.md' % path
 		file = open(filename, 'wt')
 		file.write(content.encode('utf-8'))
 		file.close()
-		repo.add('content.md')
-		repo.commit(message, username, 'example@example.com')
+
+		repo.commit(message, username, '')
 
 	def __unicode__(self):
 		return '%s - %s' % (self.get_title(), self.course_sem)
@@ -80,3 +84,7 @@ class Page(models.Model):
 	# The method can't be solely on the page type itelf, since it doesn't know what course it's for
 	def get_type_url(self):
 		return self.get_type().get_url(self.course_sem.course)
+
+	# Returns a Git object
+	def get_repo(self):
+		return Git(self.get_filepath())

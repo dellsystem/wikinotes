@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from wiki.models.courses import Course, CourseSemester
 from wiki.utils.constants import terms, years, exam_types
-from wiki.utils.gitutils import Git
+from wiki.utils.gitutils import Git, NoChangesError
 from wiki.utils.pages import page_types
 from django.template import RequestContext
 from wiki.models.pages import Page
@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from wiki.utils.currents import current_term, current_year
 from views.main import register
 from datetime import datetime
-
+from wiki.utils.merge3 import Merge3
 
 def show(request, department, number, page_type, term, year, slug):
 	department = department.upper()
@@ -87,6 +87,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 	}
 
 	return render(request, "pages/commit.html", data)
+
 def edit(request, department, number, page_type, term, year, slug):
 	if not request.user.is_authenticated():
 		return register(request)
@@ -98,42 +99,75 @@ def edit(request, department, number, page_type, term, year, slug):
 	course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
 	page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 	page_type_obj = page_types[page_type]
-
+	latest_commit = page.get_latest_commit()
+	content = page.load_content()
+	repo = page.get_repo()
+	
+	merge_conflict = False
+	no_changes = False
 	if request.method == 'POST':
+		new_content = request.POST['content']
 		# Just do save sections with the data
 		username = request.user.username
 		message = request.POST['message'] if request.POST['message'] else 'Minor edit'
-		page.save_content(request.POST['content'], message, username)
-		data = {
-			'course': course,
-			'page': page,
-		}
+		prev_commit = request.POST['last_commit']
+	
+		# Someone edited in between the last commit and this one
+		# We'll try a 3-way merge, and tell the user to review
+		if prev_commit != latest_commit:
+			current = request.POST['content'].splitlines()
+			other_commit = repo.get_commit(latest_commit)
+			other = other_commit.tree[0].data_stream.read().splitlines()
+			base_commit = repo.get_commit(prev_commit)
+			base = base_commit.tree[0].data_stream.read().splitlines()
+			merged = Merge3(base, current, other)
 
-		# Only change the metadata if the user is a moderator
-		if request.user.is_staff:
-			page.edit(request.POST)
+			for group in merged.merge_groups():
+				if 'conflict' in group:
+					merge_conflict = True
+			lines = merged.merge_lines(start_marker="--------------- Your Edits -----------------", mid_marker="--- Changes that occurred during editing ---", end_marker="--------------------------------------------")
+			# Not sure why there's a carriage return everywhere but yeah
+			new_content = "\r\n".join(lines)
 
-		# Add the history item
-		course.add_event(page=page, user=request.user, action='edited', message=message)
+		# If there's there's there's no commits between this save 
+		# and the one this page thinks was the last one, or if there
+		# isn't a conflict(successful merge)
+		if prev_commit == latest_commit or not merge_conflict:
+			try:
+				page.save_content(new_content, message, username)
+			except NoChangesError:
+				print "lol"
+				no_changes = True
 
-		# If the user isn't watching the course already, start watching
-		user = request.user.get_profile()
-		if not user.is_watching(course):
-			user.start_watching(course)
+			# Only change the metadata if the user is a moderator
+			if request.user.is_staff:
+				page.edit(request.POST)
 
-		return redirect(page.get_absolute_url())
+			if not no_changes:
+				# Add the history item
+				course.add_event(page=page, user=request.user, action='edited', message=message)
+
+				# If the user isn't watching the course already, start watching
+				user = request.user.get_profile()
+				if not user.is_watching(course):
+					user.start_watching(course)
+
+				return redirect(page.get_absolute_url())
 
 	field_templates = page_type_obj.get_editable_fields()
 	non_field_templates = ['pages/%s_data.html' % field for field in page_type_obj.editable_fields]
 
 	data = {
+		'no_changes': no_changes,
+		'conflict': merge_conflict,
 		'title': 'Edit (%s)' % page,
 		'course': course,
 		'page': page,
 		# ONLY SHOW THE BELOW FOR MODERATORS (once that is implemented)
 		'field_templates': field_templates if request.user.is_staff else non_field_templates,
 		'page_type': page_type_obj,
-		'content': page.load_content(),
+		'latest_commit':latest_commit,
+		'content': content,
 		'subject': page.subject,
 		'exam_types': exam_types,
 	}
@@ -186,7 +220,7 @@ def create(request, department, number, page_type, semester=None):
 			except ValueError:
 				pass # defaults to the current year
 			data['current_exam_type'] = request.POST['exam_type'] if 'exam_type' in request.POST else ''
-			data['subject'] =  request.POST['subject'] if 'subject' in request.POST else ''
+			data['subject'] = request.POST['subject'] if 'subject' in request.POST else ''
 
 			data['content'] = request.POST['content']
 			data['message'] = request.POST['message']
