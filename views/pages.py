@@ -14,7 +14,7 @@ from views.main import register
 from datetime import datetime
 from wiki.utils.merge3 import Merge3
 
-def show(request, department, number, page_type, term, year, slug):
+def show(request, department, number, page_type, term, year, slug, printview=False):
 	department = department.upper()
 	try:
 		course = get_object_or_404(Course, department=department, number=int(number))
@@ -29,15 +29,24 @@ def show(request, department, number, page_type, term, year, slug):
 
 	page_type_obj = page_types[page_type]
 	data = {
-		'title': '%s (%s)' % (page, course),
+		'title': page,
 		'course': course,
 		'page': page,
 		'page_type': page_type_obj,
 		'content': page.load_content(),
+		# This is stupid, should just remove trailing slash
 		'edit_url': page.get_absolute_url() + '/edit',
 		'history_url': page.get_absolute_url() + '/history',
+		'print_url': page.get_absolute_url() + '/print',
+		'server_url': request.META['HTTP_HOST']
 	}
-	return render(request, "pages/show.html", data)
+
+	template_file = "pages/print.html" if printview else "pages/show.html"
+
+	return render(request, template_file, data)
+
+def printview(request, department, number, page_type, term, year, slug):
+	return show(request, department, number, page_type, term, year, slug, printview=True)
 
 def history(request, department, number, page_type, term, year, slug):
 	course = get_object_or_404(Course, department=department.upper(), number=int(number))
