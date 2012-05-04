@@ -432,12 +432,13 @@ class TestMarkdown(unittest.TestCase):
 									"</table>"
 									
 	}
+
 	def generate_tests(cname, cparent, attr):
-		
 		def generate(key):
 			def test(test):
 				test.assertEqual(md(test.elements[key]),test.expected[key])
 			return test
+
 		for key in attr["elements"].keys():
 			test_name = "test_"+key
 			test_method = generate(key)
@@ -445,9 +446,3 @@ class TestMarkdown(unittest.TestCase):
 		return type(cname, cparent, attr)
 	
 	__metaclass__ = generate_tests
-
-	def test_null(self):
-		colspan = ("cell 1 | cell 2 ||    cell 4(merged)\n"
-				  "-------|-------|-------|--------\n"
-				  "aaa    ||     merged   | sdsfsdf")
-		print md(colspan)
