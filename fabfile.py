@@ -27,4 +27,7 @@ def broadcast():
 	local("python manage.py runserver 0.0.0.0:8000")
 
 def server():
-    local("python manage.py runserver --insecure")
+	local("python manage.py runserver --insecure")
+
+def test():
+	local("python manage.py test")
