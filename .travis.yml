@@ -9,6 +9,6 @@ install:
   - pip install -q pygments --use-mirrors
   - pip install -q gitpython --use-mirrors
 before:
-	- python manage.py syncdb
-	- python manage.py loaddata faculties departments courses professors coursesemesters
+  - python manage.py syncdb
+  - python manage.py loaddata faculties departments courses professors coursesemesters
 script: python manage.py test
