@@ -5,7 +5,7 @@ python:
 install:
   - pip install -q Django==1.3.1 --use-mirrors
   - pip install -q markdown --use-mirrors
-  - pip install -q python-yaml --use-mirrors
+  - pip install -q yaml --use-mirrors
   - pip install -q pygments --use-mirrors
   - pip install -q gitpython --use-mirrors
 before:
