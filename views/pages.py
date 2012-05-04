@@ -137,6 +137,7 @@ def edit(request, department, number, page_type, term, year, slug):
 			lines = merged.merge_lines(start_marker="--------------- Your Edits -----------------", mid_marker="--- Changes that occurred during editing ---", end_marker="--------------------------------------------")
 			# Not sure why there's a carriage return everywhere but yeah
 			new_content = "\r\n".join(lines)
+			content = new_content
 
 		# If there's there's there's no commits between this save 
 		# and the one this page thinks was the last one, or if there
