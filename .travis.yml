@@ -9,6 +9,7 @@ install:
   - pip install -q pygments --use-mirrors
   - pip install -q gitpython --use-mirrors
   - pip install -q django-gravatar --use-mirrors
+  - pip install -q south --use-mirrors
 before:
   - python manage.py syncdb
   - python manage.py loaddata faculties departments courses professors coursesemesters
