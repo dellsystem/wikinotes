@@ -28,7 +28,7 @@ To run it on your local machine, you'll need the following dependencies:
 * python-django-south (South through easy_install)
 * gitpython
 * git 1.7+ (older versions may work), both for version control and for the wiki software itself
-* pygments
+* pygments 1.5+
 
 Configuration
 -------------
