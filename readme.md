@@ -13,6 +13,8 @@ We'd love to have you contribute, whether it be through adding features, filing 
 
 See also our [development wiki](https://github.com/dellsystem/wikinotes/wiki) for things like what style conventions we use, development notes and how the code is organised.
 
+We're using [Travis](http://travis-ci.org) for continuous integration and Django's unit-testing framework for the tests. Current build status of the master branch: [![Build Status](https://secure.travis-ci.org/dellsystem/wikinotes.png?branch=ci)](http://travis-ci.org/dellsystem/wikinotes)
+
 Dependencies
 ------------
 
