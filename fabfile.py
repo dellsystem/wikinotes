@@ -30,4 +30,4 @@ def server():
 	local("python manage.py runserver --insecure")
 
 def test():
-	local("python manage.py test")
+	local("python manage.py test wiki")
