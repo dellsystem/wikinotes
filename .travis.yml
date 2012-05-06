@@ -12,4 +12,4 @@ install:
 before:
   - python manage.py syncdb
   - python manage.py loaddata faculties departments courses professors coursesemesters
-script: python manage.py test
+script: python -Wall manage.py test wiki
