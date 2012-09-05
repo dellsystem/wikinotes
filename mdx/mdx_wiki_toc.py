@@ -124,8 +124,9 @@ class TocTreeprocessor(markdown.treeprocessors.Treeprocessor):
 					link = etree.SubElement(last_li, "a")
 					link.text = section_number + ' ' + c.text
 					link.attrib["href"] = '#' + id
+					header_link = self.markdown.htmlStash.store(u'<a class="headerlink" href="#%s">&para;</a>' % id, safe=True)
 
-					c.text = placeholder + c.text
+					c.text = placeholder + c.text + header_link
 					c.attrib['class'] = 'header'
 
 					if self.config["anchorlink"] in [1, '1', True, 'True', 'true']:
