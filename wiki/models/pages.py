@@ -1,10 +1,13 @@
 # encoding: utf-8
+import os
+
 from django.db import models
+
 from wiki.utils.pages import page_types, page_type_choices#, get_page_type
 from wiki.utils.gitutils import Git
-import os
 from wiki.models.courses import CourseSemester
 from wiki.templatetags.wikinotes_markup import wikinotes_markdown
+
 
 class Page(models.Model):
 	class Meta:
