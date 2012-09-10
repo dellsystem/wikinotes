@@ -1,14 +1,23 @@
 $(document).ready(function() {
 	// Fill the course search box thing first
-	$.ajax({
-		dataType: 'html',
-		url: '/courses/get_all',
-		success: function(data) {
-			$('#course-search-box').html(data).chosen().change(function() {
-				window.location.pathname = $(this).val();
-			});
-		},
-	});
+	var courseSearchBox = $('#course-search-box');
+	if (courseSearchBox.length) {
+		$.ajax({
+			dataType: 'html',
+			url: '/courses/get_all',
+			success: function(data) {
+				courseSearchBox.html(data).chosen().change(function() {
+					window.location.pathname = $(this).val();
+				});
+			},
+		});
+	}
+
+	// When creating a page, make the professor chosen thing show up
+	var professorSelect = $('#professor-select');
+	if (professorSelect.length) {
+		professorSelect.chosen();
+	}
 
 	// If there's an ol on the page ... (MUST be an ol to be considered a q)
 	var orderedLists = $('.markdown ol');

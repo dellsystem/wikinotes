@@ -17,7 +17,11 @@ from wiki.utils.constants import terms, years, exam_types
 class PageType:
 	# Defaults - override if necessary
 	uneditable_fields = ['semester', 'subject']
-	editable_fields = ['professor', 'link']
+	editable_fields = ['professor_id', 'link']
+
+	# Override this method if you want to change the way page metadata is displayed
+	def get_metadata_fields(self):
+		return ['professor', 'link']
 
 	# Some of these are unused, clean them up sometime
 	def get_cell_template(self):
@@ -99,8 +103,11 @@ class LectureNote(PageType):
 	description = 'Notes from a lecture given by a specific professor on a specific date'
 	uneditable_fields = ['semester', 'date']
 	# Subject IS editable in this case only because it's not part of the slug
-	editable_fields = ['subject', 'professor', 'link']
+	editable_fields = ['subject', 'professor_id', 'link']
 	# If you have other fields that have not yet been created, make the template file in the template dir / pages / blah_field.html
+
+	def get_metadata_fields(self):
+		return ['subject', 'professor', 'link']
 
 	def get_kwargs(self, data):
 		weekday = data['date_weekday']
@@ -111,8 +118,7 @@ class LectureNote(PageType):
 		slug = "%s-%s-%s" % (weekday, month, date)
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
-		professor = None # for now, from data['professor']
-		return {'title': title, 'subject': data['subject'], 'link': data['link'], 'professor': professor, 'slug': slug}
+		return {'title': title, 'subject': data['subject'], 'link': data['link'], 'professor_id': data['professor_id'], 'slug': slug}
 
 	def get_validators(self, data):
 		return [
@@ -124,7 +130,6 @@ class PastExam(PageType):
 	long_name = 'Past exam'
 	description = 'Student-made solutions to a past exam'
 	uneditable_fields = ['semester', 'exam']
-	editable_fields = ['professor', 'link']
 
 	def get_kwargs(self, data):
 		term = data['term']
@@ -134,7 +139,7 @@ class PastExam(PageType):
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
 		slug = exam_type
-		return {'title': title, 'link': data['link'], 'slug': slug}
+		return {'title': title, 'link': data['link'], 'slug': slug, 'professor': data['professor_id']}
 
 	def get_validators(self, data):
 		return [

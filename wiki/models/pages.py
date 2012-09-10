@@ -34,8 +34,8 @@ class Page(models.Model):
 		page_type = page_types[self.page_type]
 		# Change the relevant attributes
 		for editable_field in page_type.editable_fields:
-			if editable_field != 'professor':
-				setattr(self, editable_field, data[editable_field])
+			setattr(self, editable_field, data[editable_field])
+
 		self.save()
 		# THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
 
@@ -74,7 +74,7 @@ class Page(models.Model):
 
 	def get_metadata(self):
 		metadata = {} # Key: name, value: content
-		for field in self.get_type().editable_fields:
+		for field in self.get_type().get_metadata_fields():
 			content = self.__getattribute__(field)
 			if content:
 				metadata[field] = content

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from wiki.models.courses import Course, CourseSemester
+from wiki.models.courses import Course, CourseSemester, Professor
 from wiki.utils.constants import terms, years, exam_types
 from wiki.utils.gitutils import Git, NoChangesError
 from wiki.utils.pages import page_types
@@ -146,7 +146,6 @@ def edit(request, department, number, page_type, term, year, slug):
 			try:
 				page.save_content(new_content, message, username)
 			except NoChangesError:
-				print "lol"
 				no_changes = True
 
 			# Only change the metadata if the user is a moderator
@@ -168,6 +167,8 @@ def edit(request, department, number, page_type, term, year, slug):
 	non_field_templates = ['pages/%s_data.html' % field for field in page_type_obj.editable_fields]
 
 	data = {
+		'professors': Professor.objects.all(),
+		'current_professor': page.professor.id if page.professor else 0,
 		'no_changes': no_changes,
 		'conflict': merge_conflict,
 		'title': 'Edit (%s)' % page,
@@ -195,6 +196,7 @@ def create(request, department, number, page_type, semester=None):
 
 	page_type_obj = page_types[page_type]
 	data = {
+		'professors': Professor.objects.all(),
 		'title': 'Create a page (%s)' % course,
 		'course': course,
 		'page_type': page_type_obj,
@@ -234,6 +236,10 @@ def create(request, department, number, page_type, semester=None):
 
 			data['content'] = request.POST['content']
 			data['message'] = request.POST['message']
+			try:
+				data['current_professor'] = int(request.POST['professor_id'])
+			except (ValueError, KeyError):
+				pass
 
 			return render(request, 'pages/create.html', data)
 		else:

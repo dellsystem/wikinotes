@@ -88,6 +88,7 @@ class CourseSemester(models.Model):
 class Professor(models.Model):
 	class Meta:
 		app_label = 'wiki'
+		ordering = ['name']
 
 	name = models.CharField(max_length=100)
 
