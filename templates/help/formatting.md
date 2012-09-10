@@ -458,7 +458,7 @@ Useful for vocabulary lists and the like.
 
 We use the [footnotes](http://freewisdom.org/projects/python-markdown/Footnotes) extension included in the standard Markdown library to add footnote functionality, similar to that which is available with MediaWiki. Footnotes can be defined using the following syntax:
 
-	This is text[^1^] and more text[^2^]
+	This is text[^1] and more text[^2]
 
 will become: This is text[^1] and more text[^2]
 
