@@ -104,11 +104,11 @@ $(document).ready(function() {
 					$(object).addClass(thisClass);
 				}
 			};
-		
+
 			var setCorrect = function(object) {
 				setClass(object, 'correct', 'incorrect');
 			};
-		
+
 			var setIncorrect = function(object) {
 				setClass(object, 'incorrect', 'correct');
 			};

@@ -220,6 +220,7 @@ def create(request, department, number, page_type, semester=None):
 		errors = page_type_obj.find_errors(request.POST)
 		kwargs = page_type_obj.get_kwargs(request.POST)
 		course_sem, created = CourseSemester.objects.get_or_create(term=request.POST['term'], year=request.POST['year'], course=course)
+
 		is_unique = Page.objects.filter(course_sem=course_sem, slug=kwargs['slug']).count() == 0
 		if errors or not is_unique: # it returns None only if nothing is wrong
 			data['errors'] = errors
