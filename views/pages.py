@@ -151,6 +151,7 @@ def edit(request, department, number, page_type, term, year, slug):
 			# Only change the metadata if the user is a moderator
 			if request.user.is_staff:
 				page.edit(request.POST)
+				no_changes = False
 
 			if not no_changes:
 				# Add the history item
