@@ -139,7 +139,7 @@ class PastExam(PageType):
 		# If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
 		# Otherwise, [PageType.long_name] - [title]
 		slug = exam_type
-		return {'title': title, 'link': data['link'], 'slug': slug, 'professor': data['professor_id']}
+		return {'title': title, 'link': data['link'], 'slug': slug, 'professor_id': data['professor_id']}
 
 	def get_validators(self, data):
 		return [
