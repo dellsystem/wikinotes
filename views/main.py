@@ -94,7 +94,7 @@ def profile(request, username):
 			'title': 'Viewing profile (%s)' % this_user.username,
 			'this_user': this_user, # can't call it user because the current user is user
 			'profile': this_user.get_profile(),
-			'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp"),
+			'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:20],
 			'user_pages': Page.objects.filter(historyitem__user=this_user).distinct(),
 		}
 		return render(request, 'main/profile.html', data)
