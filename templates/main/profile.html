@@ -44,15 +44,11 @@
 				</div>
 
 				<h2>Recent activity</h2>
-				{% if recent_activity %}
-				<ul class="unstyled">
-					{% for activity in recent_activity %}
-					<li>{{ this_user.username }} {{ activity.action }} {% if activity.page %}<a href="{{ activity.page.get_absolute_url }}">{{ activity.page }}</a> for{% endif %} <a href="{{ activity.course.get_absolute_url }}">{{ activity.course }}</a></li>
-					{% endfor %}
-				</ul>
-				{% else %}
+				{% for activity in recent_activity %}
+				<p>{{ this_user.username }} {{ activity.action }} {% if activity.page %}<a href="{{ activity.page.get_absolute_url }}">{{ activity.page }}</a> for{% endif %} <a href="{{ activity.course.get_absolute_url }}">{{ activity.course }}</a></p>
+				{% empty %}
 				<p>No recent activity.</p>
-				{% endif %}
+				{% endfor %}
 			</div>
 			<div class="span5" id="right-bar2">
 				<h3>Contributions</h3>
