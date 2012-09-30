@@ -18,17 +18,13 @@ We're using [Travis](http://travis-ci.org) for continuous integration and Django
 Dependencies
 ------------
 
-To run it on your local machine, you'll need the following dependencies:
+To run it on your local machine, you'll need Python 2.7+, and Git. You'll also need a bunch of Python modules, which be installed with [pip](http://www.pip-installer.org/en/latest/index.html):
 
-* python 2.7+
-* django 1.3+
-* python-yaml
-* python-markdown 2.1.0 (all necessary extensions are either included in the default package or bundled with the source of wikinotes)
-* django-gravatar
-* python-django-south (South through easy_install)
-* gitpython
-* git 1.7+ (older versions may work), both for version control and for the wiki software itself
-* pygments 1.5+
+```console
+pip install -r requirements.txt
+```
+
+If you don't have pip, either install it using your system's package manager or make use of [virtualenv](http://www.virtualenv.org/en/latest/index.html) (which is a good idea in any case).
 
 Configuration
 -------------
