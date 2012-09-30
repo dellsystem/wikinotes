@@ -1,4 +1,4 @@
-![WikiNotes logo](http://www.wikinotes.ca/logo_new.png)
+![WikiNotes logo](http://www.wikinotes.ca/static/img/logo.png)
 
 by the WikiNotes team
 
