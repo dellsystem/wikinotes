@@ -8,7 +8,7 @@
 		</div>
 		<div class="row">
 			<div class="span16 columns">
-				<p>Here, you can browse our selection of courses by multiple criteria (faculty, department, semester, professor, etc). You can also search by course name etc. We currently have content for <strong>200</strong> courses in <strong>50</strong> departments, in the following faculties: <strong>science</strong>, <strong>arts</strong>, <strong>engineering</strong>.</p>
+				<p>Here, you can browse our selection of courses by multiple criteria (faculty, department, semester, professor, etc). We currently have content for <strong>{{ num_courses }}</strong> courses in <strong>{{ num_departments }}</strong> departments.</p>
 				{% if not user.is_authenticated %}
 				<div class="alert-message success">
 					<p class="right-float"><a href="/register" class="btn">Register an account &raquo;</a></p>

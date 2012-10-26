@@ -99,6 +99,8 @@ def index(request):
 		'random_courses': random_courses,
 		'popular_courses': popular_courses,
 		'active_courses': active_courses,
+		'num_courses': Page.objects.values('course_sem__course').distinct().count(),
+		'num_departments': Page.objects.values('course_sem__course__department').distinct().count()
 	}
 	return render(request, 'courses/index.html', data)
 
