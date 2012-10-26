@@ -78,7 +78,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 			'data': page_type_obj.format(raw[3:]),
 		}
 
-	raw_file = files.items()[0][1]['raw']
+	raw_file = files.items()[0][1]['raw'].decode('utf-8')
 
 	data = {
 		'title': 'Commit information (%s)' % page,
