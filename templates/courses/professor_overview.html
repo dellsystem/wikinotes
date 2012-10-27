@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<div class="page-header">
+			<h1>Professor details &mdash; {{ professor }}</h1>
+		</div>
+
+		{% if professor.link %}
+		<p><strong>Personal webpage</strong>: <a href="{{ professor.link }}">{{ professor.link }}</a>
+		{% endif %}
+
+		<h2>Associated pages</h2>
+		{% if pages %}
+		<table class="zebra-striped centered">
+			<thead>
+				<tr>
+					<th>Department</th>
+					<th>Course</th>
+					<th>Semester</th>
+					<th>Page</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for page in pages %}
+				{% with course=page.course_sem.course %}
+				<tr>
+					<td><a href="{{ course.department.get_absolute_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course.department }}" /></a></td>
+					<td>
+						<a href="{{ course.get_absolute_url }}">
+						{{ course }} ({{ course.name }})
+						</a>
+					</td>
+					<td>{{ page.course_sem.get_semester }}</td>
+					<td><a href="{{ page.get_absolute_url }}">{{ page }}</a></td>
+				</tr>
+				{% endwith %}
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<p>There are no pages associated with this professor.</p>
+		{% endif %}
+	</section>
+</div>
+{% endblock %}

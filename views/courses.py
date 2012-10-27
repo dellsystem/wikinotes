@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from wiki.models.courses import Course, CourseSemester
+from wiki.models.courses import Course, CourseSemester, Professor
 from wiki.models.faculties import Faculty
 from wiki.models.departments import Department
 from wiki.models.series import Series
@@ -268,3 +268,14 @@ def category(request, department, number, page_type):
 			'create_url': category.get_create_url(course),
 		}
 		return render(request, 'courses/category.html', data)
+
+
+def professor_overview(request, professor):
+	professor = Professor.objects.get(slug=professor)
+
+	context = {
+		'professor': professor,
+		'pages': Page.objects.filter(professor=professor).order_by('course_sem'),
+	}
+
+	return render(request, 'courses/professor_overview.html', context)

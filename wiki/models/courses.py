@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
+
 from wiki.models.history import HistoryItem
 from wiki.utils.currents import current_year, current_term
 
@@ -86,12 +88,19 @@ class CourseSemester(models.Model):
 	def get_absolute_url(self):
 		return "%s/%s" % (self.course.get_absolute_url(), self.get_slug())
 
+
 class Professor(models.Model):
 	class Meta:
 		app_label = 'wiki'
 		ordering = ['name']
 
 	name = models.CharField(max_length=100)
+	slug = models.SlugField(unique=True)
+	link = models.URLField(blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('courses_professor_overview', [self.slug])

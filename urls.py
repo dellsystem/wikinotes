@@ -15,6 +15,7 @@ semester = '(?P<term>\w{4,6})-(?P<year>\d{4})'
 slug = '(?P<slug>[^/]+)'
 page = course + '/' + page_type + '/' + semester + '/' + slug
 sha = '(?P<hash>[a-z0-9]{1,40})'
+professor = '(?P<professor>[a-z-]+)'
 
 """
 Begin mappings (URLs should be defined in order of descending priority (so highest priority first))
@@ -71,6 +72,7 @@ direct_to_view = (
 		# The mappings below are kept for "compatibility" but aren't really needed
 		('faculty/' + faculty, 'faculty_overview'),
 		('department/' + department, 'department_overview'),
+		('professor/' + professor, 'professor_overview'),
 	)),
 )
 
