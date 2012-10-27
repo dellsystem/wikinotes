@@ -19,7 +19,7 @@
 			{% if metadata %}
 			<ul class="unstyled">
 				{% for field, content in metadata.iteritems %}
-					<li><strong>{{ field.title }}</strong>: {% if content %}{{ content|urlize }}{% endif %}</li>
+					<li><strong>{{ field.title }}</strong>: {% if content %}{% if content.get_absolute_url %}<a href="{{ content.get_absolute_url }}">{{ content }}</a>{% else %}{{ content|urlize }}{% endif %}{% endif %}</li>
 				{% endfor %}
 			</ul>
 			{% else %}

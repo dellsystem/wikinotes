@@ -15,7 +15,7 @@ semester = '(?P<term>\w{4,6})-(?P<year>\d{4})'
 slug = '(?P<slug>[^/]+)'
 page = course + '/' + page_type + '/' + semester + '/' + slug
 sha = '(?P<hash>[a-z0-9]{1,40})'
-professor = '(?P<professor>[a-z-]+)'
+professor = '(?P<professor>[a-z-]*)'
 
 """
 Begin mappings (URLs should be defined in order of descending priority (so highest priority first))

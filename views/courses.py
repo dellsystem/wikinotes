@@ -271,7 +271,7 @@ def category(request, department, number, page_type):
 
 
 def professor_overview(request, professor):
-	professor = Professor.objects.get(slug=professor)
+	professor = get_object_or_404(Professor, slug=professor)
 
 	context = {
 		'professor': professor,
