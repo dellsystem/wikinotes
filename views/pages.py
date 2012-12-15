@@ -269,4 +269,4 @@ def create(request, department, number, page_type, semester=None):
 def random(request):
 	pages = Page.objects.all()
 	random_page = random_module.choice(pages)
-	return show(request, random_page.course_sem.course.department.upper(), random_page.course_sem.course.number, random_page.page_type, random_page.course_sem.term, random_page.course_sem.year, random_page.slug)
+	return show(request, random_page.course_sem.course.department.short_name.upper(), random_page.course_sem.course.number, random_page.page_type, random_page.course_sem.term, random_page.course_sem.year, random_page.slug)
