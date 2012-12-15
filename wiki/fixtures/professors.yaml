@@ -1,15 +1,15 @@
-- fields: {name: James G Loveys}
+- fields: {name: James G Loveys, slug: "james-loveys"}
   model: wiki.professor
   pk: 1
-- fields: {name: Gregory Dudek}
+- fields: {name: Gregory Dudek, slug: "gregory-dudek"}
   model: wiki.professor
   pk: 2
-- fields: {name: Doina Precup}
+- fields: {name: Doina Precup, slug: "doina-precup"}
   model: wiki.professor
   pk: 3
-- fields: {name: Michael Langer}
+- fields: {name: Michael Langer, slug: "michael-langer"}
   model: wiki.professor
   pk: 4
-- fields: {name: William J Anderson}
+- fields: {name: William J Anderson, slug: "william-j-anderson"}
   model: wiki.professor
   pk: 5
