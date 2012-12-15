@@ -119,10 +119,13 @@ class TocTreeprocessor(markdown.treeprocessors.Treeprocessor):
 					link = etree.SubElement(last_li, "a")
 					link.text = section_number + ' ' + c.text
 					link.attrib["href"] = '#' + id
-					pilcrow_html = u'<a class="headerlink" name="%(id)s" href="#%(id)s">&para;</a>' % {'id': id}
-					header_link = self.markdown.htmlStash.store(pilcrow_html, safe=True)
 
-					c.text = placeholder + c.text + header_link
+					c.text = placeholder + c.text
+					pilcrow = etree.SubElement(c, "a")
+					pilcrow.set('class', 'headerlink')
+					pilcrow.set('name', id)
+					pilcrow.set('href', '#%s' % id)
+					pilcrow.text = self.markdown.htmlStash.store('&para;', safe=True)
 					c.attrib['class'] = 'header'
 
 					if self.config["anchorlink"] in [1, '1', True, 'True', 'true']:
