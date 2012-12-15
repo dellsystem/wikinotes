@@ -90,12 +90,14 @@ def all_recent(request, num_days=1):
 def profile(request, username):
 	try:
 		this_user = User.objects.get(username__iexact=username)
+		profile = this_user.get_profile()
+
 		data = {
 			'title': 'Viewing profile (%s)' % this_user.username,
 			'this_user': this_user, # can't call it user because the current user is user
-			'profile': this_user.get_profile(),
+			'profile': profile,
 			'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:20],
-			'user_pages': Page.objects.filter(historyitem__user=this_user).distinct(),
+			'user_pages': profile.get_recent_pages(0),
 		}
 		return render(request, 'main/profile.html', data)
 	except User.DoesNotExist:

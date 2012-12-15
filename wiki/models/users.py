@@ -41,8 +41,8 @@ class UserProfile(models.Model):
 				pages.append(page)
 				i += 1
 
-			if i == n:
-				break
+				if i == n:
+					break
 
 		return pages
 
