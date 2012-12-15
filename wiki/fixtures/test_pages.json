@@ -1,0 +1,58 @@
+[
+    {
+        "pk": 1,
+        "model": "wiki.page",
+        "fields": {
+            "title": "Page number 1",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-1",
+            "subject": "lol"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "wiki.page",
+        "fields": {
+            "title": "Page number 2",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-2",
+            "subject": "lol"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "wiki.page",
+        "fields": {
+            "title": "Page number 3",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-3",
+            "subject": "lol"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "wiki.page",
+        "fields": {
+            "title": "Page number 4",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-4",
+            "subject": "lol"
+        }
+    }
+]

@@ -21,7 +21,7 @@ def index(request, show_welcome=False):
 		history_items = HistoryItem.objects.filter(course__in=watched_courses).exclude(user=request.user).order_by('-timestamp')
 
 		# Get 5 recently edited pages
-		recent_pages = Page.objects.filter(historyitem__user=request.user).order_by('-historyitem__timestamp').distinct()[:5]
+		recent_pages = request.user.get_profile().get_recent_pages(5)
 
 		try:
 			latest_post = BlogPost.objects.order_by('-timestamp')[0]

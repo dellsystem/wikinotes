@@ -29,6 +29,23 @@ class UserProfile(models.Model):
 	def is_watching(self, course):
 		return course in self.courses.all()
 
+	def get_recent_pages(self, n):
+		"""
+		Return the last n pages that the user has edited.
+		"""
+		pages = []
+		i = 0
+		for history_item in self.user.historyitem_set.order_by('-timestamp'):
+			page = history_item.page
+			if page is not None and page not in pages:
+				pages.append(page)
+				i += 1
+
+			if i == n:
+				break
+
+		return pages
+
 	@models.permalink
 	def get_absolute_url(self):
 		return ('main_profile', (), {'username': self.user.username})
