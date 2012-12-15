@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from wiki.utils.history import get_date_x_days_ago, humanise_timesince
+
 
 class HistoryManager(models.Manager):
 	# Returns all the HistoryItems with a timestamp between now and x days ago
@@ -8,9 +10,11 @@ class HistoryManager(models.Manager):
 		# If show_all is False, ignore watch actions (that's all it means)
 		cutoff_date = get_date_x_days_ago(int(num_days))
 		query_set = self.filter(timestamp__gt=cutoff_date).order_by('-timestamp')
+
 		if not show_all:
 			query_set = query_set.exclude(page__isnull=True)
 		return query_set
+
 
 class HistoryItem(models.Model):
 	class Meta:
@@ -30,5 +34,3 @@ class HistoryItem(models.Model):
 
 	def get_timesince(self):
 		return humanise_timesince(self.timestamp)
-
-# You can create a page, and you can edit a page ... good enough for now

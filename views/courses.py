@@ -1,23 +1,27 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from wiki.models.courses import Course, CourseSemester, Professor
-from wiki.models.faculties import Faculty
-from wiki.models.departments import Department
-from wiki.models.series import Series
-from wiki.utils.pages import page_types
-from django.template import RequestContext
-from wiki.models.pages import Page
-import random as random_module
-from wiki.models.history import HistoryItem
-from django.http import Http404
 import re
 import json
 from itertools import chain
+import random as random_module
+
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.template import RequestContext
+
+from wiki.models.courses import Course, CourseSemester, Professor
+from wiki.models.departments import Department
+from wiki.models.faculties import Faculty
+from wiki.models.history import HistoryItem
+from wiki.models.pages import Page
+from wiki.models.series import Series
+from wiki.utils.pages import page_types
+
 
 # Remove the slash and replace it with an underscore. math/133 --> math_133
 def remove_slash(request, department, number):
 	path = request.path_info
 	real_path = path[:5] + '_' + path[6:]
 	return redirect(real_path)
+
 
 def faculty_overview(request, faculty):
 	faculty_object = get_object_or_404(Faculty, slug=faculty)
@@ -29,7 +33,9 @@ def faculty_overview(request, faculty):
 		'courses': courses,
 		'departments': departments
 	}
+
 	return render(request, 'courses/faculty_overview.html', data)
+
 
 def department_overview(request, department):
 	dept = get_object_or_404(Department, short_name=department.upper())
@@ -42,7 +48,9 @@ def department_overview(request, department):
 		'courses': courses,
 		'num_pages': num_pages
 	}
+
 	return render(request, 'courses/department_overview.html', data)
+
 
 # Faculty no longer looks like a word to me
 def faculty_browse(request):
@@ -61,6 +69,7 @@ def faculty_browse(request):
 
 	return render(request, 'courses/faculty_browse.html', data)
 
+
 # Same pattern as faculty view
 def department_browse(request):
 	department_objects = Department.objects.all().order_by('long_name')
@@ -78,14 +87,17 @@ def department_browse(request):
 
 	return render(request, 'courses/department_browse.html', data)
 
+
 # Meh
 def professor(request):
 	return render(request, 'courses/professor.html', {'title': 'Browse by professor'})
+
 
 def random(request):
 	courses = Course.objects.all()
 	random_course = random_module.choice(courses)
 	return overview(request, random_course.department, random_course.number)
+
 
 def index(request):
 	courses = Course.objects.all()
@@ -102,13 +114,17 @@ def index(request):
 		'num_courses': Page.objects.values('course_sem__course').distinct().count(),
 		'num_departments': Page.objects.values('course_sem__course__department').distinct().count()
 	}
+
 	return render(request, 'courses/index.html', data)
+
 
 def popular(request):
 	return list_all(request, 'popularity')
 
+
 def active(request):
 	return list_all(request, 'activity')
+
 
 def list_all(request, sort_by=''):
 	all_courses = Course.objects
@@ -125,13 +141,16 @@ def list_all(request, sort_by=''):
 		'mode': sort_by,
 		'courses': courses,
 	}
+
 	return render(request, 'courses/all.html', data)
+
 
 def watch(request, department, number):
 	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 
 	if request.method == 'POST' and request.user.is_authenticated():
 		user = request.user.get_profile()
+
 		# If the user is already watching it, unwatch
 		if user.is_watching(course):
 			user.stop_watching(course)
@@ -141,9 +160,11 @@ def watch(request, department, number):
 
 	return overview(request, department, number)
 
+
 def get_all(request):
 	courses = Course.objects.order_by('department', 'number')
 	return render(request, 'courses/get_all.html', {'courses': courses})
+
 
 def overview(request, department, number):
 	try:
@@ -178,7 +199,9 @@ def overview(request, department, number):
 		'course_sems': course_sems,
 		'current_sem': course.get_current_semester(),
 	}
+
 	return render(request, 'courses/overview.html', data)
+
 
 # Filtering by semester for a specific course
 def semester(request, department, number, term, year):
@@ -221,6 +244,7 @@ def recent(request, department, number):
 		# Second pass - combine multiple consecutive edits into one, use the latest
 		for item in temp_history[1:]:
 			last_item = history[-1]
+
 			# If the last action was an edit by the same user, on the same page:
 			if item.action == last_item.action == 'edited' and item.page == last_item.page != None and item.user == last_item.user:
 				last_item.group_count += 1
@@ -242,6 +266,7 @@ def recent(request, department, number):
 
 	return render(request, 'courses/recent.html', data)
 
+
 def series(request, department, number, slug):
 	course = get_object_or_404(Course, department=department.upper(), number=int(number))
 	series = get_object_or_404(Series, course=course, slug=slug)
@@ -254,8 +279,10 @@ def series(request, department, number, slug):
 
 	return render(request, 'courses/series.html', data)
 
+
 def category(request, department, number, page_type):
 	course = get_object_or_404(Course, department=department.upper(), number=int(number))
+
 	if page_type not in page_types:
 		raise Http404
 	else:
@@ -267,6 +294,7 @@ def category(request, department, number, page_type):
 			'pages': Page.objects.filter(course_sem__course=course, page_type=page_type),
 			'create_url': category.get_create_url(course),
 		}
+
 		return render(request, 'courses/category.html', data)
 
 

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
+
 class UserProfile(models.Model):
 	class Meta:
 		app_label = 'wiki'
@@ -50,9 +51,11 @@ class UserProfile(models.Model):
 	def get_absolute_url(self):
 		return ('main_profile', (), {'username': self.user.username})
 
+
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+
 
 # Register a handler for the post_save signal
 # Otherwise the user profile does not get created

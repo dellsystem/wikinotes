@@ -1,18 +1,26 @@
+import os
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.http import Http404
+
+from urls import static_urls
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
 from wiki.utils.users import validate_username
 from wiki.models.pages import Page
 from blog.models import BlogPost
-from django.http import Http404
-from urls import static_urls
-import os
 
-# welcome is only set to true when called from register()
-# Triggers the display of some sort of welcome message
+
 def index(request, show_welcome=False):
+	"""
+	If the user is logged in, the dashboard is shown. Otherwise, it's
+	just the generic homepage.
+
+	show_welcome is only set to True when called from register(). This
+	should trigger the display of some sort of welcome message.
+	"""
 	if request.user.is_authenticated():
 		user = request.user.get_profile()
 		watched_courses = user.courses.all()
@@ -37,10 +45,12 @@ def index(request, show_welcome=False):
 			'show_welcome': show_welcome,
 			'latest_post': latest_post,
 		}
+
 		return render(request, 'main/dashboard.html', data)
 	else:
 		# Show the main page for logged-out users
 		return render(request, 'main/index.html')
+
 
 # POSTed to by the login form; should never be accessed by itself
 def login_logout(request):
@@ -54,6 +64,7 @@ def login_logout(request):
 				username = User.objects.get(username__iexact=request.POST['username'])
 				password = request.POST['password']
 				user = authenticate(username=username, password=password)
+
 				if user is not None:
 					if user.is_active:
 						login(request, user)
@@ -67,6 +78,7 @@ def login_logout(request):
 	# Check if the path starts with / eventually? Necessary?
 	return redirect(path)
 
+
 # Recent changes
 def recent(request, num_days=1, show_all=False):
 	data = {
@@ -76,7 +88,9 @@ def recent(request, num_days=1, show_all=False):
 		'base_url': '/recent/all' if show_all else '/recent', # better way of doing this?
 		'show_all': show_all
 	}
+
 	return render(request, 'main/recent.html', data)
+
 
 def explore(request):
 	data = {
@@ -84,8 +98,10 @@ def explore(request):
 	}	
 	return render(request, 'main/explore.html', data)
 
+
 def all_recent(request, num_days=1):
 	return recent(request, num_days=num_days, show_all=True)
+
 
 def profile(request, username):
 	try:
@@ -99,9 +115,11 @@ def profile(request, username):
 			'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:20],
 			'user_pages': profile.get_recent_pages(0),
 		}
+
 		return render(request, 'main/profile.html', data)
 	except User.DoesNotExist:
 		raise Http404
+
 
 def register(request):
 	# If the user is already logged in, go to the dashboard page
@@ -161,8 +179,10 @@ def register(request):
 		else:
 			return render(request, 'main/registration.html', {'title': 'Create an account'})
 
+
 def ucp(request, mode):
 	modes = ['overview', 'account', 'profile', 'preferences']
+
 	if mode == '' or mode not in modes:
 		mode = 'overview'
 	if request.user.is_authenticated():
@@ -180,6 +200,7 @@ def ucp(request, mode):
 		# Now check if a request has been submitted
 		if request.POST:
 			data['success'] = True
+
 			if mode == 'preferences':
 				user_profile.show_email = request.POST['show_email'] == '1'
 			if mode == 'profile':
@@ -190,20 +211,24 @@ def ucp(request, mode):
 				user_profile.facebook = request.POST['ucp_facebook']
 				user_profile.gplus = request.POST['ucp_gplus']
 				user_profile.major = request.POST['ucp_major']
+
 			user_profile.save()
 
 		return render(request, 'main/ucp.html', data)
 	else:
 		return register(request)
 
+
 def markdown(request):
 	if 'content' in request.POST and 'csrfmiddlewaretoken' in request.POST:
 		data = {
 			'content': request.POST['content']
 		}
+
 		return render(request, 'main/markdown.html', data)
 	else:
 		raise Http404
+
 
 def search(request):
 	if 'query' in request.GET:
@@ -211,9 +236,11 @@ def search(request):
 			'title': 'Search results',
 			'query': request.GET['query']
 		}
+
 		return render(request, 'search/results.html', data)
 	else:
 		raise Http404
+
 
 def static(request, mode='', page=''):
 	section_pages = ['overview'] + static_urls[mode]
@@ -227,4 +254,5 @@ def static(request, mode='', page=''):
 		'mode': mode,
 		'section_pages': section_pages,
 	}
+
 	return render(request, 'static.html', data)
