@@ -57,7 +57,8 @@ class Git:
 		previous = self.get_previous(this_commit)
 
 		if previous:
-			diff = previous.diff(this_commit.hexsha, create_patch=True)[0].diff
+			word_diff = {"word-diff":"porcelain"}
+			diff = previous.diff(this_commit.hexsha, create_patch=True, **word_diff)[0].diff
 			diff_lines = diff.splitlines()[2:]
 			sections = []
 			previous_i = 0
@@ -72,7 +73,8 @@ class Git:
 					first_line = max(0, int(section_after[0][1:]))
 					sections.append({'first_line': first_line, 'lines_before': num_lines_before, 'lines_after': num_lines_after, 'start_index': i + 1})
 					previous_i = i
-
+				if line.startswith('~'):
+					diff_lines[i] = " \n"
 			# Set the lines for each section
 			# THIS IS THE ONLY WAY I COULD FIGURE OUT HOW TO DO IT
 			# I'm sorry
