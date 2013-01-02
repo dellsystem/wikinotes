@@ -1,11 +1,11 @@
-			{% with series_pages=page.seriespage_set.all %}
-				{% if series_pages %}
-					<ul class="unstyled">
-					{% for series_page in series_pages %}
-					{% with position=series_page.position series=series_page.series previous=series_page.get_previous_page next=series_page.get_next_page %}
-						<li>{% if previous %}<a href="{{ previous.get_absolute_url }}" title="{{ previous }}">&laquo; Previous</a> :: {% endif %}{{ position }} of {{ series.get_num_total }} in <strong><a href="{{ series.get_absolute_url }}">{{ series.name }}</a></strong>{% if next %} :: <a href="{{ next.get_absolute_url }}" title="{{ next }}">Next &raquo;</a>{% endif %}</li>
-						{% endwith %}
-					{% endfor %}
-					</ul>
-				{% endif %}
-			{% endwith %}
+            {% with series_pages=page.seriespage_set.all %}
+                {% if series_pages %}
+                    <ul class="unstyled">
+                    {% for series_page in series_pages %}
+                    {% with position=series_page.position series=series_page.series previous=series_page.get_previous_page next=series_page.get_next_page %}
+                        <li>{% if previous %}<a href="{{ previous.get_absolute_url }}" title="{{ previous }}">&laquo; Previous</a> :: {% endif %}{{ position }} of {{ series.get_num_total }} in <strong><a href="{{ series.get_absolute_url }}">{{ series.name }}</a></strong>{% if next %} :: <a href="{{ next.get_absolute_url }}" title="{{ next }}">Next &raquo;</a>{% endif %}</li>
+                        {% endwith %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}

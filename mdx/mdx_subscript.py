@@ -21,26 +21,26 @@ import markdown
 SUBSCRIPT_RE = r'(\~)([^\~]*)\2'  # the number is subscript~2~
 
 class SubscriptPattern(markdown.inlinepatterns.Pattern):
-	""" Return a subscript Element: `C~6~H~12~O~6~' """
-	def handleMatch(self, m):
-		subsc = m.group(3)
+    """ Return a subscript Element: `C~6~H~12~O~6~' """
+    def handleMatch(self, m):
+        subsc = m.group(3)
 
-		text = subsc
+        text = subsc
 
-		el = markdown.util.etree.Element("sub")
-		el.text = markdown.util.AtomicString(text)
-		return el
+        el = markdown.util.etree.Element("sub")
+        el.text = markdown.util.AtomicString(text)
+        return el
 
 class SubscriptExtension(markdown.Extension):
-	""" Subscript Extension for Python-Markdown. """
+    """ Subscript Extension for Python-Markdown. """
 
-	def extendMarkdown(self, md, md_globals):
-		""" Replace subscript with SubscriptPattern """
-		md.inlinePatterns['subscript'] = SubscriptPattern(SUBSCRIPT_RE, md)
+    def extendMarkdown(self, md, md_globals):
+        """ Replace subscript with SubscriptPattern """
+        md.inlinePatterns['subscript'] = SubscriptPattern(SUBSCRIPT_RE, md)
 
 def makeExtension(configs=None):
-	return SubscriptExtension(configs=configs)
+    return SubscriptExtension(configs=configs)
 
 if __name__ == "__main__":
-	import doctest
-	doctest.testmod()
+    import doctest
+    doctest.testmod()

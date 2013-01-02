@@ -4,39 +4,39 @@
 
 {% block content %}
 <div class="container">
-	<section>
-		<ul class="breadcrumb">
-			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
-			<li><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
-			<li><a href="{{ page.get_type_url }}">{{ page_type.long_name }}</a> <span class="divider">&raquo;</span><li>
-			<li class="active">{{ page.get_title }}</li>
-		</ul>
-		<div class="right-float"><a href="{{ print_url }}" title="View a printer-friendly version of this page" class="btn">Print</a> <a href="{{ history_url }}" class="btn">History</a> <a href="{{ edit_url }}" class="btn danger">Edit</a></div>
-		<h1>{{ page.get_title }} <a href="http://creativecommons.org/licenses/by-nc/3.0/"><img src="/static/img/cc-by-nc.png" alt="CC-BY-NC" title="Available under a Creative Commons Attribution-NonCommercial 3.0 Unported License" /></a></h1>
-		<div class="row">
-			<div class="span9">
-			{% with metadata=page.get_metadata %}
-			{% if metadata %}
-			<ul class="unstyled">
-				{% for field, content in metadata.iteritems %}
-					<li><strong>{{ field.title }}</strong>: {% if content %}{% if content.get_absolute_url %}<a href="{{ content.get_absolute_url }}">{{ content }}</a>{% else %}{{ content|urlize }}{% endif %}{% endif %}</li>
-				{% endfor %}
-			</ul>
-			{% else %}
-			{% if page.seriespage_set.count > 0 %}&nbsp;{% endif %}
-			{% endif %}
-			{% endwith %}
-			</div>
-			<div class="span7 right-align">
-			{% include "pages/series_listing.html" %}
-			</div>
-		</div>
-		<hr />
-		{% include "pages/content.html" %}
-		<div class="right-align">
-			{% include "pages/series_listing.html" %}
-		</div>
-		</div>
-	</section>
+    <section>
+        <ul class="breadcrumb">
+             <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+            <li><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
+            <li><a href="{{ page.get_type_url }}">{{ page_type.long_name }}</a> <span class="divider">&raquo;</span><li>
+            <li class="active">{{ page.get_title }}</li>
+        </ul>
+        <div class="right-float"><a href="{{ print_url }}" title="View a printer-friendly version of this page" class="btn">Print</a> <a href="{{ history_url }}" class="btn">History</a> <a href="{{ edit_url }}" class="btn danger">Edit</a></div>
+        <h1>{{ page.get_title }} <a href="http://creativecommons.org/licenses/by-nc/3.0/"><img src="/static/img/cc-by-nc.png" alt="CC-BY-NC" title="Available under a Creative Commons Attribution-NonCommercial 3.0 Unported License" /></a></h1>
+        <div class="row">
+            <div class="span9">
+            {% with metadata=page.get_metadata %}
+            {% if metadata %}
+            <ul class="unstyled">
+                {% for field, content in metadata.iteritems %}
+                    <li><strong>{{ field.title }}</strong>: {% if content %}{% if content.get_absolute_url %}<a href="{{ content.get_absolute_url }}">{{ content }}</a>{% else %}{{ content|urlize }}{% endif %}{% endif %}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            {% if page.seriespage_set.count > 0 %}&nbsp;{% endif %}
+            {% endif %}
+            {% endwith %}
+            </div>
+            <div class="span7 right-align">
+            {% include "pages/series_listing.html" %}
+            </div>
+        </div>
+        <hr />
+        {% include "pages/content.html" %}
+        <div class="right-align">
+            {% include "pages/series_listing.html" %}
+        </div>
+        </div>
+    </section>
 </div>
 {% endblock %}

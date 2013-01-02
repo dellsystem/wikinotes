@@ -160,12 +160,12 @@ LOGGING = {
 AUTH_PROFILE_MODULE = 'wiki.UserProfile'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-	'django.contrib.auth.context_processors.auth',
-	'django.core.context_processors.debug',
-	'django.core.context_processors.i18n',
-	'django.core.context_processors.media',
-	'django.core.context_processors.static',
-	'django.contrib.messages.context_processors.messages',
-	'wiki.context_processors.less_compilation',
-	'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+    'wiki.context_processors.less_compilation',
+    'django.core.context_processors.request',
 )

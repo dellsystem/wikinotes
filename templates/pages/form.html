@@ -1,52 +1,52 @@
-			<form action="" method="post">
-				{% if errors %}
-				<div class="alert-message block-message error">
-					<p>Something went wrong! Please correct the errors and try again.</p>
-					<ul>
-						{% for error in errors %}<li>{{ error }}</li>{% endfor %}
-					</ul>
-				</div>
-				{% endif %}
+            <form action="" method="post">
+                {% if errors %}
+                <div class="alert-message block-message error">
+                    <p>Something went wrong! Please correct the errors and try again.</p>
+                    <ul>
+                        {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
 
-				{% if conflict %}
-				<div class="alert-message block-message error">
-					<p>The document was changed by someone else while you were editing, please review the merged version for any conflicts!</p>
-				</div>
-				{% endif %}
+                {% if conflict %}
+                <div class="alert-message block-message error">
+                    <p>The document was changed by someone else while you were editing, please review the merged version for any conflicts!</p>
+                </div>
+                {% endif %}
 
-				{% if no_changes %}
-				<div class="alert-message block-message error">
-					<p>You didn't make any changes! Please try again.</p>
-				</div>
-				{% endif %}
+                {% if no_changes %}
+                <div class="alert-message block-message error">
+                    <p>You didn't make any changes! Please try again.</p>
+                </div>
+                {% endif %}
 
-				{% csrf_token %}
-				<fieldset class="grey-box">
-					{% for field_template in field_templates %}
-						<div class="clearfix">
-							{% include field_template %}
-						</div>
-					{% endfor %}
-				</fieldset>
-				<!--<div class="alert-message block-message warning">
-					<p>Already have notes typed up in a different format and don't want to retype them out on this page? You can either try <a href="import">importing them directly</a> or, if your file format or layout is not supported, upload it for <a href="manual">manual processing</a> by one of our moderators.</p>
-				</div>-->
-				<br />
-				<fieldset class="grey-box" id="content-box">
-					{% include "pages/edit_buttons.html" %}
-					<textarea name="content" id="content-textarea">{{ content }}</textarea>
-					<div id="content-preview"></div>
-					<br /><br />
-					<p class="right-align"><a href="#" id="fullscreen">Go fullscreen</a> :: <strong><a href="/help/formatting">Help! How do I format this?</a></strong></p>
-				</fieldset>
-				<br />
-				<fieldset class="grey-box">
-					<label for="message">Edit message:</label>
-					<div class="input">
-						<input type="text" class="span13" name="message" value="{{ message }}" />
-						<input type="hidden" name="last_commit" value="{{ latest_commit }}" />
-					</div>
-					<br />
-					<div class="center-align"><input type="submit" name="submit" value="Save" class="btn danger" /></div>
-				</fieldset>
-			</form>
+                {% csrf_token %}
+                <fieldset class="grey-box">
+                    {% for field_template in field_templates %}
+                        <div class="clearfix">
+                            {% include field_template %}
+                        </div>
+                    {% endfor %}
+                </fieldset>
+                <!--<div class="alert-message block-message warning">
+                    <p>Already have notes typed up in a different format and don't want to retype them out on this page? You can either try <a href="import">importing them directly</a> or, if your file format or layout is not supported, upload it for <a href="manual">manual processing</a> by one of our moderators.</p>
+                </div>-->
+                <br />
+                <fieldset class="grey-box" id="content-box">
+                    {% include "pages/edit_buttons.html" %}
+                    <textarea name="content" id="content-textarea">{{ content }}</textarea>
+                    <div id="content-preview"></div>
+                    <br /><br />
+                    <p class="right-align"><a href="#" id="fullscreen">Go fullscreen</a> :: <strong><a href="/help/formatting">Help! How do I format this?</a></strong></p>
+                </fieldset>
+                <br />
+                <fieldset class="grey-box">
+                    <label for="message">Edit message:</label>
+                    <div class="input">
+                        <input type="text" class="span13" name="message" value="{{ message }}" />
+                        <input type="hidden" name="last_commit" value="{{ latest_commit }}" />
+                    </div>
+                    <br />
+                    <div class="center-align"><input type="submit" name="submit" value="Save" class="btn danger" /></div>
+                </fieldset>
+            </form>

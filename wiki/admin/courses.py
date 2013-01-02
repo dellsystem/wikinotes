@@ -3,11 +3,11 @@ from django.contrib import admin
 
 
 class CourseAdmin(admin.ModelAdmin):
-	exclude = ('num_watchers', 'latest_activity', 'watchers')
+    exclude = ('num_watchers', 'latest_activity', 'watchers')
 
 
 class ProfessorAdmin(admin.ModelAdmin):
-	prepopulated_fields = {'slug': ('name',)}
+    prepopulated_fields = {'slug': ('name',)}
 
 
 admin.site.register(Course, CourseAdmin)

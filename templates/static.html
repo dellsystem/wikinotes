@@ -3,34 +3,34 @@
 {% block content %}
 {% load wikinotes_markup %}
 <div class="container">
-	<section>
-		<div class="row">
-			<div class="span12">
-			<div class="markdown">
-			<h1>{{ mode.title }} <small>{{ page.title }}</small></h1>
-			<hr />
-			{% if markdown_file %}
-				{% filter wikinotes_markdown %}{% include markdown_file %}{% endfilter %}
-			{% else %}
-				{% if html_file %}
-					{% include html_file %}
-				{% else %}
-					<p>Coming soon</p>
-				{% endif %}
-			{% endif %}
-			</div>
-			</div>
-			<div class="span4">
-				<div id="right-bar">
-				<h4>{{ mode.title }}</h4>
-				<ul class="unstyled">
-					{% for section_page in section_pages %}
-					<li>{% if section_page != page %}<a href="/{{ mode }}/{{ section_page }}">{% endif %}{{ section_page.title }}{% if section_page != page %}</a>{% endif %}</li>
-					{% endfor %}
-				</ul>
-				</div>
-			</div>
-		</div>
-	</section>
+    <section>
+        <div class="row">
+            <div class="span12">
+            <div class="markdown">
+            <h1>{{ mode.title }} <small>{{ page.title }}</small></h1>
+            <hr />
+            {% if markdown_file %}
+                {% filter wikinotes_markdown %}{% include markdown_file %}{% endfilter %}
+            {% else %}
+                {% if html_file %}
+                    {% include html_file %}
+                {% else %}
+                    <p>Coming soon</p>
+                {% endif %}
+            {% endif %}
+            </div>
+            </div>
+            <div class="span4">
+                <div id="right-bar">
+                <h4>{{ mode.title }}</h4>
+                <ul class="unstyled">
+                    {% for section_page in section_pages %}
+                    <li>{% if section_page != page %}<a href="/{{ mode }}/{{ section_page }}">{% endif %}{{ section_page.title }}{% if section_page != page %}</a>{% endif %}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %}

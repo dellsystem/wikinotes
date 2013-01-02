@@ -3,36 +3,36 @@
 {% block content %}
 {% load gravatar %}
 <div class="container">
-	<section>
-		<h2>Recent activity</h2>
-		<p class="right-float"><a href="/recent{% if not show_all %}/all{% endif %}/{{ num_days }}">{% if show_all %}Show only page-related activity{% else %}Show all activity{% endif %}</a></p>
-		<p>Show activity from: <a href="{{ base_url }}/1">Last 24 hours</a> | <a href="{{ base_url }}/3">Last 3 days</a> | <a href="{{ base_url }}/7">Last week</a> | <a href="{{ base_url }}/30">Last 30 days</a></p>
-		{% if history %}
-		<table class="zebra-striped nosort">
-			<thead>
-				<tr>
-					<th>User</th>
-					<th>Action</th>
-					<th>Page</th>
-					<th>Course</th>
-					<th>Timestamp</th>
-				</tr>
-			</thead>
-			<tbody>
-			{% for event in history %}
-				<tr>
-					<td>{% gravatar_img_for_email event.user.email 20 %} {{ event.user }}</td>
-					<td>{{ event.action }}</td>
-					<td>{% if event.page %}<a href="{{ event.page.get_absolute_url }}">{{ event.page }}</a> (view changes - later){% else %}N/A{% endif %}</td>
-					<td><a href="{{ event.course.get_absolute_url }}">{{ event.course }}</a></td>
-					<td><span title="{{ event.timestamp }}">{{ event.get_timesince }} ago</span></td>
-				</tr>
-			{% endfor %}
-			</tbody>
-		</table>
-		{% else %}
-		<p>No recent activity! Why not try a larger timeframe, or make something happen?</p>
-		{% endif %}
-	</section>
+    <section>
+        <h2>Recent activity</h2>
+        <p class="right-float"><a href="/recent{% if not show_all %}/all{% endif %}/{{ num_days }}">{% if show_all %}Show only page-related activity{% else %}Show all activity{% endif %}</a></p>
+        <p>Show activity from: <a href="{{ base_url }}/1">Last 24 hours</a> | <a href="{{ base_url }}/3">Last 3 days</a> | <a href="{{ base_url }}/7">Last week</a> | <a href="{{ base_url }}/30">Last 30 days</a></p>
+        {% if history %}
+        <table class="zebra-striped nosort">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Page</th>
+                    <th>Course</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for event in history %}
+                <tr>
+                    <td>{% gravatar_img_for_email event.user.email 20 %} {{ event.user }}</td>
+                    <td>{{ event.action }}</td>
+                    <td>{% if event.page %}<a href="{{ event.page.get_absolute_url }}">{{ event.page }}</a> (view changes - later){% else %}N/A{% endif %}</td>
+                    <td><a href="{{ event.course.get_absolute_url }}">{{ event.course }}</a></td>
+                    <td><span title="{{ event.timestamp }}">{{ event.get_timesince }} ago</span></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No recent activity! Why not try a larger timeframe, or make something happen?</p>
+        {% endif %}
+    </section>
 </div>
 {% endblock %}

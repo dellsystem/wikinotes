@@ -3,27 +3,27 @@
 {% block content %}
 {% load wikinotes_markup %}
 <div class="container"> 
-	<section>
-		<div class="row">
-			<div class="span12">
-				<h1>{{ post.title }}</h1>
-				<hr />
-				<h4 class="right-float">{{ post.timestamp }}</h4>
-				<h4>{{ post.get_num_comments }} comment{{ post.get_num_comments|pluralize }}</h4>
-				{{ post.body|wikinotes_markdown|safe }}
-				<br />
-				<h3>Comments</h3>
-				<hr />
-				<form>
-					<fieldset class="grey-box">
-					</fieldset>
-				</form>
-				<br />
-			</div>
-			{% include "news/sidebar.html" %}
-		</div>
-	</section> 
+    <section>
+        <div class="row">
+            <div class="span12">
+                <h1>{{ post.title }}</h1>
+                <hr />
+                <h4 class="right-float">{{ post.timestamp }}</h4>
+                <h4>{{ post.get_num_comments }} comment{{ post.get_num_comments|pluralize }}</h4>
+                {{ post.body|wikinotes_markdown|safe }}
+                <br />
+                <h3>Comments</h3>
+                <hr />
+                <form>
+                    <fieldset class="grey-box">
+                    </fieldset>
+                </form>
+                <br />
+            </div>
+            {% include "news/sidebar.html" %}
+        </div>
+    </section> 
 
 </div>
-	
+    
 {% endblock %}

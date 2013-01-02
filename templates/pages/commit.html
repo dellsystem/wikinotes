@@ -3,54 +3,54 @@
 {% block content %}
 {% load gravatar %}
 <div class="container">
-	<section>
-		<ul class="breadcrumb">
-			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
-			<li><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
-			<li><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a> <span class="divider">&raquo;</span><li>
-			<li><a href="{{ page.get_absolute_url }}">{{ page.get_title }}</a> <span class="divider">&raquo;</span></li>
-			<li><a href="{{ page.get_absolute_url }}/history">History</a> <span class="divider">&raquo;</span></li>
-			<li class="active">Viewing commit</li>
-		</ul>
-		<h1>Commit {{ hash }}</h1>
-		<hr />
-		<div class="grey-box">
-			<div class="row">
-				<div class="span2 icon-thumb center-align">
-					<a href="{{ commit.author.get_absolute_url }}"><img src="{% gravatar_for_user commit.author 100 %}" /></a>
-					<br />
-					{{ commit.author }}
-				</div>
-				<div class="span14">
-					<ul class="unstyled">
-						<li><strong>Timestamp:</strong> {{ commit.date|date:"F j Y, H:i" }}</li>
-						<li><strong>Statistics:</strong> {{ commit.stats.lines }} line{{ commit.stats.lines|pluralize }} changed ({{ commit.stats.deletions }} deletion{{ commit.stats.deletions|pluralize }}, {{ commit.stats.insertions }} insertion{{ commit.stats.insertions|pluralize }})</li>
-						<li><strong>Edit message:</strong> {{ commit.message }}</li>
-				</div>
-			</div>
-		</div>
-		<br />
-		<h2>Diff</h2>
-		<hr />
-		<br />
-		{% for section in commit.diff %}
-		<p>Starting from line {{ section.first_line }}. {{ section.lines_before }} line{{ section.lines_before|pluralize }} in the previous commit, {{ section.lines_after }} line{{ section.lines_after|pluralize }} after.</p>
-		<pre id="commit-diff">{% for diff_line in section.lines %}<span class="{% if diff_line.0 == '+' %}diff-green{% else %}{% if diff_line.0 == '-' %}diff-red{% endif %}{% endif %}">{{ diff_line|slice:"1:" }}</span>{% endfor %}
+    <section>
+        <ul class="breadcrumb">
+             <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+            <li><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
+            <li><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a> <span class="divider">&raquo;</span><li>
+            <li><a href="{{ page.get_absolute_url }}">{{ page.get_title }}</a> <span class="divider">&raquo;</span></li>
+            <li><a href="{{ page.get_absolute_url }}/history">History</a> <span class="divider">&raquo;</span></li>
+            <li class="active">Viewing commit</li>
+        </ul>
+        <h1>Commit {{ hash }}</h1>
+        <hr />
+        <div class="grey-box">
+            <div class="row">
+                <div class="span2 icon-thumb center-align">
+                    <a href="{{ commit.author.get_absolute_url }}"><img src="{% gravatar_for_user commit.author 100 %}" /></a>
+                    <br />
+                    {{ commit.author }}
+                </div>
+                <div class="span14">
+                    <ul class="unstyled">
+                        <li><strong>Timestamp:</strong> {{ commit.date|date:"F j Y, H:i" }}</li>
+                        <li><strong>Statistics:</strong> {{ commit.stats.lines }} line{{ commit.stats.lines|pluralize }} changed ({{ commit.stats.deletions }} deletion{{ commit.stats.deletions|pluralize }}, {{ commit.stats.insertions }} insertion{{ commit.stats.insertions|pluralize }})</li>
+                        <li><strong>Edit message:</strong> {{ commit.message }}</li>
+                </div>
+            </div>
+        </div>
+        <br />
+        <h2>Diff</h2>
+        <hr />
+        <br />
+        {% for section in commit.diff %}
+        <p>Starting from line {{ section.first_line }}. {{ section.lines_before }} line{{ section.lines_before|pluralize }} in the previous commit, {{ section.lines_after }} line{{ section.lines_after|pluralize }} after.</p>
+        <pre id="commit-diff">{% for diff_line in section.lines %}<span class="{% if diff_line.0 == '+' %}diff-green{% else %}{% if diff_line.0 == '-' %}diff-red{% endif %}{% endif %}">{{ diff_line|slice:"1:" }}</span>{% endfor %}
 </pre>
-		{% empty %}
-		<p>This was the first commit. See <a href="#raw">raw</a> below for the changes made.</p>
-		{% endfor %}
-		<br />
-		<h2 id="raw">Raw</h2>
-		<hr />
-		<br />
-		<pre>{{ content }}</pre>
-		</p>
-		<h2>Preview</h2>
-		<hr />
-		<div class="markdown">
-			{% include "main/markdown.html" %}
-		</div>
-	</section>
+        {% empty %}
+        <p>This was the first commit. See <a href="#raw">raw</a> below for the changes made.</p>
+        {% endfor %}
+        <br />
+        <h2 id="raw">Raw</h2>
+        <hr />
+        <br />
+        <pre>{{ content }}</pre>
+        </p>
+        <h2>Preview</h2>
+        <hr />
+        <div class="markdown">
+            {% include "main/markdown.html" %}
+        </div>
+    </section>
 </div>
 {% endblock %}

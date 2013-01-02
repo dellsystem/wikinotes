@@ -4,119 +4,119 @@
 
 {% block content %}
 <div class="container">
-	<section>
-		<h1>{{ course.department.short_name }} {{ course.number}} <small>{{ course.name }}</small></h1>
-		<div class="row">
-			<div class="span12">
-				<ul class="unstyled">
-					<li><strong>Description:</strong> {{ course.description }}</li>
-					<li><strong>Credits:</strong> {{ course.credits }}</li>
-					{% if current_sem %}
-						{% if current_sem.professors.count %}<li><strong>Current professor{{ current_sem.professors.count|pluralize }}:</strong> {{ current_sem.professors.all|join:", " }}</li>{% endif %}
-						{% if current_sem.readings %}<li><strong>Readings:</strong> {{ current_sem.readings }}</li>{% endif %}
-						{% if current_sem.readings %}<li><strong>Evaluation:</strong> {{ current_sem.evaluation }}</li>{% endif %}
-					{% endif %}
-				</ul>
-				<h2>Browse by category</h2>
-				{% if all_pages %}
-				<div class="row">
-					<div class="span2 columns">
-						<h4>Categories</h4>
-						<ul class="unstyled">
-							{% for page_type in page_types %}
-								{% if page_type.pages %}
-									<li><a href="#{{ page_type.name }}">{{ page_type.long_name }}</a></li>
-								{% endif %}
-							{% endfor %}
-						</ul>
-					</div>
-					<div class="span10 columns">
-						{% for page_type in page_types %}
-							{% if page_type.pages %}
-								<h4 id="{{ page_type.name }}">{{ page_type.long_name }}</h4>
-								<table class="page-table" data-num-pages="{{ page_type.pages.count }}">
-									<thead>
-										{% include page_type.list_header %}
-									</thead>
-									<tbody>
-										{% for page in page_type.pages %}
-											<tr class="page-row" data-semester="{{ page.course_sem.get_slug }}">
-												{% include page_type.list_body %}
-											</tr>
-										{% endfor %}
-									</tbody>
-								</table>
-							{% endif %}
-						{% endfor %}
-						{% comment %}Done with JS, but the fallback is to go straight to the semester page (yes they exist){% endcomment %}
-						<p>Filter by semester: {% for course_sem in course_sems %}<a href="{{ course_sem.get_absolute_url }}" class="semester-filter" data-semester="{{ course_sem.get_slug }}">{{ course_sem.get_semester }}</a> :: {% endfor %} <a href="" id="semester-show">Show all</a></p>
-					</div>
-				</div>
-				{% else %}
-				<p>There are no pages associated with this course! Why not try adding some?</p>
-				{% endif %}
-				<h2>Browse by series</h2>
-				{% if course.series_set.count %}
-				<ul class="unstyled">
-				{% for series in course.series_set.all %}
-					{% with series_total=series.seriespage_set.count %}
-					<li><a href="{{ series.get_absolute_url }}">{{ series.name }}</a> ({{ series_total }} page{{ series_total|pluralize }})</li>
-					{% endwith %}
-				{% endfor %}
-				</ul>
-				{% else %}
-				<p>This course does not have any series.</p>
-				{% endif %}
-				<h2>Other resources</h2>
-				<ul class="unstyled">
-					<li><a href="http://www.docuum.com/McGill/{{ course.department.short_name }}/{{ course.number }}">{{ course }} on Docuum</a></li>
-					<li><a href="http://www.mcgill.ca/study/2012-2013/courses/{{ course.department.short_name }}-{{ course.number }}">{{ course }} in the McGill course listings</a></li>
-				</ul>
-				{% include "pages/create_popup.html" %}
-			</div>
-			<div class="span4 columns" id="right-bar">
-				<div class="row">
-				{% if user.is_authenticated %}
-				<form method="post" action="{{ course.get_absolute_url }}/watch">
-				{% csrf_token %}
-				{% endif %}
-					<div class="half-column">
-						<p><a href="#create-page-popup" class="btn info" id="create-page-button">New page</a></p>
-						<p><strong>Pages:</strong> {{ course.num_pages }}</p>
-					</div>
-					<div class="half-column">
-							<p><input type="submit" class="btn" value="{% if is_watching %}Unwatch{% else %}{% if user.is_authenticated %}Watch{% else %}Login first{% endif %}{% endif %}" /></p>
-							<p><strong>Watchers:</strong> {{ course.num_watchers }}</p>
-					</div>
-				{% if user.is_authenticated %}
-				</form>
-				{% endif %}
-				</div>
-				<hr />
-				<br />
-				<div class="row">
-					<div class="half-column icon-thumb">
-						<p><a href="{{ course.department.get_absolute_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course.department }}" /></a></p>
-						<p>{{ course.department }}</p>
-					</div>
-					<div class="half-column icon-thumb">
-						<p><a href="{{ course.department.faculty.get_absolute_url }}"><img src="{{ course.department.faculty.get_image }}" alt="{{ course.department.faculty }}" title="{{ course.department.faculty }}" /></a></p>
-						<p>{{ course.department.faculty }}</p>
-					</div>
-				</div>
-				<h4>Recent activity</h4>
-				<ul class="unstyled">
-				{% if course.latest_activity %}
-				{% for item in course.recent_activity %}
-					<li>{{ item.user }} {{ item.action }} {% if item.page %}{{ item.page }}{% else %}this course{% endif %}</li>
-				{% endfor %}
-				<li><a href="{{ course.get_absolute_url }}/recent">View all recent changes &raquo;</a></li>
-				{% else %}
-				<li>Nothing has happened recently for this course. Boo.</li>
-				{% endif %}
-				</ul>{% comment %} lol it's better than p{% endcomment %}
-			</div>
-		</div>
-	</section>
+    <section>
+        <h1>{{ course.department.short_name }} {{ course.number}} <small>{{ course.name }}</small></h1>
+        <div class="row">
+            <div class="span12">
+                <ul class="unstyled">
+                    <li><strong>Description:</strong> {{ course.description }}</li>
+                    <li><strong>Credits:</strong> {{ course.credits }}</li>
+                    {% if current_sem %}
+                        {% if current_sem.professors.count %}<li><strong>Current professor{{ current_sem.professors.count|pluralize }}:</strong> {{ current_sem.professors.all|join:", " }}</li>{% endif %}
+                        {% if current_sem.readings %}<li><strong>Readings:</strong> {{ current_sem.readings }}</li>{% endif %}
+                        {% if current_sem.readings %}<li><strong>Evaluation:</strong> {{ current_sem.evaluation }}</li>{% endif %}
+                    {% endif %}
+                </ul>
+                <h2>Browse by category</h2>
+                {% if all_pages %}
+                <div class="row">
+                    <div class="span2 columns">
+                        <h4>Categories</h4>
+                        <ul class="unstyled">
+                            {% for page_type in page_types %}
+                                {% if page_type.pages %}
+                                    <li><a href="#{{ page_type.name }}">{{ page_type.long_name }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="span10 columns">
+                        {% for page_type in page_types %}
+                            {% if page_type.pages %}
+                                <h4 id="{{ page_type.name }}">{{ page_type.long_name }}</h4>
+                                <table class="page-table" data-num-pages="{{ page_type.pages.count }}">
+                                    <thead>
+                                        {% include page_type.list_header %}
+                                    </thead>
+                                    <tbody>
+                                        {% for page in page_type.pages %}
+                                            <tr class="page-row" data-semester="{{ page.course_sem.get_slug }}">
+                                                {% include page_type.list_body %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        {% endfor %}
+                        {% comment %}Done with JS, but the fallback is to go straight to the semester page (yes they exist){% endcomment %}
+                        <p>Filter by semester: {% for course_sem in course_sems %}<a href="{{ course_sem.get_absolute_url }}" class="semester-filter" data-semester="{{ course_sem.get_slug }}">{{ course_sem.get_semester }}</a> :: {% endfor %} <a href="" id="semester-show">Show all</a></p>
+                    </div>
+                </div>
+                {% else %}
+                <p>There are no pages associated with this course! Why not try adding some?</p>
+                {% endif %}
+                <h2>Browse by series</h2>
+                {% if course.series_set.count %}
+                <ul class="unstyled">
+                {% for series in course.series_set.all %}
+                    {% with series_total=series.seriespage_set.count %}
+                    <li><a href="{{ series.get_absolute_url }}">{{ series.name }}</a> ({{ series_total }} page{{ series_total|pluralize }})</li>
+                    {% endwith %}
+                {% endfor %}
+                </ul>
+                {% else %}
+                <p>This course does not have any series.</p>
+                {% endif %}
+                <h2>Other resources</h2>
+                <ul class="unstyled">
+                    <li><a href="http://www.docuum.com/McGill/{{ course.department.short_name }}/{{ course.number }}">{{ course }} on Docuum</a></li>
+                    <li><a href="http://www.mcgill.ca/study/2012-2013/courses/{{ course.department.short_name }}-{{ course.number }}">{{ course }} in the McGill course listings</a></li>
+                </ul>
+                {% include "pages/create_popup.html" %}
+            </div>
+            <div class="span4 columns" id="right-bar">
+                <div class="row">
+                {% if user.is_authenticated %}
+                <form method="post" action="{{ course.get_absolute_url }}/watch">
+                {% csrf_token %}
+                {% endif %}
+                    <div class="half-column">
+                        <p><a href="#create-page-popup" class="btn info" id="create-page-button">New page</a></p>
+                        <p><strong>Pages:</strong> {{ course.num_pages }}</p>
+                    </div>
+                    <div class="half-column">
+                            <p><input type="submit" class="btn" value="{% if is_watching %}Unwatch{% else %}{% if user.is_authenticated %}Watch{% else %}Login first{% endif %}{% endif %}" /></p>
+                            <p><strong>Watchers:</strong> {{ course.num_watchers }}</p>
+                    </div>
+                {% if user.is_authenticated %}
+                </form>
+                {% endif %}
+                </div>
+                <hr />
+                <br />
+                <div class="row">
+                    <div class="half-column icon-thumb">
+                        <p><a href="{{ course.department.get_absolute_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course.department }}" /></a></p>
+                        <p>{{ course.department }}</p>
+                    </div>
+                    <div class="half-column icon-thumb">
+                        <p><a href="{{ course.department.faculty.get_absolute_url }}"><img src="{{ course.department.faculty.get_image }}" alt="{{ course.department.faculty }}" title="{{ course.department.faculty }}" /></a></p>
+                        <p>{{ course.department.faculty }}</p>
+                    </div>
+                </div>
+                <h4>Recent activity</h4>
+                <ul class="unstyled">
+                {% if course.latest_activity %}
+                {% for item in course.recent_activity %}
+                    <li>{{ item.user }} {{ item.action }} {% if item.page %}{{ item.page }}{% else %}this course{% endif %}</li>
+                {% endfor %}
+                <li><a href="{{ course.get_absolute_url }}/recent">View all recent changes &raquo;</a></li>
+                {% else %}
+                <li>Nothing has happened recently for this course. Boo.</li>
+                {% endif %}
+                </ul>{% comment %} lol it's better than p{% endcomment %}
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %}

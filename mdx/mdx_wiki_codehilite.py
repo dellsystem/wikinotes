@@ -28,184 +28,184 @@ pygments = True
 
 # ------------------ The Main CodeHilite Class ----------------------
 class CodeHilite:
-	"""
-	Determine language of source code, and pass it into the pygments hilighter.
+    """
+    Determine language of source code, and pass it into the pygments hilighter.
 
-	Basic Usage:
-		>>> code = CodeHilite(src = 'some text')
-		>>> html = code.hilite()
+    Basic Usage:
+        >>> code = CodeHilite(src = 'some text')
+        >>> html = code.hilite()
 
-	* src: Source string or any object with a .readline attribute.
+    * src: Source string or any object with a .readline attribute.
 
-	* linenos: (Boolen) Turn line numbering 'on' or 'off' (off by default).
+    * linenos: (Boolen) Turn line numbering 'on' or 'off' (off by default).
 
-	* guess_lang: (Boolen) Turn language auto-detection 'on' or 'off' (on by default).
+    * guess_lang: (Boolen) Turn language auto-detection 'on' or 'off' (on by default).
 
-	* css_class: Set class name of wrapper div ('codehilite' by default).
+    * css_class: Set class name of wrapper div ('codehilite' by default).
 
-	Low Level Usage:
-		>>> code = CodeHilite()
-		>>> code.src = 'some text' # String or anything with a .readline attr.
-		>>> code.linenos = True  # True or False; Turns line numbering on or of.
-		>>> html = code.hilite()
+    Low Level Usage:
+        >>> code = CodeHilite()
+        >>> code.src = 'some text' # String or anything with a .readline attr.
+        >>> code.linenos = True  # True or False; Turns line numbering on or of.
+        >>> html = code.hilite()
 
-	"""
+    """
 
-	def __init__(self, src=None, linenos=False, guess_lang=True,
-				css_class="codehilite", lang=None, style='default',
-				noclasses=False, tab_length=4):
-		self.src = src
-		self.lang = lang
-		self.linenos = linenos
-		self.guess_lang = False
-		self.css_class = css_class
-		self.style = style
-		self.noclasses = False
-		self.tab_length = tab_length
+    def __init__(self, src=None, linenos=False, guess_lang=True,
+                css_class="codehilite", lang=None, style='default',
+                noclasses=False, tab_length=4):
+        self.src = src
+        self.lang = lang
+        self.linenos = linenos
+        self.guess_lang = False
+        self.css_class = css_class
+        self.style = style
+        self.noclasses = False
+        self.tab_length = tab_length
 
-	def hilite(self):
-		"""
-		Pass code to the [Pygments](http://pygments.pocoo.org/) highliter with
-		optional line numbers. The output should then be styled with css to
-		your liking. No styles are applied by default - only styling hooks
-		(i.e.: <span class="k">).
+    def hilite(self):
+        """
+        Pass code to the [Pygments](http://pygments.pocoo.org/) highliter with
+        optional line numbers. The output should then be styled with css to
+        your liking. No styles are applied by default - only styling hooks
+        (i.e.: <span class="k">).
 
-		returns : A string of html.
+        returns : A string of html.
 
-		"""
+        """
 
-		self.src = self.src.strip('\n')
+        self.src = self.src.strip('\n')
 
-		if self.lang is None:
-			self._getLang()
+        if self.lang is None:
+            self._getLang()
 
-		try:
-			lexer = get_lexer_by_name(self.lang)
-		except ValueError:
-			try:
-				if self.guess_lang:
-					lexer = guess_lexer(self.src)
-				else:
-					lexer = TextLexer()
-			except ValueError:
-				lexer = TextLexer()
-		formatter = HtmlFormatter(linenos=self.linenos,
-								  cssclass='codehilite',
-								  style=[],
-								  noclasses=self.noclasses)
-		return highlight(self.src, lexer, formatter)
+        try:
+            lexer = get_lexer_by_name(self.lang)
+        except ValueError:
+            try:
+                if self.guess_lang:
+                    lexer = guess_lexer(self.src)
+                else:
+                    lexer = TextLexer()
+            except ValueError:
+                lexer = TextLexer()
+        formatter = HtmlFormatter(linenos=self.linenos,
+                                  cssclass='codehilite',
+                                  style=[],
+                                  noclasses=self.noclasses)
+        return highlight(self.src, lexer, formatter)
 
-	def _getLang(self):
-		"""
-		Determines language of a code block from shebang line and whether said
-		line should be removed or left in place. If the sheband line contains a
-		path (even a single /) then it is assumed to be a real shebang line and
-		left alone. However, if no path is given (e.i.: #!python or :::python)
-		then it is assumed to be a mock shebang for language identifitation of a
-		code fragment and removed from the code block prior to processing for
-		code highlighting. When a mock shebang (e.i: #!python) is found, line
-		numbering is turned on. When colons are found in place of a shebang
-		(e.i.: :::python), line numbering is left in the current state - off
-		by default.
+    def _getLang(self):
+        """
+        Determines language of a code block from shebang line and whether said
+        line should be removed or left in place. If the sheband line contains a
+        path (even a single /) then it is assumed to be a real shebang line and
+        left alone. However, if no path is given (e.i.: #!python or :::python)
+        then it is assumed to be a mock shebang for language identifitation of a
+        code fragment and removed from the code block prior to processing for
+        code highlighting. When a mock shebang (e.i: #!python) is found, line
+        numbering is turned on. When colons are found in place of a shebang
+        (e.i.: :::python), line numbering is left in the current state - off
+        by default.
 
-		"""
+        """
 
-		import re
+        import re
 
-		#split text into lines
-		lines = self.src.split("\n")
-		#pull first line to examine
-		fl = lines.pop(0)
+        #split text into lines
+        lines = self.src.split("\n")
+        #pull first line to examine
+        fl = lines.pop(0)
 
-		c = re.compile(r'''
-			(?:(?:::+)|(?P<shebang>[#]!))	# Shebang or 2 or more colons.
-			(?P<path>(?:/\w+)*[/ ])?		# Zero or 1 path
-			(?P<lang>[\w+-]*)			   # The language
-			''',  re.VERBOSE)
-		# search first line for shebang
-		m = c.search(fl)
-		if m:
-			# we have a match
-			try:
-				self.lang = m.group('lang').lower()
-			except IndexError:
-				self.lang = None
-			if m.group('path'):
-				# path exists - restore first line
-				lines.insert(0, fl)
-			if m.group('shebang'):
-				# shebang exists - use line numbers
-				self.linenos = True
-		else:
-			# No match
-			lines.insert(0, fl)
+        c = re.compile(r'''
+            (?:(?:::+)|(?P<shebang>[#]!))   # Shebang or 2 or more colons.
+            (?P<path>(?:/\w+)*[/ ])?        # Zero or 1 path
+            (?P<lang>[\w+-]*)              # The language
+            ''',  re.VERBOSE)
+        # search first line for shebang
+        m = c.search(fl)
+        if m:
+            # we have a match
+            try:
+                self.lang = m.group('lang').lower()
+            except IndexError:
+                self.lang = None
+            if m.group('path'):
+                # path exists - restore first line
+                lines.insert(0, fl)
+            if m.group('shebang'):
+                # shebang exists - use line numbers
+                self.linenos = True
+        else:
+            # No match
+            lines.insert(0, fl)
 
-		self.src = "\n".join(lines).strip("\n")
+        self.src = "\n".join(lines).strip("\n")
 
 
 
 # ------------------ The Markdown Extension -------------------------------
 class HiliteTreeprocessor(markdown.treeprocessors.Treeprocessor):
-	""" Hilight source code in code blocks. """
+    """ Hilight source code in code blocks. """
 
-	def run(self, root):
-		""" Find code blocks and store in htmlStash. """
-		blocks = root.getiterator('pre')
-		for block in blocks:
-			children = block.getchildren()
-			if len(children) == 1 and children[0].tag == 'code':
-				text = children[0].text
-				split_text = text.split('\n')
-				linenos = False
-				if len(split_text):
-					first_line = split_text[0]
-					# If there's a #python! or a :::python! or a :::! or #! as the first line, yes line numbers
-					linenos = (first_line.startswith(':::') or first_line.startswith('#')) and first_line.endswith('!') and not (' ' in first_line)
-				code = CodeHilite(text,
-							linenos=linenos,
-							guess_lang=self.config['guess_lang'],
-							css_class=self.config['css_class'],
-							style=self.config['pygments_style'],
-							noclasses=[False, 'lol'],
-							tab_length=self.markdown.tab_length)
-				placeholder = self.markdown.htmlStash.store(code.hilite(),
-															safe=True)
-				# Clear codeblock in etree instance
-				block.clear()
-				# Change to p element which will later
-				# be removed when inserting raw html
-				block.tag = 'p'
-				block.text = placeholder
+    def run(self, root):
+        """ Find code blocks and store in htmlStash. """
+        blocks = root.getiterator('pre')
+        for block in blocks:
+            children = block.getchildren()
+            if len(children) == 1 and children[0].tag == 'code':
+                text = children[0].text
+                split_text = text.split('\n')
+                linenos = False
+                if len(split_text):
+                    first_line = split_text[0]
+                    # If there's a #python! or a :::python! or a :::! or #! as the first line, yes line numbers
+                    linenos = (first_line.startswith(':::') or first_line.startswith('#')) and first_line.endswith('!') and not (' ' in first_line)
+                code = CodeHilite(text,
+                            linenos=linenos,
+                            guess_lang=self.config['guess_lang'],
+                            css_class=self.config['css_class'],
+                            style=self.config['pygments_style'],
+                            noclasses=[False, 'lol'],
+                            tab_length=self.markdown.tab_length)
+                placeholder = self.markdown.htmlStash.store(code.hilite(),
+                                                            safe=True)
+                # Clear codeblock in etree instance
+                block.clear()
+                # Change to p element which will later
+                # be removed when inserting raw html
+                block.tag = 'p'
+                block.text = placeholder
 
 
 class CodeHiliteExtension(markdown.Extension):
-	""" Add source code hilighting to markdown codeblocks. """
+    """ Add source code hilighting to markdown codeblocks. """
 
-	def __init__(self, configs):
-		# define default configs
-		self.config = {
-			'force_linenos' : [False, "Force line numbers - Default: False"],
-			'guess_lang' : [True, "Automatic language detection - Default: True"],
-			'css_class' : ["codehilite",
-						   "Set class name for wrapper <div> - Default: codehilite"],
-			'pygments_style' : ['default', 'Pygments HTML Formatter Style (Colorscheme) - Default: default'],
-			'noclasses': [False, 'Use inline styles instead of CSS classes - Default false']
-			}
+    def __init__(self, configs):
+        # define default configs
+        self.config = {
+            'force_linenos' : [False, "Force line numbers - Default: False"],
+            'guess_lang' : [True, "Automatic language detection - Default: True"],
+            'css_class' : ["codehilite",
+                           "Set class name for wrapper <div> - Default: codehilite"],
+            'pygments_style' : ['default', 'Pygments HTML Formatter Style (Colorscheme) - Default: default'],
+            'noclasses': [False, 'Use inline styles instead of CSS classes - Default false']
+            }
 
-		# Override defaults with user settings
-		for key, value in configs:
-			# convert strings to booleans
-			if value == 'True': value = True
-			if value == 'False': value = False
-			self.setConfig(key, value)
+        # Override defaults with user settings
+        for key, value in configs:
+            # convert strings to booleans
+            if value == 'True': value = True
+            if value == 'False': value = False
+            self.setConfig(key, value)
 
-	def extendMarkdown(self, md, md_globals):
-		""" Add HilitePostprocessor to Markdown instance. """
-		hiliter = HiliteTreeprocessor(md)
-		hiliter.config = self.getConfigs()
-		md.treeprocessors.add("hilite", hiliter, "_begin")
+    def extendMarkdown(self, md, md_globals):
+        """ Add HilitePostprocessor to Markdown instance. """
+        hiliter = HiliteTreeprocessor(md)
+        hiliter.config = self.getConfigs()
+        md.treeprocessors.add("hilite", hiliter, "_begin")
 
-		md.registerExtension(self)
+        md.registerExtension(self)
 
 
 def makeExtension(configs={}):

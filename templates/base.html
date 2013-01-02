@@ -1,110 +1,110 @@
 <!DOCTYPE html> 
 <html lang="en"> 
 <head> 
-	<meta charset="utf-8">
-	<title>{% if title %}{{ title }} - {% endif %}WikiNotes</title>
-	<meta name="description" content="{% block meta_description %}Collaborative note-sharing for the courses at McGill University. A free and open resource for students, by students.{% endblock %}">
-	<meta name="author" content="">
+    <meta charset="utf-8">
+    <title>{% if title %}{{ title }} - {% endif %}WikiNotes</title>
+    <meta name="description" content="{% block meta_description %}Collaborative note-sharing for the courses at McGill University. A free and open resource for students, by students.{% endblock %}">
+    <meta name="author" content="">
 
-	<!--[if lt IE 9]>
-	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-	{% if compile_less %}
-	<link href="/static/css/bootstrap.css" rel="stylesheet" />
-	{% else %}
-	<link href="/static/css/bootstrap.less" rel="stylesheet/less" /> 
-	<script src="/static/js/less.min.js"></script>
-	{% endif %}
+    {% if compile_less %}
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    {% else %}
+    <link href="/static/css/bootstrap.less" rel="stylesheet/less" /> 
+    <script src="/static/js/less.min.js"></script>
+    {% endif %}
 
-	<script src="/static/js/jquery.min.js"></script>
-	<script src="/static/js/placeholder.min.js"></script>
-	<script src="/static/js/jquery.fieldselection.min.js"></script>
-	<script src="/static/js/page_course_shit.js"></script>
-	<script src="/static/js/jquery.tablesorter.min.js"></script>
-	<script src="/static/js/jquery.chosen.min.js"></script>
-	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	<script type="text/x-mathjax-config">
-	MathJax.Hub.Config({
-		tex2jax: {
-			inlineMath: [  ['$', '$'] ],
-			processEscapes: true,
-		}
-	});
-	</script>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/placeholder.min.js"></script>
+    <script src="/static/js/jquery.fieldselection.min.js"></script>
+    <script src="/static/js/page_course_shit.js"></script>
+    <script src="/static/js/jquery.tablesorter.min.js"></script>
+    <script src="/static/js/jquery.chosen.min.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [  ['$', '$'] ],
+            processEscapes: true,
+        }
+    });
+    </script>
 
-	<link rel="shortcut icon" href="/static/favicon.ico"> 
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/apple-touch-icon-114x114-precomposed.png"> 
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/apple-touch-icon-72x72-precomposed.png"> 
-	<link rel="apple-touch-icon-precomposed" href="/static/apple-touch-icon-precomposed.png"> 
+    <link rel="shortcut icon" href="/static/favicon.ico"> 
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/apple-touch-icon-114x114-precomposed.png"> 
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/apple-touch-icon-72x72-precomposed.png"> 
+    <link rel="apple-touch-icon-precomposed" href="/static/apple-touch-icon-precomposed.png"> 
 </head> 
 
 <body>
 <div id="wrap">
 <div id="main">
 <div class="topbar"> 
-	<div class="topbar-inner"> 
-		<div class="container"> 
-			<ul class="nav"> 
-				<li><a href="/">Home</a></li>
-				<li><a href="/courses">Courses</a></li>
-				<li><a href="/about">About</a></li>
-				<li><a href="/news">News</a></li>
-				<li><a href="/help">Help</a></li>
-				<li><a href="/contributing">Contributing</a></li>
-			</ul>
-			<div class="right-float">
-		  		<ul class="nav">
-					<li><form action="/search" method="get" id="search-form"><input type="text" name="query" class="medium" placeholder="Search ..." /></form></li>
-					<li><a href="/recent">Recent activity</a></li>
-					{% if not user.is_authenticated %}<li><a href="/register">Register</a></li>{% endif %}
-		  		</ul>
-			</div>
-		</div> 
-	</div> 
+    <div class="topbar-inner"> 
+        <div class="container"> 
+            <ul class="nav"> 
+                <li><a href="/">Home</a></li>
+                <li><a href="/courses">Courses</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/news">News</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/contributing">Contributing</a></li>
+            </ul>
+            <div class="right-float">
+                <ul class="nav">
+                    <li><form action="/search" method="get" id="search-form"><input type="text" name="query" class="medium" placeholder="Search ..." /></form></li>
+                    <li><a href="/recent">Recent activity</a></li>
+                    {% if not user.is_authenticated %}<li><a href="/register">Register</a></li>{% endif %}
+                </ul>
+            </div>
+        </div> 
+    </div> 
 </div>
 
 <div id="header"> 
-	<div class="inner"> 
-		<div class="container"> 
-			<a href="/"><img src="/static/img/logo.png" alt="wikinotes" width="300"></a>
-	 		<div id="login-bar">
-				<form method="post" action="/login">
-				{% csrf_token %}
-				{% if not user.is_authenticated %}
-			 	<p>
-					<input class="medium" type="text" placeholder="Username" name="username" />
-					<input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
-					<input type="submit" class="btn danger" value="Log in" name="login" />
-					<input type="hidden" value="{{ request.path }}" name="path" />
-				</p>
-				<div class="right-float">
-					<span><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;</span>
-				</div>
-				<label id="stay-logged-in">
-					<input type="checkbox" /> <span>Stay logged in</span>
-				</label>
-				{% else %}
-				<div class="right-float"><p><a href="/ucp/" class="btn info">User control panel</a>{% if user.is_staff %} <a href="/admin/" class="btn">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
-				{% load gravatar %}
-				<div id="your-gravatar"><a href="{{ user.get_profile.get_absolute_url }}" title="View your profile"><img src="{% gravatar_for_user user 70 %}" alt="Your Gravatar" /></a></div>
-				{% endif %}
-				</form>
-			</div>
-		</div><!-- /container --> 
-	</div> 
+    <div class="inner"> 
+        <div class="container"> 
+            <a href="/"><img src="/static/img/logo.png" alt="wikinotes" width="300"></a>
+            <div id="login-bar">
+                <form method="post" action="/login">
+                {% csrf_token %}
+                {% if not user.is_authenticated %}
+                <p>
+                    <input class="medium" type="text" placeholder="Username" name="username" />
+                    <input class="medium" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" name="password" />
+                    <input type="submit" class="btn danger" value="Log in" name="login" />
+                    <input type="hidden" value="{{ request.path }}" name="path" />
+                </p>
+                <div class="right-float">
+                    <span><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;</span>
+                </div>
+                <label id="stay-logged-in">
+                    <input type="checkbox" /> <span>Stay logged in</span>
+                </label>
+                {% else %}
+                <div class="right-float"><p><a href="/ucp/" class="btn info">User control panel</a>{% if user.is_staff %} <a href="/admin/" class="btn">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
+                {% load gravatar %}
+                <div id="your-gravatar"><a href="{{ user.get_profile.get_absolute_url }}" title="View your profile"><img src="{% gravatar_for_user user 70 %}" alt="Your Gravatar" /></a></div>
+                {% endif %}
+                </form>
+            </div>
+        </div><!-- /container --> 
+    </div> 
 </div>
 
 {% block content %}{% endblock %}
 </div><!-- /main -->
 </div><!-- /wrap -->
 <div id="footer"> 
-	<div class="inner"> 
-		<div class="container">
-			<p class="right"><a href="#wrap">Back to top</a></p>
-			<p>A free study resource built for McGill students. Powered by <a href="http://www.djangoproject.com">Django</a>. <a href="https://www.github.com/dellsystem/wikinotes">Fork us on GitHub &raquo;</a></p>
-		</div>
-	</div> 
+    <div class="inner"> 
+        <div class="container">
+            <p class="right"><a href="#wrap">Back to top</a></p>
+            <p>A free study resource built for McGill students. Powered by <a href="http://www.djangoproject.com">Django</a>. <a href="https://www.github.com/dellsystem/wikinotes">Fork us on GitHub &raquo;</a></p>
+        </div>
+    </div> 
 </div>
 </body> 
 </html>

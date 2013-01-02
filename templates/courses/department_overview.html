@@ -2,33 +2,33 @@
 
 {% block content %}
 <div class="container"> 
-	<section> 
-		<div class="page-header">
-			<h1>{{ dept.long_name }} ({{ dept.short_name }})</h1>
-		</div>
-		<br />
-		<div class="row">
-			<div class="span2 icon-thumb">
-				<img src="{{ dept.get_image }}" title="{{ dept.long_name }}" />
-			</div>
-			<div class="span14 justify-align">
-				<p><a href="{{ dept.faculty.get_absolute_url }}">{{ dept.faculty }}</a></p>
-				<p><strong>{{ num_pages }}</strong> pages in <strong>{{ courses.count }}</strong> courses</p>
-			</div>
-		</div>
-		<h2>Courses</h2>
-		{% if courses %}
-		<ul>
-			{% for course in courses %}
-			<li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
-			{% endfor %}
-		</ul>
-		{% endif %}
-		<h2>Active contributors</h2>
-		<p>List of people who have made a lot of edits to courses (maybe order in terms of deltas) in this department</p>
-		<h2>Recent activity</h2>
-		<p>List of recent edits/etc to courses in this department</p>
-	</section> 
+    <section> 
+        <div class="page-header">
+            <h1>{{ dept.long_name }} ({{ dept.short_name }})</h1>
+        </div>
+        <br />
+        <div class="row">
+            <div class="span2 icon-thumb">
+                <img src="{{ dept.get_image }}" title="{{ dept.long_name }}" />
+            </div>
+            <div class="span14 justify-align">
+                <p><a href="{{ dept.faculty.get_absolute_url }}">{{ dept.faculty }}</a></p>
+                <p><strong>{{ num_pages }}</strong> pages in <strong>{{ courses.count }}</strong> courses</p>
+            </div>
+        </div>
+        <h2>Courses</h2>
+        {% if courses %}
+        <ul>
+            {% for course in courses %}
+            <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <h2>Active contributors</h2>
+        <p>List of people who have made a lot of edits to courses (maybe order in terms of deltas) in this department</p>
+        <h2>Recent activity</h2>
+        <p>List of recent edits/etc to courses in this department</p>
+    </section> 
 </div>
-	
+    
 {% endblock %}

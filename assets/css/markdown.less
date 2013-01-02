@@ -1,221 +1,221 @@
 .printview {
-	padding: 20px;
-	h1 {
-		padding-bottom: 0px;
-	}
+    padding: 20px;
+    h1 {
+        padding-bottom: 0px;
+    }
 }
 
 #print-intro {
-	#font .serif;
-	font-size: 12px;
-	font-style: italic;
-	border-bottom: 1px solid @grayDark;
-	padding-bottom: 20px;
-	margin-bottom: 25px;
-	padding-left: 25px;
+    #font .serif;
+    font-size: 12px;
+    font-style: italic;
+    border-bottom: 1px solid @grayDark;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    padding-left: 25px;
 }
 
 .markdown {
-	h2, h3, h4, h5, h6 {
-		span {
-			color: @grayLight;
-			padding-right: 8px;
-		}
-	}
-	h2 {
-		.font-height(26px);
-		border-bottom: 1px dashed #A0A0A0;
-	}
-	h3 {
-		.font-height(21px);
-		border-bottom: 1px dashed @grayLight;
-	}
-	h4 {
-		.font-height(17px);
-		border-bottom: 1px dashed #CCC;
-	}
-	h5 {
-		.font-height(14px);
-	}
-	h6 {
-		.font-height(12px);
-		text-transform: none;
-		color: @grayDark;
-	}
-	p {
-		padding: 7px 0px;
-	}
-	ul, ol {
-		margin-bottom: 0px;
-		padding: 0px;
-	}
-	dl {
-		padding-bottom: 0px;
-		dt, dd {
-			line-height: 24px;
-		}
-		dd {
-			margin-left: 20px;
-		}
-	}
-	.footnote {
-		padding-top: 20px;
-		ol {
-			padding-top: 13px;
-		}
-	}
-	table {
-		thead {
-			#gradient > .vertical(#53B8D6, #53B8D6-#111);
-			color: @white;
-		}
-		margin: 10px 0px; // hopefully this won't mess up the sticky footer
-		&.column {
-			.clear;
-			th, td {
-				font-weight: normal;
-				&:first-child {
-					font-weight: bold;
-				}
-			}
-		}
-		&.clear {
-			thead {
-				color: @black;
-				#gradient > .vertical(@white, @white); // overriding etc
-			}
-		}
-		&.autumn {
-			thead {
-				#gradient > .vertical(@orange, lighten(@orange, 10%));
-			}
-			tbody {
-				background-color: #FCFFE5;
-			}
-		}
-		&.fresh {
-			thead {
-				#gradient > .vertical(@green, lighten(@green, 10%));
-			}
-		}
-		&.iris {
-			thead {
-				#gradient > .vertical(@purple, lighten(@purple, 10%));
-			}
-			tbody {
-				background-color: #FAE6F6;
-			}
-		}
-		&.ribbon {
-			thead {
-				#gradient > .vertical(@red, lighten(@red, 10%));
-			}
-		}
-		&.lights {
-			thead {
-				#gradient > .vertical(#BFD4FE, #B9CFFE);
-				color: @black;
-			}
-			tbody {
-				background-color: #F3F5FB;
-			}
-		}
-	}
-	blockquote {
-		padding: 7px 15px;
-		margin: 7px 0px;
-		p {
-			font-size: 13px;
-		}
-	}
-	// Things after headers that are not headers should have top padding
-	h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, h2 + dl, h3 + dl, h4 + dl, h5 + dl, h6 + dl, h2 + ul, h3 + ul, h4 + ul, h5 + ul, h6 + ul, h2 + ol, h3 + ol, h4 + ol, h5 + ol, h6 + ol {
-		padding-top: 15px;
-	}
-	table + table, h2 + table, h3 + table, h4 + table, h5 + table, h6 + table, h2 + pre, h3 + pre, h4 + pre, h5 + pre, h6 + pre {
-		margin-top: 20px;
-	}
-	p + h2, p + h3, p + h4, p + h5, p + h6, dl + h2, dl + h3, dl + h4, dl + h5, dl + h6 {
-		padding-top: 30px;
-	}
-	.codehilitetable {
-		pre {
-			border: 0px;
-			margin: 0px;
-		}
-		.linenos {
-			width: 10px;
-			padding: 0px;
-			pre {
-				.border-radius(0px);
-				background-color: @grayLight;
-			}
-		}
-		.code {
-			.border-radius(0px);
-			padding: 0px;
-			.codehilite {
-				margin-top: 0px;
-			}
-		}
-	}
-	.codehilite {
-		margin-top: 20px;
-		pre {
-			color: @white;
-			background-color: #222;
-		}
-	}
-	pre > code {
-		background-color: inherit;
-		.border-radius(0px);
-	}
-	.toc {
-		padding: 10px;
-		margin-top: 15px;
-		width: 350px;
-		ul ul {
-			padding: 0px;
-		}
-		border: 1px solid @grayLight;
-	}
-	hr {
-		margin: 7px 0px;
-	}
-	.answer-clicked label {
-		font-weight: bold;
-		cursor: pointer;
-	}
+    h2, h3, h4, h5, h6 {
+        span {
+            color: @grayLight;
+            padding-right: 8px;
+        }
+    }
+    h2 {
+        .font-height(26px);
+        border-bottom: 1px dashed #A0A0A0;
+    }
+    h3 {
+        .font-height(21px);
+        border-bottom: 1px dashed @grayLight;
+    }
+    h4 {
+        .font-height(17px);
+        border-bottom: 1px dashed #CCC;
+    }
+    h5 {
+        .font-height(14px);
+    }
+    h6 {
+        .font-height(12px);
+        text-transform: none;
+        color: @grayDark;
+    }
+    p {
+        padding: 7px 0px;
+    }
+    ul, ol {
+        margin-bottom: 0px;
+        padding: 0px;
+    }
+    dl {
+        padding-bottom: 0px;
+        dt, dd {
+            line-height: 24px;
+        }
+        dd {
+            margin-left: 20px;
+        }
+    }
+    .footnote {
+        padding-top: 20px;
+        ol {
+            padding-top: 13px;
+        }
+    }
+    table {
+        thead {
+            #gradient > .vertical(#53B8D6, #53B8D6-#111);
+            color: @white;
+        }
+        margin: 10px 0px; // hopefully this won't mess up the sticky footer
+        &.column {
+            .clear;
+            th, td {
+                font-weight: normal;
+                &:first-child {
+                    font-weight: bold;
+                }
+            }
+        }
+        &.clear {
+            thead {
+                color: @black;
+                #gradient > .vertical(@white, @white); // overriding etc
+            }
+        }
+        &.autumn {
+            thead {
+                #gradient > .vertical(@orange, lighten(@orange, 10%));
+            }
+            tbody {
+                background-color: #FCFFE5;
+            }
+        }
+        &.fresh {
+            thead {
+                #gradient > .vertical(@green, lighten(@green, 10%));
+            }
+        }
+        &.iris {
+            thead {
+                #gradient > .vertical(@purple, lighten(@purple, 10%));
+            }
+            tbody {
+                background-color: #FAE6F6;
+            }
+        }
+        &.ribbon {
+            thead {
+                #gradient > .vertical(@red, lighten(@red, 10%));
+            }
+        }
+        &.lights {
+            thead {
+                #gradient > .vertical(#BFD4FE, #B9CFFE);
+                color: @black;
+            }
+            tbody {
+                background-color: #F3F5FB;
+            }
+        }
+    }
+    blockquote {
+        padding: 7px 15px;
+        margin: 7px 0px;
+        p {
+            font-size: 13px;
+        }
+    }
+    // Things after headers that are not headers should have top padding
+    h2 + p, h3 + p, h4 + p, h5 + p, h6 + p, h2 + dl, h3 + dl, h4 + dl, h5 + dl, h6 + dl, h2 + ul, h3 + ul, h4 + ul, h5 + ul, h6 + ul, h2 + ol, h3 + ol, h4 + ol, h5 + ol, h6 + ol {
+        padding-top: 15px;
+    }
+    table + table, h2 + table, h3 + table, h4 + table, h5 + table, h6 + table, h2 + pre, h3 + pre, h4 + pre, h5 + pre, h6 + pre {
+        margin-top: 20px;
+    }
+    p + h2, p + h3, p + h4, p + h5, p + h6, dl + h2, dl + h3, dl + h4, dl + h5, dl + h6 {
+        padding-top: 30px;
+    }
+    .codehilitetable {
+        pre {
+            border: 0px;
+            margin: 0px;
+        }
+        .linenos {
+            width: 10px;
+            padding: 0px;
+            pre {
+                .border-radius(0px);
+                background-color: @grayLight;
+            }
+        }
+        .code {
+            .border-radius(0px);
+            padding: 0px;
+            .codehilite {
+                margin-top: 0px;
+            }
+        }
+    }
+    .codehilite {
+        margin-top: 20px;
+        pre {
+            color: @white;
+            background-color: #222;
+        }
+    }
+    pre > code {
+        background-color: inherit;
+        .border-radius(0px);
+    }
+    .toc {
+        padding: 10px;
+        margin-top: 15px;
+        width: 350px;
+        ul ul {
+            padding: 0px;
+        }
+        border: 1px solid @grayLight;
+    }
+    hr {
+        margin: 7px 0px;
+    }
+    .answer-clicked label {
+        font-weight: bold;
+        cursor: pointer;
+    }
 }
 
 .correct {
-	color: @green !important;
+    color: @green !important;
 }
 
 .incorrect {
-	color: #FF0000;
+    color: #FF0000;
 }
 
 #grade-answers {
-	margin-top: 10px;
-	.hidden;
-	span {
-		.incorrect;
-		margin-left: 5px;
-		.hidden;
-		i {
-			font-style: normal;
-		}
-	}
+    margin-top: 10px;
+    .hidden;
+    span {
+        .incorrect;
+        margin-left: 5px;
+        .hidden;
+        i {
+            font-style: normal;
+        }
+    }
 }
 
 .is-question ul {
-	list-style-type: none;
-	label {
-		float: none;
-	}
+    list-style-type: none;
+    label {
+        float: none;
+    }
 }
 
 .js-explanation {
-	.hidden;
+    .hidden;
 }

@@ -2,27 +2,27 @@
 
 {% block content %}
 <div class="container">
-	<section>
-		<div class="page-header">
-			<h1>Courses - Browse by professor</h1>
-		</div>
-		<div class="row">
-			<div class="span16 columns">
-				<p>Shows all the courses, listed alphabetically under the relevant professor.</p>
-				{% for dept in departments %}
-				<h2>{{ dept.long }} <small><a href="/{{ dept.short }}">&raquo; View department page</a></small></h2>
-				{% if dept.courses %}
-					<ul class="unstyled">
-					{% for course in dept.courses %}
-						<li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
-					{% endfor %}
-					</ul>
-				{% else %}
-				<p>No courses in this department</p>
-				{% endif %}
-				{% endfor %}
-			</div>
-		</div>
-	</section>
+    <section>
+        <div class="page-header">
+            <h1>Courses - Browse by professor</h1>
+        </div>
+        <div class="row">
+            <div class="span16 columns">
+                <p>Shows all the courses, listed alphabetically under the relevant professor.</p>
+                {% for dept in departments %}
+                <h2>{{ dept.long }} <small><a href="/{{ dept.short }}">&raquo; View department page</a></small></h2>
+                {% if dept.courses %}
+                    <ul class="unstyled">
+                    {% for course in dept.courses %}
+                        <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                <p>No courses in this department</p>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %}

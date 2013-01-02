@@ -31,26 +31,26 @@ import markdown
 SUPERSCRIPT_RE = r'(\^)([^\^]*)\2'  # the number is a superscript^2^
 
 class SuperscriptPattern(markdown.inlinepatterns.Pattern):
-	""" Return a superscript Element (`word^2^`). """
-	def handleMatch(self, m):
-		supr = m.group(3)
+    """ Return a superscript Element (`word^2^`). """
+    def handleMatch(self, m):
+        supr = m.group(3)
 
-		text = supr
+        text = supr
 
-		el = markdown.util.etree.Element("sup")
-		el.text = markdown.util.AtomicString(text)
-		return el
+        el = markdown.util.etree.Element("sup")
+        el.text = markdown.util.AtomicString(text)
+        return el
 
 class SuperscriptExtension(markdown.Extension):
-	""" Superscript Extension for Python-Markdown. """
+    """ Superscript Extension for Python-Markdown. """
 
-	def extendMarkdown(self, md, md_globals):
-		""" Replace superscript with SuperscriptPattern """
-		md.inlinePatterns['superscript'] = SuperscriptPattern(SUPERSCRIPT_RE, md)
+    def extendMarkdown(self, md, md_globals):
+        """ Replace superscript with SuperscriptPattern """
+        md.inlinePatterns['superscript'] = SuperscriptPattern(SUPERSCRIPT_RE, md)
 
 def makeExtension(configs=None):
-	return SuperscriptExtension(configs=configs)
+    return SuperscriptExtension(configs=configs)
 
 if __name__ == "__main__":
-	import doctest
-	doctest.testmod()
+    import doctest
+    doctest.testmod()

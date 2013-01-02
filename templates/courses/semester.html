@@ -2,34 +2,34 @@
 
 {% block content %}
 <div class="container">
-	<section>
-		<ul class="breadcrumb">
-			 <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
-			<li class="active">{{ course_sem.get_semester }}</li>
-		</ul>
-		<h1>{{ course_sem.get_semester }}</h1>
-		<hr />
-		{% if pages %}
-			<br />
-			<table class="zebra-striped">
-				<thead>
-					<tr>
-						<th style="width: 60%;">Page</th>
-						<th style="width: 20%;">Category</th>
-						<th style="width: 20%;">Professor</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for page in pages %}
-					<tr>
-						<td>{% include page.get_type.get_cell_template %}</td>
-						<td><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a></td>
-						<td>{% if page.professor %}<a href="{{ page.professor }}">{{ page.professor }}</a>{% else %}N/A{% endif %}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		{% endif %}
-	</section>
+    <section>
+        <ul class="breadcrumb">
+             <li><a href="{{ course.get_absolute_url }}">{{ course }}</a> <span class="divider">&raquo;</span></li>
+            <li class="active">{{ course_sem.get_semester }}</li>
+        </ul>
+        <h1>{{ course_sem.get_semester }}</h1>
+        <hr />
+        {% if pages %}
+            <br />
+            <table class="zebra-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 60%;">Page</th>
+                        <th style="width: 20%;">Category</th>
+                        <th style="width: 20%;">Professor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for page in pages %}
+                    <tr>
+                        <td>{% include page.get_type.get_cell_template %}</td>
+                        <td><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a></td>
+                        <td>{% if page.professor %}<a href="{{ page.professor }}">{{ page.professor }}</a>{% else %}N/A{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </section>
 </div>
 {% endblock %}

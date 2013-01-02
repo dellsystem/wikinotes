@@ -2,53 +2,53 @@
 
 {% block content %}
 <div class="container"> 
-	<section> 
-		<div class="page-header">
-			<h1>{{ faculty }}</h1>
-		</div>
-		<div class="row">
-			<div class="span2 center-align icon-thumb">
-				<img src="{{ faculty.get_image }}" title="{{ faculty }}" />
-			</div>
-			<div class="span14">
-				<p>{{ faculty }}</p>
-			</div>
-		</div>
-		<h1>Departments</h1>
-		<div class="row">
-		{% for dept in departments %}
-			<div class="span2 center-align icon-thumb">
-				<a href="{{ dept.get_absolute_url }}"><img src="{{ dept.get_image }}" title="Department of {{ dept.long_name }} ({{ dept.short_name }})" /></a>
-				<p><a href="{{ dept.get_absolute_url }}">{{ dept.short_name }}</a></p>
-			</div>
-		{% if forloop.counter|divisibleby:8 %}
-			</div>
-			<div class="row">
-		{% endif %}
-		{% empty %}
-		<p>This faculty has no departments</p>
-		{% endfor %}
-		</div>
-		<h1>Courses</h1>
-		<div class="row">
-		{% for course in courses %}
-			<div class="span2 center-align icon-thumb">
-				<a href="{{ course.get_absolute_url }}"><img src="{{ course.department.get_image }}" title="{{ course }} ({{ course.name }})" /></a>
-				<p><a href="{{ course.get_absolute_url }}">{{ course }}</a></p>
-			</div>
-		{% if forloop.counter|divisibleby:8 %}
-			</div>
-			<div class="row">
-		{% endif %}
-		{% empty %}
-		<p>This faculty also has no courses</p>
-		{% endfor %}
-		</div>
-		<h2>Active contributors</h2>
-		<p>List of people who have made a lot of edits to courses (maybe order in terms of deltas) in this faculty</p>
-		<h2>Recent activity</h2>
-		<p>List of recent edits/etc to courses in this faculty</p>
-	</section> 
+    <section> 
+        <div class="page-header">
+            <h1>{{ faculty }}</h1>
+        </div>
+        <div class="row">
+            <div class="span2 center-align icon-thumb">
+                <img src="{{ faculty.get_image }}" title="{{ faculty }}" />
+            </div>
+            <div class="span14">
+                <p>{{ faculty }}</p>
+            </div>
+        </div>
+        <h1>Departments</h1>
+        <div class="row">
+        {% for dept in departments %}
+            <div class="span2 center-align icon-thumb">
+                <a href="{{ dept.get_absolute_url }}"><img src="{{ dept.get_image }}" title="Department of {{ dept.long_name }} ({{ dept.short_name }})" /></a>
+                <p><a href="{{ dept.get_absolute_url }}">{{ dept.short_name }}</a></p>
+            </div>
+        {% if forloop.counter|divisibleby:8 %}
+            </div>
+            <div class="row">
+        {% endif %}
+        {% empty %}
+        <p>This faculty has no departments</p>
+        {% endfor %}
+        </div>
+        <h1>Courses</h1>
+        <div class="row">
+        {% for course in courses %}
+            <div class="span2 center-align icon-thumb">
+                <a href="{{ course.get_absolute_url }}"><img src="{{ course.department.get_image }}" title="{{ course }} ({{ course.name }})" /></a>
+                <p><a href="{{ course.get_absolute_url }}">{{ course }}</a></p>
+            </div>
+        {% if forloop.counter|divisibleby:8 %}
+            </div>
+            <div class="row">
+        {% endif %}
+        {% empty %}
+        <p>This faculty also has no courses</p>
+        {% endfor %}
+        </div>
+        <h2>Active contributors</h2>
+        <p>List of people who have made a lot of edits to courses (maybe order in terms of deltas) in this faculty</p>
+        <h2>Recent activity</h2>
+        <p>List of recent edits/etc to courses in this faculty</p>
+    </section> 
 </div>
-	
+    
 {% endblock %}

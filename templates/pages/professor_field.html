@@ -2,11 +2,11 @@
 
 
 <div class="input">
-	<select name="professor_id" data-placeholder="Select a professor (optional)" id="professor-select" class="chzn-select">
-		<option value="">Select a professor (optional)</option>
-		{% for professor in professors %}
-		<option value="{{ professor.id }}"{% if current_professor == professor.id %} selected="selected"{% else %} data-name=""{% endif %}>{{ professor }}</option>
-		{% endfor %}
-	</select>
-	<span>Can't find your professor in the list? Send us an email at admin@wikinotes.ca.</span>
+    <select name="professor_id" data-placeholder="Select a professor (optional)" id="professor-select" class="chzn-select">
+        <option value="">Select a professor (optional)</option>
+        {% for professor in professors %}
+        <option value="{{ professor.id }}"{% if current_professor == professor.id %} selected="selected"{% else %} data-name=""{% endif %}>{{ professor }}</option>
+        {% endfor %}
+    </select>
+    <span>Can't find your professor in the list? Send us an email at admin@wikinotes.ca.</span>
 </div>

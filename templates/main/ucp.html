@@ -2,14 +2,14 @@
 
 {% block content %}
 <div class="container">
-	<section>
-			<h1>User control panel</h1>
-			<ul class="tabs">
-			{% for mode_name in modes %}
-				<li{% if mode_name == mode %} class="active"{% endif %}><a href="/ucp/{{ mode_name }}">{{ mode_name|title }}</a></li>
-			{% endfor %}
-			</ul>
-			{% include template %}
-	</section>
+    <section>
+            <h1>User control panel</h1>
+            <ul class="tabs">
+            {% for mode_name in modes %}
+                <li{% if mode_name == mode %} class="active"{% endif %}><a href="/ucp/{{ mode_name }}">{{ mode_name|title }}</a></li>
+            {% endfor %}
+            </ul>
+            {% include template %}
+    </section>
 </div>
 {% endblock %}

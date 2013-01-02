@@ -3,393 +3,393 @@
 @footer-height: 80px;
 
 html, body {
-	height: 100%;
-	min-width: 1200px;
+    height: 100%;
+    min-width: 1200px;
 }
 
 #wrap {
-	min-height: 100%;
+    min-height: 100%;
 }
 
 #main {
-	overflow-y: auto;
-	overflow-x: hidden;
-	padding-bottom: @footer-height + 20;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: @footer-height + 20;
 }
 
 // Opera fix apparently
 body:before {
-	content: "";
-	height: 100%;
-	float: left;
-	width: 0;
-	margin-top: -90000001;
+    content: "";
+    height: 100%;
+    float: left;
+    width: 0;
+    margin-top: -90000001;
 }
 
 /* Body and structure
 -------------------------------------------------- */
 
 body {
-	background-color: #FFF;
+    background-color: #FFF;
 }
 
 section {
-	padding-top: 25px;
-	.row {
-		padding-bottom: 10px;
-	}
+    padding-top: 25px;
+    .row {
+        padding-bottom: 10px;
+    }
 }
 
 #footer {
-	position: absolute;
-	width: 100%;
-	margin-top: -@footer-height;
-	height: @footer-height;
-	clear: both;
-	background-color: #53B8D6-#222;
-	color: #fff;
-	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    position: absolute;
+    width: 100%;
+    margin-top: -@footer-height;
+    height: @footer-height;
+    clear: both;
+    background-color: #53B8D6-#222;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
 
-	div.inner {
-		height: 50px;
-		p {
-			padding-top: 30px;
-			height: 50px;
-			padding-bottom: 0px;
-		}
-		//background: transparent url(/static/img/grid.png) top center;
-		.box-shadow(inset 0px 20px 20px rgba(0, 0, 0, 0.2));
-	}
-	overflow-x: hidden; // opera
+    div.inner {
+        height: 50px;
+        p {
+            padding-top: 30px;
+            height: 50px;
+            padding-bottom: 0px;
+        }
+        //background: transparent url(/static/img/grid.png) top center;
+        .box-shadow(inset 0px 20px 20px rgba(0, 0, 0, 0.2));
+    }
+    overflow-x: hidden; // opera
 
-	a { color: #FFF; font-weight: bold; }
+    a { color: #FFF; font-weight: bold; }
 }
 
 
 #header {
-	//background-image: url(/static/img/header.png);
-	//background-position: 0px 40px;
-	#gradient > .vertical(#E5FBFF, #B1D8E0);
-	color: @grayDark;
-	
-	div.inner {
-		padding: 30px 0;
-		//.box-shadow(inset 0 10px 30px rgba(0, 0, 0, 0.3));
-	}
+    //background-image: url(/static/img/header.png);
+    //background-position: 0px 40px;
+    #gradient > .vertical(#E5FBFF, #B1D8E0);
+    color: @grayDark;
+    
+    div.inner {
+        padding: 30px 0;
+        //.box-shadow(inset 0 10px 30px rgba(0, 0, 0, 0.3));
+    }
 
-	span {
-		a, label { color: @black; font-weight: bold; }
-	}
+    span {
+        a, label { color: @black; font-weight: bold; }
+    }
 }
 
 .leading-bar {
-	#gradient > .vertical(#FEFEFE, #F5F5F5);
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #eee;
-	padding-top: 15px;
-	h6 {
-		line-height: 18px;
-		color: #888;
-	}
-	.span11 {
-		// To vertically align the right portion
-		padding-top: 5px;
-	}
-	#course-search-box {
-		width: 300px;
-	}
+    #gradient > .vertical(#FEFEFE, #F5F5F5);
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #eee;
+    padding-top: 15px;
+    h6 {
+        line-height: 18px;
+        color: #888;
+    }
+    .span11 {
+        // To vertically align the right portion
+        padding-top: 5px;
+    }
+    #course-search-box {
+        width: 300px;
+    }
 }
 
 #footer p.right {
-	float: right;
+    float: right;
 }
 
 #search-form {
-	display: inline;
+    display: inline;
 }
 
 #login-bar {
-	float: right;
-	position: relative;
-	top: 10px;
+    float: right;
+    position: relative;
+    top: 10px;
 }
 
 #stay-logged-in {
-	// To override the label styling
-	padding-top: 0px;
-	text-align: left;
-	input {
-		margin-top: -1px; // it's important
-		vertical-align: middle; // important too for some reason
-	}
-	span {
-		vertical-align: top; // otherwise the positioning is all off
-	}
+    // To override the label styling
+    padding-top: 0px;
+    text-align: left;
+    input {
+        margin-top: -1px; // it's important
+        vertical-align: middle; // important too for some reason
+    }
+    span {
+        vertical-align: top; // otherwise the positioning is all off
+    }
 }
 
 #right-bar {
-	#gradient > .vertical(#EEE, #E0E0E0);
-	text-align: center;
-	padding: 10px;
-	width: 200px;
-	hr {
-		color: @grayLight;
-		background-color: @grayLight;
-		height: 5px;
-		margin-bottom: 5px;
-	}
-	ul {
-		text-align: left;
-	}
+    #gradient > .vertical(#EEE, #E0E0E0);
+    text-align: center;
+    padding: 10px;
+    width: 200px;
+    hr {
+        color: @grayLight;
+        background-color: @grayLight;
+        height: 5px;
+        margin-bottom: 5px;
+    }
+    ul {
+        text-align: left;
+    }
 }
 
 #right-bar2 {
-	#right-bar;
-	width: 250px;
+    #right-bar;
+    width: 250px;
 }
 
 .course-icon {
-	width: 100px;
-	.inline-block;
+    width: 100px;
+    .inline-block;
 }
 
 ul.toc ul {
-	padding-left: 25px;
+    padding-left: 25px;
 }
 
 .half-column {
-	display: inline;
-	width: 95px;
-	float: left;
-	text-align: center;
-	margin-left: 15px;
+    display: inline;
+    width: 95px;
+    float: left;
+    text-align: center;
+    margin-left: 15px;
 }
 
 .left-align {
-	text-align: left;
+    text-align: left;
 }
 
 .right-align {
-	text-align: right;
+    text-align: right;
 }
 
 .center-align {
-	text-align: center;
+    text-align: center;
 }
 
 .justify-align {
-	text-align: justify;
+    text-align: justify;
 }
 
 .right-float {
-	float: right;
+    float: right;
 }
 
 // for fieldsets mostly
 .grey-box {
-	#gradient > .vertical(#F3F3F3, #EEE);
-	width: 940px;
-	padding: 10px;
-	.input {
-		input, textarea {
-			width: 770px;
-		}
-	}
-	&#content-box {
-		textarea {
-			width: 930px;
-			height: 400px;
-		}
-	}
+    #gradient > .vertical(#F3F3F3, #EEE);
+    width: 940px;
+    padding: 10px;
+    .input {
+        input, textarea {
+            width: 770px;
+        }
+    }
+    &#content-box {
+        textarea {
+            width: 930px;
+            height: 400px;
+        }
+    }
 }
 
 // For fullscreening the text boxes
 .fullscreen {
-	width: 100% !important;
-	height: 100% !important;
-	position: fixed !important;
-	top: 0;
-	left: 0;
-	z-index: 9001;
-	p {
-		padding-right: 25px; // otherwise it goes off the screen a bit
-	}
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    z-index: 9001;
+    p {
+        padding-right: 25px; // otherwise it goes off the screen a bit
+    }
 }
 
 ol.multiple-choice {
-	list-style-type: lower-alpha;
+    list-style-type: lower-alpha;
 }
 
 table img {
-	vertical-align: middle; /* can't tell if this looks better or not */
+    vertical-align: middle; /* can't tell if this looks better or not */
 }
 
 table &.centered {
-	th, td {
-		text-align: center;
-	}
+    th, td {
+        text-align: center;
+    }
 }
 
 .social-buttons img {
-	height: 36px;
-	width: 36px;
+    height: 36px;
+    width: 36px;
 }
 
 .icon-thumb {
-	img {
-		width: 80px;
-		height: 80px;
-	}
+    img {
+        width: 80px;
+        height: 80px;
+    }
 }
 
 .course-icons {
-	.inline-block;
-	padding: 5px;
-	text-align: center;
-	.icon-thumb;
+    .inline-block;
+    padding: 5px;
+    text-align: center;
+    .icon-thumb;
 }
 
 .radio-group {
-	.radio-button {
-		margin: 0px 2px;
-		.btn;
-		width: 50px;
-		text-align: center;
-	}
-	.inline-block;
-	margin: 0px 5px;
-	&.wide label {
-		width: 50px;
-	}
-	&.narrow label {
-		width: 30px;
-	}
+    .radio-button {
+        margin: 0px 2px;
+        .btn;
+        width: 50px;
+        text-align: center;
+    }
+    .inline-block;
+    margin: 0px 5px;
+    &.wide label {
+        width: 50px;
+    }
+    &.narrow label {
+        width: 30px;
+    }
 }
 
 // Font size and line height lol
 .font-height(@size) {
-	font-size: @size;
-	line-height: @size + 10;
-	padding: 13px 0px;
+    font-size: @size;
+    line-height: @size + 10;
+    padding: 13px 0px;
 }
 
 #wiki-page {
-	padding-top: 10px;
-	.markdown;
+    padding-top: 10px;
+    .markdown;
 }
 
 .page-table {
-	.zebra-striped;
+    .zebra-striped;
 }
 
 #edit-buttons {
-	p {
-		padding-top: 7px;
-		color: @gray;
-		padding-left: 3px;
-		line-height: 13px;
-		&.error {
-			color: @red;
-		}
-	}
+    p {
+        padding-top: 7px;
+        color: @gray;
+        padding-left: 3px;
+        line-height: 13px;
+        &.error {
+            color: @red;
+        }
+    }
 }
 
 .hidden {
-	display: none;
+    display: none;
 }
 
 #inline-edit-box {
-	.hidden;
-	padding-top: 15px;
-	textarea {
-		width: 932px; // 8px of left-right padding
-		height: 150px;
-	}
-	.edit-buttons {
-		padding-top: 10px;
-	}
+    .hidden;
+    padding-top: 15px;
+    textarea {
+        width: 932px; // 8px of left-right padding
+        height: 150px;
+    }
+    .edit-buttons {
+        padding-top: 10px;
+    }
 }
 
 #content-preview {
-	.hidden;
-	clear: both;
-	.markdown;
-	width: 940px;
-	//padding: 19px;
-	//border: 1px solid (@grayLight + #222);
-	background-color: @white;
+    .hidden;
+    clear: both;
+    .markdown;
+    width: 940px;
+    //padding: 19px;
+    //border: 1px solid (@grayLight + #222);
+    background-color: @white;
 }
 
 #content-textarea {
-	#font > .monospace(normal, 13px, 17px);
-	color: #222;
+    #font > .monospace(normal, 13px, 17px);
+    color: #222;
 }
 
 .inline-edit {
-	float: right;
-	clear: both;
-	position: relative;
-	top: 10px;
-	.inline-edit-preview {
-		.hidden;
-	}
+    float: right;
+    clear: both;
+    position: relative;
+    top: 10px;
+    .inline-edit-preview {
+        .hidden;
+    }
 }
 
 #commit-diff {
-	.diff-green {
-		background-color: @green;
-		color: @white;
-	}
-	.diff-red {
-		background-color: @red;
-		color: @white;
-	}
+    .diff-green {
+        background-color: @green;
+        color: @white;
+    }
+    .diff-red {
+        background-color: @red;
+        color: @white;
+    }
 }
 
 #commit-history {
-	.green-bar {
-		height: 7px;
-		background-color: @green;
-	}
-	.red-bar {
-		.green-bar;
-		background-color: lighten(@red, 15%);
-	}
+    .green-bar {
+        height: 7px;
+        background-color: @green;
+    }
+    .red-bar {
+        .green-bar;
+        background-color: lighten(@red, 15%);
+    }
 }
 
 .inline-block {
-	display: inline-block;
-	// IE-specific:
-	zoom: 1;
-	*display: inline;
+    display: inline-block;
+    // IE-specific:
+    zoom: 1;
+    *display: inline;
 }
 
 // Awful
 #create-page-popup .modal-body div div {
-	.inline-block;
-	width: 70px;
-	vertical-align: top;
+    .inline-block;
+    width: 70px;
+    vertical-align: top;
 }
 
 #wikinotes-video {
-	background-color: #111;
-	text-align: center;
-	padding: 15px;
+    background-color: #111;
+    text-align: center;
+    padding: 15px;
 }
 
 #your-gravatar {
-	float: left;
-	margin-right: 10px;
+    float: left;
+    margin-right: 10px;
 }
 
 .headerlink {
-	visibility: hidden;
-	padding-left: 5px;
-	&:hover {
-		text-decoration: none;
-	}
+    visibility: hidden;
+    padding-left: 5px;
+    &:hover {
+        text-decoration: none;
+    }
 }
 
 .header:hover > .headerlink {
-	visibility: visible;
+    visibility: visible;
 }

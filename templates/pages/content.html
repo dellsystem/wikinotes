@@ -1,12 +1,12 @@
-		<div class="markdown">
-			{% if page.content %}
-				{{ page.content|safe }}
-			{% else %}
-				{% include "main/markdown.html" %}
-			{% endif %}
-			<div id="grade-answers">
-				<a href="#" id="js-reset-quiz" class="btn">Reset quiz</a>
-				<a href="#" id="js-grade-answers" class="btn info">Grade answers &raquo;</a>
-				<span><i></i> out of <i></i> correct (<i></i> percent)</span>
-			</div>
-		</div>
+        <div class="markdown">
+            {% if page.content %}
+                {{ page.content|safe }}
+            {% else %}
+                {% include "main/markdown.html" %}
+            {% endif %}
+            <div id="grade-answers">
+                <a href="#" id="js-reset-quiz" class="btn">Reset quiz</a>
+                <a href="#" id="js-grade-answers" class="btn info">Grade answers &raquo;</a>
+                <span><i></i> out of <i></i> correct (<i></i> percent)</span>
+            </div>
+        </div>
