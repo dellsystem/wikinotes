@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Series(models.Model):
     class Meta:
         app_label = 'wiki'
@@ -18,6 +19,7 @@ class Series(models.Model):
 
     def get_num_total(self):
         return self.seriespage_set.count()
+
 
 class SeriesPage(models.Model):
     class Meta:

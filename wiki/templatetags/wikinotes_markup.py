@@ -1,7 +1,8 @@
+import re
+
+import markdown
 from django import template
 from django.utils.html import escape
-import markdown
-import re
 
 register = template.Library()
 

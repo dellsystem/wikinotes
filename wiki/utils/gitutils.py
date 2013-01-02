@@ -1,11 +1,14 @@
-import git
-import gitdb
 import datetime
 from math import log
 from os import makedirs, environ
 
+import git
+import gitdb
+
+
 class NoChangesError(Exception):
     pass
+
 
 class Git:
     def __init__(self, path_to_repo):

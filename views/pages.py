@@ -1,18 +1,21 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from wiki.models.courses import Course, CourseSemester, Professor
-from wiki.utils.constants import terms, years, exam_types
-from wiki.utils.gitutils import Git, NoChangesError
-from wiki.utils.pages import page_types
-from django.template import RequestContext
-from wiki.models.pages import Page
-from django.http import Http404
-import random as random_module
-from wiki.models.history import HistoryItem
-from django.contrib.auth.models import User
-from wiki.utils.currents import current_term, current_year
-from views.main import register
 from datetime import datetime
+import random as random_module
+
+from django.contrib.auth.models import User
+from django.http import Http404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.template import RequestContext
+
+from views.main import register
+from wiki.models.courses import Course, CourseSemester, Professor
+from wiki.models.history import HistoryItem
+from wiki.models.pages import Page
+from wiki.utils.constants import terms, years, exam_types
+from wiki.utils.currents import current_term, current_year
+from wiki.utils.gitutils import Git, NoChangesError
 from wiki.utils.merge3 import Merge3
+from wiki.utils.pages import page_types
+
 
 def show(request, department, number, page_type, term, year, slug, printview=False):
     department = department.upper()
@@ -45,8 +48,10 @@ def show(request, department, number, page_type, term, year, slug, printview=Fal
 
     return render(request, template_file, data)
 
+
 def printview(request, department, number, page_type, term, year, slug):
     return show(request, department, number, page_type, term, year, slug, printview=True)
+
 
 def history(request, department, number, page_type, term, year, slug):
     course = get_object_or_404(Course, department=department.upper(), number=int(number))
@@ -96,6 +101,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
     }
 
     return render(request, "pages/commit.html", data)
+
 
 def edit(request, department, number, page_type, term, year, slug):
     if not request.user.is_authenticated():
@@ -185,6 +191,7 @@ def edit(request, department, number, page_type, term, year, slug):
     }
     return render(request, "pages/edit.html", data)
 
+
 # semester should only be filled out if the page doesn't exist and we want to create it
 def create(request, department, number, page_type, semester=None):
     if not request.user.is_authenticated():
@@ -266,7 +273,16 @@ def create(request, department, number, page_type, semester=None):
 
     return render(request, 'pages/create.html', data)
 
+
 def random(request):
     pages = Page.objects.all()
     random_page = random_module.choice(pages)
-    return show(request, random_page.course_sem.course.department.short_name.upper(), random_page.course_sem.course.number, random_page.page_type, random_page.course_sem.term, random_page.course_sem.year, random_page.slug)
+
+    return show(
+        request,
+        random_page.course_sem.course.department.short_name.upper(),
+        random_page.course_sem.course.number,
+        random_page.page_type,
+        random_page.course_sem.term,
+        random_page.course_sem.year, random_page.slug
+    )

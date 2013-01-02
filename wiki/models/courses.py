@@ -5,6 +5,7 @@ from django.template.defaultfilters import slugify
 from wiki.models.history import HistoryItem
 from wiki.utils.currents import current_year, current_term
 
+
 class Course(models.Model):
     class Meta:
         app_label = 'wiki'
@@ -60,6 +61,7 @@ class Course(models.Model):
             return course_history[:limit]
         else:
             return course_history
+
 
 class CourseSemester(models.Model):
     class Meta:

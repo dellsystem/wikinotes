@@ -1,5 +1,7 @@
 import inspect
+
 from wiki.models import page_types as types
+
 
 # A dictionary for reverse lookup of page type by the short name
 # So, given "course-quiz", find the CourseQuiz object etc

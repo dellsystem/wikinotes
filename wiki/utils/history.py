@@ -1,8 +1,10 @@
 import datetime
 
+
 # Put here because, why not
 def get_date_x_days_ago(num_days):
     return datetime.datetime.now() - datetime.timedelta(days=num_days)
+
 
 # Used by HistoryItem to output a human-readable timestamp
 # More vague than the built-in timesince filter, which is good

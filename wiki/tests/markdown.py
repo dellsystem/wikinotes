@@ -1,8 +1,9 @@
 from django.utils import unittest
+
 from wiki.templatetags.wikinotes_markup import wikinotes_markdown as md
+
     
 class TestMarkdown(unittest.TestCase):
-
     elements = {
         "bold"                      : "**bold**",
         "italic"                    : "*italic*",

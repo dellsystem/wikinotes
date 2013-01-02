@@ -2,7 +2,9 @@
 # Done this way because it's better than the 4 other possible ways (believe me I tried them all)
 # Define all the page types here, and their short names
 import re
+
 from django.template.defaultfilters import slugify
+
 from wiki.utils.constants import terms, years, exam_types
 
 """ HOW TO CREATE A NEW PAGE TYPE
@@ -13,6 +15,7 @@ from wiki.utils.constants import terms, years, exam_types
         - assets/img/pages/#{short_name}.png
         ALTHOUGH IF YOU HAVE CUSTOM NAMES YOU CAN OVERRIDE ANY OF THE RELEVANT METHODS, ETC
 """
+
 
 class PageType:
     # Defaults - override if necessary
@@ -97,6 +100,7 @@ class PageType:
         else:
             return []
 
+
 class LectureNote(PageType):
     short_name = 'lecture-notes'
     long_name = 'Lecture notes'
@@ -125,6 +129,7 @@ class LectureNote(PageType):
             #(len(data['subject']) > 0, 'Invalid subject'),
         ]
 
+
 class PastExam(PageType):
     short_name = 'past-exam'
     long_name = 'Past exam'
@@ -146,6 +151,7 @@ class PastExam(PageType):
             (data['exam_type'] in exam_types, 'Invalid exam type'),
         ]
 
+
 class CourseSummary(PageType):
     short_name = 'summary'
     long_name = 'Course summary'
@@ -160,6 +166,7 @@ class CourseSummary(PageType):
         return [
             (len(data['subject']) > 0, 'Invalid subject'),
         ]
+
 
 class VocabList(PageType):
     short_name = 'vocab-list'
@@ -178,6 +185,7 @@ class VocabList(PageType):
         return [
             (len(data['subject']) > 0, 'Invalid subject'),
         ]
+
 
 class CourseQuiz(PageType):
     short_name = 'course-quiz'
