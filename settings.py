@@ -130,7 +130,6 @@ INSTALLED_APPS = (
     'wiki',
     'blog',
     'gravatar',
-    'south',
     'django.contrib.markup', # for markdown
 )
 
