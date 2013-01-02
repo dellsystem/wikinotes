@@ -30,13 +30,19 @@ class UserProfile(models.Model):
 	def is_watching(self, course):
 		return course in self.courses.all()
 
-	def get_recent_pages(self, n):
+	def get_recent_pages(self, n, created=False):
 		"""
 		Return the last n pages that the user has edited.
 		"""
 		pages = []
 		i = 0
-		for history_item in self.user.historyitem_set.order_by('-timestamp'):
+		history_items = self.user.historyitem_set.order_by('-timestamp')
+
+		# If we want to limit it to pages that the user has created (false by default)
+		if created:
+			history_items = history_items.filter(action='created')
+
+		for history_item in history_items:
 			page = history_item.page
 			if page is not None and page not in pages:
 				pages.append(page)

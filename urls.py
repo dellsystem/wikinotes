@@ -30,6 +30,7 @@ direct_to_view = (
 		('recent/all/(?P<num_days>\d+)', 'all_recent'),
 		('ucp/(?P<mode>\w*)', 'ucp'),
 		('users/(?P<username>\w+)', 'profile'),
+		('users/(?P<username>\w+)/contributions', 'contributions'),
 		('search', 'search'),
 		('markdown', 'markdown'),
 		('register', 'register')

@@ -1,8 +1,9 @@
 import os
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.http import Http404
 
 from urls import static_urls
@@ -108,18 +109,57 @@ def profile(request, username):
 		this_user = User.objects.get(username__iexact=username)
 		profile = this_user.get_profile()
 
+		# Figure out the number of pages created and modified
+		pages_modified = Page.objects.filter(historyitem__user=this_user).distinct()
+		pages_created = pages_modified.filter(historyitem__action='created')
+		courses_contributed_to = Course.objects.filter(coursesemester__page__in=pages_modified).distinct()
+		num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
+
 		data = {
 			'title': 'Viewing profile (%s)' % this_user.username,
 			'this_user': this_user, # can't call it user because the current user is user
 			'profile': profile,
-			'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:20],
-			'user_pages': profile.get_recent_pages(0),
+			'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:10],
+			'num_pages_modified': pages_modified.count(),
+			'num_pages_created': pages_created.count(),
+			'num_courses_contributed_to': courses_contributed_to.count(),
+			'num_edits': num_edits,
+			'contributions_url': reverse('main_contributions', kwargs={'username': this_user.username}),
 		}
 
 		return render(request, 'main/profile.html', data)
 	except User.DoesNotExist:
 		raise Http404
 
+
+def contributions(request, username):
+	this_user = get_object_or_404(User, username=username)
+	# If the mode is not specified, show all the pages the user has edited
+	mode = request.GET.get('mode', 'modified')
+
+	if mode == 'courses':
+		mode_name = 'Courses contributed to'
+		table_data = Course.objects.filter(coursesemester__page__historyitem__user=this_user).distinct()
+	elif mode == 'edits':
+		mode_name = 'Edits'
+		table_data = HistoryItem.objects.filter(user=this_user, page__isnull=False)
+	elif mode == 'created':
+		mode_name = 'Pages created'
+		table_data = this_user.get_profile().get_recent_pages(0, created=True)
+	else:
+		# Assume the mode is just 'modified'
+		mode_name = 'Pages modified'
+		table_data = this_user.get_profile().get_recent_pages(0)
+
+	data = {
+		'table_data': table_data, # the data to be displayed in the table
+		'mode': mode,
+		'mode_name': mode_name,
+		'this_user': this_user,
+		'title': "%s's contributions" % this_user.username,
+	}
+
+	return render(request, 'main/contributions.html', data)
 
 def register(request):
 	# If the user is already logged in, go to the dashboard page

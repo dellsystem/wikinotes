@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+	<section>
+		<ul class="breadcrumb">
+			<li><a href="{{ this_user.get_absolute_url }}">{{ this_user }}'s profile</a> <span class="divider">&raquo;</span></li>
+			<li class="active">{{ mode_name }}</li>
+		</ul>
+		<div class="page-header">
+			<h1><a href="{{ this_user.get_absolute_url }}">{{ this_user.username }}</a>'s contributions <small>{{ mode_name }}</small></h1>
+		</div>
+			<table class="sort">
+			{% if mode == 'courses' %}
+			<thead>
+				<tr>
+					<th class="center-align">Faculty</th>
+					<th class="center-align">Department</th>
+					<th>Course</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for course in table_data %}
+				<tr>
+					<td class="center-align"><img src="{{ course.department.faculty.get_image }}" alt="" /><br />{{ course.department.faculty }}</td>
+					<td class="center-align"><img src="{{ course.department.get_image }}" alt="" title="{{ course.department }}" /><br />{{ course.department.short_name }}</td>
+					<td><a href="{{ course.get_absolute_url }}">{{ course }}: {{ course.name }}</a></td>
+				</tr>
+				{% empty %}
+				<tr colspan="3">Nothing here</tr>
+				{% endfor %}
+			</tbody>
+			{% elif mode == 'edits' %}
+			<thead>
+				<tr>
+					<th class="center-align">Department</th>
+					<th>Course</th>
+					<th>Page</th>
+					<th>Edit information</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for edit in table_data %}
+				<tr>
+					<td class="center-align"><img src="{{ edit.course.department.get_image }}" alt="" title="{{ edit.course.department }}" /><br />{{ edit.course.department.short_name }}</td>
+					<td><a href="{{ edit.course.get_absolute_url }}">{{ edit.course }}: {{ edit.course.name }}</a></td>
+					<td><a href="{{ edit.page.get_absolute_url }}">{{ edit.page }}</a></td>
+					<td>
+						<strong>Commit message</strong>: {{ edit.message|default:"Minor edit" }}
+						<br />
+						{{ edit.get_timesince }} ago
+					</td>
+				</tr>
+				{% empty %}
+				<tr colspan="3">Nothing here</tr>
+				{% endfor %}
+			</tbody>
+			{% else %}
+			{% comment %}Created, or modified{% endcomment %}
+			<thead>
+				<tr>
+					<th class="center-align">Department</th>
+					<th>Course</th>
+					<th>Page</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for page in table_data %}
+				{% with course=page.course_sem.course %}
+				<tr>
+					<td class="center-align"><img src="{{ course.department.get_image }}" alt="" title="{{ course.department }}" /><br />{{ course.department.short_name }}</td>
+					<td><a href="{{ course.get_absolute_url }}">{{ course }}: {{ course.name }}</a></td>
+					<td><a href="{{ page.get_absolute_url }}">{{ page }}</a></td>
+				</tr>
+				{% endwith %}
+				{% empty %}
+				<tr colspan="3">Nothing here</tr>
+				{% endfor %}
+			</tbody>
+			{% endif %}
+			</table>
+	</section>
+</div>
+{% endblock %}
