@@ -1,0 +1,48 @@
+[
+    {
+        "pk": 1,
+        "model": "wiki.coursesemester",
+        "fields": {
+            "term": "fall",
+            "final_info": null,
+            "readings": null,
+            "professors": [],
+            "course": 1,
+            "midterm_info": null,
+            "year": 2011,
+            "evaluation": null
+        }
+    },
+    {
+        "pk": 2,
+        "model": "wiki.coursesemester",
+        "fields": {
+            "term": "fall",
+            "final_info": "",
+            "readings": "",
+            "professors": [
+                1
+            ],
+            "course": 37,
+            "midterm_info": "",
+            "year": 2011,
+            "evaluation": ""
+        }
+    },
+    {
+        "pk": 3,
+        "model": "wiki.coursesemester",
+        "fields": {
+            "term": "fall",
+            "final_info": "",
+            "readings": "",
+            "professors": [
+                5
+            ],
+            "course": 38,
+            "midterm_info": "",
+            "year": 2011,
+            "evaluation": ""
+        }
+    }
+]

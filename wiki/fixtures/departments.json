@@ -1,0 +1,114 @@
+[
+    {
+        "pk": "MATH",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Mathematics & Statistics",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "COMP",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Computer Science",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "BIOL",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Biology",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "CHEM",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Chemistry",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "PSYC",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Psychology",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "PHYS",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Physics",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "ANAT",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Anatomy and Cell Biology",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "POLI",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Political Science",
+            "faculty": 3
+        }
+    },
+    {
+        "pk": "PHIL",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Philosophy",
+            "faculty": 3
+        }
+    },
+    {
+        "pk": "PHGY",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Physiology",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "INTD",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "International Development Studies",
+            "faculty": 3
+        }
+    },
+    {
+        "pk": "GEOG",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Geography",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "BIOC",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Biochemistry",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "PHAR",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Pharmacology and Therapeutics",
+            "faculty": 1
+        }
+    }
+]

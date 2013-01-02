@@ -1,0 +1,534 @@
+[
+    {
+        "pk": 16,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Introduction to the gross anatomy of the various organ systems of head, neck and trunk regions of the human body. Practical tutorials include studies of prepared specimens, use of the anatomical museum and audio-visual materials.",
+            "num_watchers": 0,
+            "number": "214",
+            "credits": "3",
+            "department": "ANAT",
+            "name": "Systemic Human Anatomy"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "The architectural, functional and temporal continuity of organelles and the cytoskeleton of mammalian cells is introduced as well as their functional integration in the phenomena of exocytosis, endocytosis, protein trafficking and ",
+            "num_watchers": 0,
+            "number": "262",
+            "credits": "3",
+            "department": "ANAT",
+            "name": "Introductory Molecular and Cell Biology"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Introduction to basic principles, and to modern advances, problems and applications in the genetics of higher and lower organisms with examples representative of the biological sciences.",
+            "num_watchers": 0,
+            "number": "202",
+            "credits": "3",
+            "department": "BIOC",
+            "name": "Basic Genetics"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "An introduction to the phylogeny, structure, function and adaptation of unicellular organisms, plants and animals in the biosphere.",
+            "num_watchers": 0,
+            "number": "111",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Principles: Organismal Biology"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "lol",
+            "num_watchers": 0,
+            "number": "112",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Cell and Molecular Biology"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "The aim of this course is to understand the molecular basis of biological phenomena with emphasis on the fundamental processes common to all organisms (enzymatic catalysis, DNA, RNA and protein synthesis; genome structure; mechanisms of gene expression; m",
+            "num_watchers": 0,
+            "number": "200",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Molecular Biology"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "This course introduces the student to our modern understanding of cells and how they work. Major topics to be covered include: photosynthesis, energy metabolism and metabolic integration; plasma membrane including secretion, endocytosis and contact mediat",
+            "num_watchers": 0,
+            "number": "201",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Cell Biology and Metabolism"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "An introduction to the fundamental processes of ecology and evolution that bear on the nature and diversity of organisms and the processes that govern their assembly into ecological communities and their roles in ecosystem function.",
+            "num_watchers": 0,
+            "number": "215",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Introduction to Ecology and Evolution"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "A study of the fundamental principles of atomic structure, radiation and nuclear chemistry, valence theory, coordination chemistry, and the periodic table.",
+            "num_watchers": 0,
+            "number": "110",
+            "credits": "4",
+            "department": "CHEM",
+            "name": "General Chemistry 1"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "A study of the fundamental principles of chemistry, including simple gases and collision theory, the laws of thermodynamics, Enthalpy, Entropy, and Free Energy, Equilibrium, Acid-Base Chemistry, and introduction to Organic Chemistry.",
+            "num_watchers": 0,
+            "number": "120",
+            "credits": "4",
+            "department": "CHEM",
+            "name": "General Chemistry 2"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "A survey of reactions of aliphatic and aromatic compounds including modern concepts of bonding, mechanisms, conformational analysis, and stereochemistry.",
+            "num_watchers": 0,
+            "number": "212",
+            "credits": "4",
+            "department": "CHEM",
+            "name": "Organic Chemistry I"
+        }
+    },
+    {
+        "pk": 23,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Modern spectroscopic techniques for structure determination. The chemistry of alcohols, ethers, carbonyl compounds, and amines, with special attention to mechanistic aspects. Special topics.",
+            "num_watchers": 0,
+            "number": "222",
+            "credits": "4",
+            "department": "CHEM",
+            "name": "Organic Chemistry II"
+        }
+    },
+    {
+        "pk": 24,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Heterogeneous equilibrium: phase rule and phase diagrams. Ideal solutions, colligative properties, solubility. Electrochemistry, Debye-H\u00fcckel Theory. Kinetics 2: Transition State Theory, complex reactions, free-radical reactions, chain reactions, catalysi",
+            "num_watchers": 0,
+            "number": "243",
+            "credits": "2",
+            "department": "CHEM",
+            "name": "Introductory Physical Chemistry 2"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "lol202",
+            "num_watchers": 0,
+            "number": "202",
+            "credits": "3",
+            "department": "COMP",
+            "name": "Introduction to Computing 1"
+        }
+    },
+    {
+        "pk": 25,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Comprehensive overview of programming in C, use of system calls and libraries, debugging and testing of code; use of developmental tools like make, version control systems.",
+            "num_watchers": 0,
+            "number": "206",
+            "credits": "3",
+            "department": "COMP",
+            "name": "Introduction to Software Systems"
+        }
+    },
+    {
+        "pk": 26,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "An introduction to the design of computer algorithms, including basic data structures, analysis of algorithms, and establishing correctness of programs. Overview of topics in computer science.",
+            "num_watchers": 0,
+            "number": "250",
+            "credits": "3",
+            "department": "COMP",
+            "name": "Introduction to Computer Science"
+        }
+    },
+    {
+        "pk": 27,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Design and analysis of algorithms. Complexity of algorithms. Data structures. Introduction to graph algorithms and their analysis.",
+            "num_watchers": 0,
+            "number": "251",
+            "credits": "3",
+            "department": "COMP",
+            "name": "Data Structures and Algorithms"
+        }
+    },
+    {
+        "pk": 28,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "The course introduces the geography of the world economic system. It describes the spatial distribution of economic activities and examines the factors which influence their changing location. Case studies from both \"developed\" and \"developing\" countries ",
+            "num_watchers": 0,
+            "number": "216",
+            "credits": "3",
+            "department": "GEOG",
+            "name": "Geography of the World Economy"
+        }
+    },
+    {
+        "pk": 29,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "An interdisciplinary introduction to the field of International Development Studies focusing on the theory and practice of development. It examines various approaches to international development, including past and present relationships between developed",
+            "num_watchers": 0,
+            "number": "200",
+            "credits": "3",
+            "department": "INTD",
+            "name": "Introduction to International Development"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Systems of linear equations, matrices, inverses, determinants; geometric vectors in three dimensions, dot product, cross product, lines and planes; introduction to vector spaces, linear dependence and independence, bases; quadratic loci in two and three d",
+            "num_watchers": 0,
+            "number": "133",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Linear Algebra and Geometry"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Review of functions and graphs. Limits, continuity, derivatives. Differentiation of elementary functions. Applications, optimization, related rates problems. Graphing using derivatives and concavity.",
+            "num_watchers": 0,
+            "number": "140",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Calculus 1"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "The definite integral. Techniques of integration. Applications. Introduction to sequences and series.",
+            "num_watchers": 0,
+            "number": "141",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Calculus 2"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Functions, limits and continuity, differentiation, L'Hospital's rule, applications, Taylor polynomials, parametric curves, functions of several variables.",
+            "num_watchers": 0,
+            "number": "150",
+            "credits": "4",
+            "department": "MATH",
+            "name": "Calculus A"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Integration, methods and applications, infinite sequences and series, power series, arc length and curvature, multiple integration.",
+            "num_watchers": 0,
+            "number": "151",
+            "credits": "4",
+            "department": "MATH",
+            "name": "Calculus B"
+        }
+    },
+    {
+        "pk": 30,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Taylor series, Taylor's theorem in one and several variables. Review of vector geometry. Partial differentiation, directional derivative. Extreme of functions of 2 or 3 variables. Parametric curves and arc length. Polar and spherical coordinates. Multiple",
+            "num_watchers": 0,
+            "number": "222",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Calculus 3"
+        }
+    },
+    {
+        "pk": 31,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Review of matrix algebra, determinants and systems of linear equations. Vector spaces, linear operators and their matrix representations, orthogonality. Eigenvalues and eigenvectors, diagonalization of Hermitian matrices. Applications.",
+            "num_watchers": 0,
+            "number": "223",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Linear Algebra"
+        }
+    },
+    {
+        "pk": 32,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Mathematical foundations of logical thinking and reasoning. Mathematical language and proof techniques. Quantifiers. Induction. Elementary number theory. Modular arithmetic. Recurrence relations and asymptotics. Combinatorial enumeration. Functions and re",
+            "num_watchers": 0,
+            "number": "240",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Discrete Structures 1"
+        }
+    },
+    {
+        "pk": 37,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Propositional calculus, truth-tables, switching circuits, natural deduction, first order predicate calculus, axiomatic theories, set theory.",
+            "num_watchers": 0,
+            "number": "318",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Mathematical Logic"
+        }
+    },
+    {
+        "pk": 38,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Sample space, events, conditional probability, independence of events, Bayes' Theorem. Basic combinatorial probability, random variables, discrete and continuous univariate and multivariate distributions. Independence of random variables. Inequalities, weak law of large numbers, central limit theorem.",
+            "num_watchers": 0,
+            "number": "323",
+            "credits": "3",
+            "department": "MATH",
+            "name": "Probability"
+        }
+    },
+    {
+        "pk": 33,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Physiology of body fluids, blood, body defense mechanisms, muscle, peripheral, central, and autonomic nervous systems.",
+            "num_watchers": 0,
+            "number": "209",
+            "credits": "3",
+            "department": "PHGY",
+            "name": "Mammalian Physiology 1"
+        }
+    },
+    {
+        "pk": 34,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Physiology of cardiovascular, respiratory, digestive, endocrine and renal systems.",
+            "num_watchers": 0,
+            "number": "210",
+            "credits": "3",
+            "department": "PHGY",
+            "name": "Mammalian Physiology 2"
+        }
+    },
+    {
+        "pk": 35,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "A survey of a number of historically important and influential theories. Philosophers to be discussed may include Aristotle, Hume, Kant, Bentham, Mill, and Moore.",
+            "num_watchers": 0,
+            "number": "230",
+            "credits": "3",
+            "department": "PHIL",
+            "name": "Introduction to Moral Philosophy 1"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "An introductory course in physics without calculus, covering mechanics (kinematics, dynamics, energy, and rotational motion), oscillations and waves, sound, light, and geometrical optics.",
+            "num_watchers": 0,
+            "number": "101",
+            "credits": "4",
+            "department": "PHYS",
+            "name": "Introductory Physics - Mechanics"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Electric field and potential. D.C. circuits and measurements. Capacitance. Magnetic field and induction. A.C. circuits Semiconductor devices and their application. Electromagnetic waves.",
+            "num_watchers": 0,
+            "number": "102",
+            "credits": "4",
+            "department": "PHYS",
+            "name": "Introductory Physics - Electromagnetism"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "The basic laws and principles of Newtonian mechanics; oscillations and waves.",
+            "num_watchers": 0,
+            "number": "131",
+            "credits": "4",
+            "department": "PHYS",
+            "name": "Mechanics and Waves"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "The basic laws of electricity and magnetism; geometrical and physical optics.",
+            "num_watchers": 0,
+            "number": "142",
+            "credits": "4",
+            "department": "PHYS",
+            "name": "Electromagnetism and Optics"
+        }
+    },
+    {
+        "pk": 36,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "An introduction to Third World politics. A comparative examination of the legacies of colonialism, the achievement of independence, and contemporary dynamics of political and socio-economic development in Africa, Asia and Latin America. Topics include modernization, dependency, state-building and national integration, revolution, the role of the military, and democratization.",
+            "num_watchers": 0,
+            "number": "227",
+            "credits": "3",
+            "department": "POLI",
+            "name": "Developing Areas/Introduction"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "This is a course for students with no previous psychology courses at the junior college (CEGEP) or college level. It is an introduction to the scientific study of behavior, cognitions and emotions. The course is designed to review basic concepts and metho",
+            "num_watchers": 0,
+            "number": "100",
+            "credits": "3",
+            "department": "PSYC",
+            "name": "Introduction to Psychology"
+        }
+    }
+]

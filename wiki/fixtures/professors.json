@@ -1,0 +1,47 @@
+[
+    {
+        "pk": 3,
+        "model": "wiki.professor",
+        "fields": {
+            "link": null,
+            "name": "Doina Precup",
+            "slug": "doina-precup"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "wiki.professor",
+        "fields": {
+            "link": null,
+            "name": "Gregory Dudek",
+            "slug": "gregory-dudek"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.professor",
+        "fields": {
+            "link": null,
+            "name": "James G Loveys",
+            "slug": "james-loveys"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "wiki.professor",
+        "fields": {
+            "link": null,
+            "name": "Michael Langer",
+            "slug": "michael-langer"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "wiki.professor",
+        "fields": {
+            "link": null,
+            "name": "William J Anderson",
+            "slug": "william-j-anderson"
+        }
+    }
+]
