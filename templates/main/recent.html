@@ -25,7 +25,7 @@
 					<td>{{ event.action }}</td>
 					<td>{% if event.page %}<a href="{{ event.page.get_absolute_url }}">{{ event.page }}</a> (view changes - later){% else %}N/A{% endif %}</td>
 					<td><a href="{{ event.course.get_absolute_url }}">{{ event.course }}</a></td>
-					<td>{{ event.get_timesince }} ago</td>
+					<td><span title="{{ event.timestamp }}">{{ event.get_timesince }} ago</span></td>
 				</tr>
 			{% endfor %}
 			</tbody>

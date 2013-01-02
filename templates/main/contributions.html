@@ -48,7 +48,7 @@
 					<td>
 						<strong>Commit message</strong>: {{ edit.message|default:"Minor edit" }}
 						<br />
-						{{ edit.get_timesince }} ago
+						<span title="{{ edit.timestamp }}">{{ edit.get_timesince }} ago</span>
 					</td>
 				</tr>
 				{% empty %}
