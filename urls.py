@@ -29,7 +29,7 @@ direct_to_view = (
 		('recent/all', 'all_recent'),
 		('recent/all/(?P<num_days>\d+)', 'all_recent'),
 		('ucp/(?P<mode>\w*)', 'ucp'),
-		('user/(?P<username>\w+)', 'profile'),
+		('users/(?P<username>\w+)', 'profile'),
 		('search', 'search'),
 		('markdown', 'markdown'),
 		('register', 'register')
