@@ -44,7 +44,7 @@
             <div class="span4 columns" id="right-bar">
                 <h4>Recently edited pages</h4>
                 {% if recent_pages %}
-                <ul class="unstyled">
+                <ul>
                     {% for page in recent_pages %}
                     <li><a href="{{ page.get_absolute_url }}">{{ page }}</a></li>
                     {% endfor %}
@@ -54,7 +54,7 @@
                 {% endif %}
                 <h4>Watched courses</h4>
                 {% if watched_courses %}
-                <ul class="unstyled">
+                <ul>
                     {% for course in watched_courses %}
                     <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
                     {% endfor %}
