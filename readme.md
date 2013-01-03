@@ -31,7 +31,6 @@ Configuration
 
 If you're running it for the first time, take note of the following setup instructions:
 
-* `chmod +x bootstrap`
 * `./bootstrap` - create the superuser at this point (you may also wish to run this if any database schema changes have been made since your last pull)
 * `python manage.py runserver` (by default, this makes the platform accessible at [http://localhost:8000](http://localhost:8000); add `0.0.0.0:8000` if you want to make it publicly accessible through your IP address)
 * To run the unit tests, just do `python manage.py test wiki`
