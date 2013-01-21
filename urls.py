@@ -52,6 +52,7 @@ direct_to_view = (
     )),
     ('courses', (
         ('courses', 'index'),
+        ('courses/create', 'create'),
         ('courses/all', 'list_all'),
         ('courses/faculty', 'faculty_browse'),
         ('courses/department', 'department_browse'),

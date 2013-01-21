@@ -12,10 +12,11 @@ class Course(models.Model):
         ordering = ['department', 'number']
 
     department = models.ForeignKey('Department')
-    number = models.CharField(max_length=5)
+    number = models.CharField(max_length=5, verbose_name="Course number")
     name = models.CharField(max_length=255)
     description = models.TextField(null=True)
-    credits = models.DecimalField(max_digits=2, decimal_places=1) # Can be 4.5
+    credits = models.DecimalField(max_digits=2, decimal_places=1,
+        verbose_name="Number of credits") # Can be 4.5
     watchers = models.ManyToManyField(User, null=True, blank=True)
     # The latest_activity field makes it easier to sort and stuff ... not strictly necessary
     latest_activity = models.ForeignKey('HistoryItem',

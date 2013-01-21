@@ -7,6 +7,7 @@ from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 
+from wiki.forms.courses import CourseForm
 from wiki.models.courses import Course, CourseSemester, Professor
 from wiki.models.departments import Department
 from wiki.models.faculties import Faculty
@@ -307,3 +308,20 @@ def professor_overview(request, professor):
     }
 
     return render(request, 'courses/professor_overview.html', context)
+
+
+def create(request):
+    if request.method == 'POST':
+        form = CourseForm(request.POST)
+
+        if form.is_valid():
+            course = form.save()
+            return redirect(course)
+    else:
+        form = CourseForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'courses/create.html', context)
