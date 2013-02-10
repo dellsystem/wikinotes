@@ -57,7 +57,7 @@ class Page(models.Model):
         repo = self.get_repo()
         return repo.get_latest_commit()
 
-    def save_content(self, content, message, username, start, end):
+    def save_content(self, content, message, username, start=0, end=0):
         # If start and end are valid, use them
         if end > 0:
             saved_content = self.load_content()
