@@ -2,6 +2,7 @@
 import os
 
 from django.db import models
+from django.contrib.auth.models import User
 
 from wiki.utils.pages import page_types, page_type_choices, get_section_start_end
 from wiki.utils.gitutils import Git
@@ -23,6 +24,7 @@ class Page(models.Model):
     professor = models.ForeignKey('Professor', null=True, blank=True)
     slug = models.CharField(max_length=50)
     content = models.TextField(null=True) # processed markdown, like a cache
+    maintainer = models.ForeignKey(User)
 
     def load_section_content(self, anchor_name):
         """
