@@ -45,7 +45,5 @@ class TestSectionEdit(TestCase):
 
     def runTest(self):
         for anchor, expected in self.tests.iteritems():
-            print "----------------------"
-            print anchor
             actual = get_section_start_end(self.lines, anchor)
             self.assertEqual(actual, expected)
