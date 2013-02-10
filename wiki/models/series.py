@@ -11,6 +11,7 @@ class Series(models.Model):
     name = models.CharField(max_length=255)
     position = models.IntegerField()
     slug = models.SlugField()
+    banner = models.ForeignKey('SeriesBanner', null=True, blank=True)
 
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.course)
@@ -43,3 +44,27 @@ class SeriesPage(models.Model):
     def get_next_page(self):
         if self.position < self.series.get_num_total():
             return SeriesPage.objects.get(series=self.series, position=self.position + 1).page
+
+    def get_banner_markdown(self):
+        page = self.page
+        course_sem = page.course_sem
+        raw_text = self.series.banner.text
+        text = raw_text % {
+            'series_number': self.position,
+            'maintainer': '@%s' % page.maintainer,
+            'edit_link': page.get_absolute_url() + '/edit',
+            'course': course_sem.course,
+            'semester': '%s %d' % (course_sem.term.title(), course_sem.year)
+        }
+
+        return text
+
+class SeriesBanner(models.Model):
+    class Meta:
+        app_label = 'wiki'
+
+    name = models.CharField(max_length=255)
+    text = models.TextField()
+
+    def __unicode__(self):
+        return self.name

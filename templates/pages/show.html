@@ -32,6 +32,12 @@
             </div>
         </div>
         <hr />
+        {% load wikinotes_markup %}
+        {% for series in page.seriespage_set.all %}
+        <div class="series-banner">
+        {{ series.get_banner_markdown|wikinotes_markdown|safe }}
+        </div>
+        {% endfor %}
         {% include "pages/content.html" %}
         <div class="right-align">
             {% include "pages/series_listing.html" %}

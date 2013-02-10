@@ -10,6 +10,7 @@ from views.main import register
 from wiki.models.courses import Course, CourseSemester, Professor
 from wiki.models.history import HistoryItem
 from wiki.models.pages import Page
+from wiki.models.series import SeriesBanner
 from wiki.utils.constants import terms, years, exam_types
 from wiki.utils.currents import current_term, current_year
 from wiki.utils.gitutils import Git, NoChangesError
