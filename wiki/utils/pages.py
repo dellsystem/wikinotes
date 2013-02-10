@@ -38,7 +38,7 @@ def get_section_start_end(lines, anchor_name):
     looking_for_end = False
 
     # Set up some regular expressions
-    code_block_re = re.compile('(```|~~~)')
+    code_block_re = re.compile('[~`]{3,}')
     header_re = re.compile('(#{1,5}) ?(.+)')
 
     for line_number, line in enumerate(lines):
