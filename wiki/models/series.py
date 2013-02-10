@@ -5,6 +5,7 @@ class Series(models.Model):
     class Meta:
         app_label = 'wiki'
         unique_together = (('course', 'position'), ('course', 'slug'))
+        verbose_name_plural = 'Series'
 
     course = models.ForeignKey('Course')
     name = models.CharField(max_length=255)
