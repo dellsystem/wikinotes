@@ -53,8 +53,8 @@
             <div class="span5" id="right-bar2">
                 <h3>Contributions</h3>
                 <ul>
-                    <li><strong>Pages created:</strong> {{ num_pages_created }}{% if num_pages_created > 0 %} <a href="{{ contributions_url }}?mode=modified">(view)</a>{% endif %}</li>
-                    <li><strong>Pages modified:</strong> {{ num_pages_modified }}{% if num_pages_modified > 0 %} <a href="{{ contributions_url }}?mode=created">(view)</a>{% endif %}</li>
+                    <li><strong>Pages created:</strong> {{ num_pages_created }}{% if num_pages_created > 0 %} <a href="{{ contributions_url }}?mode=created">(view)</a>{% endif %}</li>
+                    <li><strong>Pages modified:</strong> {{ num_pages_modified }}{% if num_pages_modified > 0 %} <a href="{{ contributions_url }}?mode=modified">(view)</a>{% endif %}</li>
                     <li><strong>Total number of edits:</strong> {{ num_edits }}{% if num_edits > 0 %} <a href="{{ contributions_url }}?mode=edits">(view)</a>{% endif %}</li>
                     <li><strong>Courses contributed to:</strong> {{ num_courses_contributed_to }}{% if num_courses_contributed_to %} <a href="{{ contributions_url }}?mode=courses">(view)</a>{% endif %}</li>
                 </ul>
