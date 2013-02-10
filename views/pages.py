@@ -115,9 +115,17 @@ def edit(request, department, number, page_type, term, year, slug):
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
     page_type_obj = page_types[page_type]
     latest_commit = page.get_latest_commit()
-    content = page.load_content()
     repo = page.get_repo()
-    
+
+    # If we're in section editing
+    section = request.GET.get('section')
+    if section:
+        content, start, end = page.load_section_content(section)
+    else:
+        content = page.load_content()
+        start = 0
+        end = 0
+
     merge_conflict = False
     no_changes = False
     if request.method == 'POST':
@@ -126,7 +134,7 @@ def edit(request, department, number, page_type, term, year, slug):
         username = request.user.username
         message = request.POST['message'] if request.POST['message'] else 'Minor edit'
         prev_commit = request.POST['last_commit']
-    
+
         # Someone edited in between the last commit and this one
         # We'll try a 3-way merge, and tell the user to review
         if prev_commit != latest_commit:
@@ -150,7 +158,7 @@ def edit(request, department, number, page_type, term, year, slug):
         # isn't a conflict(successful merge)
         if prev_commit == latest_commit or not merge_conflict:
             try:
-                page.save_content(new_content, message, username)
+                page.save_content(new_content, message, username, start=start, end=end)
             except NoChangesError:
                 no_changes = True
 

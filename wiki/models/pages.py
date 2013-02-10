@@ -3,7 +3,7 @@ import os
 
 from django.db import models
 
-from wiki.utils.pages import page_types, page_type_choices#, get_page_type
+from wiki.utils.pages import page_types, page_type_choices, get_section_start_end
 from wiki.utils.gitutils import Git
 from wiki.models.courses import CourseSemester
 from wiki.templatetags.wikinotes_markup import wikinotes_markdown
@@ -24,11 +24,25 @@ class Page(models.Model):
     slug = models.CharField(max_length=50)
     content = models.TextField(null=True) # processed markdown, like a cache
 
+    def load_section_content(self, anchor_name):
+        """
+        This is a really shitty way of doing inline editing, but all the other
+        possibilities have been explored and this is the least shitty of them
+        all.
+        """
+        content = self.load_content()
+        # Go through the content, looking for headers
+        lines = content.splitlines()
+        start, end = get_section_start_end(lines, anchor_name)
+        section = '\n'.join(lines[start:end])
+
+        return (section, start, end)
+
     def load_content(self):
         file = open('%scontent.md' % self.get_filepath())
-        content = file.read()
+        content = file.read().decode('utf-8')
         file.close()
-        return content.decode('utf-8')
+        return content
 
     def edit(self, data):
         page_type = page_types[self.page_type]
@@ -43,7 +57,16 @@ class Page(models.Model):
         repo = self.get_repo()
         return repo.get_latest_commit()
 
-    def save_content(self, content, message, username):
+    def save_content(self, content, message, username, start, end):
+        # If start and end are valid, use them
+        if end > 0:
+            saved_content = self.load_content()
+            lines = saved_content.splitlines()
+            # Ignore edge cases lol
+            if end <= len(lines):
+                all_lines = lines[:start] + content.splitlines() + lines[end:]
+                content = '\r\n'.join(all_lines)
+
         path = self.get_filepath()
         # If the file doesn't end with a newline, add one
         content += '' if content.endswith('\r\n') else '\r\n'
