@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <section>
+        <div class="page-header">
+            <h1>Create a course</h1>
+        </div>
+
+        <div class="alert-message">
+            <p>The department you want isn't in our database? Email the admins (admin at the wikinotes domain).</p>
+        </div>
+
+        {% if form.errors %}
+        <div class="alert-message block-message error">
+        <p>Please correct the following errors:</p>
+        <ul>
+        {% for field in form %}
+        {% if field.errors %}
+        <li><strong>{{ field.label_tag|striptags }}</strong>:{{ field.errors|striptags }}</li>
+        {% endif %}
+        {% endfor %}
+        </ul>
+        {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        <form method="post" action="">
+            {% csrf_token %}
+            <fieldset class="grey-box">
+            {% for field in form %}
+                <div class="clearfix">
+                    {{ field.label_tag }}
+                    <div class="input">{{ field }}</div>
+                </div>
+            {% endfor %}
+            </fieldset>
+
+            <fieldset class="grey-box center-align">
+                <input type="submit" name="submit" value="Create" class="btn success" />
+                <input type="reset" value="Reset" class="btn" />
+            </fieldset>
+        </form>
+    </section>
+</div>
+{% endblock %}

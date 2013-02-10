@@ -4,3 +4,4 @@ data
 content
 wiki/migrations
 assets/css/bootstrap.css
+*.swp
