@@ -5,17 +5,14 @@
 <div class="container"> 
     <section>
         <div class="row">
-            <div class="span12">
-                {% for post in blog_posts %}
-                    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-                    <hr />
-                    <h4 class="right-float">{{ post.timestamp }}</h4>
-                    <h4>{{ post.get_num_comments }} comment{{ post.get_num_comments|pluralize }}</h4>
-                    {{ post.body|wikinotes_markdown|safe }}
-                    <br />
-                {% endfor %}
-            </div>
-            {% include "news/sidebar.html" %}
+            {% for post in blog_posts %}
+                <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                <hr />
+                <h4 class="right-float">{{ post.timestamp }}</h4>
+                <h4>{{ post.get_num_comments }} comment{{ post.get_num_comments|pluralize }}</h4>
+                {{ post.body|wikinotes_markdown|safe }}
+                <br />
+            {% endfor %}
         </div>
     </section> 
 
