@@ -3,6 +3,7 @@
         "pk": 1,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 1",
             "professor": null,
             "content": "<p>lol</p>",
@@ -17,6 +18,7 @@
         "pk": 2,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 2",
             "professor": null,
             "content": "<p>lol</p>",
@@ -31,6 +33,7 @@
         "pk": 3,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 3",
             "professor": null,
             "content": "<p>lol</p>",
@@ -45,6 +48,7 @@
         "pk": 4,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 4",
             "professor": null,
             "content": "<p>lol</p>",
