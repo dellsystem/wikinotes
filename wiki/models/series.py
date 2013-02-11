@@ -46,18 +46,21 @@ class SeriesPage(models.Model):
             return SeriesPage.objects.get(series=self.series, position=self.position + 1).page
 
     def get_banner_markdown(self):
-        page = self.page
-        course_sem = page.course_sem
-        raw_text = self.series.banner.text
-        text = raw_text % {
-            'series_number': self.position,
-            'maintainer': '@%s' % page.maintainer,
-            'edit_link': page.get_absolute_url() + '/edit',
-            'course': course_sem.course,
-            'semester': '%s %d' % (course_sem.term.title(), course_sem.year)
-        }
+        if self.series.banner:
+            page = self.page
+            course_sem = page.course_sem
+            raw_text = self.series.banner.text
+            text = raw_text % {
+                'series_number': self.position,
+                'maintainer': '@%s' % page.maintainer,
+                'edit_link': page.get_absolute_url() + '/edit',
+                'course': course_sem.course,
+                'semester': '%s %d' % (course_sem.term.title(), course_sem.year)
+            }
 
-        return text
+            return text
+        else:
+            return ''
 
 class SeriesBanner(models.Model):
     class Meta:
