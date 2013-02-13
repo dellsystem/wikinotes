@@ -147,7 +147,7 @@ def list_all(request, sort_by=''):
 
 
 def watch(request, department, number):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
 
     if request.method == 'POST' and request.user.is_authenticated():
         user = request.user.get_profile()
@@ -169,9 +169,9 @@ def get_all(request):
 
 def overview(request, department, number):
     try:
-        course = get_object_or_404(Course, department=department.upper(), number=int(number))
+        course = get_object_or_404(Course, department=department, number=int(number))
     except Http404:
-        return render(request, "courses/404.html", {'department': department.upper(), 'number': number})
+        return render(request, "courses/404.html", {'department': department, 'number': number})
 
     # We can't use it directly in the template file, it just won't work
     types = []
@@ -206,7 +206,7 @@ def overview(request, department, number):
 
 # Filtering by semester for a specific course
 def semester(request, department, number, term, year):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
     pages = Page.objects.filter(course_sem=course_sem)
 
@@ -220,7 +220,7 @@ def semester(request, department, number, term, year):
     return render(request, 'courses/semester.html', data)
 
 def recent(request, department, number):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
     raw_history = course.recent_activity(limit=0) # order: newest to oldest
     temp_history = []
 
@@ -269,7 +269,7 @@ def recent(request, department, number):
 
 
 def series(request, department, number, slug):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
     series = get_object_or_404(Series, course=course, slug=slug)
 
     data = {
@@ -282,7 +282,7 @@ def series(request, department, number, slug):
 
 
 def category(request, department, number, page_type):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
 
     if page_type not in page_types:
         raise Http404
