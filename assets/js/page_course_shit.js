@@ -45,13 +45,14 @@ $(document).ready(function() {
                         // Figure out the actual answer
                         // Text between the first space and the next space/period/;/,
                         var actualAnswer = explanation.substring(answerPrefix.length, answerPrefix.length + 3);
+
+                        // Make all the answers bold when you click them
+                        $(answers).addClass('js-answer');
+
                         // Store the actual answer in the question element
                         $(potentialQ).attr('data-answer', actualAnswer).addClass('is-question');
                         $(lastOne).removeClass('js-answer').html('<a href="#" class="js-show-answer">Show answer &raquo;</a> <span class="js-explanation">' + explanation.substring(answerPrefix.length) + '</span>');
                         containsQuestion = true;
-
-                        // Make all the answers bold when you click them
-                        $(answers).addClass('js-answer');
                     }
                 }
 
