@@ -285,8 +285,9 @@ def search(request):
             # Just show the search results
             pass
 
+    # Order by popularity (num watchers), descending
     course_results = Course.objects.filter(Q(name__icontains=query) | Q(description__icontains=query) |
-        Q(number=query))
+        Q(number=query)).order_by('-num_watchers')
 
     data = {
         'title': 'Search results',
