@@ -1,10 +1,12 @@
 import os
+import re
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from urls import static_urls
 from wiki.models.courses import Course
@@ -271,15 +273,28 @@ def markdown(request):
 
 
 def search(request):
-    if 'query' in request.GET:
-        data = {
-            'title': 'Search results',
-            'query': request.GET['query']
-        }
+    query = request.GET.get('query', '')
+    # If it's in the form MATH 141, just redirect to that page
+    course_re = re.match('(\w{4})[ _-]?(\d{3}D?[12]?)', query)
+    if course_re:
+        department = course_re.group(1)
+        number = course_re.group(2)
+        try:
+            return redirect(Course.objects.get(department=department, number=number))
+        except Course.DoesNotExist:
+            # Just show the search results
+            pass
 
-        return render(request, 'search/results.html', data)
-    else:
-        raise Http404
+    course_results = Course.objects.filter(Q(name__icontains=query) | Q(description__icontains=query) |
+        Q(number=query))
+
+    data = {
+        'title': 'Search results',
+        'query': query,
+        'course_results': course_results,
+    }
+
+    return render(request, 'search/results.html', data)
 
 
 def static(request, mode='', page=''):
