@@ -177,7 +177,7 @@ def register(request):
             university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
-            if university != 'mcgill' and university != 'mcgill university':
+            if not university.startswith('mcgill'):
                 errors.append("Anti-spam question wrong! Please enter the university WikiNotes was made for.")
 
             if username == '':
