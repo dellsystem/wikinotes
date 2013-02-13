@@ -3,6 +3,7 @@
         "pk": 1,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 1",
             "professor": null,
             "content": "<p>lol</p>",
@@ -17,6 +18,7 @@
         "pk": 2,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 2",
             "professor": null,
             "content": "<p>lol</p>",
@@ -31,6 +33,7 @@
         "pk": 3,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 3",
             "professor": null,
             "content": "<p>lol</p>",
@@ -45,6 +48,7 @@
         "pk": 4,
         "model": "wiki.page",
         "fields": {
+            "maintainer": 1,
             "title": "Page number 4",
             "professor": null,
             "content": "<p>lol</p>",
@@ -53,6 +57,24 @@
             "page_type": "summary",
             "slug": "page-number-4",
             "subject": "lol"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "test", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2013-02-08T13:38:23.359", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "pbkdf2_sha256$10000$MscZbxj32lZ7$djd6ZA/CyIAI2W6hMYlPS7zf8UVDJAGOSLVAKPce5aM=", 
+            "email": "test@test.com", 
+            "date_joined": "2013-02-08T13:38:23.078"
         }
     }
 ]

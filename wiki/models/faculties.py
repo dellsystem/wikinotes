@@ -4,6 +4,7 @@ from django.db import models
 class Faculty(models.Model):
     class Meta:
         app_label = 'wiki'
+        verbose_name_plural = "Faculties"
 
     # Ex: "Agricultural and environmental sciences"
     name = models.CharField(max_length=100)

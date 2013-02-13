@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from wiki.models.series import Series, SeriesPage
+from wiki.models.series import Series, SeriesPage, SeriesBanner
 
 
 class SeriesPageInline(admin.TabularInline):
@@ -13,3 +13,4 @@ class SeriesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Series, SeriesAdmin)
+admin.site.register(SeriesBanner)
