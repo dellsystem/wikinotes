@@ -280,7 +280,7 @@ def search(request):
         department = course_re.group(1)
         number = course_re.group(2)
         try:
-            return redirect(Course.objects.get(department=department, number=number))
+            return redirect(Course.objects.get(department=department.upper(), number=number))
         except Course.DoesNotExist:
             # Just show the search results
             pass
