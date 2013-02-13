@@ -92,7 +92,7 @@ class TocTreeprocessor(markdown.treeprocessors.Treeprocessor):
 
                     last_numbers[this_level] += 1
                     section_number = '.'.join(map(unicode, last_numbers[:this_level+1]))
-                    placeholder = self.markdown.htmlStash.store(u'<span>%s</span>' % section_number, safe=True)
+                    placeholder = self.markdown.htmlStash.store(u'<i>%s</i>' % section_number, safe=True)
                     last_tag_level = tag_level
                     last_level = this_level
 
