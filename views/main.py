@@ -174,7 +174,7 @@ def register(request):
             email = request.POST['email'] # this can be blank. it's okay.
             password = request.POST['password']
             password_confirm = request.POST['password_confirm']
-            university = request.POST['university'].lower()
+            university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
             if university != 'mcgill' and university != 'mcgill university':
