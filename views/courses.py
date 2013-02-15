@@ -206,6 +206,7 @@ def semester(request, department, number, term, year):
     course = get_object_or_404(Course, department=department, number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
     pages = Page.objects.filter(course_sem=course_sem)
+    pages = filter(lambda p: p.can_view(request.user), pages)
 
     data = {
         'title': course_sem,
@@ -283,17 +284,19 @@ def category(request, department, number, page_type):
 
     if page_type not in page_types:
         raise Http404
-    else:
-        category = page_types[page_type]
-        data = {
-            'title': '%s (%s)' % (category.long_name, course),
-            'course': course,
-            'category': category,
-            'pages': Page.objects.filter(course_sem__course=course, page_type=page_type),
-            'create_url': category.get_create_url(course),
-        }
 
-        return render(request, 'courses/category.html', data)
+    pages = Page.objects.filter(course_sem__course=course, page_type=page_type)
+    pages = filter(lambda p: p.can_view(request.user), pages)
+    category = page_types[page_type]
+    data = {
+        'title': '%s (%s)' % (category.long_name, course),
+        'course': course,
+        'category': category,
+        'pages': pages,
+        'create_url': category.get_create_url(course),
+    }
+
+    return render(request, 'courses/category.html', data)
 
 
 def professor_overview(request, professor):
