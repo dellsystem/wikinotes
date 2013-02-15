@@ -178,25 +178,22 @@ def overview(request, department, number):
     for name, obj in page_types.iteritems():
         # Get all the pages associated with this page type (and this course etc)
         pages = Page.objects.filter(page_type=name, course_sem__course=course)
+        pages = filter(lambda p: p.can_view(request.user), pages)
         types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages})
-
-    try:
-        this_sem = CourseSemester.objects.get(course=course, term='winter', year='2011')
-        this_sem_pages = this_sem.page_set.all()
-    except CourseSemester.DoesNotExist:
-        this_sem_pages = []
 
     # Get all the course semesters related to this course
     course_sems = CourseSemester.objects.filter(course=course)
     # Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
     all_pages = Page.objects.filter(course_sem__course=course)
+    # Hide the ones the user is not allowed to usee
+    all_pages = filter(lambda p: p.can_view(request.user), all_pages)
+
     data = {
         'title': course,
         'is_watching': request.user.get_profile().is_watching(course) if request.user.is_authenticated() else False,
         'course': course,
         'page_types': types,
         'all_pages': all_pages,
-        'this_sem_pages': this_sem_pages,
         'course_sems': course_sems,
         'current_sem': course.get_current_semester(),
     }

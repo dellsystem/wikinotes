@@ -25,6 +25,16 @@ class Page(models.Model):
     slug = models.CharField(max_length=50)
     content = models.TextField(null=True) # processed markdown, like a cache
     maintainer = models.ForeignKey(User)
+    is_hidden = models.BooleanField(default=False) # for takedown requests
+
+    def can_view(self, user):
+        """
+        Fuck the police
+        """
+        if self.is_hidden:
+            return user.is_staff
+        else:
+            return True
 
     def load_section_content(self, anchor_name):
         """
