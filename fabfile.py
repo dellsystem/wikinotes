@@ -11,3 +11,6 @@ def up():
 
 def test():
     local("python manage.py test wiki")
+
+def refresh():
+	local("python manage.py remarkdown")
