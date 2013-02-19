@@ -62,6 +62,7 @@ class SeriesPage(models.Model):
         else:
             return ''
 
+
 class SeriesBanner(models.Model):
     class Meta:
         app_label = 'wiki'
