@@ -27,6 +27,9 @@ def show(request, department, number, page_type, term, year, slug, printview=Fal
     try:
         course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
         page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+
+        if not page.can_view(request.user):
+            raise Http404
     except Http404:
         # Page doesn't exist - go to create with the semester, subject, etc filled out
         return create(request, department, number, page_type, semester=(term, year))
@@ -58,6 +61,10 @@ def history(request, department, number, page_type, term, year, slug):
     course = get_object_or_404(Course, department=department.upper(), number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+
+    if not page.can_view(request.user):
+        raise Http404
+
     commit_history = Git(page.get_filepath()).get_history()
     data = {
         'title': 'Page history (%s)' % page,
@@ -72,6 +79,10 @@ def commit(request, department, number, page_type, term, year, slug, hash):
     course = get_object_or_404(Course, department=department.upper(), number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+
+    if not page.can_view(request.user):
+        raise Http404
+
     page_type_obj = page_types[page_type]
     repo = Git(page.get_filepath()) # make this an object on the page
     commit = repo.get_commit(hash)
@@ -114,6 +125,9 @@ def edit(request, department, number, page_type, term, year, slug):
     course = get_object_or_404(Course, department=department.upper(), number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+
+    if not page.can_view(request.user):
+        raise Http404
     page_type_obj = page_types[page_type]
     latest_commit = page.get_latest_commit()
     repo = page.get_repo()
@@ -285,6 +299,9 @@ def create(request, department, number, page_type, semester=None):
 def random(request):
     pages = Page.objects.all()
     random_page = random_module.choice(pages)
+
+    while not random_page.can_view(request.user):
+        random_page = random_module.choice(pages)
 
     return show(
         request,

@@ -62,7 +62,7 @@ def login_logout(request):
         if 'logout' in request.POST:
             logout(request)
     else:
-        if request.POST['login']:
+        if request.POST.get('login'):
             try:
                 username = User.objects.get(username__iexact=request.POST['username'])
                 password = request.POST['password']
