@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <section>
+        <h1>Unauthorised access</h1>
+        <p>Unfortunately, it seems that you do not have permission to access this page.
+        {% if user.is_authenticated %}
+        If you have permission to access this page under a different account, please log out and sign in under that account.
+        {% else %}
+        If you have an account which does have permission to access this page, please sign in.
+        {% endif %}
+        </p>
+        <p>If you have any questions about why we're suddenly restricting access or what pages we've restricted, please contact us (admin at the wikinotes domain). More information on this will be available soon.</p>
+    </section>
+</div>
+{% endblock %}

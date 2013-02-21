@@ -2,6 +2,7 @@ from datetime import datetime
 import random as random_module
 
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
@@ -29,7 +30,7 @@ def show(request, department, number, page_type, term, year, slug, printview=Fal
         page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 
         if not page.can_view(request.user):
-            raise Http404
+            raise PermissionDenied
     except Http404:
         # Page doesn't exist - go to create with the semester, subject, etc filled out
         return create(request, department, number, page_type, semester=(term, year))
@@ -63,7 +64,7 @@ def history(request, department, number, page_type, term, year, slug):
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 
     if not page.can_view(request.user):
-        raise Http404
+        raise Http403
 
     commit_history = Git(page.get_filepath()).get_history()
     data = {
@@ -74,6 +75,7 @@ def history(request, department, number, page_type, term, year, slug):
     }
     return render(request, "pages/history.html", data)
 
+
 # View page information for a specific commit
 def commit(request, department, number, page_type, term, year, slug, hash):
     course = get_object_or_404(Course, department=department.upper(), number=int(number))
@@ -81,7 +83,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 
     if not page.can_view(request.user):
-        raise Http404
+        raise Http403
 
     page_type_obj = page_types[page_type]
     repo = Git(page.get_filepath()) # make this an object on the page

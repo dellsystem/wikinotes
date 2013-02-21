@@ -184,9 +184,7 @@ def overview(request, department, number):
     # Get all the course semesters related to this course
     course_sems = CourseSemester.objects.filter(course=course)
     # Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
-    all_pages = Page.objects.filter(course_sem__course=course)
-    # Hide the ones the user is not allowed to usee
-    all_pages = filter(lambda p: p.can_view(request.user), all_pages)
+    all_pages = Page.objects.visible(request.user, course_sem__course=course)
 
     data = {
         'title': course,
@@ -205,8 +203,7 @@ def overview(request, department, number):
 def semester(request, department, number, term, year):
     course = get_object_or_404(Course, department=department, number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
-    pages = Page.objects.filter(course_sem=course_sem)
-    pages = filter(lambda p: p.can_view(request.user), pages)
+    pages = Page.objects.visible(course_sem=course_sem)
 
     data = {
         'title': course_sem,
@@ -216,6 +213,7 @@ def semester(request, department, number, term, year):
     }
 
     return render(request, 'courses/semester.html', data)
+
 
 def recent(request, department, number):
     course = get_object_or_404(Course, department=department, number=int(number))
@@ -304,7 +302,7 @@ def professor_overview(request, professor):
 
     context = {
         'professor': professor,
-        'pages': Page.objects.filter(professor=professor).order_by('course_sem'),
+        'pages': Page.objects.visible(professor=professor).order_by('course_sem'),
     }
 
     return render(request, 'courses/professor_overview.html', context)
