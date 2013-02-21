@@ -64,7 +64,7 @@ def history(request, department, number, page_type, term, year, slug):
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 
     if not page.can_view(request.user):
-        raise Http403
+        raise PermissionDenied
 
     commit_history = Git(page.get_filepath()).get_history()
     data = {
@@ -83,7 +83,7 @@ def commit(request, department, number, page_type, term, year, slug, hash):
     page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
 
     if not page.can_view(request.user):
-        raise Http403
+        raise PermissionDenied
 
     page_type_obj = page_types[page_type]
     repo = Git(page.get_filepath()) # make this an object on the page
