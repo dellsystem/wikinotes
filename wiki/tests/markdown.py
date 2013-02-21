@@ -180,19 +180,19 @@ class TestMarkdown(unittest.TestCase):
                                     '}\n'
                                     '</pre></div>'
                                     ,
-        'h2'                        : '<h3 class="header"><span>1</span>header2 text<a class="headerlink" href="#header2-text" name="header2-text">&para;</a></h3>'
+        'h2'                        : '<h3 class="header"><i>1</i>header2 text<a class="headerlink" href="#header2-text" name="header2-text">&para;</a></h3>'
                                     ,
-        'h3'                        : '<h4 class="header"><span>1</span>header3 text<a class="headerlink" href="#header3-text" name="header3-text">&para;</a></h4>'
+        'h3'                        : '<h4 class="header"><i>1</i>header3 text<a class="headerlink" href="#header3-text" name="header3-text">&para;</a></h4>'
                                     ,
         'image'                         : '<p><img alt="alt" src="http://beta.wikinotes.ca/static/img/logo.png" title="title" /></p>'
                                     ,
-        'h1'                        : '<h2 class="header"><span>1</span>header1 text<a class="headerlink" href="#header1-text" name="header1-text">&para;</a></h2>'
+        'h1'                        : '<h2 class="header"><i>1</i>header1 text<a class="headerlink" href="#header1-text" name="header1-text">&para;</a></h2>'
                                     ,
         'reflink'                   : ''
                                     ,
-        'h4'                        : '<h5 class="header"><span>1</span>header4 text<a class="headerlink" href="#header4-text" name="header4-text">&para;</a></h5>'
+        'h4'                        : '<h5 class="header"><i>1</i>header4 text<a class="headerlink" href="#header4-text" name="header4-text">&para;</a></h5>'
                                     ,
-        'h5'                        : '<h6 class="header"><span>1</span>header5 text<a class="headerlink" href="#header5-text" name="header5-text">&para;</a></h6>'
+        'h5'                        : '<h6 class="header"><i>1</i>header5 text<a class="headerlink" href="#header5-text" name="header5-text">&para;</a></h6>'
                                     ,
         'mention'                   : '<p><a href="/user/dellsystem">@dellsystem</a></p>'
                                     ,
@@ -298,9 +298,9 @@ class TestMarkdown(unittest.TestCase):
                                     'ss="p">)</span>\n'
                                     '</pre></div>'
                                     ,
-        'alth1'             : '<h3 class="header"><span>1</span>header text<a class="headerlink" href="#header-text" name="header-text">&para;</a></h3>'
+        'alth1'             : '<h3 class="header"><i>1</i>header text<a class="headerlink" href="#header-text" name="header-text">&para;</a></h3>'
                                     ,
-        'alth2'             : '<h2 class="header"><span>1</span>header text<a class="headerlink" href="#header-text" name="header-text">&para;</a></h2>'
+        'alth2'             : '<h2 class="header"><i>1</i>header text<a class="headerlink" href="#header-text" name="header-text">&para;</a></h2>'
                                     ,
         'table_align'               : 
                                     '<table>\n'

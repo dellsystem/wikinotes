@@ -92,7 +92,7 @@ class TocTreeprocessor(markdown.treeprocessors.Treeprocessor):
 
                     last_numbers[this_level] += 1
                     section_number = '.'.join(map(unicode, last_numbers[:this_level+1]))
-                    placeholder = self.markdown.htmlStash.store(u'<span>%s</span>' % section_number, safe=True)
+                    placeholder = self.markdown.htmlStash.store(u'<i>%s</i>' % section_number, safe=True)
                     last_tag_level = tag_level
                     last_level = this_level
 
@@ -117,10 +117,12 @@ class TocTreeprocessor(markdown.treeprocessors.Treeprocessor):
                     # List item link, to be inserted into the toc div
                     last_li = etree.Element("li")
                     link = etree.SubElement(last_li, "a")
-                    link.text = section_number + ' ' + c.text
+                    link.text = '%s %s' % (section_number, text)
                     link.attrib["href"] = '#' + id
 
-                    c.text = placeholder + c.text
+                    # Needed in case the header contains subelements
+                    c.clear()
+                    c.text = placeholder + text
                     pilcrow = etree.SubElement(c, "a")
                     pilcrow.set('class', 'headerlink')
                     pilcrow.set('name', id)

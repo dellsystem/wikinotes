@@ -10,12 +10,24 @@ from wiki.models.courses import CourseSemester
 from wiki.templatetags.wikinotes_markup import wikinotes_markdown
 
 
+class PageManager(models.Manager):
+    """
+    This custom manager is defined solely for the purpose of allowing hidden pages
+    """
+    def visible(self, user, **kwargs):
+        if user.is_staff:
+            return self.all()
+        else:
+            return self.filter(is_hidden=False, **kwargs)
+
+
 class Page(models.Model):
     class Meta:
         app_label = 'wiki'
         unique_together = ('course_sem', 'slug')
         ordering = ['id']
 
+    objects = PageManager()
     course_sem = models.ForeignKey('CourseSemester')
     subject = models.CharField(max_length=255, null=True, blank=True) # only used for some (most) page types
     link = models.CharField(max_length=255, null=True, blank=True) # remember the max length. only used for some page_types
@@ -25,6 +37,10 @@ class Page(models.Model):
     slug = models.CharField(max_length=50)
     content = models.TextField(null=True) # processed markdown, like a cache
     maintainer = models.ForeignKey(User)
+    is_hidden = models.BooleanField(default=False) # for takedown requests
+
+    def can_view(self, user):
+        return not self.is_hidden or user.is_staff
 
     def load_section_content(self, anchor_name):
         """

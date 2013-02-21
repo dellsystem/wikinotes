@@ -1,10 +1,12 @@
 import os
+import re
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404
 
 from urls import static_urls
 from wiki.models.courses import Course
@@ -60,7 +62,7 @@ def login_logout(request):
         if 'logout' in request.POST:
             logout(request)
     else:
-        if request.POST['login']:
+        if request.POST.get('login'):
             try:
                 username = User.objects.get(username__iexact=request.POST['username'])
                 password = request.POST['password']
@@ -174,10 +176,10 @@ def register(request):
             email = request.POST['email'] # this can be blank. it's okay.
             password = request.POST['password']
             password_confirm = request.POST['password_confirm']
-            university = request.POST['university'].lower()
+            university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
-            if university != 'mcgill' and university != 'mcgill university':
+            if not university.startswith('mcgill'):
                 errors.append("Anti-spam question wrong! Please enter the university WikiNotes was made for.")
 
             if username == '':
@@ -271,15 +273,29 @@ def markdown(request):
 
 
 def search(request):
-    if 'query' in request.GET:
-        data = {
-            'title': 'Search results',
-            'query': request.GET['query']
-        }
+    query = request.GET.get('query', '')
+    # If it's in the form MATH 141, just redirect to that page
+    course_re = re.match('(\w{4})[ _-]?(\d{3}D?[12]?)', query)
+    if course_re:
+        department = course_re.group(1)
+        number = course_re.group(2)
+        try:
+            return redirect(Course.objects.get(department=department.upper(), number=number))
+        except Course.DoesNotExist:
+            # Just show the search results
+            pass
 
-        return render(request, 'search/results.html', data)
-    else:
-        raise Http404
+    # Order by popularity (num watchers), descending
+    course_results = Course.objects.filter(Q(name__icontains=query) | Q(description__icontains=query) |
+        Q(number=query)).order_by('-num_watchers')
+
+    data = {
+        'title': 'Search results',
+        'query': query,
+        'course_results': course_results,
+    }
+
+    return render(request, 'search/results.html', data)
 
 
 def static(request, mode='', page=''):

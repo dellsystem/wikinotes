@@ -4,6 +4,19 @@
 <div class="container">
     <section>
         <h1>Search results for {{ query }}</h1>
+        <h2>Courses</h2>
+        {% if course_results %}
+        <ul>
+        {% for course in course_results %}
+        <li><a href="{{ course.get_absolute_url }}" title="{{ course.description }}">{{ course }} - {{ course.name }}</a></li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>No courses found containing {{ query }} in their name, number or description.</p>
+        <br />
+        {% endif %}
+        <hr />
+        <br />
         <p>The search feature is still under construction. Got a suggestion for how search should behave? <a href="/about#contact-us">Let us know!</a></p>
     </section>
 </div>

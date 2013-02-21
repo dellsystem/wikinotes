@@ -147,7 +147,7 @@ def list_all(request, sort_by=''):
 
 
 def watch(request, department, number):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
 
     if request.method == 'POST' and request.user.is_authenticated():
         user = request.user.get_profile()
@@ -169,34 +169,29 @@ def get_all(request):
 
 def overview(request, department, number):
     try:
-        course = get_object_or_404(Course, department=department.upper(), number=int(number))
+        course = get_object_or_404(Course, department=department, number=int(number))
     except Http404:
-        return render(request, "courses/404.html", {'department': department.upper(), 'number': number})
+        return render(request, "courses/404.html", {'department': department, 'number': number})
 
     # We can't use it directly in the template file, it just won't work
     types = []
     for name, obj in page_types.iteritems():
         # Get all the pages associated with this page type (and this course etc)
         pages = Page.objects.filter(page_type=name, course_sem__course=course)
+        pages = filter(lambda p: p.can_view(request.user), pages)
         types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages})
-
-    try:
-        this_sem = CourseSemester.objects.get(course=course, term='winter', year='2011')
-        this_sem_pages = this_sem.page_set.all()
-    except CourseSemester.DoesNotExist:
-        this_sem_pages = []
 
     # Get all the course semesters related to this course
     course_sems = CourseSemester.objects.filter(course=course)
     # Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
-    all_pages = Page.objects.filter(course_sem__course=course)
+    all_pages = Page.objects.visible(request.user, course_sem__course=course)
+
     data = {
         'title': course,
         'is_watching': request.user.get_profile().is_watching(course) if request.user.is_authenticated() else False,
         'course': course,
         'page_types': types,
         'all_pages': all_pages,
-        'this_sem_pages': this_sem_pages,
         'course_sems': course_sems,
         'current_sem': course.get_current_semester(),
     }
@@ -206,9 +201,9 @@ def overview(request, department, number):
 
 # Filtering by semester for a specific course
 def semester(request, department, number, term, year):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
-    pages = Page.objects.filter(course_sem=course_sem)
+    pages = Page.objects.visible(course_sem=course_sem)
 
     data = {
         'title': course_sem,
@@ -219,8 +214,9 @@ def semester(request, department, number, term, year):
 
     return render(request, 'courses/semester.html', data)
 
+
 def recent(request, department, number):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
     raw_history = course.recent_activity(limit=0) # order: newest to oldest
     temp_history = []
 
@@ -269,7 +265,7 @@ def recent(request, department, number):
 
 
 def series(request, department, number, slug):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
     series = get_object_or_404(Series, course=course, slug=slug)
 
     data = {
@@ -282,21 +278,23 @@ def series(request, department, number, slug):
 
 
 def category(request, department, number, page_type):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
+    course = get_object_or_404(Course, department=department, number=int(number))
 
     if page_type not in page_types:
         raise Http404
-    else:
-        category = page_types[page_type]
-        data = {
-            'title': '%s (%s)' % (category.long_name, course),
-            'course': course,
-            'category': category,
-            'pages': Page.objects.filter(course_sem__course=course, page_type=page_type),
-            'create_url': category.get_create_url(course),
-        }
 
-        return render(request, 'courses/category.html', data)
+    pages = Page.objects.filter(course_sem__course=course, page_type=page_type)
+    pages = filter(lambda p: p.can_view(request.user), pages)
+    category = page_types[page_type]
+    data = {
+        'title': '%s (%s)' % (category.long_name, course),
+        'course': course,
+        'category': category,
+        'pages': pages,
+        'create_url': category.get_create_url(course),
+    }
+
+    return render(request, 'courses/category.html', data)
 
 
 def professor_overview(request, professor):
@@ -304,7 +302,7 @@ def professor_overview(request, professor):
 
     context = {
         'professor': professor,
-        'pages': Page.objects.filter(professor=professor).order_by('course_sem'),
+        'pages': Page.objects.visible(professor=professor).order_by('course_sem'),
     }
 
     return render(request, 'courses/professor_overview.html', context)
