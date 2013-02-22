@@ -194,7 +194,7 @@ class TestMarkdown(unittest.TestCase):
                                     ,
         'h5'                        : '<h6 class="header"><i>1</i>header5 text<a class="headerlink" href="#header5-text" name="header5-text">&para;</a></h6>'
                                     ,
-        'mention'                   : '<p><a href="/user/dellsystem">@dellsystem</a></p>'
+        'mention'                   : '<p><a href="/users/dellsystem">@dellsystem</a></p>'
                                     ,
         'horizontal_rules'          : '<hr />'
                                     ,
