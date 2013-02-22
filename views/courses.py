@@ -203,7 +203,7 @@ def overview(request, department, number):
 def semester(request, department, number, term, year):
     course = get_object_or_404(Course, department=department, number=int(number))
     course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=int(year))
-    pages = Page.objects.visible(course_sem=course_sem)
+    pages = Page.objects.visible(request.user, course_sem=course_sem)
 
     data = {
         'title': course_sem,
@@ -302,7 +302,7 @@ def professor_overview(request, professor):
 
     context = {
         'professor': professor,
-        'pages': Page.objects.visible(professor=professor).order_by('course_sem'),
+        'pages': Page.objects.visible(request.user, professor=professor).order_by('course_sem'),
     }
 
     return render(request, 'courses/professor_overview.html', context)
