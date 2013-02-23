@@ -28,7 +28,7 @@
             <tbody>
             {% for commit in commit_history %}
                 <tr>
-                    <td>{% gravatar_img_for_user commit.author.name 20 %} <a href="/user/{{ commit.author.name }}">{{ commit.author.name }}</a></td>
+                    <td>{% gravatar_img_for_user commit.author.name 20 %} <a href="{% url main_profile commit.author.name %}">{{ commit.author.name }}</a></td>
                     <td>{{ commit.message|escape }}</td>
                     <td>{{ commit.date|date:"D, j M, Y H:i" }}</td>
                     <td><div class="red-bar" style="width: {{ commit.bar_width }}px;"><div class="green-bar" style="width: {{ commit.green_percent }}%;"></div></div>{{ commit.lines }} lines (+{{ commit.insertions }}, -{{ commit.deletions }})</td>

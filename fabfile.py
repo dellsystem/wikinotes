@@ -14,3 +14,6 @@ def test():
 
 def refresh():
 	local("python manage.py remarkdown")
+
+def sh():
+    local("python manage.py shell")

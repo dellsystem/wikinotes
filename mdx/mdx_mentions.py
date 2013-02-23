@@ -16,7 +16,7 @@ class MentionPattern(markdown.inlinepatterns.Pattern):
 
         el = markdown.util.etree.Element('a')
         el.text = '@' + username
-        el.set('href', '/user/' + username)
+        el.set('href', '/users/' + username)
         return el
 
 class MentionExtension(markdown.Extension):
