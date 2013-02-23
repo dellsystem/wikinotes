@@ -283,8 +283,7 @@ def category(request, department, number, page_type):
     if page_type not in page_types:
         raise Http404
 
-    pages = Page.objects.filter(course_sem__course=course, page_type=page_type)
-    pages = filter(lambda p: p.can_view(request.user), pages)
+    pages = Page.objects.visible(request.user, course_sem__course=course, page_type=page_type)
     category = page_types[page_type]
     data = {
         'title': '%s (%s)' % (category.long_name, course),
