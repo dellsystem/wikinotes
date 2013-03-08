@@ -28,7 +28,7 @@
                     <td>{% include page.get_type.get_cell_template %}</td>
                     <td><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a></td>
                     <td><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.get_semester }}</a></td>
-                    <td>{% if page.professor %}<a href="{{ page.professor }}">{{ page.professor }}</a>{% else %}N/A{% endif %}</td>
+                    <td>{% if page.professor.get_absolute_url %}<a href="{{ page.professor }}">{{ page.professor }}</a>{% else %}N/A{% endif %}</td>
                 </tr>
                 {% endwith %}
                 {% endfor %}

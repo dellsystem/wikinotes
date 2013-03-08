@@ -16,7 +16,7 @@ class PageManager(models.Manager):
     """
     def visible(self, user, **kwargs):
         if user.is_staff:
-            return self.all()
+            return self.filter(**kwargs)
         else:
             return self.filter(is_hidden=False, **kwargs)
 

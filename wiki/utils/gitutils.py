@@ -39,9 +39,17 @@ class Git:
     # Pass it the SHA1 hash etc
     # It's not like we'll ever need to use hash() anyway lol
     def get_commit(self, hash):
-        hexsha = gitdb.util.hex_to_bin(hash) # have to convert it first
-        commit = git.objects.commit.Commit(self.repo, hexsha)
-        return commit
+        try:
+            hexsha = gitdb.util.hex_to_bin(hash) # have to convert it first
+            commit = git.objects.commit.Commit(self.repo, hexsha)
+
+            # Call commit.size to see if the commit actually exists
+            # If it doesn't, it will raise an exception
+            commit.size
+            return commit
+        except:
+            # Invalid hash (theoretically)
+            return None
 
     # Pass it a commit object. Returns the commit object for the previous commit in the master branch
     def get_previous(self, this_commit):
