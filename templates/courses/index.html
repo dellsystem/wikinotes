@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load url from future %}
 
 {% block content %}
 <div class="container">
@@ -41,7 +42,7 @@
                 <h2>View all courses</h2>
                 <p>Are you really just looking for an alphabetical listing of every course in our catalogue? If so, you're in luck. <a href="/courses/all">View all courses &raquo;</a>
                 <h2>Create a course</h2>
-                <p>Want to add content for a course we don't yet have in our catalogue? <a href="{% url courses_create %}">Create a new course &raquo;</a></p>
+                <p>Want to add content for a course we don't yet have in our catalogue? <a href="{% url "courses_create" %}">Create a new course &raquo;</a></p>
             </div>
         </div>
     </section>
