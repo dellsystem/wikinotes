@@ -18,10 +18,10 @@
                     {% endif %}
                 </ul>
                 <h2>Browse by category</h2>
-                {% if all_pages %}
+                {% if has_pages %}
                 <div class="row">
                     <div class="span2 columns">
-                        <h4>Categories</h4>
+                        <h3>Categories</h3>
                         <ul class="unstyled">
                             {% for page_type in page_types %}
                                 {% if page_type.pages %}
@@ -32,8 +32,9 @@
                     </div>
                     <div class="span10 columns">
                         {% for page_type in page_types %}
-                            {% if page_type.pages %}
-                                <h4 id="{{ page_type.name }}">{{ page_type.long_name }}</h4>
+                            {% if page_type.pages or page_type.external_pages %}
+                                <h3 id="{{ page_type.name }}">{{ page_type.long_name }}</h3>
+                                {% if page_type.pages %}
                                 <table class="page-table" data-num-pages="{{ page_type.pages.count }}">
                                     <thead>
                                         {% include page_type.list_header %}
@@ -46,6 +47,15 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                {% endif %}
+                                {% if page_type.external_pages %}
+                                <h5>External content</h5>
+                                <ul>
+                                    {% for page in page_type.external_pages %}
+                                    <li><a href="{{ page.link }}"{% if page.description %} title="{{ page.description }}"{% endif %}>{{ page.title }} &raquo;</a>{% if page.maintainer %} (maintained by <a href="{{ page.maintainer.get_absolute_url }}">{{ page.maintainer }}</a>){% endif %}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                         {% comment %}Done with JS, but the fallback is to go straight to the semester page (yes they exist){% endcomment %}

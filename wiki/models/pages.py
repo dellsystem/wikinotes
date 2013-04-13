@@ -21,6 +21,24 @@ class PageManager(models.Manager):
             return self.filter(is_hidden=False, **kwargs)
 
 
+class ExternalPage(models.Model):
+    class Meta:
+        app_label = 'wiki'
+
+    course = models.ForeignKey('Course')
+    page_type = models.CharField(choices=page_type_choices, max_length=20)
+    link = models.URLField()
+    title = models.CharField(max_length=50)
+    description = models.TextField(null=True, blank=True)
+    maintainer = models.ForeignKey(User, null=True, blank=True)
+
+    def __unicode__(self):
+        return "%s - %s (%s)" % (self.title, self.course, self.link)
+
+    def get_absolute_url(self):
+        return self.link
+
+
 class Page(models.Model):
     class Meta:
         app_label = 'wiki'

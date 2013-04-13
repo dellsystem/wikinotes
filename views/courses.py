@@ -12,7 +12,7 @@ from wiki.models.courses import Course, CourseSemester, Professor
 from wiki.models.departments import Department
 from wiki.models.faculties import Faculty
 from wiki.models.history import HistoryItem
-from wiki.models.pages import Page
+from wiki.models.pages import Page, ExternalPage
 from wiki.models.series import Series
 from wiki.utils.pages import page_types
 
@@ -178,20 +178,22 @@ def overview(request, department, number):
     for name, obj in page_types.iteritems():
         # Get all the pages associated with this page type (and this course etc)
         pages = Page.objects.filter(page_type=name, course_sem__course=course)
+        external_pages = ExternalPage.objects.filter(page_type=name, course=course)
+        print external_pages
         pages = filter(lambda p: p.can_view(request.user), pages)
-        types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages})
+        types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages, 'external_pages': external_pages})
 
     # Get all the course semesters related to this course
     course_sems = CourseSemester.objects.filter(course=course)
     # Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
-    all_pages = Page.objects.visible(request.user, course_sem__course=course)
+    all_pages = Page.objects.visible(request.user, course_sem__course=course).count() + ExternalPage.objects.filter(course=course).count()
 
     data = {
         'title': course,
         'is_watching': request.user.get_profile().is_watching(course) if request.user.is_authenticated() else False,
         'course': course,
         'page_types': types,
-        'all_pages': all_pages,
+        'has_pages': all_pages,
         'course_sems': course_sems,
         'current_sem': course.get_current_semester(),
     }
