@@ -43,7 +43,7 @@ def view(request, message_id):
     message = get_object_or_404(PrivateMessage, pk=message_id)
 
     if request.user == message.sender or request.user == message.recipient:
-        if not message.is_read:
+        if not message.is_read and request.user == message.recipient:
             message.is_read = True
             message.save()
         return {
