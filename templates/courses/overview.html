@@ -17,20 +17,41 @@
                         {% if current_sem.readings %}<li><strong>Evaluation:</strong> {{ current_sem.evaluation }}</li>{% endif %}
                     {% endif %}
                 </ul>
-                <h2>Browse by category</h2>
-                {% if has_pages %}
-                <div class="row">
-                    <div class="span2 columns">
-                        <h3>Categories</h3>
-                        <ul class="unstyled">
-                            {% for page_type in page_types %}
-                                {% if page_type.pages %}
-                                    <li><a href="#{{ page_type.name }}">{{ page_type.long_name }}</a></li>
-                                {% endif %}
+
+                {% if visible_series.count %}
+                {% for series in visible_series %}
+                    {% with series_total=series.seriespage_set.count %}
+                    <h2>{{ series.name }} <small>({{ series_total }} page{{ series_total|pluralize }}) <a href="#" class="table-hide" data-other-text="[show]">[hide]</a></small></h2>
+                    <table class="page-table">
+                        <thead>
+                            <tr>
+                                <th>Page</th>
+                                <th>Category</th>
+                                <th>Semester</th>
+                                <th>Professor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for series_page in series.seriespage_set.all %}
+                            {% with page=series_page.page %}
+                            <tr>
+                                <td>{% include page.get_type.get_cell_template %}</td>
+                                <td><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a></td>
+                                <td><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.get_semester }}</a></td>
+                                <td>{% if page.professor.get_absolute_url %}<a href="{{ page.professor }}">{{ page.professor }}</a>{% else %}N/A{% endif %}</td>
+                            </tr>
+                            {% endwith %}
                             {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="span10 columns">
+                        </tbody>
+                    </table>
+                    {% endwith %}
+                {% endfor %}
+                {% endif %}
+
+                {% if has_misc_pages %}
+                <h2>Miscellaneous pages <small><a href="#" class="table-hide" data-other-text="[show]">[hide]</a></small></h2>
+                <div class="row">
+                    <div class="span12 columns">
                         {% for page_type in page_types %}
                             {% if page_type.pages or page_type.external_pages %}
                                 <h3 id="{{ page_type.name }}">{{ page_type.long_name }}</h3>
@@ -58,25 +79,10 @@
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
-                        {% comment %}Done with JS, but the fallback is to go straight to the semester page (yes they exist){% endcomment %}
-                        <p>Filter by semester: {% for course_sem in course_sems %}<a href="{{ course_sem.get_absolute_url }}" class="semester-filter" data-semester="{{ course_sem.get_slug }}">{{ course_sem.get_semester }}</a> :: {% endfor %} <a href="" id="semester-show">Show all</a></p>
                     </div>
                 </div>
-                {% else %}
-                <p>There are no pages associated with this course! Why not try adding some?</p>
                 {% endif %}
-                <h2>Browse by series</h2>
-                {% if course.series_set.count %}
-                <ul class="unstyled">
-                {% for series in course.series_set.all %}
-                    {% with series_total=series.seriespage_set.count %}
-                    <li><a href="{{ series.get_absolute_url }}">{{ series.name }}</a> ({{ series_total }} page{{ series_total|pluralize }})</li>
-                    {% endwith %}
-                {% endfor %}
-                </ul>
-                {% else %}
-                <p>This course does not have any series.</p>
-                {% endif %}
+
                 <h2>Other resources</h2>
                 <ul class="unstyled">
                     <li><a href="http://www.docuum.com/McGill/{{ course.department.short_name }}/{{ course.number }}">{{ course }} on Docuum</a></li>

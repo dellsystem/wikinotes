@@ -175,27 +175,27 @@ def overview(request, department, number):
 
     # We can't use it directly in the template file, it just won't work
     types = []
+    num_misc_pages = 0
     for name, obj in page_types.iteritems():
         # Get all the pages associated with this page type (and this course etc)
-        pages = Page.objects.filter(page_type=name, course_sem__course=course)
+        pages = Page.objects.filter(page_type=name, course_sem__course=course, seriespage=None)
         external_pages = ExternalPage.objects.filter(page_type=name, course=course)
-        print external_pages
+        num_misc_pages += pages.count() + external_pages.count()
         pages = filter(lambda p: p.can_view(request.user), pages)
         types.append({'name': name, 'url': obj.get_create_url(course), 'icon': obj.get_icon(), 'long_name': obj.long_name, 'desc': obj.description, 'list_header': obj.get_list_header(), 'list_body': obj.get_list_body(), 'pages': pages, 'external_pages': external_pages})
 
     # Get all the course semesters related to this course
     course_sems = CourseSemester.objects.filter(course=course)
-    # Get all of the pages associated with this course (can't just do page_set because the foreign key is CourseSemester lol)
-    all_pages = Page.objects.visible(request.user, course_sem__course=course).count() + ExternalPage.objects.filter(course=course).count()
 
     data = {
         'title': course,
         'is_watching': request.user.get_profile().is_watching(course) if request.user.is_authenticated() else False,
         'course': course,
         'page_types': types,
-        'has_pages': all_pages,
+        'has_misc_pages': num_misc_pages > 0,
         'course_sems': course_sems,
         'current_sem': course.get_current_semester(),
+        'visible_series': course.series_set.visible(request.user),
     }
 
     return render(request, 'courses/overview.html', data)
@@ -264,19 +264,6 @@ def recent(request, department, number):
     }
 
     return render(request, 'courses/recent.html', data)
-
-
-def series(request, department, number, slug):
-    course = get_object_or_404(Course, department=department, number=int(number))
-    series = get_object_or_404(Series, course=course, slug=slug)
-
-    data = {
-        'title': series,
-        'course': course,
-        'series': series,
-    }
-
-    return render(request, 'courses/series.html', data)
 
 
 def category(request, department, number, page_type):

@@ -66,7 +66,6 @@ direct_to_view = (
         (course, 'overview'),
         (course + '/recent', 'recent'),
         (course + '/watch', 'watch'),
-        (course + '/series/' + slug, 'series'),
         (course + '/' + semester, 'semester'),
         (course + '/' + page_type, 'category'),
         (department, 'department_overview'),
