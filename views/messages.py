@@ -72,4 +72,5 @@ def compose(request):
             raise ViewMessage(message.id)
     else:
         form = PrivateMessageForm()
-        return {'form': form}
+
+    return {'form': form}

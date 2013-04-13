@@ -1,9 +1,12 @@
 {% extends "messages/base.html" %}
 
 {% block inner_content %}
+
 <form method="post" action="">
+{% csrf_token %}
+
 {% if form.errors %}
-<div class="alert-message block-message error">
+<div class="alert-message block-message error" style="clear:both;">
 <p>Please correct the following errors:</p>
 <ul>
 {% for field in form %}
@@ -15,7 +18,6 @@
 {{ form.non_field_errors }}
 </div>
 {% endif %}
-{% csrf_token %}
 <table>
     <tr>
         <td><strong>From:</strong></td>
