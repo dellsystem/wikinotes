@@ -35,6 +35,13 @@ direct_to_view = (
         ('markdown', 'markdown'),
         ('register', 'register')
     )),
+    ('messages', (
+        ('messages', 'inbox'),
+        ('messages/inbox', 'inbox'),
+        ('messages/outbox', 'outbox'),
+        ('messages/compose', 'compose'),
+        ('messages/view/(?P<message_id>\d+)', 'view'),
+    )),
     ('news', (
         ('news', 'main'),
         ('news/' + slug, 'view'),

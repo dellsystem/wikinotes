@@ -1,0 +1,28 @@
+{% extends "messages/base.html" %}
+
+{% load wikinotes_markup %}
+
+{% block inner_content %}
+<table>
+    <tr>
+        <td><strong>From:</strong></td>
+        <td><a href="{{ message.sender.get_absolute_url }}">{{ message.sender }}</a></td>
+    </tr>
+    <tr>
+        <td><strong>To:</strong></td>
+        <td><a href="{{ message.recipient.get_absolute_url }}">{{ message.recipient }}</a></td>
+    </tr>
+    <tr>
+        <td><strong>Subject:</strong></td>
+        <td>{{ message.subject }}</td>
+    </tr>
+    <tr>
+        <td><strong>Sent on:</strong></td>
+        <td>{{ message.timestamp }}</td>
+    </tr>
+    <tr>
+        <td><strong>Message:</strong></td>
+        <td>{{ message.message|wikinotes_markdown|safe }}</td>
+    </tr>
+</table>
+{% endblock %}
