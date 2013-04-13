@@ -14,7 +14,7 @@
         {% for message in messages %}
         <tr>
             <td><a href="{{ message.recipient.get_absolute_url }}">{{ message.recipient }}</a></td>
-            <td><strong><a href="{{ message.get_absolute_url }}">{{ message.subject }}</a></strong>{% if not message.is_read %} (unread){% endif %}</td>
+            <td><strong><a href="{{ message.get_absolute_url }}">{{ message.subject|default:"(no subject)" }}</a></strong>{% if not message.is_read %} (unread){% endif %}</td>
             <td>{{ message.timestamp }}</td>
         </tr>
         {% endfor %}
