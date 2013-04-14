@@ -88,6 +88,9 @@ def commit(request, department, number, page_type, term, year, slug, hash):
     page_type_obj = page_types[page_type]
     repo = Git(page.get_filepath()) # make this an object on the page
     commit = repo.get_commit(hash)
+    if commit is None:
+        raise Http404
+
     files = {}
     for blob in commit.tree:
         raw = blob.data_stream.read().split('\n')

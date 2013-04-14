@@ -383,4 +383,18 @@ $(document).ready(function() {
         var usage = $(this).attr('data-usage');
         setEditButtonMessage(usage, '');
     });
+
+    // Handle hiding page listings on course overview pages
+    if ($('.table-hide').length) {
+        $('.table-hide').click(function () {
+            var a = this;
+            $(this).parent().parent().next().fadeToggle(300, function (event) {
+                // Change hide to show and vice versa
+                var currentText = $(a).text();
+                $(a).text($(a).data('other-text'));
+                $(a).data('other-text', currentText);
+            });
+            return false;
+        });
+    }
 });

@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.db import models
 from django.db.models.signals import post_save
 
 
@@ -56,6 +57,32 @@ class UserProfile(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('main_profile', (), {'username': self.user.username})
+
+
+"""
+A simple private messaging system. Useful because not everyone provides
+contact information.
+"""
+class PrivateMessageManager(models.Manager):
+    def new(self, **kwargs):
+        return self.filter(is_read=False, **kwargs)
+
+
+class PrivateMessage(models.Model):
+    class Meta:
+        app_label = 'wiki'
+
+    objects = PrivateMessageManager()
+    sender = models.ForeignKey(User, related_name="sent_messages")
+    recipient = models.ForeignKey(User, related_name="received_messages")
+    subject = models.CharField(max_length=100, blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
+    is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+    def get_absolute_url(self):
+        return reverse('messages_view', args=[self.id])
 
 
 def create_user_profile(sender, instance, created, **kwargs):

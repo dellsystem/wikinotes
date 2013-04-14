@@ -17,12 +17,8 @@
     <script src="/static/js/less.min.js"></script>
     {% endif %}
 
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/placeholder.min.js"></script>
-    <script src="/static/js/jquery.fieldselection.min.js"></script>
+    <script src="/static/js/dependencies.js"></script>
     <script src="/static/js/page_course_shit.js"></script>
-    <script src="/static/js/jquery.tablesorter.min.js"></script>
-    <script src="/static/js/jquery.chosen.min.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -85,7 +81,16 @@
                     <input type="checkbox" /> <span>Stay logged in</span>
                 </label>
                 {% else %}
-                <div class="right-float"><p><a href="/ucp/" class="btn info">User control panel</a>{% if user.is_staff %} <a href="/admin/" class="btn">Admin</a>{% endif %}</p><p><input type="submit" class="btn danger" value="Log out ({{ user }})" name="logout" /></p></div>
+                <div class="right-float">
+                    <p>
+                        <a href="/ucp/" class="btn">User control panel</a>
+                        {% with num_new_messages=user.received_messages.new.count %}
+                        <a href="/messages/" class="btn{% if num_new_messages %} danger{% endif %}">{{ num_new_messages }} new message{{ num_new_messages|pluralize }}</a>
+                        {% endwith %}
+                        {% if user.is_staff %} <a href="/admin/" class="btn">Admin</a>{% endif %}
+                    </p>
+                    <p><input type="submit" class="btn info" value="Log out ({{ user }})" name="logout" /></p>
+                </div>
                 {% load gravatar %}
                 <div id="your-gravatar"><a href="{{ user.get_profile.get_absolute_url }}" title="View your profile"><img src="{% gravatar_for_user user 70 %}" alt="Your Gravatar" /></a></div>
                 {% endif %}

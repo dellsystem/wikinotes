@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from blog.models import BlogPost
 
@@ -13,7 +13,7 @@ def main(request):
 
 
 def view(request, slug):
-    post = BlogPost.objects.get(slug=slug)
+    post = get_object_or_404(BlogPost, slug=slug)
     data = {
         'title': post,
         'post': post,

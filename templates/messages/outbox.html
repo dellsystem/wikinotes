@@ -1,0 +1,26 @@
+{% extends "messages/base.html" %}
+
+{% block inner_content %}
+{% if messages.count %}
+<table>
+    <thead>
+        <tr>
+            <th>To</th>
+            <th>Subject</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for message in messages %}
+        <tr>
+            <td><a href="{{ message.recipient.get_absolute_url }}">{{ message.recipient }}</a></td>
+            <td><strong><a href="{{ message.get_absolute_url }}">{{ message.subject|default:"(no subject)" }}</a></strong>{% if not message.is_read %} (unread){% endif %}</td>
+            <td>{{ message.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>You have no sent messages.</p>
+{% endif %}
+{% endblock %}
