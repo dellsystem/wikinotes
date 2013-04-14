@@ -1,8 +1,15 @@
 {% extends "messages/base.html" %}
 
 {% load wikinotes_markup %}
+{% load url from future %}
 
 {% block inner_content %}
+{% if show_reply %}
+<div class="right-align">
+    <p><a href="{% url 'messages_compose' %}?to={{ message.sender|urlencode }}&reply_to={{ message.subject|urlencode }}" class="btn">Reply</a></p>
+    </div>
+{% endif %}
+
 <table>
     <tr>
         <td><strong>From:</strong></td>

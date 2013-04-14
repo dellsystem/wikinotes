@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -46,8 +47,10 @@ def view(request, message_id):
         if not message.is_read and request.user == message.recipient:
             message.is_read = True
             message.save()
+
         return {
-            'message': message
+            'message': message,
+            'show_reply': request.user == message.recipient,
         }
     else:
         # Trying to view someone else's message ... return to inbox
@@ -71,6 +74,20 @@ def compose(request):
             form.save()
             raise ViewMessage(message.id)
     else:
-        form = PrivateMessageForm()
+        message = PrivateMessage()
+
+        # If we want to send a message to a specific person
+        recipient_name = request.GET.get('to', '')
+        try:
+            message.recipient = User.objects.get(username__iexact=recipient_name)
+        except User.DoesNotExist:
+            pass
+
+        # Pre-filled subject (reply to)
+        reply_to = request.GET.get('reply_to', '')
+        if reply_to:
+            message.subject = 'Re: %s' % reply_to
+
+        form = PrivateMessageForm(instance=message)
 
     return {'form': form}

@@ -12,3 +12,4 @@ class PrivateMessageForm(forms.ModelForm):
         super(PrivateMessageForm, self).__init__(*args, **kwargs)
         self.fields['subject'].widget.attrs['class'] = 'xxlarge'
         self.fields['message'].widget.attrs['class'] = 'xxlarge'
+        self.fields['recipient'].widget.attrs['class'] = 'chosen'
