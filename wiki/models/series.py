@@ -33,7 +33,7 @@ class Series(models.Model):
         return "%s (%s)" % (self.name, self.course)
 
     def get_absolute_url(self):
-        return '%s/series/%s' % (self.course.get_absolute_url(), self.slug)
+        return '%s#series-%s' % (self.course.get_absolute_url(), self.slug)
 
     def get_num_total(self):
         return self.seriespage_set.count()

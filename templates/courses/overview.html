@@ -21,7 +21,7 @@
                 {% if visible_series.count %}
                 {% for series in visible_series %}
                     {% with series_total=series.seriespage_set.count %}
-                    <h2>{{ series.name }} <small>({{ series_total }} page{{ series_total|pluralize }}) <a href="#" class="table-hide" data-other-text="[show]">[hide]</a></small></h2>
+                    <h2 id="series-{{ series.slug }}">{{ series.name }} <small>({{ series_total }} page{{ series_total|pluralize }}) <a href="#" class="table-hide" data-other-text="[show]">[hide]</a></small></h2>
                     <table class="page-table">
                         <thead>
                             <tr>
