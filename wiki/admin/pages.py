@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from wiki.models.pages import Page
+from wiki.models.pages import Page, ExternalPage
 
 
 class PageAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class PageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Page, PageAdmin)
+admin.site.register(ExternalPage)

@@ -1,0 +1,48 @@
+{% extends "messages/base.html" %}
+
+{% block inner_content %}
+
+<form method="post" action="">
+{% csrf_token %}
+
+{% if form.errors %}
+<div class="alert-message block-message error" style="clear:both;">
+<p>Please correct the following errors:</p>
+<ul>
+{% for field in form %}
+{% if field.errors %}
+<li><strong>{{ field.label_tag|striptags }}</strong>:{{ field.errors|striptags }}</li>
+{% endif %}
+{% endfor %}
+</ul>
+{{ form.non_field_errors }}
+</div>
+{% endif %}
+<table>
+    <tr>
+        <td><strong>From:</strong></td>
+        <td>{{ user }}</td>
+    </tr>
+    <tr>
+        <td><strong>To:</strong></td>
+        <td>{{ form.recipient }}</a></td>
+    </tr>
+    <tr>
+        <td><strong>Subject:</strong></td>
+        <td>{{ form.subject }}</td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Message:</strong>
+            <p>The message contents will be processed with <a href="/help/formatting">Markdown</a>.
+        </td>
+        <td>{{ form.message }}</td>
+    </tr>
+</table>
+
+<fieldset class="grey-box center-align">
+    <input type="submit" name="submit" value="Send" class="btn success" />
+    <input type="reset" value="Reset" class="btn" />
+</fieldset>
+</form>
+{% endblock %}

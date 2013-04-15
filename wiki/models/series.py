@@ -1,23 +1,39 @@
 from django.db import models
 
 
+class SeriesManager(models.Manager):
+    """
+    This custom manager is defined solely for the purpose of allowing hidden series
+    """
+    def visible(self, user, **kwargs):
+        if user.is_staff:
+            return self.filter(**kwargs)
+        else:
+            return self.filter(is_hidden=False, **kwargs)
+
+
 class Series(models.Model):
     class Meta:
         app_label = 'wiki'
         unique_together = (('course', 'position'), ('course', 'slug'))
         verbose_name_plural = 'Series'
 
+    objects = SeriesManager()
     course = models.ForeignKey('Course')
     name = models.CharField(max_length=255)
     position = models.IntegerField()
     slug = models.SlugField()
     banner = models.ForeignKey('SeriesBanner', null=True, blank=True)
+    is_hidden = models.BooleanField(default=False)
+
+    def can_view(self, user):
+        return not self.is_hidden or user.is_staff
 
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.course)
 
     def get_absolute_url(self):
-        return '%s/series/%s' % (self.course.get_absolute_url(), self.slug)
+        return '%s#series-%s' % (self.course.get_absolute_url(), self.slug)
 
     def get_num_total(self):
         return self.seriespage_set.count()
