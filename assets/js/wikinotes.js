@@ -397,4 +397,6 @@ $(document).ready(function() {
             return false;
         });
     }
+
+    $('.chosen').chosen();
 });

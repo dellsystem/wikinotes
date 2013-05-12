@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load gravatar %}
+{% load url from future %}
 
 {% block extra_head %}
 <meta property="og:image" content="{% gravatar_for_user this_user 100 %}" />
@@ -10,7 +11,7 @@
 <div class="container">
     <section>
         <div class="page-header">
-            <h1>{{ this_user.username }}</h1>
+            <h1>{{ this_user.username }} </h1>
         </div>
         <div class="row">
             <div class="span11">
@@ -35,6 +36,8 @@
                         </div>
                     </div>
                 </div>
+                <p><a href="{% url 'messages_compose' %}?to={{ this_user.username }}" class="btn">Send private message</a></p>
+
                 <h2>Watched courses</h2>
 
                 <div class="row">
