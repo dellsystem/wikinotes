@@ -113,7 +113,8 @@ def profile(request, username):
 
         # Figure out the number of pages created and modified
         pages_modified = Page.objects.filter(historyitem__user=this_user).distinct()
-        pages_created = pages_modified.filter(historyitem__action='created')
+        creation_history = HistoryItem.objects.filter(action='created', user=this_user)
+        pages_created = pages_modified.filter(historyitem__in=creation_history)
         courses_contributed_to = Course.objects.filter(coursesemester__page__in=pages_modified).distinct()
         num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
 
