@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+<meta property="og:image" content="{{ page.get_dept.get_image }}" />
+{% endblock %}
+
 {% block meta_description %}A student-created resource for the course {{ course }} - {{ course.name }} at McGill University. Available for free on Wikinotes.{% endblock %}
 
 {% block content %}
