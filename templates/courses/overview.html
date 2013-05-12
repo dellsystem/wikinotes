@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block extra_head %}
-<meta property="og:image" content="{{ course.department.get_image }}" />
+<meta property="og:image" content="{{ site_url }}{{ course.department.get_image }}" />
 {% endblock %}
 
 {% block meta_description %}Student-created lecture notes, course summaries and more for {{ course }} - {{ course.name }} at McGill University. Available for free through Wikinotes.{% endblock %}
