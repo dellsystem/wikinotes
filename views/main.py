@@ -4,6 +4,7 @@ import re
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -241,7 +242,7 @@ def ucp(request, mode):
         }
 
         # Now check if a request has been submitted
-        if request.POST:
+        if request.method == 'POST':
             data['success'] = True
 
             if mode == 'preferences':
@@ -254,8 +255,20 @@ def ucp(request, mode):
                 user_profile.facebook = request.POST['ucp_facebook']
                 user_profile.gplus = request.POST['ucp_gplus']
                 user_profile.major = request.POST['ucp_major']
+            if mode == 'account':
+                form = PasswordChangeForm(user=request.user,
+                                          data=request.POST)
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['success'] = False
+
+                data['form'] = form
 
             user_profile.save()
+        else:
+            if mode == 'account':
+                data['form'] = PasswordChangeForm(user=request.user)
 
         return render(request, 'main/ucp.html', data)
     else:
