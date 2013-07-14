@@ -174,18 +174,21 @@ def register(request):
             # Make sure everything checks out ...
 
             errors = []
-            username = request.POST['username']
-            email = request.POST['email'] # this can be blank. it's okay.
-            password = request.POST['password']
-            password_confirm = request.POST['password_confirm']
+            username = request.POST.get('username')
+            email = request.POST.get('email', '')
+            password = request.POST.get('password')
+            password_confirm = request.POST.get('password_confirm')
             university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
             if not university.startswith('mcgill'):
-                errors.append("Anti-spam question wrong! Please enter the university WikiNotes was made for.")
+                errors.append("Anti-spam question wrong! Please enter the name of the university WikiNotes was made for.")
 
-            if username == '':
+            if not username:
                 errors.append("You didn't fill in your username!")
+
+            if not password:
+                errors.append("Please enter a password.")
 
             if len(password) < 6:
                 errors.append("Your password is too short. Please keep it to at least 6 characters.")
