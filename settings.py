@@ -166,6 +166,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.static',
     'django.contrib.messages.context_processors.messages',
-    'wiki.context_processors.less_compilation',
+    'wiki.context_processors.config',
     'django.core.context_processors.request',
 )
+
+# This eliminates the need for a db query every time this is called
+SITE_URL = 'http://wikinotes.ca'

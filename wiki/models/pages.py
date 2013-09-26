@@ -150,3 +150,6 @@ class Page(models.Model):
     # Returns a Git object
     def get_repo(self):
         return Git(self.get_filepath())
+
+    def get_dept(self):
+        return self.course_sem.course.department

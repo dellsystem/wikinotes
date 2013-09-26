@@ -4,6 +4,7 @@ import re
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -113,7 +114,8 @@ def profile(request, username):
 
         # Figure out the number of pages created and modified
         pages_modified = Page.objects.filter(historyitem__user=this_user).distinct()
-        pages_created = pages_modified.filter(historyitem__action='created')
+        creation_history = HistoryItem.objects.filter(action='created', user=this_user)
+        pages_created = pages_modified.filter(historyitem__in=creation_history)
         courses_contributed_to = Course.objects.filter(coursesemester__page__in=pages_modified).distinct()
         num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
 
@@ -172,18 +174,21 @@ def register(request):
             # Make sure everything checks out ...
 
             errors = []
-            username = request.POST['username']
-            email = request.POST['email'] # this can be blank. it's okay.
-            password = request.POST['password']
-            password_confirm = request.POST['password_confirm']
+            username = request.POST.get('username')
+            email = request.POST.get('email', '')
+            password = request.POST.get('password')
+            password_confirm = request.POST.get('password_confirm')
             university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
             if not university.startswith('mcgill'):
-                errors.append("Anti-spam question wrong! Please enter the university WikiNotes was made for.")
+                errors.append("Anti-spam question wrong! Please enter the name of the university WikiNotes was made for.")
 
-            if username == '':
+            if not username:
                 errors.append("You didn't fill in your username!")
+
+            if not password:
+                errors.append("Please enter a password.")
 
             if len(password) < 6:
                 errors.append("Your password is too short. Please keep it to at least 6 characters.")
@@ -240,7 +245,7 @@ def ucp(request, mode):
         }
 
         # Now check if a request has been submitted
-        if request.POST:
+        if request.method == 'POST':
             data['success'] = True
 
             if mode == 'preferences':
@@ -253,8 +258,20 @@ def ucp(request, mode):
                 user_profile.facebook = request.POST['ucp_facebook']
                 user_profile.gplus = request.POST['ucp_gplus']
                 user_profile.major = request.POST['ucp_major']
+            if mode == 'account':
+                form = PasswordChangeForm(user=request.user,
+                                          data=request.POST)
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['success'] = False
+
+                data['form'] = form
 
             user_profile.save()
+        else:
+            if mode == 'account':
+                data['form'] = PasswordChangeForm(user=request.user)
 
         return render(request, 'main/ucp.html', data)
     else:

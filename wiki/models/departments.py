@@ -18,3 +18,6 @@ class Department(models.Model):
 
     def get_image(self):
         return "/static/img%s.png" % self.get_absolute_url()
+
+    def get_large_image(self):
+        return "/static/img%s_large.png" % self.get_absolute_url()

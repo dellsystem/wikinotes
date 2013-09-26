@@ -1,1 +1,42 @@
-<p>Here you can edit your account info. Can you change your username? Nah, not yet. Can you change your email and password? Sure.</p>
+<div class="row">
+    <div class="span12">
+        <form method="post" action=''>
+        {% csrf_token %}
+            <fieldset>
+                <legend>Change your password</legend>
+                {% if success %}
+                <div class="clearfix">
+                    <div class="input">
+                        <div class="alert-message block-message success">
+                            <p>Successfully changed password.</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if form.errors %}
+                <div class="clearfix">
+                    <div class="input">
+                        <div class="alert-message block-message error">
+                            {{ form.errors }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% for field in form %}
+                <div class="clearfix">
+                    {{ field.label_tag }}
+                    <div class="input">
+                        {{ field }}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="actions">
+                    <input type="submit" class="btn info" name="submit" value="Submit">&nbsp;<button type="reset" class="btn">Reset</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="span4">
+        <p>You can change your password from this page.</p>
+    </div>
+</div>

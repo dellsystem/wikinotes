@@ -1,5 +1,8 @@
-from settings import COMPILE_LESS
+from django.conf import settings
 
 
-def less_compilation(request):
-    return {'compile_less': COMPILE_LESS}
+def config(request):
+    return {
+        'compile_less': settings.COMPILE_LESS,
+        'site_url': settings.SITE_URL,
+    }
