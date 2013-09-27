@@ -147,7 +147,7 @@ class TestMarkdown(unittest.TestCase):
                                     }
 
     expected = {
-        'plotly'                    : '<iframe height="500" width="940" scrolling="no" seamless="seamless" src="https://plot.ly/~dellsystem/101/940/500">',
+        'plotly'                    : '<p>\n<iframe height="500" scrolling="no" seamless="seamless" src="https://plot.ly/~dellsystem/101/940/500" width="940"></iframe>\n</p>',
         'line_num_fenced'           : 
                                     '<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1\n'
                                     '2</pre></div></td><td class="code"><div class="codehilite"><pre>so many lines\n'
