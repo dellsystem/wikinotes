@@ -13,12 +13,6 @@ $(document).ready(function() {
         });
     }
 
-    // When creating a page, make the professor chosen thing show up
-    var professorSelect = $('#professor-select');
-    if (professorSelect.length) {
-        professorSelect.chosen();
-    }
-
     // If there's an ol on the page ... (MUST be an ol to be considered a q)
     var orderedLists = $('.markdown ol');
     var answerPrefix = 'ANSWER: '
