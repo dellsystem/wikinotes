@@ -5,6 +5,7 @@ from wiki.templatetags.wikinotes_markup import wikinotes_markdown as md
     
 class TestMarkdown(unittest.TestCase):
     elements = {
+        'plotly'                    : '{plot dellsystem 101}',
         "bold"                      : "**bold**",
         "italic"                    : "*italic*",
         "link"                      : '[text](http://beta.wikinotes.ca "title")',
@@ -146,6 +147,7 @@ class TestMarkdown(unittest.TestCase):
                                     }
 
     expected = {
+        'plotly'                    : '<iframe height="500" width="940" scrolling="no" seamless="seamless" src="https://plot.ly/~dellsystem/101/940/500">',
         'line_num_fenced'           : 
                                     '<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre>1\n'
                                     '2</pre></div></td><td class="code"><div class="codehilite"><pre>so many lines\n'
