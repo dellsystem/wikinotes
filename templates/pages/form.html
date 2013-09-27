@@ -27,6 +27,23 @@
                             {% include field_template %}
                         </div>
                     {% endfor %}
+                    {% if course_series.count %}
+                    <div class="clearfix">
+                        <label for="series">Primary series:</label>
+                        <div class="input">
+                            <select name="series_id" class="chzn-select chosen">
+                                <option value="">
+                                    Select a series (optional)
+                                </option>
+                                {% for series in course_series %}
+                                <option value="{{ series.id }}">
+                                    {{ series }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    {% endif %}
                 </fieldset>
                 <!--<div class="alert-message block-message warning">
                     <p>Already have notes typed up in a different format and don't want to retype them out on this page? You can either try <a href="import">importing them directly</a> or, if your file format or layout is not supported, upload it for <a href="manual">manual processing</a> by one of our moderators.</p>

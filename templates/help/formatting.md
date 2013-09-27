@@ -7,6 +7,7 @@ Wikinotes uses a superset of the **[Markdown](http://daringfireball.net/projects
 * [Math markup with MathJax](#math-markup-with-mathjax)
 * [Syntax highlighting and fenced code blocks](#code-blocks)
 * [Mentions](#mentions)
+* [Plot.ly integration](#plotly-integration)
 
 We've also modified the following aspects of standard Markdown behaviour:
 
@@ -525,6 +526,19 @@ To insert a \$ without meaning for it to delimit math, escape it, like this: `\$
 ## Escaping things
 
 Most special characters can be escaped with a backslash. You can find more information in the [Markdown documentation](http://daringfireball.net/projects/markdown/syntax#backslash).
+
+## Plot.ly integration
+
+You can embed plots created in [plot.ly](http://plot.ly) using the following syntax: `{plot [username] [plot id]}`. For example,
+
+```
+{plot dellsystem 0}
+```
+
+will produce:
+
+{plot dellsystem 0}
+
 
 [^1]: lol
 [^2]: lol

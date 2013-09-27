@@ -38,6 +38,10 @@ class Series(models.Model):
     def get_num_total(self):
         return self.seriespage_set.count()
 
+    def get_next_position(self):
+        query = self.seriespage_set.all().aggregate(models.Max('position'))
+        return query['position__max'] + 1
+
 
 class SeriesPage(models.Model):
     class Meta:
