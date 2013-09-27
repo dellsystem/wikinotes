@@ -15,8 +15,8 @@ class PlotLyPattern(markdown.inlinepatterns.Pattern):
         plot_id = m.group(2)
 
         el = markdown.util.etree.Element('iframe')
-        el.attrib['width'] = WIDTH
-        el.attrib['height'] = HEIGHT
+        el.attrib['width'] = str(WIDTH)
+        el.attrib['height'] = str(HEIGHT)
         el.attrib['scrolling'] = 'no'
         el.attrib['seamless'] = 'seamless'
         el.attrib['src'] = 'https://plot.ly/~%s/%s/%d/%d' % (username,
