@@ -11,8 +11,8 @@ HEIGHT = 500
 
 class PlotLyPattern(markdown.inlinepatterns.Pattern):
     def handleMatch(self, m):
-        username = m.group(1)
-        plot_id = m.group(2)
+        username = m.group(2)
+        plot_id = m.group(3)
 
         el = markdown.util.etree.Element('iframe')
         el.attrib['width'] = str(WIDTH)
