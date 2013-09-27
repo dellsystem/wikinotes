@@ -11,7 +11,7 @@ from views.main import register
 from wiki.models.courses import Course, CourseSemester, Professor
 from wiki.models.history import HistoryItem
 from wiki.models.pages import Page
-from wiki.models.series import SeriesBanner
+from wiki.models.series import Series, SeriesBanner
 from wiki.utils.constants import terms, years, exam_types
 from wiki.utils.currents import current_term, current_year
 from wiki.utils.gitutils import Git, NoChangesError
@@ -245,6 +245,7 @@ def create(request, department, number, page_type, semester=None):
         'exam_types': exam_types,
         'current_exam_type': exam_types[0], # default
         'edit_mode': False,
+        'course_series': course.series_set.all(),
     }
 
     if semester is not None:
@@ -295,6 +296,17 @@ def create(request, department, number, page_type, semester=None):
             user = request.user.get_profile()
             if not user.is_watching(course):
                 user.start_watching(course)
+
+            # Create the SeriesPage if a series is specified, at the end of the
+            # series. Temporary and very hacky solution, pls fix later
+            series_id = request.POST['series_id']
+            try:
+                series = Series.objects.get(pk=series_id, course=course)
+                next_position = series.get_next_position()
+                series.seriespage_set.create(page=new_page, series=series,
+                                             position=next_position)
+            except Series.DoesNotExist:
+                pass
 
             return redirect(new_page.get_absolute_url())
 
