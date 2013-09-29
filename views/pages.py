@@ -300,13 +300,14 @@ def create(request, department, number, page_type, semester=None):
             # Create the SeriesPage if a series is specified, at the end of the
             # series. Temporary and very hacky solution, pls fix later
             series_id = request.POST['series_id']
-            try:
-                series = Series.objects.get(pk=series_id, course=course)
-                next_position = series.get_next_position()
-                series.seriespage_set.create(page=new_page, series=series,
-                                             position=next_position)
-            except Series.DoesNotExist:
-                pass
+            if series_id:
+                series_query = Series.objects.filter(pk=series_id,
+                                                     course=course)
+                if series_query.exists():
+                    series = series_query[0]
+                    next_position = series.get_next_position()
+                    series.seriespage_set.create(page=new_page, series=series,
+                                                 position=next_position)
 
             return redirect(new_page.get_absolute_url())
 
