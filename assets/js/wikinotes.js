@@ -8,8 +8,13 @@ var localStorageSupported = function() {
 
 // Temporary auto-saving unsaved edits to localStorage, every 5 seconds
 var saveEdits = function () {
-    var contents = $('#content-textarea').val();
-    window.localStorage[window.location.href] = contents;
+    var textarea = $('#content-textarea');
+    var contents = textarea.val();
+    var originalContents = textarea.text();
+
+    if (contents !== originalContents) {
+        window.localStorage[window.location.href] = contents;
+    }
 
     setTimeout(saveEdits, 5000);
 };
@@ -378,10 +383,26 @@ $(document).ready(function() {
             // If something is already in there, fill the textbox with it
             var previousSave = localStorage[window.location.href];
             if (previousSave !== undefined) {
-                $('#content-textarea').val(previousSave);
+                // Only ask to apply saved changes if they're different
+                if (previousSave !== $('#content-textarea').val()) {
+                    var usePreviousSave = confirm("This page has unsaved " +
+                    "edits from a previous editing session! Press OK to " +
+                    "apply these changes, and cancel to discard them.");
+
+                    if (usePreviousSave) {
+                        $('#content-textarea').val(previousSave);
+                    }
+                }
+
+                localStorage.removeItem(window.location.href);
             }
 
-            setTimeout(saveEdits, 5000);
+            saveEdits();
         }
+
+        // When the page is saved, clear localStorage
+        $('#edit-page-form').submit(function () {
+            localStorage.removeItem(window.location.href);
+        });
     }
 });
