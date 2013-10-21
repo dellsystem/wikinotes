@@ -1,3 +1,19 @@
+var localStorageSupported = function() {
+    try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+    } catch (e) {
+        return false;
+    }
+};
+
+// Temporary auto-saving unsaved edits to localStorage, every 5 seconds
+var saveEdits = function () {
+    var contents = $('#content-textarea').val();
+    window.localStorage[window.location.href] = contents;
+
+    setTimeout(saveEdits, 5000);
+};
+
 $(document).ready(function() {
     // Fill the course search box thing first
     var courseSearchBox = $('#course-search-box');
@@ -355,4 +371,17 @@ $(document).ready(function() {
     }
 
     $('.chosen').chosen();
+
+    // If in page edit, auto-save every few secs (if localStorage is supported)
+    if ($('#content-textarea').length) {
+        if (localStorageSupported) {
+            // If something is already in there, fill the textbox with it
+            var previousSave = localStorage[window.location.href];
+            if (previousSave !== undefined) {
+                $('#content-textarea').val(previousSave);
+            }
+
+            setTimeout(saveEdits, 5000);
+        }
+    }
 });
