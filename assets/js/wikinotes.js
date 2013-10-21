@@ -239,44 +239,6 @@ $(document).ready(function() {
         $('#fullscreen').text('Go fullscreen');
     };
 
-    // Make the tab key enter a tab character instead of going to the next thing
-    $('#content-textarea').keydown(function(e) {
-        var TABKEY = 9;
-        var text = $(this).val();
-        // Figure out where the cursor is
-        var selection = $(this).getSelection()
-        if (e.keyCode == TABKEY) {
-            // If shift, de-indent 4 spaces (if possible)
-            if (e.shiftKey) {
-                // Find the text right before the cursor
-                if (selection.length == 0) {
-                    // Work on selected case later
-                    var previousNewline = 0;
-                    var tempText = text;
-                    while (tempText.indexOf('\n') <= selection.start && tempText.indexOf('\n') >= 0) {
-                        previousNewline += tempText.indexOf('\n') + 1;
-                        tempText = tempText.substring(tempText.indexOf('\n') + 1);
-                    }
-                    // Strip the first four (or fewer) consecutive space chars after the newline
-                    var unindentedLine = text.substring(previousNewline, previousNewline + 4).replace(/^ {1,4}/, '');
-                    var newText = text.substring(0, previousNewline) + unindentedLine + text.substring(previousNewline + 4);
-                    $(this).val(newText);
-                } else {
-                    $(this).replaceSelection(selection.text.replace(/^ {1,4}/mg, ''));
-                }
-            } else {
-                if (selection.length == 0) {
-                    $(this).replaceSelection('    ');
-                } else {
-                    $(this).replaceSelection('    ' + selection.text.replace(/\n/g, '\n    '));
-                }
-            }
-
-            // Prevent the default behaviour
-            return false;
-        }
-    });
-
     // Multiple choice quizzes, clicking on the "view answer" thing etc
     $('p[id^="answer-q"]').hide();
     $('a[id^="view-answer-q"]').click(function(event) {
