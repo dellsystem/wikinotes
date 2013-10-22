@@ -1,6 +1,6 @@
 ![WikiNotes logo](http://www.wikinotes.ca/static/img/wikinotes.png)
 
-by the WikiNotes team
+by the WikiNotes team!
 
 WikiNotes is a wiki-based note-sharing platform created to facilitate student collaboration. Although it is being created primarily to replace [our old MediaWiki-backed website for McGill students](http://69.28.212.103/), we are releasing the code under the [GPLv3](http://opensource.org/licenses/GPL-3.0) so that non-McGill students (or anyone, really) can benefit from it as well. Although this platform is still currently under heavy development, we are now using it to power our main website at http://www.wikinotes.ca.
 
