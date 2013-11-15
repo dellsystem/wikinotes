@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="printview">
 <head>
     <meta charset="utf-8">
     <title>{% if title %}{{ title }} - {% endif %}WikiNotes</title>
@@ -14,7 +14,7 @@
     });
     </script>
 </head>
-<body class="printview">
+<body>
     <div class="markdown">
         <h1>{{ page.get_title }}</h1>
         <p id="print-intro">{{ page_type.long_name }} for {{ page.course_sem }}, available for free on Wikinotes under a Creative Commons license (CC-BY-NC). View the current version at http://{{ server_url }}{{ page.get_absolute_url }}</p>
