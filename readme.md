@@ -64,7 +64,7 @@ instructions:
 [open]: https://github.com/dellsystem/wikinotes/issues/new
 [wiki]: https://github.com/dellsystem/wikinotes/wiki
 [travis]: http://travis-ci.org
-[ci_status]: https://secure.travis-ci.org/dellsystem/wikinotes.png?branch=master
+[status]: https://secure.travis-ci.org/dellsystem/wikinotes.png?branch=master
 [ci]: http://travis-ci.org/dellsystem/wikinotes
 [pip]: http://www.pip-installer.org/en/latest/index.html
 [virtualenv]: http://www.virtualenv.org/en/latest/index.html
