@@ -35,7 +35,7 @@
         <br />
         {% for section in commit.diff %}
         <p>Starting from line {{ section.first_line }}. {{ section.lines_before }} line{{ section.lines_before|pluralize }} in the previous commit, {{ section.lines_after }} line{{ section.lines_after|pluralize }} after.</p>
-        <pre id="commit-diff">{% for diff_line in section.lines %}<span class="{% if diff_line.0 == '+' %}diff-green{% else %}{% if diff_line.0 == '-' %}diff-red{% endif %}{% endif %}">{{ diff_line|slice:"1:" }}</span>{% endfor %}
+        <pre id="commit-diff">{% for diff_line in section.lines %}<span class="{% if diff_line.0 == '+' %}diff-green{% else %}{% if diff_line.0 == '-' %}diff-red{% endif %}{% endif %}">{{ diff_line|slice:"1:" }}{% if diff_line.0 == '-' %}&nbsp;{% endif %}</span>{% endfor %}
 </pre>
         {% empty %}
         <p>This was the first commit. See <a href="#raw">raw</a> below for the changes made.</p>
