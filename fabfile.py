@@ -17,3 +17,6 @@ def refresh():
 
 def sh():
     local("python manage.py shell")
+
+def restart():
+    local("kill -HUP `cat /tmp/gunicorn.pid`")
