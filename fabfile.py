@@ -18,5 +18,8 @@ def refresh():
 def sh():
     local("python manage.py shell")
 
+def backup():
+    local("python manage.py dumpdata > backup.json")
+
 def restart():
     local("kill -HUP `cat /tmp/gunicorn.pid`")
