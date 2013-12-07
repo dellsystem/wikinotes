@@ -321,11 +321,4 @@ def random(request):
     while not random_page.can_view(request.user):
         random_page = random_module.choice(pages)
 
-    return show(
-        request,
-        random_page.course_sem.course.department.short_name.upper(),
-        random_page.course_sem.course.number,
-        random_page.page_type,
-        random_page.course_sem.term,
-        random_page.course_sem.year, random_page.slug
-    )
+    return redirect(random_page.get_absolute_url())
