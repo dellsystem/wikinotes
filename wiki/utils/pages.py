@@ -19,15 +19,18 @@ page_type_choices = tuple([(name, obj.long_name) for name, obj in page_types.ite
 
 
 def get_section_start_end(lines, anchor_name):
-    # Strip the underscore + number if there is one
-    section_name = re.match('[^_]*', anchor_name).group()
-
+    """
+    THIS NEEDS TESTS
+    """
     # If there's an underscore + a number at the end of the slug
     section_number_match = re.match('[^_]*_(\d+)', anchor_name)
     if section_number_match:
         section_number = int(section_number_match.group(1))
+        # Strip the underscore + number
+        section_name = re.match('[^_]*', anchor_name).group()
     else:
         section_number = 0
+        section_name = anchor_name
 
     # Start going through the lines, one by one, looking for perfect headers
     in_code_block = False
