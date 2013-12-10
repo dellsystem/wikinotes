@@ -92,6 +92,7 @@ class Git:
             end_index = len(diff_lines)
             for i, section in enumerate(reversed(sections)):
                 sections[-1-i]['lines'] = diff_lines[section['start_index']:end_index]
+                section['lines'].pop()
                 end_index = section['start_index'] - 1
 
             return sections
