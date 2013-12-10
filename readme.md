@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ```
 
 If you don't have pip, either install it using your system's package manager or
-make use of [virtualenv] (which is a good idea in any case).
+make use of [virtualenv] \(which is a good idea in any case\).
 
 Configuration
 -------------
