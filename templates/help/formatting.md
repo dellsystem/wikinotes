@@ -1,4 +1,4 @@
-Wikinotes uses a superset of the **[Markdown](http://daringfireball.net/projects/markdown/syntax)** markup language for formatting wiki pages. If you've never used it before, you may wish to give this guide a read and keep it as a reference when editing pages. If you're already familiar with Markdown, note that there are a few differences between the Markdown we use here and standard markdown. The new features we incorporate are the following:
+WikiNotes uses a superset of the **[Markdown](http://daringfireball.net/projects/markdown/syntax)** markup language for formatting wiki pages. If you've never used it before, you may wish to give this guide a read and keep it as a reference when editing pages. If you're already familiar with Markdown, note that there are a few differences between the Markdown we use here and standard markdown. The new features we incorporate are the following:
 
 * [Tables](#tables)
 * [Footnotes](#footnotes)
@@ -16,7 +16,7 @@ We've also modified the following aspects of standard Markdown behaviour:
 * [Automatic linking](#automatic-linking)
 * [Underscores in the middle of a word](#italics)
 
-We've tried to keep the formatting style as simple, concise and readable as possible, while still allowing for a wide range of formatting options. Elements have been borrowed from [GitHub Flavored Markdown (GFM)](http://github.github.com/github-flavored-markdown/) and [StackOverflow's Markdown](http://stackoverflow.com/editing-help), and some of the additional features were inspired by what was available on our MediaWiki site. Below you can find a fairly comprehensive listing of the components of Wikinotes Markdown, but if there's something you're not sure about, don't hestitate to [shoot us an email](/about#contact-us).
+We've tried to keep the formatting style as simple, concise and readable as possible, while still allowing for a wide range of formatting options. Elements have been borrowed from [GitHub Flavored Markdown (GFM)](http://github.github.com/github-flavored-markdown/) and [StackOverflow's Markdown](http://stackoverflow.com/editing-help), and some of the additional features were inspired by what was available on our MediaWiki site. Below you can find a fairly comprehensive listing of the components of WikiNotes Markdown, but if there's something you're not sure about, don't hestitate to [shoot us an email](/about#contact-us).
 
 You can find the source of our Markdown parser (which uses the python-markdown library and several extensions) in our [GitHub repository](https://github.com/dellsystem/wikinotes/blob/master/wiki/templatetags/wikinotes_markup.py). The markdown source for this page can be found [within the repository](https://raw.github.com/dellsystem/wikinotes/master/templates/help/formatting.md) as well.
 
@@ -87,7 +87,7 @@ The alt text must be specified, although it can be left empty if so desired. The
 
 ### Policy on outside images
 
-If you find an image that you want to incorporate into a page, please first make sure that you have permission to use it, and check for license compatibility. (You can find out more about copyright issues on Wikinotes [here](/help/copyright).) We don't recommend hotlinking - we will eventually have an image uploading feature, but until that has been created we suggest reuploading the image somewhere such as www.imgur.com or your cs.mcgill.ca website if you have one.
+If you find an image that you want to incorporate into a page, please first make sure that you have permission to use it, and check for license compatibility. (You can find out more about copyright issues on WikiNotes [here](/help/copyright).) We don't recommend hotlinking - we will eventually have an image uploading feature, but until that has been created we suggest reuploading the image somewhere such as www.imgur.com or your cs.mcgill.ca website if you have one.
 
 ## Inline code
 
