@@ -40,7 +40,7 @@ pip install -r requirements.txt
 ```
 
 If you don't have pip, either install it using your system's package manager or
-make use of [virtualenv] (which is a good idea in any case).
+make use of [virtualenv] \(which is a good idea in any case\).
 
 Configuration
 -------------
@@ -48,8 +48,8 @@ Configuration
 If you're running it for the first time, take note of the following setup
 instructions:
 
-* Run `./bootstrap`: create the superuser at this point (you may also wish to run
-  this if any database schema changes have been made since your last pull)
+* Run `./bootstrap`: create the superuser at this point (you may also wish to
+  run this if any database schema changes have been made since your last pull)
 * Run `python manage.py runserver` or `fab up` if you have [Fabric][fabric]
   installed. By default, this makes the platform accessible
   at <http://localhost:8000>; add `0.0.0.0:8000` as an argument if you
