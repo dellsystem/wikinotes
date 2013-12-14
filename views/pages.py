@@ -258,11 +258,16 @@ def create(request, department, number, page_type, semester=None):
         kwargs = page_type_obj.get_kwargs(request.POST)
         course_sem, created = CourseSemester.objects.get_or_create(term=request.POST['term'], year=request.POST['year'], course=course)
 
-        is_unique = Page.objects.filter(course_sem=course_sem, slug=kwargs['slug']).count() == 0
-        if errors or not is_unique: # it returns None only if nothing is wrong
+        existing_page = Page.objects.filter(course_sem=course_sem,
+            slug=kwargs['slug'])
+        if errors or existing_page: # it returns None only if nothing is wrong
             data['errors'] = errors
-            if not is_unique:
-                data['errors'].append('Subject or whatever not unique') # Fix this later
+            if existing_page:
+                data['errors'].append('A <a href="%s">page</a> with the same '
+                    'slug already exists! Perhaps you meant to edit that one '
+                    'instead? Alternatively, you could change the details '
+                    'for this page.' % existing_page[0].get_absolute_url())
+
             # Keep the posted data
             data['current_term'] = request.POST['term']
             try:
