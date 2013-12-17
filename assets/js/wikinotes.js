@@ -405,4 +405,32 @@ $(document).ready(function() {
             localStorage.removeItem(window.location.href);
         });
     }
+
+    //this scrolls to the entry of the footnote
+    $('a[rev="footnote"]').click(function(){
+        var aid = $(this).attr("href").replace("#","");
+        var aTag = $("sup[id='"+aid+"']");
+        $('html,body').animate({scrollTop: Math.max(aTag.offset().top-50,0)},'slow');
+        var par = $(aTag).parent();
+        var old = $(par).css('background-color');
+        $(par).css('background-color','lightcoral');
+        setTimeout(function(){
+            $(par).css('background-color',old);
+        },2000);
+        return false;
+    });
+    //this scrolls to the footnote itself
+    $('a[rel="footnote"]').click(function(){
+        var aid = $(this).attr("href").replace("fn","fnref");
+        var aTag = $("a[href='"+aid+"']");
+        $('html,body').animate({scrollTop: Math.max(aTag.offset().top-50,0)},'slow');
+        var par = $(aTag).parent();
+        var old = $(par).css('background-color');
+        $(par).css('background-color','lightcoral');
+        setTimeout(function(){
+            $(par).css('background-color',old);
+        },2000);
+        return false;
+    
+    });
 });
