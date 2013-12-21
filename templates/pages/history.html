@@ -28,7 +28,7 @@
             </thead>
             <tbody>
             {% for commit in commit_history %}
-                <tr id= "{%commit.hexsha %}">
+                <tr>
                     <td>{% gravatar_img_for_user commit.author.name 20 %} <a href="{% url "main_profile" commit.author.name %}">{{ commit.author.name }}</a></td>
                     <td>{{ commit.message|escape }}</td>
                     <td>{{ commit.date|date:"D, j M, Y H:i" }}</td>

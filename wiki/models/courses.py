@@ -49,8 +49,10 @@ class Course(models.Model):
         return count
 
     # Use this for adding an event to a course
-    def add_event(self, user=None, action=None, page=None, message=''):
-        new_item = HistoryItem(user=user, action=action, page=page, message=message, course=self)
+    def add_event(self, user=None, action=None, page=None, message='',
+        hexsha=None):
+        new_item = HistoryItem(user=user, action=action, page=page, course=self,
+            message=message, hexsha=hexsha)
         new_item.save()
         self.latest_activity = new_item
         self.save()

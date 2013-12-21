@@ -178,9 +178,10 @@ def edit(request, department, number, page_type, term, year, slug):
         # isn't a conflict(successful merge)
         if prev_commit == latest_commit or not merge_conflict:
             try:
-                page.save_content(new_content, message, username, start=start, end=end)
+                hexsha = page.save_content(new_content, message, username, start=start, end=end)
             except NoChangesError:
                 no_changes = True
+                hexsha = None
 
             # Only change the metadata if the user is a moderator
             if request.user.is_staff:
@@ -189,7 +190,8 @@ def edit(request, department, number, page_type, term, year, slug):
 
             if not no_changes:
                 # Add the history item
-                course.add_event(page=page, user=request.user, action='edited', message=message)
+                course.add_event(page=page, user=request.user, action='edited',
+                    message=message, hexsha=hexsha)
 
                 # If the user isn't watching the course already, start watching
                 user = request.user.get_profile()

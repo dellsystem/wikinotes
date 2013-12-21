@@ -31,8 +31,18 @@
                     <div class="row">
                         <div class="span1 column"><a href="{{ user_profile.get_absolute_url }}"><img src="{% load gravatar %}{% gravatar_for_user history_item.user 50 %}" /></a></div>
                         <div class="span11 columns">
-                            <p><strong><a href="{{ user_profile.get_absolute_url }}">{{ history_item.user.username }}</a></strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_absolute_url + "/history" }}">{{ history_item.page }}</a>{% else %} <a href="{{ history_item.course.get_absolute_url }}">{{ history_item.course }}</a>{% endif %} <span title="{{ history_item.timestamp }}">{{ history_item.get_timesince }} ago</span></p>
-                            {% if history_item.message %}<p>{{ history_item.message }}</p>{% endif %}
+                            <p><strong><a href="{{ user_profile.get_absolute_url }}">{{ history_item.user.username }}</a></strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_absolute_url }}">{{ history_item.page }}</a>{% else %} <a href="{{ history_item.course.get_absolute_url }}">{{ history_item.course }}</a>{% endif %} <span title="{{ history_item.timestamp }}">{{ history_item.get_timesince }} ago</span></p>
+                            {% if history_item.message %}
+                                <blockquote>
+                                    <p>
+                                        {% if history_item.hexsha %}
+                                        <a href="{{ history_item.get_absolute_url }}">
+                                            {{ history_item.get_short_hexsha }}</a>
+                                        {% endif %}
+                                        {{ history_item.message }}
+                                    </p>
+                                </blockquote>
+                            {% endif %}
                         </div>
                     </div>
                     {% endwith %}

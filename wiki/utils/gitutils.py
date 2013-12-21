@@ -32,7 +32,8 @@ class Git:
         # untracked_files is true so that even the first time it will work
         if self.repo.is_dirty(untracked_files=True):
             self.repo.index.add(["content.md"])
-            self.repo.index.commit(commit_message.encode('utf-8'))
+            commit = self.repo.index.commit(commit_message.encode('utf-8'))
+            return commit
         else:
             raise NoChangesError
 

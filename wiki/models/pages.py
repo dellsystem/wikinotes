@@ -114,7 +114,8 @@ class Page(models.Model):
         file.write(content.encode('utf-8'))
         file.close()
 
-        repo.commit(message, username, '')
+        commit = repo.commit(message, username, '')
+        return commit.hexsha
 
     def __unicode__(self):
         return '%s - %s' % (self.get_title(), self.course_sem)
