@@ -19,4 +19,4 @@ class Faculty(models.Model):
         return ('courses_faculty_overview', (), {'faculty': self.slug})
 
     def get_image(self):
-        return "/static/img%s.png" % self.get_absolute_url()
+        return "/static/img/faculty/%s.png" % self.slug

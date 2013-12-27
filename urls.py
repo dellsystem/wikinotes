@@ -77,10 +77,6 @@ direct_to_view = (
         (course + '/' + page_type, 'category'),
         (department, 'department_overview'),
         (faculty, 'faculty_overview'),
-        # The mappings below are kept for "compatibility" but aren't really needed
-        ('faculty/' + faculty, 'faculty_overview'),
-        ('department/' + department, 'department_overview'),
-        ('professor/' + professor, 'professor_overview'),
     )),
 )
 

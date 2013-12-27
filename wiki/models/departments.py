@@ -17,7 +17,7 @@ class Department(models.Model):
         return ('courses_department_overview', (), {'department': self.short_name})
 
     def get_image(self):
-        return "/static/img%s.png" % self.get_absolute_url()
+        return "/static/img/department/%s.png" % self.short_name
 
     def get_large_image(self):
         return "/static/img%s_large.png" % self.get_absolute_url()
