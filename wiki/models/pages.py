@@ -121,7 +121,7 @@ class Page(models.Model):
         return '%s - %s' % (self.get_title(), self.course_sem)
 
     def get_filepath(self):
-        return "wiki/content%s/" % self.get_absolute_url()
+        return "wiki/content%s" % self.get_absolute_url()
 
     def get_type(self):
         return page_types[self.page_type]
@@ -142,7 +142,7 @@ class Page(models.Model):
 
     def get_absolute_url(self):
         course = self.course_sem.course
-        return "%s/%s/%s-%s/%s" % (course.get_absolute_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
+        return "%s%s/%s-%s/%s/" % (course.get_absolute_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
 
     # The method can't be solely on the page type itelf, since it doesn't know what course it's for
     def get_type_url(self):

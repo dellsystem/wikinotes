@@ -47,16 +47,17 @@
                     </div>
                     {% endif %}
                 </fieldset>
-                <!--<div class="alert-message block-message warning">
-                    <p>Already have notes typed up in a different format and don't want to retype them out on this page? You can either try <a href="import">importing them directly</a> or, if your file format or layout is not supported, upload it for <a href="manual">manual processing</a> by one of our moderators.</p>
-                </div>-->
                 <br />
                 <fieldset class="grey-box" id="content-box">
                     {% include "pages/edit_buttons.html" %}
                     <textarea name="content" id="content-textarea">{{ content }}</textarea>
                     <div id="content-preview"></div>
                     <br /><br />
-                    <p class="right-align"><a href="#" id="fullscreen">Go fullscreen</a> :: <strong><a href="/help/formatting">Help! How do I format this?</a></strong></p>
+                    <p class="right-align">
+                        <a href="#" id="fullscreen">Go fullscreen</a> ::
+                        <strong><a href="/help/formatting/">Help! How do I
+                        format this?</a></strong>
+                    </p>
                 </fieldset>
                 <br />
                 <fieldset class="grey-box">

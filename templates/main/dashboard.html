@@ -9,7 +9,11 @@
                 {% include "main/course_search.html" %}
             </div>
             <div class="span11 right-align">
-                <p><strong>{{ latest_post.timestamp|date:"F j, Y" }}: {{ latest_post.title }}</strong> {{ latest_post.summary }} <a href="/news"><strong>Read more</strong> &raquo;</a></p>
+                <p>
+                    <strong>{{ latest_post.timestamp|date:"F j, Y" }}:
+                    {{ latest_post.title }}</strong> {{ latest_post.summary }}
+                    <a href="/news/"><strong>Read more</strong> &raquo;</a>
+                </p>
             </div>
         </div>
     </div>
@@ -48,7 +52,16 @@
                     {% endwith %}
                 {% endfor %}
                 {% else %}
-                <p>{% if user.get_profile.courses.count %}There has been no recent activity on any of your courses! Start watching some more?{% else %}You are not watching any courses!{% endif %} You can find several ways to browse for courses <a href="/courses">here</a>.</p>
+                <p>
+                    {% if user.get_profile.courses.count %}
+                        There has been no recent activity on any of your
+                        courses!  Start watching some more?
+                    {% else %}
+                        You are not watching any courses!
+                    {% endif %}
+                    You can find several ways to browse for courses <a
+                    href="/courses/">here</a>.
+                </p>
                 {% endif %}
             </div>
             <div class="span4 columns" id="right-bar">

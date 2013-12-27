@@ -42,10 +42,9 @@ def show(request, department, number, page_type, term, year, slug, printview=Fal
         'page': page,
         'page_type': page_type_obj,
         'content': page.load_content(),
-        # This is stupid, should just remove trailing slash
-        'edit_url': page.get_absolute_url() + '/edit',
-        'history_url': page.get_absolute_url() + '/history',
-        'print_url': page.get_absolute_url() + '/print',
+        'edit_url': page.get_absolute_url() + 'edit',
+        'history_url': page.get_absolute_url() + 'history',
+        'print_url': page.get_absolute_url() + 'print',
         'server_url': request.META['HTTP_HOST']
     }
 

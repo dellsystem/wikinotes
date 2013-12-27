@@ -58,10 +58,10 @@ class PageType:
         return '/static/img/pages/%s.png' % self.short_name
 
     def get_url(self, course):
-        return "%s/%s" % (course.get_absolute_url(), self.short_name)
+        return "%s%s/" % (course.get_absolute_url(), self.short_name)
 
     def get_create_url(self, course):
-        return '%s/create/%s' % (course.get_absolute_url(), self.short_name)
+        return '%screate/%s/' % (course.get_absolute_url(), self.short_name)
 
     @staticmethod
     def get_field_templates(fields):
