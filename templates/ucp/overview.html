@@ -1,5 +1,8 @@
-<p>Welcome to your user control panel, {{ user }}. To edit your login details and email, click on <a href="/ucp/account">Account</a> (not yet implemented). To edit your profile information, click on <a href="/ucp/profile">Profile</a>. To edit your site preferences, click on <a href="/ucp/preferences">Preferences</a>.</p>
+<p>
+    Welcome to your user control panel, {{ user }}. You can edit your login
+    details in the <a href="/ucp/account/">Account</a> section, your profile
+    details in the <a href="/ucp/profile">Profile</a> section, and your site
+    preferences in the <a href="/ucp/preferences">Preferences</a> section.
+</p>
 
 <p>You have been a member since {{ user.date_joined|date:"F j, Y" }}.</p>
-
-<p>Found a bug? Contact develop@wikinotes.ca.</p>
