@@ -9,11 +9,11 @@
         <div class="row">
             <div class="span16 columns">
                 <p>Shows all the courses, listed alphabetically under the relevant faculty.</p>
-                {% for faculty in faculties %}
-                <h2>{{ faculty.name }} <small><a href="/faculty/{{ faculty.slug }}">&raquo; View faculty page</a></small></h2>
-                {% if faculty.courses %}
+                {% for faculty, courses in faculties %}
+                <h2>{{ faculty.name }} <small><a href="{{ faculty.get_absolute_url }}">&raquo; View faculty page</a></small></h2>
+                {% if courses %}
                     <ul class="unstyled">
-                    {% for course in faculty.courses %}
+                    {% for course in courses %}
                         <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
                     {% endfor %}
                     </ul>

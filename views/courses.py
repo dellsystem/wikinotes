@@ -55,38 +55,36 @@ def department_overview(request, department):
 
 # Faculty no longer looks like a word to me
 def faculty_browse(request):
+    """Faculty listing page.
+    """
     faculty_objects = Faculty.objects.all().order_by('name')
-    courses = Course.objects.all()
+    courses = Course.objects
     faculties = []
 
     for faculty in faculty_objects:
-        faculty_courses = courses.filter(department__faculty=faculty).order_by('department__short_name', 'number')
-        faculties.append({'name': faculty.name, 'slug': faculty.slug, 'courses': faculty_courses})
+        faculty_courses = courses.filter(department__faculty=faculty)
+        faculties.append((faculty, faculty_courses))
 
-    data = {
+    context = {
         'title': 'Browse by faculty',
         'faculties': faculties,
     }
 
-    return render(request, 'courses/faculty_browse.html', data)
+    return render(request, 'courses/faculty_browse.html', context)
 
 
 # Same pattern as faculty view
 def department_browse(request):
-    department_objects = Department.objects.all().order_by('long_name')
-    courses = Course.objects.all()
-    departments = []
+    """Department listing page.
+    """
+    departments = Department.objects.all().order_by('long_name')
 
-    for department in department_objects:
-        department_courses = courses.filter(department=department).order_by('department__short_name', 'number')
-        departments.append({'long': department.long_name, 'short': department.short_name, 'courses': department_courses})
-
-    data = {
+    context = {
         'title': 'Browse by department',
         'departments': departments,
     }
 
-    return render(request, 'courses/department_browse.html', data)
+    return render(request, 'courses/department_browse.html', context)
 
 
 # Meh

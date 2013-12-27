@@ -10,16 +10,24 @@
             <div class="span16 columns">
                 <p>Shows all the courses, listed alphabetically under the relevant department.</p>
                 {% for dept in departments %}
-                <h2>{{ dept.long }} <small><a href="/department/{{ dept.short }}">&raquo; View department page</a></small></h2>
-                {% if dept.courses %}
-                    <ul class="unstyled">
-                    {% for course in dept.courses %}
-                        <li><a href="{{ course.get_absolute_url }}">{{ course }}</a></li>
-                    {% endfor %}
-                    </ul>
-                {% else %}
-                <p>No courses in this department</p>
-                {% endif %}
+                <h2>{{ dept.long_name }}
+                    <small><a href="{{ dept.get_absolute_url }}">
+                        &raquo; View department page
+                    </a></small>
+                </h2>
+                {% with courses=dept.course_set.all %}
+                    {% if courses.count %}
+                        <ul class="unstyled">
+                        {% for course in courses %}
+                            <li><a href="{{ course.get_absolute_url }}">
+                                {{ course }}
+                            </a></li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                    <p>No courses in this department</p>
+                    {% endif %}
+                {% endwith %}
                 {% endfor %}
             </div>
         </div>
