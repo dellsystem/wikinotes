@@ -9,7 +9,7 @@ from wiki.utils.currents import current_year, current_term
 class Course(models.Model):
     class Meta:
         app_label = 'wiki'
-        ordering = ['department', 'number']
+        ordering = ['department__short_name', 'number']
 
     department = models.ForeignKey('Department')
     number = models.CharField(max_length=5, verbose_name="Course number")
