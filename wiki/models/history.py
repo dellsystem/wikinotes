@@ -37,7 +37,7 @@ class HistoryItem(models.Model):
         return humanise_timesince(self.timestamp)
 
     def get_absolute_url(self):
-        """Fix this later."""
+        """TODO: Fix this. Needs a test."""
         if self.hexsha:
             return self.page.get_absolute_url() + '/commit/' + self.hexsha
 

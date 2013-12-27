@@ -92,7 +92,7 @@ class CourseSemester(models.Model):
         return "%s-%s" % (self.term, self.year)
 
     def get_absolute_url(self):
-        return "%s%s" % (self.course.get_absolute_url(), self.get_slug())
+        return "%s%s/" % (self.course.get_absolute_url(), self.get_slug())
 
 
 class Professor(models.Model):
