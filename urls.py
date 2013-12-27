@@ -76,7 +76,7 @@ direct_to_view = (
         (course + '/' + semester, 'semester'),
         (course + '/' + page_type, 'category'),
         (department, 'department_overview'),
-        (faculty, 'faculty_overview'),
+        ('faculty/' + faculty, 'faculty_overview'),
         ('professor/' + professor, 'professor_overview'),
     )),
 )
