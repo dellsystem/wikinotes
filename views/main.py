@@ -227,7 +227,7 @@ def register(request):
             return render(request, 'main/registration.html', {'title': 'Create an account'})
 
 
-def ucp(request, mode):
+def ucp(request, mode=''):
     modes = ['overview', 'account', 'profile', 'preferences']
 
     if mode == '' or mode not in modes:

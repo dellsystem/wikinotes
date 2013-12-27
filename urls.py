@@ -22,12 +22,12 @@ Begin mappings (URLs should be defined in order of descending priority (so highe
 """
 direct_to_view = (
     ('main', (
-        (('', 'index')),
         (('login', 'login_logout')),
         ('recent', 'recent'),
         ('recent/(?P<num_days>\d+)', 'recent'),
         ('recent/all', 'all_recent'),
         ('recent/all/(?P<num_days>\d+)', 'all_recent'),
+        ('ucp', 'ucp'),
         ('ucp/(?P<mode>\w*)', 'ucp'),
         ('users/(?P<username>\w+)', 'profile'),
         ('users/(?P<username>\w+)/contributions', 'contributions'),
@@ -99,11 +99,16 @@ urlpatterns = patterns('',
 Begin code for mapping the mappings
 """
 
+# The index view has to be done separately
+urlpatterns += patterns('',
+    url(r'^$', 'views.main.index', name='home'),
+)
+
 for prefix, filenames in static_urls.iteritems():
-    index_url = url(r'^' + prefix + '(?:/overview)?/?$', 'views.main.static', {'mode': prefix, 'page': 'overview'})
-    urls = [url(r'^' + prefix + '/' + filename + '/?$', 'views.main.static', {'mode': prefix, 'page': filename}) for filename in filenames]
+    index_url = url(r'^' + prefix + '(?:/overview)?/$', 'views.main.static', {'mode': prefix, 'page': 'overview'})
+    urls = [url(r'^' + prefix + '/' + filename + '/$', 'views.main.static', {'mode': prefix, 'page': filename}) for filename in filenames]
     urlpatterns += patterns('', index_url, *urls)
 
 for prefix, mapping in direct_to_view:
-    urls = [url('^' + regex + '/?$', view, name='%s_%s' % (prefix, view)) for regex, view in mapping]
+    urls = [url('^' + regex + '/$', view, name='%s_%s' % (prefix, view)) for regex, view in mapping]
     urlpatterns += patterns('views.' + prefix, *urls)
