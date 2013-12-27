@@ -99,7 +99,7 @@ def recent(request, num_days=1, show_all=False):
 def explore(request):
     data = {
         'lol': range(4)
-    }   
+    }
     return render(request, 'main/explore.html', data)
 
 
