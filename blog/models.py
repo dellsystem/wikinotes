@@ -1,7 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
-# Create your models here.
+
 class BlogPost(models.Model):
     author = models.ForeignKey(User)
     title = models.CharField(max_length=50)
@@ -19,6 +19,7 @@ class BlogPost(models.Model):
 
     def get_num_comments(self):
         return self.blogcomment_set.count()
+
 
 class BlogComment(models.Model):
     author = models.ForeignKey(User)
