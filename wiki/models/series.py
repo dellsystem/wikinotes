@@ -33,7 +33,6 @@ class Series(models.Model):
         return "%s (%s)" % (self.name, self.course)
 
     def get_absolute_url(self):
-        """TODO: Needs a test."""
         return '%s#series-%s' % (self.course.get_absolute_url(), self.slug)
 
     def get_num_total(self):

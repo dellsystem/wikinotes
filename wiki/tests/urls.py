@@ -4,6 +4,7 @@ from wiki.models.courses import Course, CourseSemester, Professor
 from wiki.models.departments import Department
 from wiki.models.faculties import Faculty
 from wiki.models.pages import Page
+from wiki.models.series import Series
 from wiki.models.users import PrivateMessage, UserProfile
 
 
@@ -51,3 +52,8 @@ class TestFaculty(_TestGetAbsoluteUrl):
 class TestPage(_TestGetAbsoluteUrl):
     expected = '/MATH_150/summary/fall-2011/page-number-1/'
     model = Page
+
+
+class TestSeries(_TestGetAbsoluteUrl):
+    expected = '/MATH_150/#series-fall-2010-lecture-notes'
+    model = Series
