@@ -8,10 +8,10 @@ from wiki.models.courses import Course
 
 
 class TestUserProfile(TestCase):
-    fixtures = ['faculties', 'departments', 'courses', 'professors', 'coursesemesters', 'test_pages']
+    fixtures = ['test']
 
     def setUp(self):
-        self.user = User.objects.create_user('lol')
+        self.user = User.objects.get(pk=1)
         self.profile = self.user.get_profile()
 
     def test_get_recent_pages(self):
@@ -35,6 +35,3 @@ class TestUserProfile(TestCase):
 
     def tearDown(self):
         self.user.delete()
-
-    def test_username(self):
-        self.assertEqual(self.user.username, 'lol')

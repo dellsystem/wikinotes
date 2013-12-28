@@ -1,6 +1,59 @@
 [
     {
         "pk": 1,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Functions, limits and continuity, differentiation, L'Hospital's rule, applications, Taylor polynomials, parametric curves, functions of several variables.",
+            "num_watchers": 0,
+            "number": "150",
+            "credits": "4",
+            "department": "MATH",
+            "name": "Calculus A"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.coursesemester",
+        "fields": {
+            "term": "fall",
+            "final_info": null,
+            "readings": null,
+            "professors": [],
+            "course": 1,
+            "midterm_info": null,
+            "year": 2011,
+            "evaluation": null
+        }
+    },
+    {
+        "pk": "MATH",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Mathematics & Statistics",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.faculty",
+        "fields": {
+            "name": "Faculty of Science",
+            "slug": "science"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.professor",
+        "fields": {
+            "link": null,
+            "name": "James G Loveys",
+            "slug": "james-loveys"
+        }
+    },
+    {
+        "pk": 1,
         "model": "wiki.page",
         "fields": {
             "maintainer": 1,
@@ -63,18 +116,19 @@
         "pk": 1, 
         "model": "auth.user", 
         "fields": {
-            "username": "test", 
-            "first_name": "", 
-            "last_name": "", 
+            "username": "user", 
+            "first_name": "Some", 
+            "last_name": "User", 
             "is_active": true, 
             "is_superuser": false, 
             "is_staff": false, 
-            "last_login": "2013-02-08T13:38:23.359", 
+            "last_login": "2013-12-20T15:58:15.833", 
             "groups": [], 
             "user_permissions": [], 
-            "password": "pbkdf2_sha256$10000$MscZbxj32lZ7$djd6ZA/CyIAI2W6hMYlPS7zf8UVDJAGOSLVAKPce5aM=", 
-            "email": "test@test.com", 
-            "date_joined": "2013-02-08T13:38:23.078"
+            "password": "none",
+            "email": "", 
+            "date_joined": "2013-05-12T02:52:40.086"
         }
     }
+
 ]

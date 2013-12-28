@@ -11,8 +11,7 @@ class _TestGetAbsoluteUrl(TestCase):
     """Parent class for testing the get_absolute_url() method on the models
     that define it. Subclass this.
     """
-    fixtures = ['faculties', 'departments', 'courses', 'coursesemesters',
-        'professors', 'test_pages']
+    fixtures = ['test']
     pk = 1
 
     def setUp(self):
