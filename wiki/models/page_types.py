@@ -3,6 +3,7 @@
 # Define all the page types here, and their short names
 import re
 
+from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 from wiki.utils.constants import terms, years, exam_types
@@ -57,11 +58,15 @@ class PageType:
     def get_icon(self):
         return '/static/img/pages/%s.png' % self.short_name
 
+    def get_url_args(self, course):
+        url_args = course.get_url_args()
+        return url_args + (self.short_name,)
+
     def get_url(self, course):
-        return "%s%s/" % (course.get_absolute_url(), self.short_name)
+        return reverse('courses_category', args=self.get_url_args(course))
 
     def get_create_url(self, course):
-        return '%screate/%s/' % (course.get_absolute_url(), self.short_name)
+        return reverse('pages_create', args=self.get_url_args(course))
 
     @staticmethod
     def get_field_templates(fields):

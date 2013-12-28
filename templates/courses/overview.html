@@ -128,7 +128,7 @@
                 {% for item in course.recent_activity %}
                     <li>{{ item.user }} {{ item.action }} {% if item.page %}{{ item.page }}{% else %}this course{% endif %}</li>
                 {% endfor %}
-                <li><a href="{{ course.get_absolute_url }}/recent">View all recent changes &raquo;</a></li>
+                <li><a href="{{ course.get_recent_url }}">View all recent changes &raquo;</a></li>
                 {% else %}
                 <li>Nothing has happened recently for this course. Boo.</li>
                 {% endif %}

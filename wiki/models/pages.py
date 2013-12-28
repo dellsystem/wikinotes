@@ -1,8 +1,9 @@
 # encoding: utf-8
 import os
 
-from django.db import models
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.db import models
 
 from wiki.utils.pages import page_types, page_type_choices, get_section_start_end
 from wiki.utils.gitutils import Git
@@ -121,7 +122,7 @@ class Page(models.Model):
         return '%s - %s' % (self.get_title(), self.course_sem)
 
     def get_filepath(self):
-        return "wiki/content%s" % self.get_absolute_url()
+        return 'wiki/content' + self.get_absolute_url()
 
     def get_type(self):
         return page_types[self.page_type]
@@ -140,9 +141,23 @@ class Page(models.Model):
                 metadata[field] = content
         return metadata
 
+    def get_url_args(self):
+        """Used for reversing a URL."""
+        return (self.get_dept().pk, self.course_sem.course.number,
+            self.page_type, self.course_sem.term, self.course_sem.year,
+            self.slug)
+
     def get_absolute_url(self):
-        course = self.course_sem.course
-        return "%s%s/%s-%s/%s/" % (course.get_absolute_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
+        return reverse('pages_show', args=self.get_url_args())
+
+    def get_edit_url(self):
+        return reverse('pages_edit', args=self.get_url_args())
+
+    def get_history_url(self):
+        return reverse('pages_history', args=self.get_url_args())
+
+    def get_print_url(self):
+        return reverse('pages_printview', args=self.get_url_args())
 
     # The method can't be solely on the page type itelf, since it doesn't know what course it's for
     def get_type_url(self):

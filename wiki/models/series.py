@@ -33,7 +33,8 @@ class Series(models.Model):
         return "%s (%s)" % (self.name, self.course)
 
     def get_absolute_url(self):
-        return '%s#series-%s' % (self.course.get_absolute_url(), self.slug)
+        """This can't use `reverse` because it includes an anchor link."""
+        return self.course.get_absolute_url() + '#series-' + self.slug
 
     def get_num_total(self):
         return self.seriespage_set.count()

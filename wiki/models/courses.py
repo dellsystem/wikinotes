@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.db import models
 from django.template.defaultfilters import slugify
 
 from wiki.models.history import HistoryItem
@@ -36,9 +37,14 @@ class Course(models.Model):
     def __unicode__(self):
         return "%s %s" % (self.department.short_name, self.number)
 
-    @models.permalink
+    def get_url_args(self):
+        return (self.department.pk, self.number)
+
     def get_absolute_url(self):
-        return ('courses_overview', (), {'department': self.department.short_name, 'number': self.number})
+        return reverse('courses_overview', args=self.get_url_args())
+
+    def get_recent_url(self):
+        return reverse('courses_recent', args=self.get_url_args())
 
     def num_pages(self):
         count = 0
@@ -92,7 +98,8 @@ class CourseSemester(models.Model):
         return "%s-%s" % (self.term, self.year)
 
     def get_absolute_url(self):
-        return "%s%s/" % (self.course.get_absolute_url(), self.get_slug())
+        url_args = self.course.get_url_args() + (self.term, self.year)
+        return reverse('courses_semester', args=url_args)
 
 
 class Professor(models.Model):
@@ -107,6 +114,5 @@ class Professor(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('courses_professor_overview', [self.slug])
+        return reverse('courses_professor_overview', args=[self.slug])

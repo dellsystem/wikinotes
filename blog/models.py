@@ -13,9 +13,8 @@ class BlogPost(models.Model):
     def __unicode__(self):
         return "%s (%s)" % (self.title, self.timestamp.strftime("%B %d, %Y"))
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('news_view', (), {'slug': self.slug})
+        return reverse('news_view', args[self.slug])
 
     def get_num_comments(self):
         return self.blogcomment_set.count()
