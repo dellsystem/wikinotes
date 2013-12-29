@@ -95,7 +95,7 @@
             <div class="span4 columns" id="right-bar">
                 <div class="row">
                 {% if user.is_authenticated %}
-                <form method="post" action="{{ course.get_absolute_url }}/watch">
+                <form method="post" action="{{ course.get_watch_url }}">
                 {% csrf_token %}
                 {% endif %}
                     <div class="half-column">

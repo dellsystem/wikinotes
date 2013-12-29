@@ -4,9 +4,11 @@
 {% load gravatar %}
 <div class="container">
     <section>
-        <h2>Recent activity</h2>
+        <h2>Recent activity
+            <small>Last {{ num_days }} day{{ num_days|pluralize }}</small>
+        </h2>
         <p class="right-float">
-            <a href="/recent{% if not show_all %}/all{% endif %}/{{ num_days }}/">
+            <a href="{% url other_url num_days %}">
                 {% if show_all %}
                     Show only page-related activity
                 {% else %}
@@ -16,10 +18,10 @@
         </p>
         <p>
             Show activity from:
-            <a href="{{ base_url }}/1/">Last 24 hours</a> |
-            <a href="{{ base_url }}/3/">Last 3 days</a> |
-            <a href="{{ base_url }}/7/">Last week</a> |
-            <a href="{{ base_url }}/30/">Last 30 days</a>
+            <a href="{% url base_url 1 %}">Last 24 hours</a> |
+            <a href="{% url base_url 3 %}">Last 3 days</a> |
+            <a href="{% url base_url 7 %}">Last week</a> |
+            <a href="{% url base_url 30 %}">Last 30 days</a>
         </p>
         {% if history %}
         <table class="zebra-striped nosort">
@@ -45,7 +47,8 @@
             </tbody>
         </table>
         {% else %}
-        <p>No recent activity! Why not try a larger timeframe, or make something happen?</p>
+        <p>No activity in the last {{ num_days }} day{{ num_days|pluralize }}!
+        Why not try a larger timeframe, or make something happen?</p>
         {% endif %}
     </section>
 </div>

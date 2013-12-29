@@ -8,13 +8,17 @@
             <div class="span5">
                 {% include "main/course_search.html" %}
             </div>
+            {% if latest_post %}
             <div class="span11 right-align">
                 <p>
                     <strong>{{ latest_post.timestamp|date:"F j, Y" }}:
                     {{ latest_post.title }}</strong> {{ latest_post.summary }}
-                    <a href="/news/"><strong>Read more</strong> &raquo;</a>
+                    <a href="{% url 'news_main' %}">
+                        <strong>Read more</strong> &raquo;
+                    </a>
                 </p>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -7,7 +7,9 @@
             <ul class="tabs">
             {% for mode_name in modes %}
                 <li{% if mode_name == mode %} class="active"{% endif %}>
-                    <a href="/ucp/{{ mode_name }}/">{{ mode_name|title }}</a>
+                    <a href="{% url 'main_ucp' mode_name %}">
+                        {{ mode_name|title }}
+                    </a>
                 </li>
             {% endfor %}
             </ul>

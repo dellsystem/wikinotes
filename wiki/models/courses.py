@@ -46,6 +46,9 @@ class Course(models.Model):
     def get_recent_url(self):
         return reverse('courses_recent', args=self.get_url_args())
 
+    def get_watch_url(self):
+        return reverse('courses_watch', args=self.get_url_args())
+
     def num_pages(self):
         count = 0
         course_sems = self.coursesemester_set.all()

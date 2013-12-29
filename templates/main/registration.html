@@ -23,7 +23,7 @@
                     <p>Already have an account? Sign in using the login bar above.</p>
                 </div>
                 {% endif %}
-                <form action="/register" method="post">
+                <form action="{% url 'main_register' %}" method="post">
                     <fieldset>
                         {% csrf_token %}
                         <div class="clearfix">

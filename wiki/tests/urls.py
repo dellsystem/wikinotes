@@ -41,6 +41,12 @@ class TestCourseRecentUrl(_TestGetAbsoluteUrl):
     method_name = 'get_recent_url'
 
 
+class TestCourseWatchUrl(_TestGetAbsoluteUrl):
+    expected = '/MATH_150/watch/'
+    model = Course
+    method_name = 'get_watch_url'
+
+
 class TestCourseSemester(_TestGetAbsoluteUrl):
     expected = '/MATH_150/fall-2011/'
     model = CourseSemester

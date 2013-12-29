@@ -38,7 +38,7 @@ def index(request, show_welcome=False):
         try:
             latest_post = BlogPost.objects.order_by('-timestamp')[0]
         except IndexError:
-            latest_post = {'title': 'Nothing', 'summary': 'Nothing'}
+            latest_post = None
 
         # Show the user's dashboard
         data = {
@@ -89,7 +89,8 @@ def recent(request, num_days=1, show_all=False):
         'title': 'Recent activity',
         'history': HistoryItem.objects.get_since_x_days(num_days, show_all),
         'num_days': num_days,
-        'base_url': '/recent/all' if show_all else '/recent', # better way of doing this?
+        'base_url': 'main_all_recent' if show_all else 'main_recent',
+        'other_url': 'main_recent' if show_all else 'main_all_recent',
         'show_all': show_all
     }
 
@@ -316,7 +317,9 @@ def search(request):
 
 
 def static(request, mode='', page=''):
-    section_pages = ['overview'] + static_urls[mode]
+    # Pretty bad, fix another day
+    section_pages = [('overview', mode)]
+    section_pages += [(p, '%s_%s' % (mode, p)) for p in static_urls[mode]]
     markdown_file = '%s/%s.md' % (mode, page)
     html_file = '%s/%s.html' % (mode, page)
     data = {

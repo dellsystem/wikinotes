@@ -102,8 +102,11 @@ urlpatterns += patterns('',
 )
 
 for prefix, filenames in static_urls.iteritems():
-    index_url = url(r'^' + prefix + '(?:/overview)?/$', 'views.main.static', {'mode': prefix, 'page': 'overview'})
-    urls = [url(r'^' + prefix + '/' + filename + '/$', 'views.main.static', {'mode': prefix, 'page': filename}) for filename in filenames]
+    index_url = url(r'^' + prefix + '(?:/overview)?/$', 'views.main.static',
+        {'mode': prefix, 'page': 'overview'}, name=prefix)
+    urls = [url(r'^' + prefix + '/' + filename + '/$', 'views.main.static',
+        {'mode': prefix, 'page': filename},
+        name=prefix + '_' + filename) for filename in filenames]
     urlpatterns += patterns('', index_url, *urls)
 
 for prefix, mapping in direct_to_view:
