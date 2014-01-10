@@ -8,7 +8,7 @@ Basic, reusable patterns
 """
 faculty = r'(?P<faculty>\w+)'
 department = r'(?P<department>\w{4})'
-number = '(?P<number>\d{3}D?[12]?)'
+number = '(?P<number>\d{3}[DNJ]?[123]?)'
 course = department + '_' + number
 page_type = '(?P<page_type>[^/]+)'
 semester = '(?P<term>\w{4,6})-(?P<year>\d{4})'
