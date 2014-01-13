@@ -32,10 +32,18 @@
                 <h3>Find a course.</h3> 
                 <p>Enter a course name in the box in the top right corner, or browse our selection of courses:</p> 
                 <ul>
-                    <li><a href="/courses/faculty">Browse by faculty</a></li>
-                    <li><a href="/courses/department">Browse by department</a></li>
-                    <li><a href="/courses/professor">Browse by professor</a></li>
-                    <li><a href="/courses/popular">View popular courses</a></li>
+                    <li><a href="{% url 'courses_faculty_browse' %}">
+                        Browse by faculty
+                    </a></li>
+                    <li><a href="{% url 'courses_department_browse' %}">
+                        Browse by department
+                    </a></li>
+                    <li><a href="{% url 'courses_professor' %}">
+                        Browse by professor
+                    </a></li>
+                    <li><a href="{% url 'courses_popular' %}">
+                        View popular courses
+                    </a></li>
                 </ul>
             </div> 
             <div class="span-one-third column"> 
@@ -48,7 +56,14 @@
             </div>
             <div class="span-one-third column"> 
                 <h3>Contribute.</h3> 
-                <p>Give back to the community by adding lecture notes, editing content or even just spreading the word. If you're interested in contributing or becoming a moderator, please <a href="/register">register</a> and check out our <a href="/contributing">contributor guidelines</a>.</p>
+                <p>
+                    Give back to the community by adding lecture notes, editing
+                    content or even just spreading the word. If you're
+                    interested in contributing or becoming a moderator, please
+                    <a href="{% url 'main_register' %}">register</a> and check
+                    out our <a href="{% url 'contributing' %}">contributor
+                    guidelines</a>.
+                </p>
                 <div class="row">
                     <div class="span3">
                     <g:plusone annotation="none"></g:plusone>
@@ -61,7 +76,6 @@
                 </script>
                 <a href="http://www.twitter.com/#!/wikinotes_ca"><img src="/static/img/twitter.png" width="24" height="24" alt="Twitter" title="Follow us on Twitter" /></a>
                 <a href="http://www.facebook.com/#!/wikinotes.ca"><img src="/static/img/facebook.png" alt="Facebook" width="24" height="24" /></a>
-                <a href="/rss"><img src="/static/img/rss.png" alt="RSS Feed" width="24" height="24" /></a>
                     </div>
                     <div class="span2">
                         <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fwikinotes.ca&amp;send=false&amp;layout=button_count&amp;width=400&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:400px; height:21px;" allowTransparency="true"></iframe>
@@ -76,10 +90,16 @@
                 <h2>Not sure where to start?</h2> 
                 <ul>
                     <li>Watch our video &raquo;</li>
-                    <li><a href="/about">Learn about us</a> and what we're doing</li>
+                    <li>
+                        <a href="{% url 'about' %}">Learn about us</a> and what 
+                        we're doing
+                    </li>
                     <li><a href="https://www.github.com/dellsystem/wikinotes">Fork us on github</a> and send us a pull request</li>
                     <li>Join our <a href="http://webchat.freenode.net/?channels=wikinotes">#wikinotes IRC channel</a> on freenode</li>
-                    <li>Find a <a href="/pages/random">random page</a> and make it better</li>
+                    <li>
+                        Find a <a href="{% url 'pages_random' %}">random page
+                        </a> and make it better
+                    </li>
                 </ul>
                 <p>Other services for McGill students to check out:</p>
                 <ul>

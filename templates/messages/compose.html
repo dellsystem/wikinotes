@@ -34,7 +34,10 @@
     <tr>
         <td>
             <strong>Message:</strong>
-            <p>The message contents will be processed with <a href="/help/formatting">Markdown</a>.
+            <p>
+                The message contents will be processed with <a
+                href="{% url 'help_formatting' %}">Markdown</a>.
+            </p>
         </td>
         <td>{{ form.message }}</td>
     </tr>

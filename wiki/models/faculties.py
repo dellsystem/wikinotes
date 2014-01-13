@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 
 
@@ -14,9 +15,8 @@ class Faculty(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('courses_faculty_overview', (), {'faculty': self.slug})
+        return reverse('courses_faculty_overview', args=[self.slug])
 
     def get_image(self):
-        return "/static/img%s.png" % self.get_absolute_url()
+        return "/static/img/faculty/%s.png" % self.slug

@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.db import models
 from django.template.defaultfilters import slugify
 
 from wiki.models.history import HistoryItem
@@ -9,7 +10,7 @@ from wiki.utils.currents import current_year, current_term
 class Course(models.Model):
     class Meta:
         app_label = 'wiki'
-        ordering = ['department', 'number']
+        ordering = ['department__short_name', 'number']
 
     department = models.ForeignKey('Department')
     number = models.CharField(max_length=5, verbose_name="Course number")
@@ -36,9 +37,17 @@ class Course(models.Model):
     def __unicode__(self):
         return "%s %s" % (self.department.short_name, self.number)
 
-    @models.permalink
+    def get_url_args(self):
+        return (self.department.pk, self.number)
+
     def get_absolute_url(self):
-        return ('courses_overview', (), {'department': self.department.short_name, 'number': self.number})
+        return reverse('courses_overview', args=self.get_url_args())
+
+    def get_recent_url(self):
+        return reverse('courses_recent', args=self.get_url_args())
+
+    def get_watch_url(self):
+        return reverse('courses_watch', args=self.get_url_args())
 
     def num_pages(self):
         count = 0
@@ -49,8 +58,10 @@ class Course(models.Model):
         return count
 
     # Use this for adding an event to a course
-    def add_event(self, user=None, action=None, page=None, message=''):
-        new_item = HistoryItem(user=user, action=action, page=page, message=message, course=self)
+    def add_event(self, user=None, action=None, page=None, message='',
+        hexsha=None):
+        new_item = HistoryItem(user=user, action=action, page=page, course=self,
+            message=message, hexsha=hexsha)
         new_item.save()
         self.latest_activity = new_item
         self.save()
@@ -90,7 +101,8 @@ class CourseSemester(models.Model):
         return "%s-%s" % (self.term, self.year)
 
     def get_absolute_url(self):
-        return "%s/%s" % (self.course.get_absolute_url(), self.get_slug())
+        url_args = self.course.get_url_args() + (self.term, self.year)
+        return reverse('courses_semester', args=url_args)
 
 
 class Professor(models.Model):
@@ -105,6 +117,5 @@ class Professor(models.Model):
     def __unicode__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('courses_professor_overview', [self.slug])
+        return reverse('courses_professor_overview', args=[self.slug])

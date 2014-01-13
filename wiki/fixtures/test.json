@@ -1,0 +1,163 @@
+[
+    {
+        "pk": 1,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "Functions, limits and continuity, differentiation, L'Hospital's rule, applications, Taylor polynomials, parametric curves, functions of several variables.",
+            "num_watchers": 0,
+            "number": "150",
+            "credits": "4",
+            "department": "MATH",
+            "name": "Calculus A"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.coursesemester",
+        "fields": {
+            "term": "fall",
+            "final_info": null,
+            "readings": null,
+            "professors": [],
+            "course": 1,
+            "midterm_info": null,
+            "year": 2011,
+            "evaluation": null
+        }
+    },
+    {
+        "pk": "MATH",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Mathematics & Statistics",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.faculty",
+        "fields": {
+            "name": "Faculty of Science",
+            "slug": "science"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.professor",
+        "fields": {
+            "link": null,
+            "name": "James G Loveys",
+            "slug": "james-loveys"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "wiki.page",
+        "fields": {
+            "maintainer": 1,
+            "title": "Page number 1",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-1",
+            "subject": "lol"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "wiki.page",
+        "fields": {
+            "maintainer": 1,
+            "title": "Page number 2",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-2",
+            "subject": "lol"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "wiki.page",
+        "fields": {
+            "maintainer": 1,
+            "title": "Page number 3",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-3",
+            "subject": "lol"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "wiki.page",
+        "fields": {
+            "maintainer": 1,
+            "title": "Page number 4",
+            "professor": null,
+            "content": "<p>lol</p>",
+            "course_sem": 1,
+            "link": "",
+            "page_type": "summary",
+            "slug": "page-number-4",
+            "subject": "lol"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "user", 
+            "first_name": "Some", 
+            "last_name": "User", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2013-12-20T15:58:15.833", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "none",
+            "email": "", 
+            "date_joined": "2013-05-12T02:52:40.086"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "wiki.series", 
+        "fields": {
+            "name": "Fall 2010 lecture notes", 
+            "course": 1, 
+            "position": 1, 
+            "is_hidden": true, 
+            "banner": null, 
+            "slug": "fall-2010-lecture-notes"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "wiki.seriespage", 
+        "fields": {
+            "series": 1, 
+            "page": 1, 
+            "position": 1
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "wiki.seriespage", 
+        "fields": {
+            "series": 1, 
+            "page": 2, 
+            "position": 2
+        }
+    }
+]

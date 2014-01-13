@@ -172,3 +172,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # This eliminates the need for a db query every time this is called
 SITE_URL = 'http://wikinotes.ca'
+
+APPEND_SLASH = True

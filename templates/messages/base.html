@@ -5,8 +5,10 @@
     <section>
         <h1>Private messages :: {{ this_mode|capfirst }}</h1>
         <ul class="tabs">
-            {% for mode in modes %}
-            <li{% if mode == this_mode %} class="active"{% endif %}><a href="/messages/{{ mode }}">{{ mode|capfirst }}</a></li>
+            {% for mode, mode_url in modes %}
+            <li{% if mode == this_mode %} class="active"{% endif %}>
+                <a href="{% url mode_url %}">{{ mode|capfirst }}</a>
+            </li>
             {% endfor %}
         </ul>
         

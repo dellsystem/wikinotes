@@ -405,4 +405,51 @@ $(document).ready(function() {
             localStorage.removeItem(window.location.href);
         });
     }
+
+    /*
+     * Smooth-scrolling and highlighting for footnotes.
+     */
+
+    // Scroll to the footnote reference in the content of the page
+    $('a[rev="footnote"]').click(function (){
+        var target = $(this).attr('href');
+        var id = target.replace('#', '');
+        var node = $('sup[id="' + id + '"]');
+        var offset = Math.max(node.offset().top - 20, 0);
+        $('body').animate({scrollTop: offset}, 700);
+
+        var parentNode = node.parent();
+        parentNode.toggleClass('highlight');
+
+        // It would be cool to fade this out but that requires jQuery UI
+        setTimeout(function() {
+            parentNode.toggleClass('highlight');
+        }, 2000);
+
+        // Set the hash
+        window.location.hash = target;
+
+        return false;
+    });
+
+    // Scroll to the footnote itself, in the footer
+    $('a[rel="footnote"]').click(function () {
+        var target = $(this).attr('href');
+        var id = target.replace('fn', 'fnref');
+        var node = $('a[href="' + id + '"]');
+        var offset = Math.max(node.offset().top - 20, 0);
+        $('body').animate({scrollTop: offset}, 700);
+
+        var parentNode = node.parent();
+        parentNode.toggleClass('highlight');
+
+        setTimeout(function(){
+            parentNode.toggleClass('highlight');
+        }, 2000);
+
+        // Set the hash
+        window.location.hash = target;
+
+        return false;
+    });
 });

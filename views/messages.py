@@ -21,7 +21,8 @@ def base_view(function):
             data = function(request, *args, **kwargs)
             data['this_mode'] = name
             data['title'] = "Private messages (%s)" % name
-            data['modes'] = ['inbox', 'outbox', 'compose']
+            modes = ['inbox', 'outbox', 'compose']
+            data['modes'] = [(mode, 'messages_%s' % mode) for mode in modes]
             return render(request, template_file, data)
         except PermissionDenied:
             return redirect('messages_inbox')

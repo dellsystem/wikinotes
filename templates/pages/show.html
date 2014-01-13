@@ -17,9 +17,9 @@
             <li class="active">{{ page.get_title }}</li>
         </ul>
         <div class="right-float">
-            <a href="{{ print_url }}" title="View a printer-friendly version of this page" class="btn">Print</a>
-            <a href="{{ history_url }}" class="btn">History</a>
-            <a href="{{ edit_url }}" class="btn danger">Edit</a>
+            <a href="{{ page.get_print_url }}" title="View a printer-friendly version of this page" class="btn">Print</a>
+            <a href="{{ page.get_history_url }}" class="btn">History</a>
+            <a href="{{ page.get_edit_url }}" class="btn danger">Edit</a>
             {% if request.user.is_superuser %}
             <a href="{% url 'admin:wiki_page_change' page.id %}" class="btn success">Manage</a>
             {% endif %}
