@@ -25,7 +25,7 @@ $(document).ready(function() {
     if (courseSearchBox.length) {
         $.ajax({
             dataType: 'html',
-            url: '/courses/get_all',
+            url: '/courses/get_all/',
             success: function(data) {
                 courseSearchBox.html(data).chosen().change(function() {
                     window.location.pathname = $(this).val();
@@ -314,7 +314,7 @@ $(document).ready(function() {
             },
             dataType: 'html',
             type: 'POST',
-            url: '/markdown',
+            url: '/markdown/',
             success: function(data) {
                 $('#content-preview').html(data);
                 MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'content-preview']);
