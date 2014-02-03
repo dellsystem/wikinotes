@@ -41,7 +41,11 @@ class Series(models.Model):
 
     def get_next_position(self):
         query = self.seriespage_set.all().aggregate(models.Max('position'))
-        return query['position__max'] + 1
+        max_position = query['position__max']
+        if max_position:
+            return max_position + 1
+        else:
+            return 1
 
 
 class SeriesPage(models.Model):
