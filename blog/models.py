@@ -15,7 +15,7 @@ class BlogPost(models.Model):
         return "%s (%s)" % (self.title, self.timestamp.strftime("%B %d, %Y"))
 
     def get_absolute_url(self):
-        return reverse('news_view', args[self.slug])
+        return reverse('news_view', args=[self.slug])
 
     def get_num_comments(self):
         return self.blogcomment_set.count()
