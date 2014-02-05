@@ -5,9 +5,6 @@ from django.db.models.signals import post_save
 
 
 class UserProfile(models.Model):
-    class Meta:
-        app_label = 'wiki'
-
     user = models.OneToOneField(User)
     twitter = models.CharField(max_length=15, null=True) # max length of a twitter username
     courses = models.ManyToManyField('Course')
@@ -18,6 +15,9 @@ class UserProfile(models.Model):
     gplus = models.CharField(max_length=21, null=True) # i think, all numbers but char just in case
     major = models.CharField(max_length=100, null=True)
     show_email = models.BooleanField(default=False)
+
+    class Meta:
+        app_label = 'wiki'
 
     def start_watching(self, course):
         self.courses.add(course)
@@ -68,9 +68,6 @@ class PrivateMessageManager(models.Manager):
 
 
 class PrivateMessage(models.Model):
-    class Meta:
-        app_label = 'wiki'
-
     objects = PrivateMessageManager()
     sender = models.ForeignKey(User, related_name="sent_messages")
     recipient = models.ForeignKey(User, related_name="received_messages")
@@ -79,6 +76,8 @@ class PrivateMessage(models.Model):
     is_read = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        app_label = 'wiki'
 
     def get_absolute_url(self):
         return reverse('messages_view', args=[self.id])

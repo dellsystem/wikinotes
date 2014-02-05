@@ -8,10 +8,6 @@ from wiki.utils.currents import current_year, current_term
 
 
 class Course(models.Model):
-    class Meta:
-        app_label = 'wiki'
-        ordering = ['department__short_name', 'number']
-
     department = models.ForeignKey('Department')
     number = models.CharField(max_length=5, verbose_name="Course number")
     name = models.CharField(max_length=255)
@@ -24,6 +20,16 @@ class Course(models.Model):
         related_name='latest_course', null=True, blank=True)
     num_watchers = models.IntegerField(default=0) # caches it basically
 
+    class Meta:
+        app_label = 'wiki'
+        ordering = ['department__short_name', 'number']
+
+    def __unicode__(self):
+        return "%s %s" % (self.department.short_name, self.number)
+
+    def get_absolute_url(self):
+        return reverse('courses_overview', args=self.get_url_args())
+
     def increase_num_watchers_by(self, i):
         self.num_watchers += i
         self.save()
@@ -34,14 +40,8 @@ class Course(models.Model):
         except CourseSemester.DoesNotExist:
             return None
 
-    def __unicode__(self):
-        return "%s %s" % (self.department.short_name, self.number)
-
     def get_url_args(self):
         return (self.department.pk, self.number)
-
-    def get_absolute_url(self):
-        return reverse('courses_overview', args=self.get_url_args())
 
     def get_recent_url(self):
         return reverse('courses_recent', args=self.get_url_args())
@@ -77,10 +77,6 @@ class Course(models.Model):
 
 
 class CourseSemester(models.Model):
-    class Meta:
-        app_label = 'wiki'
-        unique_together = ('term', 'year', 'course')
-
     course = models.ForeignKey('Course')
     evaluation = models.TextField(null=True, blank=True)
     professors = models.ManyToManyField('Professor', null=True, blank=True)
@@ -90,8 +86,16 @@ class CourseSemester(models.Model):
     term = models.CharField(max_length=6) # Winter/Summer etc
     year = models.IntegerField(max_length=4) # Because ... yeah
 
+    class Meta:
+        app_label = 'wiki'
+        unique_together = ('term', 'year', 'course')
+
     def __unicode__(self):
         return "%s (%s %d)" % (self.course, self.term.title(), self.year)
+
+    def get_absolute_url(self):
+        url_args = self.course.get_url_args() + (self.term, self.year)
+        return reverse('courses_semester', args=url_args)
 
     def get_semester(self):
         # For printing out. Returns Term year
@@ -100,19 +104,15 @@ class CourseSemester(models.Model):
     def get_slug(self):
         return "%s-%s" % (self.term, self.year)
 
-    def get_absolute_url(self):
-        url_args = self.course.get_url_args() + (self.term, self.year)
-        return reverse('courses_semester', args=url_args)
-
 
 class Professor(models.Model):
-    class Meta:
-        app_label = 'wiki'
-        ordering = ['name']
-
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     link = models.URLField(blank=True, null=True)
+
+    class Meta:
+        app_label = 'wiki'
+        ordering = ['name']
 
     def __unicode__(self):
         return self.name
