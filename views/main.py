@@ -9,14 +9,14 @@ from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
+from blog.models import BlogPost
 from urls import static_urls
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
-from wiki.utils.users import validate_username
 from wiki.models.pages import Page
-from blog.models import BlogPost
 from wiki.models.users import UserProfile
 from wiki.utils.decorators import show_object_detail
+from wiki.utils.users import validate_username
 
 
 def index(request, show_welcome=False):
