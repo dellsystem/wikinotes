@@ -14,6 +14,7 @@ from wiki.models.faculties import Faculty
 from wiki.models.history import HistoryItem
 from wiki.models.pages import Page, ExternalPage
 from wiki.models.series import Series
+from wiki.utils.decorators import show_object_detail
 from wiki.utils.pages import page_types
 
 
@@ -27,40 +28,36 @@ def remove_slash(request, department, number):
     return redirect(real_path)
 
 
+@show_object_detail(Faculty)
 def faculty_overview(request, faculty):
     """Faculty overview page.
     """
-    faculty_object = get_object_or_404(Faculty, slug=faculty)
-    courses = Course.objects.all().filter(department__faculty=faculty_object)\
+    courses = Course.objects.all().filter(department__faculty=faculty)\
               .order_by('department__short_name', 'number')
-    departments = Department.objects.all().filter(faculty=faculty_object)\
-                  .order_by('short_name')
-    context = {
-        'title': faculty_object,
-        'faculty': faculty_object,
+    departments = faculty.department_set.order_by('short_name')
+
+    return {
+        'title': faculty,
+        'faculty': faculty,
         'courses': courses,
-        'departments': departments
+        'departments': departments,
     }
 
-    return render(request, 'courses/faculty_overview.html', context)
 
-
-def department_overview(request, department):
+@show_object_detail(Department)
+def department_overview(request, dept):
     """Department overview page.
     """
-    dept = get_object_or_404(Department, short_name=department.upper())
-    courses = Course.objects.all().filter(department=dept).order_by('department__short_name', 'number')
+    courses = dept.course_set.order_by('department__short_name', 'number')
 
     # Figure out the number of pages associated with courses in this department
     num_pages = Page.objects.filter(course_sem__course__department=dept).count()
-    context = {
+    return {
         'title': dept,
         'dept': dept,
         'courses': courses,
         'num_pages': num_pages
     }
-
-    return render(request, 'courses/department_overview.html', context)
 
 
 # Faculty no longer looks like a word to me
@@ -195,18 +192,8 @@ def get_all(request):
     return render(request, 'courses/get_all.html', {'courses': courses})
 
 
-def overview(request, department, number):
-    try:
-        course = get_object_or_404(Course, department=department,
-                                   number=int(number))
-    except Http404:
-        context = {
-            'department': department,
-            'number': number
-        }
-
-        return render(request, "courses/404.html", context)
-
+@show_object_detail(Course)
+def overview(request, course):
     # We can't use it directly in the template file, it just won't work
     types = []
     num_misc_pages = 0
@@ -240,7 +227,7 @@ def overview(request, department, number):
     else:
         is_watching = False
 
-    context = {
+    return {
         'title': course,
         'is_watching': is_watching,
         'course': course,
@@ -251,25 +238,19 @@ def overview(request, department, number):
         'visible_series': course.series_set.visible(request.user),
     }
 
-    return render(request, 'courses/overview.html', context)
-
 
 # Filtering by semester for a specific course
-def semester(request, department, number, term, year):
-    course = get_object_or_404(Course, department=department,
-                               number=int(number))
-    course_sem = get_object_or_404(CourseSemester, course=course, term=term,
-                                   year=int(year))
+@show_object_detail(CourseSemester)
+def semester(request, course_sem):
+    course = course_sem.course
     pages = Page.objects.visible(request.user, course_sem=course_sem)
 
-    context = {
+    return {
         'title': course_sem,
         'course': course,
         'course_sem': course_sem,
         'pages': pages,
     }
-
-    return render(request, 'courses/semester.html', context)
 
 
 def recent(request, department, number):
@@ -325,9 +306,9 @@ def recent(request, department, number):
     return render(request, 'courses/recent.html', context)
 
 
-def category(request, department, number, page_type):
-    course = get_object_or_404(Course, department=department,
-                               number=int(number))
+@show_object_detail(Course, always_pass_groups=True)
+def category(request, course, **kwargs):
+    page_type = kwargs['page_type']
 
     if page_type not in page_types:
         raise Http404
@@ -336,7 +317,7 @@ def category(request, department, number, page_type):
                                  page_type=page_type)
     category = page_types[page_type]
 
-    context = {
+    return {
         'title': '%s (%s)' % (category.long_name, course),
         'course': course,
         'category': category,
@@ -344,20 +325,16 @@ def category(request, department, number, page_type):
         'create_url': category.get_create_url(course),
     }
 
-    return render(request, 'courses/category.html', context)
 
-
+@show_object_detail(Professor)
 def professor_overview(request, professor):
-    professor = get_object_or_404(Professor, slug=professor)
     pages = Page.objects.visible(request.user, professor=professor)\
             .order_by('course_sem')
 
-    context = {
+    return {
         'professor': professor,
         'pages': pages,
     }
-
-    return render(request, 'courses/professor_overview.html', context)
 
 
 def create(request):

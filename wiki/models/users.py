@@ -15,6 +15,9 @@ class UserProfile(models.Model):
     gplus = models.CharField(max_length=21, null=True) # i think, all numbers but char just in case
     major = models.CharField(max_length=100, null=True)
     show_email = models.BooleanField(default=False)
+    url_fields = {
+        'username': 'user__username',
+    }
 
     class Meta:
         app_label = 'wiki'

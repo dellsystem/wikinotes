@@ -6,6 +6,9 @@ class Department(models.Model):
     short_name = models.CharField(max_length=4, primary_key=True)
     long_name = models.CharField(max_length=255)
     faculty = models.ForeignKey('Faculty')
+    url_fields = {
+        'department': 'short_name__iexact',
+    }
 
     class Meta:
         app_label = 'wiki'

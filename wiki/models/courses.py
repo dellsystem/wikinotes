@@ -19,6 +19,10 @@ class Course(models.Model):
     latest_activity = models.ForeignKey('HistoryItem',
         related_name='latest_course', null=True, blank=True)
     num_watchers = models.IntegerField(default=0) # caches it basically
+    url_fields = {
+        'department': 'department__short_name__iexact',
+        'number': 'number',
+    }
 
     class Meta:
         app_label = 'wiki'
@@ -85,6 +89,12 @@ class CourseSemester(models.Model):
     readings = models.TextField(null=True, blank=True)
     term = models.CharField(max_length=6) # Winter/Summer etc
     year = models.IntegerField(max_length=4) # Because ... yeah
+    url_fields = {
+        'department': 'course__department__short_name__iexact',
+        'number': 'course__number',
+        'term': 'term',
+        'year': 'year',
+    }
 
     class Meta:
         app_label = 'wiki'
@@ -109,6 +119,9 @@ class Professor(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     link = models.URLField(blank=True, null=True)
+    url_fields = {
+        'professor': 'slug',
+    }
 
     class Meta:
         app_label = 'wiki'

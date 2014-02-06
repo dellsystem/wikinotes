@@ -52,6 +52,14 @@ class Page(models.Model):
     content = models.TextField(null=True) # processed markdown, like a cache
     maintainer = models.ForeignKey(User)
     is_hidden = models.BooleanField(default=False) # for takedown requests
+    url_fields = {
+        'department': 'course_sem__course__department__short_name__iexact',
+        'number': 'course_sem__course__number',
+        'term': 'course_sem__term',
+        'year': 'course_sem__year',
+        'page_type': 'page_type',
+        'slug': 'slug',
+    }
 
     class Meta:
         app_label = 'wiki'
