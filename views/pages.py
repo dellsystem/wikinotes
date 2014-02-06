@@ -66,7 +66,7 @@ def history(request, department, number, page_type, term, year, slug):
     data = {
         'title': 'Page history (%s)' % page,
         'course': course,
-        'page': page, # to distinguish it from whatever
+        'page': page,
         'commit_history': commit_history,
     }
     return render(request, "pages/history.html", data)
