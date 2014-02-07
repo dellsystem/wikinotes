@@ -46,7 +46,6 @@ def printview(request, page):
     return {
         'page': page,
         'page_type': page_types[page.page_type],
-        'server_url': request.META['HTTP_HOST']
     }
 
 
