@@ -255,9 +255,8 @@ def semester_overview(request, course_sem):
     }
 
 
-def recent(request, department, number):
-    course = get_object_or_404(Course, department=department,
-                               number=int(number))
+@show_object_detail(Course)
+def recent(request, course):
     raw_history = course.recent_activity(limit=0) # order: newest to oldest
     temp_history = []
 
