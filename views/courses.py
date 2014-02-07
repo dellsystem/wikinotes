@@ -118,7 +118,7 @@ def index(request):
     """
     courses = Course.objects.all()
 
-    random_courses = random_module.sample(courses, 10)
+    random_courses = random_module.sample(courses, min(10, courses.count()))
     popular_courses = courses.filter(num_watchers__gt=0).order_by(
         '-num_watchers')[:10]
     active_courses = courses.filter(latest_activity__isnull=False).order_by(
