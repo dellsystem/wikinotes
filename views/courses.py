@@ -243,12 +243,12 @@ def overview(request, course):
 
 # Filtering by semester for a specific course
 @show_object_detail(CourseSemester)
-def semester(request, course_sem):
+def semester_overview(request, course_sem):
     course = course_sem.course
     pages = Page.objects.visible(request.user, course_sem=course_sem)
 
     return {
-        'title': course_sem,
+        'title': str(course_sem),
         'course': course,
         'course_sem': course_sem,
         'pages': pages,
