@@ -3,6 +3,7 @@ import random as random_module
 
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
@@ -14,76 +15,67 @@ from wiki.models.pages import Page
 from wiki.models.series import Series, SeriesBanner
 from wiki.utils.constants import terms, years, exam_types
 from wiki.utils.currents import current_term, current_year
+from wiki.utils.decorators import show_object_detail
 from wiki.utils.gitutils import Git, NoChangesError
 from wiki.utils.merge3 import Merge3
 from wiki.utils.pages import page_types
 
 
-def show(request, department, number, page_type, term, year, slug, printview=False):
-    department = department.upper()
-    try:
-        course = get_object_or_404(Course, department=department, number=int(number))
-    except Http404:
-        return render(request, "courses/404.html", {'department': department, 'number': number})
-    try:
-        course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-        page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+@show_object_detail(Page, show_custom_404=True)
+def show(request, page, **groups):
+    if page is None:
+        return create(request, groups['department'], groups['number'],
+            groups['page_type'], (groups['term'], groups['year']))
 
-        if not page.can_view(request.user):
-            raise PermissionDenied
-    except Http404:
-        # Page doesn't exist - go to create with the semester, subject, etc filled out
-        return create(request, department, number, page_type, semester=(term, year))
+    if not page.can_view(request.user):
+        raise PermissionDenied
 
-    page_type_obj = page_types[page_type]
-    data = {
+    return {
         'title': page,
-        'course': course,
+        'course': page.course_sem.course,
         'page': page,
-        'page_type': page_type_obj,
+        'page_type': page_types[page.page_type],
+        'content': page.load_content(),
+    }
+
+
+@show_object_detail(Page)
+def printview(request, page):
+    if not page.can_view(request.user):
+        raise PermissionDenied
+
+    return {
+        'page': page,
+        'page_type': page_types[page.page_type],
         'content': page.load_content(),
         'server_url': request.META['HTTP_HOST']
     }
 
-    template_file = "pages/print.html" if printview else "pages/show.html"
 
-    return render(request, template_file, data)
-
-
-def printview(request, department, number, page_type, term, year, slug):
-    return show(request, department, number, page_type, term, year, slug, printview=True)
-
-
-def history(request, department, number, page_type, term, year, slug):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
-    course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-    page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-
+@show_object_detail(Page)
+def history(request, page):
     if not page.can_view(request.user):
         raise PermissionDenied
 
     commit_history = Git(page.get_filepath()).get_history()
-    data = {
+
+    return {
         'title': 'Page history (%s)' % page,
-        'course': course,
-        'page': page, # to distinguish it from whatever
+        'course': page.course_sem.course,
+        'page': page,
         'commit_history': commit_history,
     }
-    return render(request, "pages/history.html", data)
 
 
 # View page information for a specific commit
-def commit(request, department, number, page_type, term, year, slug, hash):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
-    course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-    page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-
+@show_object_detail(Page, always_pass_groups=True)
+def commit(request, page, **kwargs):
     if not page.can_view(request.user):
         raise PermissionDenied
 
-    page_type_obj = page_types[page_type]
+    page_type_obj = page_types[page.page_type]
     repo = Git(page.get_filepath()) # make this an object on the page
-    commit = repo.get_commit(hash)
+    commit = repo.get_commit(kwargs['hash'])
     if commit is None:
         raise Http404
 
@@ -98,9 +90,9 @@ def commit(request, department, number, page_type, term, year, slug, hash):
 
     raw_file = files.items()[0][1]['raw'].decode('utf-8')
 
-    data = {
+    return {
         'title': 'Commit information (%s)' % page,
-        'course': course,
+        'course': page.course_sem.course,
         'page': page,
         'hash': hash,
         'content': raw_file,
@@ -112,8 +104,6 @@ def commit(request, department, number, page_type, term, year, slug, hash):
             'diff': repo.get_diff(commit)
         },
     }
-
-    return render(request, "pages/commit.html", data)
 
 
 def edit(request, department, number, page_type, term, year, slug):
@@ -228,8 +218,10 @@ def create(request, department, number, page_type, semester=None):
     if page_type not in page_types:
         raise Http404
 
+    form_action = reverse('pages_create', args=[department, number, page_type])
     page_type_obj = page_types[page_type]
     data = {
+        'form_action': form_action,
         'professors': Professor.objects.all(),
         'title': 'Create a page (%s)' % course,
         'course': course,

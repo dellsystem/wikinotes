@@ -14,6 +14,34 @@
         }
     },
     {
+        "pk": 2,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "N/A",
+            "num_watchers": 0,
+            "number": "112",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Cell and Molecular Biology"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "N/A",
+            "num_watchers": 0,
+            "number": "111",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Organismal Biology"
+        }
+    },
+    {
         "pk": 1,
         "model": "wiki.coursesemester",
         "fields": {
@@ -32,6 +60,14 @@
         "model": "wiki.department",
         "fields": {
             "long_name": "Mathematics & Statistics",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "BIOL",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Biology",
             "faculty": 1
         }
     },
