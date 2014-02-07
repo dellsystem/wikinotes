@@ -35,7 +35,6 @@ def show(request, page, **groups):
         'course': page.course_sem.course,
         'page': page,
         'page_type': page_types[page.page_type],
-        'content': page.load_content(),
     }
 
 
@@ -47,7 +46,6 @@ def printview(request, page):
     return {
         'page': page,
         'page_type': page_types[page.page_type],
-        'content': page.load_content(),
         'server_url': request.META['HTTP_HOST']
     }
 

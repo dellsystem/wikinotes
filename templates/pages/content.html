@@ -1,9 +1,5 @@
         <div class="markdown">
-            {% if page.content %}
-                {{ page.content|safe }}
-            {% else %}
-                {% include "main/markdown.html" %}
-            {% endif %}
+            {{ page.content|safe }}
             <div id="grade-answers">
                 <a href="#" id="js-reset-quiz" class="btn">Reset quiz</a>
                 <a href="#" id="js-grade-answers" class="btn info">Grade answers &raquo;</a>
