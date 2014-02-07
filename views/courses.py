@@ -32,9 +32,8 @@ def remove_slash(request, department, number):
 def faculty_overview(request, faculty):
     """Faculty overview page.
     """
-    courses = Course.objects.all().filter(department__faculty=faculty)\
-              .order_by('department__short_name', 'number')
-    departments = faculty.department_set.order_by('short_name')
+    courses = Course.objects.all().filter(department__faculty=faculty)
+    departments = faculty.department_set.all()
 
     return {
         'title': str(faculty),
