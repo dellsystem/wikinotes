@@ -132,3 +132,8 @@ class Professor(models.Model):
 
     def get_absolute_url(self):
         return reverse('courses_professor_overview', args=[self.slug])
+
+    def get_courses(self):
+        data = self.page_set.values('course_sem__course')
+        course_ids = [k['course_sem__course'] for k in data]
+        return Course.objects.filter(pk__in=course_ids)
