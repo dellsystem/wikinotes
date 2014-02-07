@@ -35,7 +35,6 @@ def show(request, page, **groups):
         'course': page.course_sem.course,
         'page': page,
         'page_type': page_types[page.page_type],
-        'content': page.load_content(),
     }
 
 
@@ -47,8 +46,6 @@ def printview(request, page):
     return {
         'page': page,
         'page_type': page_types[page.page_type],
-        'content': page.load_content(),
-        'server_url': request.META['HTTP_HOST']
     }
 
 
@@ -57,7 +54,8 @@ def history(request, page):
     if not page.can_view(request.user):
         raise PermissionDenied
 
-    commit_history = Git(page.get_filepath()).get_history()
+    repo = page.get_repo()
+    commit_history = repo.get_history()
 
     return {
         'title': 'Page history (%s)' % page,
@@ -74,7 +72,7 @@ def commit(request, page, **kwargs):
         raise PermissionDenied
 
     page_type_obj = page_types[page.page_type]
-    repo = Git(page.get_filepath()) # make this an object on the page
+    repo = page.get_repo()
     commit = repo.get_commit(kwargs['hash'])
     if commit is None:
         raise Http404
@@ -94,7 +92,7 @@ def commit(request, page, **kwargs):
         'title': 'Commit information (%s)' % page,
         'course': page.course_sem.course,
         'page': page,
-        'hash': hash,
+        'hash': kwargs['hash'],
         'content': raw_file,
         'commit': {
             'date': datetime.fromtimestamp(commit.authored_date), # returns a unix timestamp in 0.3.2

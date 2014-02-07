@@ -87,8 +87,11 @@ def login_logout(request):
 
 # Recent changes
 def recent(request, num_days=1, show_all=False):
+    base_title = 'All recent activity' if show_all else 'Recent activity'
+    title = "%s in the past %d day(s)" % (base_title, num_days)
+
     data = {
-        'title': 'Recent activity',
+        'title': title,
         'history': HistoryItem.objects.get_since_x_days(num_days, show_all),
         'num_days': num_days,
         'base_url': 'main_all_recent' if show_all else 'main_recent',
@@ -122,7 +125,7 @@ def profile(request, profile):
     num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
 
     return {
-        'title': 'Viewing profile (%s)' % this_user.username,
+        'title': 'Viewing profile for %s' % this_user.username,
         'this_user': this_user, # can't call it user because the current user is user
         'profile': profile,
         'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:10],
@@ -159,8 +162,9 @@ def contributions(request, profile):
         'mode': mode,
         'mode_name': mode_name,
         'this_user': this_user,
-        'title': "%s's contributions" % this_user.username,
+        'title': "Viewing contributions for %s" % this_user.username,
     }
+
 
 def register(request):
     # If the user is already logged in, go to the dashboard page
