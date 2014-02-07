@@ -110,7 +110,7 @@ class Git:
                 'message': commit.message[:70] + ' ...' if len(commit.message) > 70 else commit.message,
                 'author': commit.author,
                 'lines': num_lines,
-                'url': '../commit/' + commit.hexsha ,
+                'url': '../commit/' + commit.hexsha, # TODO: fix
                 'undo_url': 'undo/' + commit.hexsha,
                 'insertions': commit.stats.total['insertions'],
                 'deletions': commit.stats.total['deletions'],
