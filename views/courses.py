@@ -332,6 +332,7 @@ def professor_overview(request, professor):
             .order_by('course_sem')
 
     return {
+        'title': 'Overview for %s' % professor,
         'professor': professor,
         'pages': pages,
     }
@@ -348,6 +349,7 @@ def create(request):
         form = CourseForm()
 
     context = {
+        'title': 'Create a course',
         'form': form,
     }
 
