@@ -24,7 +24,7 @@
                 <p>
                     To view all the courses in our catalogue, sorted by
                     popularity (i.e. the number of watchers), <a
-                    href="{% url 'courses_popular' %}">click here</a>.
+                    href="{% url 'courses_popular_browse' %}">click here</a>.
                 </p>
                 {% for course in popular_courses %}
                 <p class="course-icons"><a href="{{ course.get_absolute_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course }}" /></a><br /><a href="{{ course.get_absolute_url }}">{{ course }}</a></p>
@@ -32,7 +32,8 @@
                 <h2>Top 10 active courses</h2>
                 <p>
                     To view all the courses in our catalogue, sorted by
-                    activity, <a href="{% url 'courses_active' %}">click here</a>.
+                    activity, <a href="{% url 'courses_active_browse' %}">
+                    click here</a>.
                 </p>
                 {% for course in active_courses %}
                 <p class="course-icons"><a href="{{ course.get_absolute_url }}"><img src="{{ course.department.get_image }}" alt="{{ course.department.short_name }}" title="{{ course }}" /></a><br /><a href="{{ course.get_absolute_url }}">{{ course }}</a></p>
@@ -70,14 +71,15 @@
                 <p>
                     To view all the courses offered by each professor in
                     alphabetical order, visit our <a
-                    href="{% url 'courses_professor' %}">
+                    href="{% url 'courses_professor_browse' %}">
                     browse-by-professor page</a>.
                 </p>
                 <h2>View all courses</h2>
                 <p>
                     Are you really just looking for an alphabetical listing of
                     every course in our catalogue? If so, you're in luck. <a
-                    href="{% url 'courses_list_all' %}">View all courses &raquo;</a>
+                    href="{% url 'courses_all_browse' %}">View all courses
+                    &raquo;</a>
                 </p>
                 <h2>Create a course</h2>
                 <p>Want to add content for a course we don't yet have in our catalogue? <a href="{% url "courses_create" %}">Create a new course &raquo;</a></p>

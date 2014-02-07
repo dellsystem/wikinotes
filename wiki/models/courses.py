@@ -19,6 +19,10 @@ class Course(models.Model):
     latest_activity = models.ForeignKey('HistoryItem',
         related_name='latest_course', null=True, blank=True)
     num_watchers = models.IntegerField(default=0) # caches it basically
+    url_fields = {
+        'department': 'department__short_name__iexact',
+        'number': 'number',
+    }
 
     class Meta:
         app_label = 'wiki'
@@ -85,6 +89,12 @@ class CourseSemester(models.Model):
     readings = models.TextField(null=True, blank=True)
     term = models.CharField(max_length=6) # Winter/Summer etc
     year = models.IntegerField(max_length=4) # Because ... yeah
+    url_fields = {
+        'department': 'course__department__short_name__iexact',
+        'number': 'course__number',
+        'term': 'term',
+        'year': 'year',
+    }
 
     class Meta:
         app_label = 'wiki'
@@ -95,7 +105,7 @@ class CourseSemester(models.Model):
 
     def get_absolute_url(self):
         url_args = self.course.get_url_args() + (self.term, self.year)
-        return reverse('courses_semester', args=url_args)
+        return reverse('courses_semester_overview', args=url_args)
 
     def get_semester(self):
         # For printing out. Returns Term year
@@ -109,6 +119,9 @@ class Professor(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     link = models.URLField(blank=True, null=True)
+    url_fields = {
+        'professor': 'slug',
+    }
 
     class Meta:
         app_label = 'wiki'
@@ -119,3 +132,8 @@ class Professor(models.Model):
 
     def get_absolute_url(self):
         return reverse('courses_professor_overview', args=[self.slug])
+
+    def get_courses(self):
+        data = self.page_set.values('course_sem__course')
+        course_ids = [k['course_sem__course'] for k in data]
+        return Course.objects.filter(pk__in=course_ids)
