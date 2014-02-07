@@ -91,7 +91,7 @@ def commit(request, page, **kwargs):
         'title': 'Commit information (%s)' % page,
         'course': page.course_sem.course,
         'page': page,
-        'hash': hash,
+        'hash': kwargs['hash'],
         'content': raw_file,
         'commit': {
             'date': datetime.fromtimestamp(commit.authored_date), # returns a unix timestamp in 0.3.2
