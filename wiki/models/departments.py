@@ -12,6 +12,7 @@ class Department(models.Model):
 
     class Meta:
         app_label = 'wiki'
+        ordering = ['short_name']
 
     def __unicode__(self):
         return "Department of %s (%s)" % (self.long_name, self.short_name)
