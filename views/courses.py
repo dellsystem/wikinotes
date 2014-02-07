@@ -37,7 +37,7 @@ def faculty_overview(request, faculty):
     departments = faculty.department_set.order_by('short_name')
 
     return {
-        'title': faculty,
+        'title': str(faculty),
         'faculty': faculty,
         'courses': courses,
         'departments': departments,
@@ -52,8 +52,9 @@ def department_overview(request, dept):
 
     # Figure out the number of pages associated with courses in this department
     num_pages = Page.objects.filter(course_sem__course__department=dept).count()
+
     return {
-        'title': dept,
+        'title': str(dept),
         'dept': dept,
         'courses': courses,
         'num_pages': num_pages
@@ -150,6 +151,7 @@ def active_browse(request):
 def all_browse(request, sort_by=''):
     all_courses = Course.objects
 
+    title = 'Browse courses by %s' % sort_by
     if sort_by == 'popularity':
         courses = all_courses.order_by('-num_watchers')
     elif sort_by == 'activity':
@@ -160,9 +162,10 @@ def all_browse(request, sort_by=''):
         courses = itertools.chain(active_courses, inactive_courses)
     else:
         courses = all_courses.order_by('department', 'number')
+        title = 'Browse all courses'
 
     context = {
-        'title': 'Courses by %s' % sort_by,
+        'title': title,
         'mode': sort_by,
         'courses': courses,
     }
@@ -228,7 +231,7 @@ def overview(request, course):
         is_watching = False
 
     return {
-        'title': course,
+        'title': str(course),
         'is_watching': is_watching,
         'course': course,
         'page_types': types,
@@ -316,7 +319,7 @@ def category_overview(request, course, **kwargs):
     category = page_types[page_type]
 
     return {
-        'title': '%s (%s)' % (category.long_name, course),
+        'title': '%s content for %s' % (category.long_name, course),
         'course': course,
         'category': category,
         'pages': pages,
