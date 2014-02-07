@@ -94,7 +94,7 @@ def department_browse(request):
     return render(request, 'courses/department_browse.html', context)
 
 
-def professor(request):
+def professor_browse(request):
     """Professor listing page.
     """
     professors = Professor.objects.all()
@@ -102,7 +102,7 @@ def professor(request):
         'professors': professors,
         'title': 'Browse by professor',
     }
-    return render(request, 'courses/professor.html', context)
+    return render(request, 'courses/professor_browse.html', context)
 
 
 def random(request):
@@ -139,15 +139,15 @@ def index(request):
     return render(request, 'courses/index.html', context)
 
 
-def popular(request):
-    return list_all(request, 'popularity')
+def popular_browse(request):
+    return all_browse(request, 'popularity')
 
 
-def active(request):
-    return list_all(request, 'activity')
+def active_browse(request):
+    return all_browse(request, 'activity')
 
 
-def list_all(request, sort_by=''):
+def all_browse(request, sort_by=''):
     all_courses = Course.objects
 
     if sort_by == 'popularity':
@@ -167,7 +167,7 @@ def list_all(request, sort_by=''):
         'courses': courses,
     }
 
-    return render(request, 'courses/all.html', context)
+    return render(request, 'courses/all_browse.html', context)
 
 
 def watch(request, department, number):
@@ -297,17 +297,15 @@ def recent(request, department, number):
                 if item.action == 'started watching':
                     item.action += ' this course'
 
-    context = {
-        'title': '%s (Recent activity)' % course,
+    return {
+        'title': 'Recent activity for %s' % course,
         'course': course,
         'history': reversed(history) # reverse it again to get the right order
     }
 
-    return render(request, 'courses/recent.html', context)
-
 
 @show_object_detail(Course, always_pass_groups=True)
-def category(request, course, **kwargs):
+def category_overview(request, course, **kwargs):
     page_type = kwargs['page_type']
 
     if page_type not in page_types:

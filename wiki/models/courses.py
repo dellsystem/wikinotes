@@ -105,7 +105,7 @@ class CourseSemester(models.Model):
 
     def get_absolute_url(self):
         url_args = self.course.get_url_args() + (self.term, self.year)
-        return reverse('courses_semester', args=url_args)
+        return reverse('courses_semester_overview', args=url_args)
 
     def get_semester(self):
         # For printing out. Returns Term year

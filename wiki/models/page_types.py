@@ -63,7 +63,8 @@ class PageType:
         return url_args + (self.short_name,)
 
     def get_url(self, course):
-        return reverse('courses_category', args=self.get_url_args(course))
+        return reverse('courses_category_overview',
+            args=self.get_url_args(course))
 
     def get_create_url(self, course):
         return reverse('pages_create', args=self.get_url_args(course))
