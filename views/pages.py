@@ -146,7 +146,12 @@ def edit(request, page):
             for group in merged.merge_groups():
                 if 'conflict' in group:
                     merge_conflict = True
-            lines = merged.merge_lines(start_marker="--------------- Your Edits -----------------", mid_marker="--- Changes that occurred during editing ---", end_marker="--------------------------------------------")
+
+            lines = merged.merge_lines(
+                start_marker="<<<<<<< Your edits",
+                mid_marker="======= Changes that occurred during editing",
+                end_marker=">>>>>>>")
+
             # Not sure why there's a carriage return everywhere but yeah
             new_content = "\r\n".join(lines)
             content = new_content
