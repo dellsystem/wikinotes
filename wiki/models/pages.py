@@ -117,9 +117,9 @@ class Page(models.Model):
         self.save()
         # THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
 
-    def get_latest_commit(self):
+    def get_latest_commit_hash(self):
         repo = self.get_repo()
-        return repo.get_latest_commit()
+        return repo.get_latest_commit_hash()
 
     def save_content(self, content, message, username, start=0, end=0):
         # If start and end are valid, use them

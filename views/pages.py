@@ -17,7 +17,7 @@ from wiki.models.series import Series, SeriesBanner
 from wiki.utils.constants import terms, years, exam_types
 from wiki.utils.currents import current_term, current_year
 from wiki.utils.decorators import show_object_detail
-from wiki.utils.gitutils import Git, NoChangesError
+from wiki.utils.gitutils import NoChangesError
 from wiki.utils.merge3 import Merge3
 from wiki.utils.pages import page_types
 
@@ -78,30 +78,11 @@ def commit(request, page, **kwargs):
     if commit is None:
         raise Http404
 
-    files = {}
-    for blob in commit.tree:
-        raw = blob.data_stream.read().split('\n')
-        files[blob.name] = {
-            'raw': '\n'.join(raw),
-            'title': raw[0].strip(),
-            'data': page_type_obj.format(raw[3:]),
-        }
-
-    raw_file = files.items()[0][1]['raw'].decode('utf-8')
-
     return {
         'title': 'Commit information for %s' % page,
         'course': page.course_sem.course,
         'page': page,
-        'hash': kwargs['hash'],
-        'content': raw_file,
-        'commit': {
-            'date': datetime.fromtimestamp(commit.authored_date), # returns a unix timestamp in 0.3.2
-            'author': User.objects.get(username=commit.author.name),
-            'message': commit.message,
-            'stats': commit.stats.total,
-            'diff': repo.get_diff(commit)
-        },
+        'commit': commit,
     }
 
 
@@ -110,8 +91,9 @@ def commit(request, page, **kwargs):
 def edit(request, page):
     if not page.can_view(request.user):
         raise Http404
+
     page_type_obj = page_types[page.page_type]
-    latest_commit = page.get_latest_commit()
+    latest_commit_hash = page.get_latest_commit_hash()
     repo = page.get_repo()
     course = page.course_sem.course
 
@@ -131,16 +113,16 @@ def edit(request, page):
         # Just do save sections with the data
         username = request.user.username
         message = request.POST['message'] if request.POST['message'] else 'Minor edit'
-        prev_commit = request.POST['last_commit']
+        prev_commit_hash = request.POST['last_commit']
 
         # Someone edited in between the last commit and this one
         # We'll try a 3-way merge, and tell the user to review
-        if prev_commit != latest_commit:
+        if prev_commit_hash != latest_commit_hash:
             current = request.POST['content'].splitlines()
-            other_commit = repo.get_commit(latest_commit)
-            other = other_commit.tree[0].data_stream.read().splitlines()
-            base_commit = repo.get_commit(prev_commit)
-            base = base_commit.tree[0].data_stream.read().splitlines()
+            other_commit = repo.get_commit(latest_commit_hash)
+            other = other_commit.get_content().splitlines()
+            base_commit = repo.get_commit(prev_commit_hash)
+            base = base_commit.get_content().splitlines()
             merged = Merge3(base, current, other)
 
             for group in merged.merge_groups():
@@ -159,7 +141,7 @@ def edit(request, page):
         # If there's there's there's no commits between this save 
         # and the one this page thinks was the last one, or if there
         # isn't a conflict(successful merge)
-        if prev_commit == latest_commit or not merge_conflict:
+        if prev_commit_hash == latest_commit_hash or not merge_conflict:
             try:
                 hexsha = page.save_content(new_content, message, username, start=start, end=end)
             except NoChangesError:
@@ -197,7 +179,7 @@ def edit(request, page):
         # ONLY SHOW THE BELOW FOR MODERATORS (once that is implemented)
         'field_templates': field_templates if request.user.is_staff else non_field_templates,
         'page_type': page_type_obj,
-        'latest_commit':latest_commit,
+        'latest_commit': latest_commit_hash,
         'content': content,
         'subject': page.subject,
         'exam_types': exam_types,
