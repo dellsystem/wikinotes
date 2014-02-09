@@ -9,7 +9,7 @@
             <li><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
             <li><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a> <span class="divider">&raquo;</span><li>
             <li><a href="{{ page.get_absolute_url }}">{{ page.get_title }}</a> <span class="divider">&raquo;</span></li>
-            <li><a href="{{ page.get_absolute_url }}/history">History</a> <span class="divider">&raquo;</span></li>
+            <li><a href="{{ page.get_history_url }}">History</a> <span class="divider">&raquo;</span></li>
             <li class="active">Viewing commit</li>
         </ul>
         <h1>Commit {{ hash }}</h1>
