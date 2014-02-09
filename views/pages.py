@@ -106,19 +106,14 @@ def commit(request, page, **kwargs):
 
 
 @login_required
-def edit(request, department, number, page_type, term, year, slug):
-    if page_type not in page_types:
-        raise Http404
-
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
-    course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-    page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-
+@show_object_detail(Page)
+def edit(request, page):
     if not page.can_view(request.user):
         raise Http404
-    page_type_obj = page_types[page_type]
+    page_type_obj = page_types[page.page_type]
     latest_commit = page.get_latest_commit()
     repo = page.get_repo()
+    course = page.course_sem.course
 
     # If we're in section editing
     section = request.GET.get('section')
@@ -186,7 +181,7 @@ def edit(request, department, number, page_type, term, year, slug):
     field_templates = page_type_obj.get_editable_fields()
     non_field_templates = ['pages/%s_data.html' % field for field in page_type_obj.editable_fields]
 
-    data = {
+    return {
         'professors': Professor.objects.all(),
         'current_professor': page.professor.id if page.professor else 0,
         'no_changes': no_changes,
@@ -202,7 +197,6 @@ def edit(request, department, number, page_type, term, year, slug):
         'subject': page.subject,
         'exam_types': exam_types,
     }
-    return render(request, "pages/edit.html", data)
 
 
 @login_required
