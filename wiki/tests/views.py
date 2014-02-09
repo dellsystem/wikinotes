@@ -406,6 +406,17 @@ class NewsIndexTest(_ViewTest):
     title = 'News'
     template = 'news/main.html'
 
+    def check_context(self, context):
+        # There should be two blog posts.
+        blog_posts = context['blog_posts']
+        self.assertEqual(len(blog_posts), 2)
+
+        # Make sure they're in the right order (newest first).
+        post_1 = blog_posts[0]
+        self.assertEqual(post_1.slug, 'slug2')
+        post_2 = blog_posts[1]
+        self.assertEqual(post_2.slug, 'slug')
+
 
 class NewsItemTest(_ViewTest):
     url = '/news/slug/'
