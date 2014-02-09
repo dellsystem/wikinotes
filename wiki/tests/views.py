@@ -394,3 +394,20 @@ class ComposeMessageToSpecificUserTest(ComposeMessageTest):
 # TODO: Needs a check_context method.
 class ComposeMessageWithSubjectTest(ComposeMessageTest):
     url = '/messages/compose/?reply_to=Some%20message'
+
+
+"""
+views/news.py
+"""
+
+
+class NewsIndexTest(_ViewTest):
+    url = '/news/'
+    title = 'News'
+    template = 'news/main.html'
+
+
+class NewsItemTest(_ViewTest):
+    url = '/news/slug/'
+    title = 'title (December 28, 2013)'
+    template = 'news/view.html'

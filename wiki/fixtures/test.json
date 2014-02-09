@@ -249,5 +249,17 @@
             "page": 2, 
             "position": 2
         }
+    }, 
+    {
+        "pk": 1, 
+        "model": "blog.blogpost", 
+        "fields": {
+            "body": "body", 
+            "title": "title", 
+            "timestamp": "2013-12-28T04:32:07", 
+            "author": 1, 
+            "summary": "summary", 
+            "slug": "slug"
+        }
     }
 ]
