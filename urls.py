@@ -22,7 +22,7 @@ Begin mappings (URLs should be defined in order of descending priority (so highe
 """
 direct_to_view = (
     ('main', (
-        (('login', 'login_logout')),
+        ('login', 'login_logout'),
         ('recent', 'recent'),
         ('recent/(?P<num_days>\d+)', 'recent'),
         ('recent/all', 'all_recent'),
