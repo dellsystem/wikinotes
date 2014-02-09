@@ -422,3 +422,7 @@ class NewsItemTest(_ViewTest):
     url = '/news/slug/'
     title = 'title (December 28, 2013)'
     template = 'news/view.html'
+
+    def check_context(self, context):
+        post = context['post']
+        self.assertEqual(post.body, 'body')
