@@ -81,6 +81,7 @@ class PrivateMessage(models.Model):
 
     class Meta:
         app_label = 'wiki'
+        ordering = ['-pk']
 
     def get_absolute_url(self):
         return reverse('messages_view', args=[self.id])
