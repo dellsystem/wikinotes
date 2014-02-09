@@ -1,22 +1,56 @@
+from datetime import datetime
+
 from django.test.client import Client
 from django.test import TestCase
+from mock import MagicMock
 
 from wiki.models.faculties import Faculty
+from wiki.models.pages import Page
+from wiki.utils import gitutils
+from wiki.utils.tools import Struct
 
 
 class _ViewTest(TestCase):
     fixtures = ['test']
+    status_code = 200
+    login_first = False
 
-    def setUp(self):
+    def runTest(self):
         client = Client()
-        self.response = client.get(self.url)
+        if self.login_first:
+            r = client.post('/login/', {
+                'username': 'user',
+                'password': 'user',
+                'login': 1,
+            })
 
-    def test_title(self):
-        title = self.response.context['title']
+        response = client.get(self.url)
+
+        # Make sure that the status code is as expected (defaults to 200)
+        self.assertEqual(response.status_code, self.status_code)
+
+        # Check that the title is correct
+        try:
+            title = response.context['title']
+        except KeyError:
+            title = None
         self.assertEqual(title, self.title)
 
-    def test_first_template(self):
-        self.assertEqual(self.response.templates[0].name, self.template)
+        # Check that the template file being used is correct
+        self.assertEqual(response.templates[0].name, self.template)
+
+        # Call the check_context function to perform any additional checks
+        self.check_context(response.context)
+
+    def check_context(self, context):
+        """Override this method to do assertions on the returned context.
+        """
+        pass
+
+
+"""
+views/courses.py
+"""
 
 
 # class RemoveSlashTest:
@@ -27,9 +61,7 @@ class FacultyOverviewTest(_ViewTest):
     title = 'Faculty of Science'
     template = 'courses/faculty_overview.html'
 
-    def test_context(self):
-        context = self.response.context
-
+    def check_context(self, context):
         expected_faculty = Faculty.objects.get(slug='science')
         self.assertEqual(context['faculty'], expected_faculty)
 
@@ -127,3 +159,156 @@ class ProfessorOverviewTest(_ViewTest):
     url = '/professor/james-loveys/'
     title = 'Overview for James G Loveys'
     template = 'courses/professor_overview.html'
+
+
+# class CourseCreateTest:
+
+
+"""
+views/main.py
+"""
+
+
+# class MainIndexTest:
+# Not really sure how to test this one as it depends on logged-in status
+
+
+# class LoginLogoutTest:
+
+
+class RecentActivityTest(_ViewTest):
+    url = '/recent/'
+    title = 'Recent activity in the past 1 day(s)'
+    template = 'main/recent.html'
+
+
+# class RecentActivityAllTest:
+
+
+# class RecentActivity30DaysTest:
+
+
+# class ExploreTest:
+
+
+class UserProfileTest(_ViewTest):
+    url = '/users/user/'
+    title = 'Viewing profile for user'
+    template = 'main/profile.html'
+
+
+class UserContributionsTest(_ViewTest):
+    url = '/users/user/contributions/'
+    title = 'Viewing contributions for user'
+    template = 'main/contributions.html'
+
+
+# class RegisterTest:
+
+
+# class UcpTest:
+
+
+# class MarkdownTest:
+
+
+# class SearchTest
+
+
+# class StaticTest
+
+
+"""
+views/pages.py
+"""
+
+
+class ShowPageTest(_ViewTest):
+    url = '/MATH_150/summary/fall-2011/page-number-1/'
+    title = 'Page number 1 - MATH 150 (Fall 2011)'
+    template = 'pages/show.html'
+
+    def check_context(self, context):
+        page = context['page']
+        self.assertEqual(page.content, '<p>lol</p>')
+
+
+class PrintViewTest(_ViewTest):
+    url = '/MATH_150/summary/fall-2011/page-number-1/print/'
+    title = None  # set directly in the template
+    template = 'pages/printview.html'
+
+    def check_context(self, context):
+        page = context['page']
+        self.assertEqual(page.content, '<p>lol</p>')
+
+
+class PageHistoryTest(_ViewTest):
+    url = '/MATH_150/summary/fall-2011/page-number-1/history/'
+    title = 'Page history for Page number 1 - MATH 150 (Fall 2011)'
+    template = 'pages/history.html'
+
+    def setUp(self):
+        # Mock some methods on the Git class as the repo doesn't actually exist.
+        gitutils.Git.__init__ = MagicMock(return_value=None)
+        gitutils.Git.get_history = MagicMock(return_value=[{
+            'get_date': datetime(2000, 1, 1),
+            'author_name': 'user',
+            'message': 'test',
+            'num_lines': 0,
+            'num_insertions': 0,
+            'num_deletions': 0,
+            'get_diff': [],
+        }])
+
+    def check_context(self, context):
+        gitutils.Git.__init__.assert_called_with('wiki/content/MATH_150/'
+            'summary/fall-2011/page-number-1/')
+        history = context['commit_history']
+        self.assertEqual(len(history), 1)
+        self.assertEqual(history[0]['message'], 'test')
+
+
+class CommitViewTest(_ViewTest):
+    url = ('/MATH_150/summary/fall-2011/page-number-1/commit/'
+           '1234567890123456789012345678901234567890/')
+    title = 'Commit information for Page number 1 - MATH 150 (Fall 2011)'
+    template = 'pages/commit.html'
+
+    def setUp(self):
+        # Mock some methods in the gitutils module.
+        gitutils.Git.get_commit = MagicMock(return_value=Struct({
+            'get_date': datetime(2000, 1, 1),
+            'author_name': 'user',
+            'message': 'test',
+            'num_lines': 0,
+            'num_insertions': 0,
+            'num_deletions': 0,
+            'get_diff': [],
+        }))
+
+    def check_context(self, context):
+        gitutils.Git.get_commit.assert_called_with('12345678901234567890'
+            '12345678901234567890')
+        commit = context['commit']
+        self.assertEqual(commit.message, 'test')
+
+
+# TODO: test the POST method, and merge conflicts
+class EditPageTest(_ViewTest):
+    url = '/MATH_150/summary/fall-2011/page-number-1/edit/'
+    title = 'Editing Page number 1 - MATH 150 (Fall 2011)'
+    template = 'pages/edit.html'
+    login_first = True
+
+    def setUp(self):
+        gitutils.Git.get_latest_commit_hash = MagicMock(return_value='hash')
+        Page.load_content = MagicMock(return_value='content')
+
+    def check_context(self, context):
+        self.assertTrue(context['latest_commit'], 'hash')
+        self.assertTrue(context['content'], 'content')
+
+
+# TODO: test for redirects
+# class RandomPageTest:
