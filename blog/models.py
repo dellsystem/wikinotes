@@ -14,6 +14,9 @@ class BlogPost(models.Model):
         'slug': 'slug',
     }
 
+    class Meta:
+        ordering = ['-timestamp']
+
     def __unicode__(self):
         return "%s (%s)" % (self.title, self.timestamp.strftime("%B %d, %Y"))
 
