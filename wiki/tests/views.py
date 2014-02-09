@@ -10,6 +10,15 @@ from wiki.utils import gitutils
 from wiki.utils.tools import Struct
 
 
+class _View404Test(TestCase):
+    fixtures = ['test']
+
+    def runTest(self):
+        client = Client()
+        response = client.get(self.url)
+        self.assertEqual(response.status_code, 404)
+
+
 class _ViewTest(TestCase):
     fixtures = ['test']
     login_first = False
@@ -270,6 +279,11 @@ class PageHistoryTest(_ViewTest):
         history = context['commit_history']
         self.assertEqual(len(history), 1)
         self.assertEqual(history[0]['message'], 'test')
+
+
+class CommitView404Test(_View404Test):
+    url = ('/MATH_150/summary/fall-2011/page-number-1/commit/'
+           '123456789012345678901234567890123456789/')
 
 
 class CommitViewTest(_ViewTest):
