@@ -315,3 +315,82 @@ class EditPageTest(_ViewTest):
 
 # TODO: test for redirects
 # class RandomPageTest:
+
+
+"""
+views/messages.py
+"""
+
+
+class MessageInboxTest(_ViewTest):
+    url = '/messages/'
+    title = 'Private messages (inbox)'
+    template = 'messages/inbox.html'
+    login_first = True
+
+    def check_context(self, context):
+        # There should be one new message for user.
+        self.assertEqual(context['num_new'], 1)
+
+        messages = context['messages']
+        # user should have 2 messages total (but only one should be unread).
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(messages[0].subject, "LOL3")
+        self.assertEqual(messages[1].subject, "LOL2")
+
+
+class MessageOutboxTest(_ViewTest):
+    url = '/messages/outbox/'
+    title = 'Private messages (outbox)'
+    template = 'messages/outbox.html'
+    login_first = True
+
+    def check_context(self, context):
+        # user should have sent 1 message.
+        messages = context['messages']
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].subject, "LOL1")
+
+
+class MessageViewTest(_ViewTest):
+    url = '/messages/view/1/'
+    title = 'Viewing private message to user2'
+    template = 'messages/view.html'
+    login_first = True
+
+    def check_context(self, context):
+        # The user should not be able to reply since it is an outgoing message.
+        self.assertFalse(context['show_reply'])
+
+        self.assertEqual(context['message'].subject, 'LOL1')
+
+
+class MessageViewTest2(_ViewTest):
+    url = '/messages/view/2/'
+    title = 'Viewing private message from user2'
+    template = 'messages/view.html'
+    login_first = True
+
+    def check_context(self, context):
+        # The user should be able to reply since it is an incoming message.
+        self.assertTrue(context['show_reply'])
+
+        self.assertEqual(context['message'].subject, 'LOL2')
+
+
+class ComposeMessageTest(_ViewTest):
+    url = '/messages/compose/'
+    title = 'Private messages (compose)'
+    template = 'messages/compose.html'
+    login_first = True
+
+
+# TODO: Needs a check_context method.
+class ComposeMessageToSpecificUserTest(ComposeMessageTest):
+    url = '/messages/compose/?to=user2'
+
+
+# TODO: Needs a check_context method.
+class ComposeMessageWithSubjectTest(ComposeMessageTest):
+    url = '/messages/compose/?reply_to=Some%20message'
