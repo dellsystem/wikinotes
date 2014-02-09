@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 
 from blog.models import BlogPost
+from wiki.utils.decorators import show_object_detail
 
 
 def main(request):
@@ -12,11 +13,9 @@ def main(request):
     return render(request, 'news/main.html', data)
 
 
-def view(request, slug):
-    post = get_object_or_404(BlogPost, slug=slug)
-    data = {
-        'title': post,
+@show_object_detail(BlogPost)
+def view(request, post):
+    return {
+        'title': str(post),
         'post': post,
     }
-
-    return render(request, 'news/view.html', data)
