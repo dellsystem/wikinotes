@@ -2,6 +2,7 @@ from datetime import datetime
 import random as random_module
 
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import Http404
@@ -104,10 +105,8 @@ def commit(request, page, **kwargs):
     }
 
 
+@login_required
 def edit(request, department, number, page_type, term, year, slug):
-    if not request.user.is_authenticated():
-        return register(request)
-
     if page_type not in page_types:
         raise Http404
 
@@ -206,11 +205,8 @@ def edit(request, department, number, page_type, term, year, slug):
     return render(request, "pages/edit.html", data)
 
 
-# semester should only be filled out if the page doesn't exist and we want to create it
+@login_required
 def create(request, department, number, page_type, semester=None):
-    if not request.user.is_authenticated():
-        return register(request)
-
     course = get_object_or_404(Course, department=department.upper(), number=int(number))
 
     if page_type not in page_types:
