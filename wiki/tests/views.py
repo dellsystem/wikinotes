@@ -12,13 +12,16 @@ from wiki.utils.tools import Struct
 
 class _ViewTest(TestCase):
     fixtures = ['test']
-    status_code = 200
     login_first = False
 
     def runTest(self):
         client = Client()
         if self.login_first:
-            r = client.post('/login/', {
+            # Should get a redirect when attempting to send a GET request
+            initial_response = client.get(self.url)
+            self.assertEqual(initial_response.status_code, 302)
+
+            client.post('/login/', {
                 'username': 'user',
                 'password': 'user',
                 'login': 1,
@@ -26,8 +29,8 @@ class _ViewTest(TestCase):
 
         response = client.get(self.url)
 
-        # Make sure that the status code is as expected (defaults to 200)
-        self.assertEqual(response.status_code, self.status_code)
+        # Make sure that the status is OK
+        self.assertEqual(response.status_code, 200)
 
         # Check that the title is correct
         try:
