@@ -14,7 +14,7 @@ page_type = '(?P<page_type>[^/]+)'
 semester = '(?P<term>\w{4,6})-(?P<year>\d{4})'
 slug = '(?P<slug>[^/]+)'
 page = course + '/' + page_type + '/' + semester + '/' + slug
-sha = '(?P<hash>[a-z0-9]{1,40})'
+sha = '(?P<hash>[a-z0-9]{40})'
 professor = '(?P<professor>[a-z-]*)'
 
 """
