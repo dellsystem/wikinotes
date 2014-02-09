@@ -32,7 +32,7 @@ def show(request, page, **groups):
         raise PermissionDenied
 
     return {
-        'title': page,
+        'title': str(page),
         'course': page.course_sem.course,
         'page': page,
         'page_type': page_types[page.page_type],
@@ -59,7 +59,7 @@ def history(request, page):
     commit_history = repo.get_history()
 
     return {
-        'title': 'Page history (%s)' % page,
+        'title': 'Page history for %s' % page,
         'course': page.course_sem.course,
         'page': page,
         'commit_history': commit_history,
@@ -90,7 +90,7 @@ def commit(request, page, **kwargs):
     raw_file = files.items()[0][1]['raw'].decode('utf-8')
 
     return {
-        'title': 'Commit information (%s)' % page,
+        'title': 'Commit information for %s' % page,
         'course': page.course_sem.course,
         'page': page,
         'hash': kwargs['hash'],
@@ -191,7 +191,7 @@ def edit(request, department, number, page_type, term, year, slug):
         'current_professor': page.professor.id if page.professor else 0,
         'no_changes': no_changes,
         'conflict': merge_conflict,
-        'title': 'Edit (%s)' % page,
+        'title': 'Editing %s' % page,
         'course': course,
         'page': page,
         # ONLY SHOW THE BELOW FOR MODERATORS (once that is implemented)
