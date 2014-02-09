@@ -2,7 +2,7 @@
 <html lang="en" class="printview">
 <head>
     <meta charset="utf-8">
-    <title>{% if title %}{{ title }} - {% endif %}WikiNotes</title>
+    <title>{{ page }} - WikiNotes</title>
     <link href="/static/css/bootstrap.css" rel="stylesheet" />
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/x-mathjax-config">
@@ -19,13 +19,13 @@
         <h1>{{ page.get_title }}
             {% if page.subject %}<small>{{ page.subject }}</small>{% endif %}
         </h1>
-        <p id="print-intro">{{ page_type.long_name }} for {{ page.course_sem }}, available for free on WikiNotes under a Creative Commons license (CC-BY-NC). View the current version at http://{{ server_url }}{{ page.get_absolute_url }}</p>
-        {% if page.content %}
-            {{ page.content|safe }}
-        {% else %}
-            {% load wikinotes_markup %}
-            {{ content|wikinotes_markdown|safe }}
-        {% endif %}
+        <p id="print-intro">
+            {{ page_type.long_name }} for {{ page.course_sem }}, available for
+            free on WikiNotes under a Creative Commons license (CC-BY-NC). View
+            the current version at {{ site_url }}/{{ page.get_absolute_url }}.
+        </p>
+
+        {{ page.content|safe }}
     </div>
 </body>
 </html>

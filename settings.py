@@ -174,3 +174,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SITE_URL = 'http://wikinotes.ca'
 
 APPEND_SLASH = True
+
+LOGIN_URL = 'main_register'

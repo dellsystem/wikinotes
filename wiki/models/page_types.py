@@ -63,7 +63,8 @@ class PageType:
         return url_args + (self.short_name,)
 
     def get_url(self, course):
-        return reverse('courses_category', args=self.get_url_args(course))
+        return reverse('courses_category_overview',
+            args=self.get_url_args(course))
 
     def get_create_url(self, course):
         return reverse('pages_create', args=self.get_url_args(course))
@@ -77,13 +78,6 @@ class PageType:
 
     def get_uneditable_fields(self):
         return self.get_field_templates(self.uneditable_fields)
-
-    # The simplest version, override if necessary
-    def format(self, content):
-        data = {
-            'content': '\n'.join(content),
-        }
-        return data
 
     def find_errors(self, data):
         validators = self.get_validators(data) + [
@@ -207,41 +201,3 @@ class CourseQuiz(PageType):
         return [
             (len(data['subject']) > 0, 'Invalid subject'),
         ]
-
-    # Return a data dictionary, all self-contained etc
-    def format(self, content):
-        try:
-            data = {
-                'questions': []
-            }
-            # Assume it's properly formatted
-            number = 1
-            question = {'heading': '', 'question': '', 'choices': [], 'correct': -1, 'answer': '', 'number': 1}
-            choice_number = 0
-            for line in content:
-                if line.strip() == '': # stupid fucking carriage returns ???
-                    # New question
-                    question['heading'] = question['heading'].strip() # do it here just bcuz
-                    data['questions'].append(question)
-                    number += 1
-                    question = {'heading': '', 'question': '', 'choices': [], 'correct': -1, 'answer': '', 'number': number}
-                    choice_number = 0
-                else:
-                    if line[:2] == '* ':
-                        question['question'] = line[2:].strip()
-                    elif line[:2] == '- ':
-                        question['choices'].append({'text': line[2:].strip(), 'number': choice_number})
-                        choice_number += 1
-                    elif line[:2] == '+ ':
-                        question['choices'].append({'text': line[2:].strip(), 'number': choice_number})
-                        choice_number += 1
-                        question['correct'] = len(question['choices']) - 1
-                    elif line[:2] == '? ':
-                        question['answer'] = line[2:].strip()
-                    else:
-                        question['heading'] += line
-            question['heading'] = question['heading'].strip() # do it here just bcuz
-            data['questions'].append(question)
-            return data
-        except: # except what???
-            return None

@@ -52,6 +52,14 @@ class Page(models.Model):
     content = models.TextField(null=True) # processed markdown, like a cache
     maintainer = models.ForeignKey(User)
     is_hidden = models.BooleanField(default=False) # for takedown requests
+    url_fields = {
+        'department': 'course_sem__course__department__short_name__iexact',
+        'number': 'course_sem__course__number',
+        'term': 'course_sem__term',
+        'year': 'course_sem__year',
+        'page_type': 'page_type',
+        'slug': 'slug',
+    }
 
     class Meta:
         app_label = 'wiki'
@@ -109,9 +117,9 @@ class Page(models.Model):
         self.save()
         # THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
 
-    def get_latest_commit(self):
+    def get_latest_commit_hash(self):
         repo = self.get_repo()
-        return repo.get_latest_commit()
+        return repo.get_latest_commit_hash()
 
     def save_content(self, content, message, username, start=0, end=0):
         # If start and end are valid, use them

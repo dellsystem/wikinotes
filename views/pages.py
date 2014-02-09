@@ -2,7 +2,9 @@ from datetime import datetime
 import random as random_module
 
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
@@ -14,124 +16,86 @@ from wiki.models.pages import Page
 from wiki.models.series import Series, SeriesBanner
 from wiki.utils.constants import terms, years, exam_types
 from wiki.utils.currents import current_term, current_year
-from wiki.utils.gitutils import Git, NoChangesError
+from wiki.utils.decorators import show_object_detail
+from wiki.utils.gitutils import NoChangesError
 from wiki.utils.merge3 import Merge3
 from wiki.utils.pages import page_types
 
 
-def show(request, department, number, page_type, term, year, slug, printview=False):
-    department = department.upper()
-    try:
-        course = get_object_or_404(Course, department=department, number=int(number))
-    except Http404:
-        return render(request, "courses/404.html", {'department': department, 'number': number})
-    try:
-        course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-        page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-
-        if not page.can_view(request.user):
-            raise PermissionDenied
-    except Http404:
-        # Page doesn't exist - go to create with the semester, subject, etc filled out
-        return create(request, department, number, page_type, semester=(term, year))
-
-    page_type_obj = page_types[page_type]
-    data = {
-        'title': page,
-        'course': course,
-        'page': page,
-        'page_type': page_type_obj,
-        'content': page.load_content(),
-        'server_url': request.META['HTTP_HOST']
-    }
-
-    template_file = "pages/print.html" if printview else "pages/show.html"
-
-    return render(request, template_file, data)
-
-
-def printview(request, department, number, page_type, term, year, slug):
-    return show(request, department, number, page_type, term, year, slug, printview=True)
-
-
-def history(request, department, number, page_type, term, year, slug):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
-    course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-    page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
+@show_object_detail(Page, show_custom_404=True)
+def show(request, page, **groups):
+    if page is None:
+        return create(request, groups['department'], groups['number'],
+            groups['page_type'], (groups['term'], groups['year']))
 
     if not page.can_view(request.user):
         raise PermissionDenied
 
-    commit_history = Git(page.get_filepath()).get_history()
-    data = {
-        'title': 'Page history (%s)' % page,
-        'course': course,
-        'page': page, # to distinguish it from whatever
+    return {
+        'title': str(page),
+        'course': page.course_sem.course,
+        'page': page,
+        'page_type': page_types[page.page_type],
+    }
+
+
+@show_object_detail(Page)
+def printview(request, page):
+    if not page.can_view(request.user):
+        raise PermissionDenied
+
+    return {
+        'page': page,
+        'page_type': page_types[page.page_type],
+    }
+
+
+@show_object_detail(Page)
+def history(request, page):
+    if not page.can_view(request.user):
+        raise PermissionDenied
+
+    repo = page.get_repo()
+    commit_history = repo.get_history()
+
+    return {
+        'title': 'Page history for %s' % page,
+        'course': page.course_sem.course,
+        'page': page,
         'commit_history': commit_history,
     }
-    return render(request, "pages/history.html", data)
 
 
 # View page information for a specific commit
-def commit(request, department, number, page_type, term, year, slug, hash):
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
-    course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-    page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-
+@show_object_detail(Page, always_pass_groups=True)
+def commit(request, page, **kwargs):
     if not page.can_view(request.user):
         raise PermissionDenied
 
-    page_type_obj = page_types[page_type]
-    repo = Git(page.get_filepath()) # make this an object on the page
-    commit = repo.get_commit(hash)
+    page_type_obj = page_types[page.page_type]
+    repo = page.get_repo()
+    commit = repo.get_commit(kwargs['hash'])
     if commit is None:
         raise Http404
 
-    files = {}
-    for blob in commit.tree:
-        raw = blob.data_stream.read().split('\n')
-        files[blob.name] = {
-            'raw': '\n'.join(raw),
-            'title': raw[0].strip(),
-            'data': page_type_obj.format(raw[3:]),
-        }
-
-    raw_file = files.items()[0][1]['raw'].decode('utf-8')
-
-    data = {
-        'title': 'Commit information (%s)' % page,
-        'course': course,
+    return {
+        'title': 'Commit information for %s' % page,
+        'course': page.course_sem.course,
         'page': page,
-        'hash': hash,
-        'content': raw_file,
-        'commit': {
-            'date': datetime.fromtimestamp(commit.authored_date), # returns a unix timestamp in 0.3.2
-            'author': User.objects.get(username=commit.author.name),
-            'message': commit.message,
-            'stats': commit.stats.total,
-            'diff': repo.get_diff(commit)
-        },
+        'commit': commit,
     }
 
-    return render(request, "pages/commit.html", data)
 
-
-def edit(request, department, number, page_type, term, year, slug):
-    if not request.user.is_authenticated():
-        return register(request)
-
-    if page_type not in page_types:
-        raise Http404
-
-    course = get_object_or_404(Course, department=department.upper(), number=int(number))
-    course_sem = get_object_or_404(CourseSemester, course=course, term=term, year=year)
-    page = get_object_or_404(Page, course_sem=course_sem, page_type=page_type, slug=slug)
-
+@login_required
+@show_object_detail(Page)
+def edit(request, page):
     if not page.can_view(request.user):
         raise Http404
-    page_type_obj = page_types[page_type]
-    latest_commit = page.get_latest_commit()
+
+    page_type_obj = page_types[page.page_type]
+    latest_commit_hash = page.get_latest_commit_hash()
     repo = page.get_repo()
+    course = page.course_sem.course
 
     # If we're in section editing
     section = request.GET.get('section')
@@ -149,22 +113,27 @@ def edit(request, department, number, page_type, term, year, slug):
         # Just do save sections with the data
         username = request.user.username
         message = request.POST['message'] if request.POST['message'] else 'Minor edit'
-        prev_commit = request.POST['last_commit']
+        prev_commit_hash = request.POST['last_commit']
 
         # Someone edited in between the last commit and this one
         # We'll try a 3-way merge, and tell the user to review
-        if prev_commit != latest_commit:
+        if prev_commit_hash != latest_commit_hash:
             current = request.POST['content'].splitlines()
-            other_commit = repo.get_commit(latest_commit)
-            other = other_commit.tree[0].data_stream.read().splitlines()
-            base_commit = repo.get_commit(prev_commit)
-            base = base_commit.tree[0].data_stream.read().splitlines()
+            other_commit = repo.get_commit(latest_commit_hash)
+            other = other_commit.get_content().splitlines()
+            base_commit = repo.get_commit(prev_commit_hash)
+            base = base_commit.get_content().splitlines()
             merged = Merge3(base, current, other)
 
             for group in merged.merge_groups():
                 if 'conflict' in group:
                     merge_conflict = True
-            lines = merged.merge_lines(start_marker="--------------- Your Edits -----------------", mid_marker="--- Changes that occurred during editing ---", end_marker="--------------------------------------------")
+
+            lines = merged.merge_lines(
+                start_marker="<<<<<<< Your edits",
+                mid_marker="======= Changes that occurred during editing",
+                end_marker=">>>>>>>")
+
             # Not sure why there's a carriage return everywhere but yeah
             new_content = "\r\n".join(lines)
             content = new_content
@@ -172,7 +141,7 @@ def edit(request, department, number, page_type, term, year, slug):
         # If there's there's there's no commits between this save 
         # and the one this page thinks was the last one, or if there
         # isn't a conflict(successful merge)
-        if prev_commit == latest_commit or not merge_conflict:
+        if prev_commit_hash == latest_commit_hash or not merge_conflict:
             try:
                 hexsha = page.save_content(new_content, message, username, start=start, end=end)
             except NoChangesError:
@@ -199,37 +168,35 @@ def edit(request, department, number, page_type, term, year, slug):
     field_templates = page_type_obj.get_editable_fields()
     non_field_templates = ['pages/%s_data.html' % field for field in page_type_obj.editable_fields]
 
-    data = {
+    return {
         'professors': Professor.objects.all(),
         'current_professor': page.professor.id if page.professor else 0,
         'no_changes': no_changes,
         'conflict': merge_conflict,
-        'title': 'Edit (%s)' % page,
+        'title': 'Editing %s' % page,
         'course': course,
         'page': page,
         # ONLY SHOW THE BELOW FOR MODERATORS (once that is implemented)
         'field_templates': field_templates if request.user.is_staff else non_field_templates,
         'page_type': page_type_obj,
-        'latest_commit':latest_commit,
+        'latest_commit': latest_commit_hash,
         'content': content,
         'subject': page.subject,
         'exam_types': exam_types,
     }
-    return render(request, "pages/edit.html", data)
 
 
-# semester should only be filled out if the page doesn't exist and we want to create it
+@login_required
 def create(request, department, number, page_type, semester=None):
-    if not request.user.is_authenticated():
-        return register(request)
-
     course = get_object_or_404(Course, department=department.upper(), number=int(number))
 
     if page_type not in page_types:
         raise Http404
 
+    form_action = reverse('pages_create', args=[department, number, page_type])
     page_type_obj = page_types[page_type]
     data = {
+        'form_action': form_action,
         'professors': Professor.objects.all(),
         'title': 'Create a page (%s)' % course,
         'course': course,

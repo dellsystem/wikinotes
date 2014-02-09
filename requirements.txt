@@ -4,3 +4,4 @@ GitPython>=0.3.2.RC1
 Markdown==2.2.1
 Pygments>=1.5
 django-gravatar>=0.1.0
+mock==1.0.1

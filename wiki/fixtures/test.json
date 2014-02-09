@@ -14,6 +14,34 @@
         }
     },
     {
+        "pk": 2,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "N/A",
+            "num_watchers": 0,
+            "number": "112",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Cell and Molecular Biology"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "wiki.course",
+        "fields": {
+            "watchers": [],
+            "latest_activity": null,
+            "description": "N/A",
+            "num_watchers": 0,
+            "number": "111",
+            "credits": "3",
+            "department": "BIOL",
+            "name": "Organismal Biology"
+        }
+    },
+    {
         "pk": 1,
         "model": "wiki.coursesemester",
         "fields": {
@@ -32,6 +60,14 @@
         "model": "wiki.department",
         "fields": {
             "long_name": "Mathematics & Statistics",
+            "faculty": 1
+        }
+    },
+    {
+        "pk": "BIOL",
+        "model": "wiki.department",
+        "fields": {
+            "long_name": "Biology",
             "faculty": 1
         }
     },
@@ -125,7 +161,25 @@
             "last_login": "2013-12-20T15:58:15.833", 
             "groups": [], 
             "user_permissions": [], 
-            "password": "none",
+            "password": "pbkdf2_sha256$10000$gzjlsHbgSmFy$VcwCk5x/oKc3U64Yejk88Bo2U/U7oRFbJuxuHzypiYg=",
+            "email": "", 
+            "date_joined": "2013-05-12T02:52:40.086"
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "user2", 
+            "first_name": "Another", 
+            "last_name": "User", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2013-12-20T15:58:15.833", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "pbkdf2_sha256$10000$gzjlsHbgSmFy$VcwCk5x/oKc3U64Yejk88Bo2U/U7oRFbJuxuHzypiYg=",
             "email": "", 
             "date_joined": "2013-05-12T02:52:40.086"
         }
@@ -144,6 +198,42 @@
     },
     {
         "pk": 1, 
+        "model": "wiki.privatemessage", 
+        "fields": {
+            "sender": 1, 
+            "timestamp": "2013-04-13T17:35:42.647", 
+            "is_read": true, 
+            "message": "from 1 to 2", 
+            "recipient": 2, 
+            "subject": "LOL1"
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "wiki.privatemessage", 
+        "fields": {
+            "sender": 2, 
+            "timestamp": "2013-04-13T17:35:42.648", 
+            "is_read": false, 
+            "message": "from 2 to 1", 
+            "recipient": 1, 
+            "subject": "LOL2"
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "wiki.privatemessage", 
+        "fields": {
+            "sender": 2, 
+            "timestamp": "2013-04-13T17:35:42.649", 
+            "is_read": true, 
+            "message": "from 2 to 1", 
+            "recipient": 1, 
+            "subject": "LOL3"
+        }
+    },
+    {
+        "pk": 1, 
         "model": "wiki.seriespage", 
         "fields": {
             "series": 1, 
@@ -158,6 +248,30 @@
             "series": 1, 
             "page": 2, 
             "position": 2
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "blog.blogpost", 
+        "fields": {
+            "body": "body", 
+            "title": "title", 
+            "timestamp": "2013-12-28T04:32:07", 
+            "author": 1, 
+            "summary": "summary", 
+            "slug": "slug"
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "blog.blogpost", 
+        "fields": {
+            "body": "body2", 
+            "title": "title2", 
+            "timestamp": "2013-12-28T04:32:08", 
+            "author": 1, 
+            "summary": "summary2", 
+            "slug": "slug2"
         }
     }
 ]

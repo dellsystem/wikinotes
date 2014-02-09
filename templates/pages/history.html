@@ -19,22 +19,38 @@
             <thead>
                 <tr>
                     <th style="width: 15%;">Author</th>
-                    <th style="width: 30%;">Edit message</th>
+                    <th style="width: 40%;">Edit message</th>
                     <th style="width: 20%;">Date</th>
                     <th style="width: 15%;">Stats</th>
-                    <th style="width: 15%;">Options</th>
-                    <th style="width: 5%;">Select</th>
+                    <th style="width: 10%;">Options</th>
                 </tr>
             </thead>
             <tbody>
             {% for commit in commit_history %}
                 <tr>
-                    <td>{% gravatar_img_for_user commit.author.name 20 %} <a href="{% url "main_profile" commit.author.name %}">{{ commit.author.name }}</a></td>
-                    <td>{{ commit.message|escape }}</td>
-                    <td>{{ commit.date|date:"D, j M, Y H:i" }}</td>
-                    <td><div class="red-bar" style="width: {{ commit.bar_width }}px;"><div class="green-bar" style="width: {{ commit.green_percent }}%;"></div></div>{{ commit.lines }} lines (+{{ commit.insertions }}, -{{ commit.deletions }})</td>
-                    <td><a href="{{ commit.url }}">View details</a>{% if not forloop.last %} :: <a href="{{ commit.undo_url }}">Undo</a>{% endif %}</td>
-                    <td><input type="checkbox" /></td>
+                    <td>{% gravatar_img_for_user commit.author_name 20 %}
+                        <a href="{% url "main_profile" commit.author_name %}">
+                        {{ commit.author_name }}
+                        </a>
+                    </td>
+                    <td>{{ commit.message|truncatechars:70|escape }}</td>
+                    <td>{{ commit.get_date|date:"D, j M, Y H:i" }}</td>
+                    <td>
+                        <div class="red-bar"
+                            style="width: {{ commit.get_bar_width }}px;">
+                            <div class="green-bar"
+                                style="width: {{ commit.get_green_percent }}%;">
+                            </div>
+                        </div>
+                        {{ commit.num_lines }} lines
+                        (+{{ commit.num_insertions }},
+                        -{{ commit.num_deletions }})
+                    </td>
+                    <td>
+                        <a href="{{ commit.get_absolute_url }}">
+                            View details
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

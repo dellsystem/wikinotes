@@ -9,12 +9,14 @@ from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
+from blog.models import BlogPost
 from urls import static_urls
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
-from wiki.utils.users import validate_username
 from wiki.models.pages import Page
-from blog.models import BlogPost
+from wiki.models.users import UserProfile
+from wiki.utils.decorators import show_object_detail
+from wiki.utils.users import validate_username
 
 
 def index(request, show_welcome=False):
@@ -85,8 +87,11 @@ def login_logout(request):
 
 # Recent changes
 def recent(request, num_days=1, show_all=False):
+    base_title = 'All recent activity' if show_all else 'Recent activity'
+    title = "%s in the past %d day(s)" % (base_title, num_days)
+
     data = {
-        'title': 'Recent activity',
+        'title': title,
         'history': HistoryItem.objects.get_since_x_days(num_days, show_all),
         'num_days': num_days,
         'base_url': 'main_all_recent' if show_all else 'main_recent',
@@ -108,39 +113,35 @@ def all_recent(request, num_days=1):
     return recent(request, num_days=num_days, show_all=True)
 
 
-def profile(request, username):
-    try:
-        this_user = User.objects.get(username__iexact=username)
-        profile = this_user.get_profile()
+@show_object_detail(UserProfile)
+def profile(request, profile):
+    this_user = profile.user
 
-        # Figure out the number of pages created and modified
-        pages_modified = Page.objects.filter(historyitem__user=this_user).distinct()
-        creation_history = HistoryItem.objects.filter(action='created', user=this_user)
-        pages_created = pages_modified.filter(historyitem__in=creation_history)
-        courses_contributed_to = Course.objects.filter(coursesemester__page__in=pages_modified).distinct()
-        num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
+    # Figure out the number of pages created and modified
+    pages_modified = Page.objects.filter(historyitem__user=this_user).distinct()
+    creation_history = HistoryItem.objects.filter(action='created', user=this_user)
+    pages_created = pages_modified.filter(historyitem__in=creation_history)
+    courses_contributed_to = Course.objects.filter(coursesemester__page__in=pages_modified).distinct()
+    num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
 
-        data = {
-            'title': 'Viewing profile (%s)' % this_user.username,
-            'this_user': this_user, # can't call it user because the current user is user
-            'profile': profile,
-            'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:10],
-            'num_pages_modified': pages_modified.count(),
-            'num_pages_created': pages_created.count(),
-            'num_courses_contributed_to': courses_contributed_to.count(),
-            'num_edits': num_edits,
-            'contributions_url': reverse('main_contributions', kwargs={'username': this_user.username}),
-        }
-
-        return render(request, 'main/profile.html', data)
-    except User.DoesNotExist:
-        raise Http404
+    return {
+        'title': 'Viewing profile for %s' % this_user.username,
+        'this_user': this_user, # can't call it user because the current user is user
+        'profile': profile,
+        'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:10],
+        'num_pages_modified': pages_modified.count(),
+        'num_pages_created': pages_created.count(),
+        'num_courses_contributed_to': courses_contributed_to.count(),
+        'num_edits': num_edits,
+        'contributions_url': reverse('main_contributions', kwargs={'username': this_user.username}),
+    }
 
 
-def contributions(request, username):
-    this_user = get_object_or_404(User, username=username)
+@show_object_detail(UserProfile)
+def contributions(request, profile):
     # If the mode is not specified, show all the pages the user has edited
     mode = request.GET.get('mode', 'modified')
+    this_user = profile.user
 
     if mode == 'courses':
         mode_name = 'Courses contributed to'
@@ -156,15 +157,14 @@ def contributions(request, username):
         mode_name = 'Pages modified'
         table_data = this_user.get_profile().get_recent_pages(0)
 
-    data = {
+    return {
         'table_data': table_data, # the data to be displayed in the table
         'mode': mode,
         'mode_name': mode_name,
         'this_user': this_user,
-        'title': "%s's contributions" % this_user.username,
+        'title': "Viewing contributions for %s" % this_user.username,
     }
 
-    return render(request, 'main/contributions.html', data)
 
 def register(request):
     # If the user is already logged in, go to the dashboard page

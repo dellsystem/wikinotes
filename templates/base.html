@@ -88,7 +88,7 @@
                 {% else %}
                 <div class="right-float">
                     <p>
-                        <a href="{% url 'main_ucp' '' %}" class="btn">User control panel</a>
+                        <a href="{% url 'main_ucp' %}" class="btn">User control panel</a>
                         {% with num_new_messages=user.received_messages.new.count %}
                         <a href="{% url 'messages_inbox' %}" class="btn{% if num_new_messages %} danger{% endif %}">{{ num_new_messages }} new message{{ num_new_messages|pluralize }}</a>
                         {% endwith %}

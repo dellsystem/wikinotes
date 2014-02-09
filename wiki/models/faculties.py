@@ -7,6 +7,9 @@ class Faculty(models.Model):
     name = models.CharField(max_length=100)
     # For use in URLs. Ex: "agriculture" "dentistry" "music" "medicine" "science" "arts" "continuing" etc
     slug = models.CharField(max_length=15)
+    url_fields = {
+        'faculty': 'slug',
+    }
 
     class Meta:
         app_label = 'wiki'

@@ -10,6 +10,12 @@ class BlogPost(models.Model):
     body = models.TextField()
     summary = models.CharField(max_length=100)
     slug = models.SlugField()
+    url_fields = {
+        'slug': 'slug',
+    }
+
+    class Meta:
+        ordering = ['-timestamp']
 
     def __unicode__(self):
         return "%s (%s)" % (self.title, self.timestamp.strftime("%B %d, %Y"))

@@ -20,7 +20,11 @@ def base_view(function):
         try:
             data = function(request, *args, **kwargs)
             data['this_mode'] = name
-            data['title'] = "Private messages (%s)" % name
+
+            # If the title is not set in the context, use a generic one.
+            if 'title' not in data:
+                data['title'] = "Private messages (%s)" % name
+
             modes = ['inbox', 'outbox', 'compose']
             data['modes'] = [(mode, 'messages_%s' % mode) for mode in modes]
             return render(request, template_file, data)
@@ -49,7 +53,15 @@ def view(request, message_id):
             message.is_read = True
             message.save()
 
+        if request.user == message.sender:
+            from_or_to = "to"
+            user = message.recipient
+        else:
+            from_or_to = "from"
+            user = message.sender
+
         return {
+            'title': 'Viewing private message %s %s' % (from_or_to, user),
             'message': message,
             'show_reply': request.user == message.recipient,
         }

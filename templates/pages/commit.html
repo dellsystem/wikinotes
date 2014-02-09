@@ -9,22 +9,31 @@
             <li><a href="{{ page.course_sem.get_absolute_url }}">{{ page.course_sem.term.title }} {{ page.course_sem.year }}</a> <span class="divider">&raquo;</span></li>
             <li><a href="{{ page.get_type_url }}">{{ page.get_type.long_name }}</a> <span class="divider">&raquo;</span><li>
             <li><a href="{{ page.get_absolute_url }}">{{ page.get_title }}</a> <span class="divider">&raquo;</span></li>
-            <li><a href="{{ page.get_absolute_url }}/history">History</a> <span class="divider">&raquo;</span></li>
+            <li><a href="{{ page.get_history_url }}">History</a> <span class="divider">&raquo;</span></li>
             <li class="active">Viewing commit</li>
         </ul>
-        <h1>Commit {{ hash }}</h1>
+        <h1>Commit {{ commit.hexsha }}</h1>
         <hr />
         <div class="grey-box">
             <div class="row">
                 <div class="span2 icon-thumb center-align">
-                    <a href="{{ commit.author.get_absolute_url }}"><img src="{% gravatar_for_user commit.author 100 %}" /></a>
+                    <a href="{{ commit.author.get_absolute_url }}">
+                        <img src="{% gravatar_for_user commit.author_name 100 %}" />
+                    </a>
                     <br />
                     <a href="{{ commit.author.get_absolute_url }}">{{ commit.author }}</a>
                 </div>
                 <div class="span14">
                     <ul class="unstyled">
-                        <li><strong>Timestamp:</strong> {{ commit.date|date:"F j Y, H:i" }}</li>
-                        <li><strong>Statistics:</strong> {{ commit.stats.lines }} line{{ commit.stats.lines|pluralize }} changed ({{ commit.stats.deletions }} deletion{{ commit.stats.deletions|pluralize }}, {{ commit.stats.insertions }} insertion{{ commit.stats.insertions|pluralize }})</li>
+                        <li><strong>Timestamp:</strong> {{ commit.get_date|date:"F j Y, H:i" }}</li>
+                        <li><strong>Statistics:</strong>
+                            {{ commit.num_lines}}
+                            line{{ commit.num_lines|pluralize }} changed
+                            ({{ commit.num_deletions }}
+                            deletion{{ commit.num_deletions|pluralize }},
+                            {{ commit.num_insertions }}
+                            insertion{{ commit.num_insertions|pluralize }})
+                        </li>
                         <li><strong>Edit message:</strong> {{ commit.message }}</li>
                 </div>
             </div>
@@ -33,7 +42,7 @@
         <h2>Diff</h2>
         <hr />
         <br />
-        {% for section in commit.diff %}
+        {% for section in commit.get_diff %}
         <p>Starting from line {{ section.first_line }}. {{ section.lines_before }} line{{ section.lines_before|pluralize }} in the previous commit, {{ section.lines_after }} line{{ section.lines_after|pluralize }} after.</p>
         <pre id="commit-diff">{% for diff_line in section.lines %}<span class="{% if diff_line.0 == '+' %}diff-green{% else %}{% if diff_line.0 == '-' %}diff-red{% endif %}{% endif %}">{{ diff_line|slice:"1:" }}{% if diff_line.0 == '-' %}&nbsp;{% endif %}</span>{% endfor %}
 </pre>
@@ -44,13 +53,15 @@
         <h2 id="raw">Raw</h2>
         <hr />
         <br />
-        <pre>{{ content }}</pre>
+        {% with content=commit.get_content %}
+        <pre>{{ commit.get_content }}</pre>
         </p>
         <h2>Preview</h2>
         <hr />
         <div class="markdown">
             {% include "main/markdown.html" %}
         </div>
+        {% endwith %}
     </section>
 </div>
 {% endblock %}
