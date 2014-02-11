@@ -172,10 +172,8 @@ def all_browse(request, sort_by=''):
     return render(request, 'courses/all_browse.html', context)
 
 
-def watch(request, department, number):
-    course = get_object_or_404(Course, department=department,
-                               number=int(number))
-
+@show_object_detail(Course)
+def watch(request, course):
     if request.method == 'POST' and request.user.is_authenticated():
         user = request.user.get_profile()
 
@@ -186,7 +184,7 @@ def watch(request, department, number):
             # Else, watch
             user.start_watching(course)
 
-    return overview(request, department, number)
+    return redirect(course.get_absolute_url())
 
 
 def get_all(request):
