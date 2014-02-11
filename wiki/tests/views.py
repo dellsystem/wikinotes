@@ -154,7 +154,10 @@ class AllBrowseTest(_ViewTest):
     template = 'courses/all_browse.html'
 
 
-# class WatchCourseTest:
+# TODO: Needs a test for the POST method, when logged in
+class WatchCourseTest(_ViewRedirectTest):
+    url = '/MATH_150/watch/'
+    expected_url = '/MATH_150/'
 
 
 # class GetAllTest:
