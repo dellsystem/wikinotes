@@ -76,7 +76,9 @@ views/courses.py
 """
 
 
-# class RemoveSlashTest:
+class RemoveSlashTest(_ViewRedirectTest):
+    url = '/MATH/150/'
+    expected_url = '/MATH_150/'
 
 
 class FacultyOverviewTest(_ViewTest):
