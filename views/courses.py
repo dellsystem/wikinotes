@@ -106,11 +106,11 @@ def professor_browse(request):
 
 
 def random(request):
-    """Display a random course.
+    """Redirect to a random course.
     """
     courses = Course.objects.all()
-    random_course = random_module.choice(courses)
-    return overview(request, random_course.department, random_course.number)
+    course = random_module.choice(courses)
+    return redirect(course.get_absolute_url())
 
 
 def index(request):

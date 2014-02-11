@@ -1,9 +1,11 @@
 from datetime import datetime
+import random
 
 from django.test.client import Client
 from django.test import TestCase
 from mock import MagicMock
 
+from wiki.models.courses import Course
 from wiki.models.faculties import Faculty
 from wiki.models.pages import Page
 from wiki.utils import gitutils
@@ -17,6 +19,15 @@ class _View404Test(TestCase):
         client = Client()
         response = client.get(self.url)
         self.assertEqual(response.status_code, 404)
+
+
+class _ViewRedirectTest(TestCase):
+    fixtures = ['test']
+
+    def runTest(self):
+        client = Client()
+        response = client.get(self.url)
+        self.assertRedirects(response, self.expected_url)
 
 
 class _ViewTest(TestCase):
@@ -110,7 +121,13 @@ class ProfessorBrowseTest(_ViewTest):
     template = 'courses/professor_browse.html'
 
 
-# class RandomCourseTest:
+class RandomCourseTest(_ViewRedirectTest):
+    url = '/courses/random/'
+    expected_url = '/MATH_150/'
+
+    def setUp(self):
+        course = Course.objects.get(pk=1)
+        random.choice = MagicMock(return_value=course)
 
 
 class CourseIndexTest(_ViewTest):
