@@ -2,7 +2,7 @@
 
 
 <div class="input">
-    <select name="professor_id" data-placeholder="Select a professor (optional)" id="professor-select" class="chzn-select">
+    <select name="professor_id" data-placeholder="Select a professor (optional)" id="professor-select" class="chzn-select chosen">
         <option value="">Select a professor (optional)</option>
         {% for professor in professors %}
         <option value="{{ professor.id }}"{% if current_professor == professor.id %} selected="selected"{% else %} data-name=""{% endif %}>{{ professor }}</option>

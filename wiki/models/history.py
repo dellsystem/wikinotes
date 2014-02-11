@@ -1,5 +1,6 @@
-from django.db import models
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.db import models
 
 from wiki.utils.history import get_date_x_days_ago, humanise_timesince
 
@@ -17,9 +18,6 @@ class HistoryManager(models.Manager):
 
 
 class HistoryItem(models.Model):
-    class Meta:
-        app_label = 'wiki'
-
     objects = HistoryManager()
     user = models.ForeignKey(User)
     action = models.CharField(max_length=30)
@@ -27,10 +25,29 @@ class HistoryItem(models.Model):
     page = models.ForeignKey('Page', null=True)
     message = models.CharField(max_length=255, null=True)
     course = models.ForeignKey('Course')
-    #sha = models.CharField(max_length=40, null=True) # only used for page editing/creation
+    hexsha = models.CharField(max_length=40, null=True) # only used for page editing
+
+    class Meta:
+        app_label = 'wiki'
 
     def __unicode__(self):
         return 'timestamp: %s, course: %s' % (self.timestamp, self.course)
 
+    def get_absolute_url(self):
+        if self.page:
+            if self.hexsha:
+                url_args = self.page.get_url_args() + (self.hexsha,)
+                return reverse('pages_commit', args=url_args)
+            else:
+                return self.page.get_history_url()
+        else:
+            return self.course.get_recent_url()
+
     def get_timesince(self):
         return humanise_timesince(self.timestamp)
+
+    def get_short_hexsha(self):
+        if self.hexsha:
+            return self.hexsha[:7]
+        else:
+            return ''

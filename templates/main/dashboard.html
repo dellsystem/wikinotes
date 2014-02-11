@@ -8,9 +8,17 @@
             <div class="span5">
                 {% include "main/course_search.html" %}
             </div>
+            {% if latest_post %}
             <div class="span11 right-align">
-                <p><strong>{{ latest_post.timestamp|date:"F j, Y" }}: {{ latest_post.title }}</strong> {{ latest_post.summary }} <a href="/news"><strong>Read more</strong> &raquo;</a></p>
+                <p>
+                    <strong>{{ latest_post.timestamp|date:"F j, Y" }}:
+                    {{ latest_post.title }}</strong> {{ latest_post.summary }}
+                    <a href="{% url 'news_main' %}">
+                        <strong>Read more</strong> &raquo;
+                    </a>
+                </p>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -21,7 +29,7 @@
             <div class="span12 columns">
                 {% if show_welcome %}
                 <div class="alert-message block-message">
-                    <p>Welcome to WikiNotes! Need some sort of introductory text here.</p>
+                    <p>Welcome to WikiNotes!</p>
                 </div>
                 {% endif %}
                 <h1>Your dashboard</h1>
@@ -32,13 +40,32 @@
                         <div class="span1 column"><a href="{{ user_profile.get_absolute_url }}"><img src="{% load gravatar %}{% gravatar_for_user history_item.user 50 %}" /></a></div>
                         <div class="span11 columns">
                             <p><strong><a href="{{ user_profile.get_absolute_url }}">{{ history_item.user.username }}</a></strong> {{ history_item.action }} {% if history_item.page %}<a href="{{ history_item.page.get_absolute_url }}">{{ history_item.page }}</a>{% else %} <a href="{{ history_item.course.get_absolute_url }}">{{ history_item.course }}</a>{% endif %} <span title="{{ history_item.timestamp }}">{{ history_item.get_timesince }} ago</span></p>
-                            {% if history_item.message %}<p>{{ history_item.message }}</p>{% endif %}
+                            {% if history_item.message %}
+                                <blockquote>
+                                    <p>
+                                        {% if history_item.hexsha %}
+                                        <a href="{{ history_item.get_absolute_url }}">
+                                            {{ history_item.get_short_hexsha }}</a>
+                                        {% endif %}
+                                        {{ history_item.message }}
+                                    </p>
+                                </blockquote>
+                            {% endif %}
                         </div>
                     </div>
                     {% endwith %}
                 {% endfor %}
                 {% else %}
-                <p>{% if user.get_profile.courses.count %}There has been no recent activity on any of your courses! Start watching some more?{% else %}You are not watching any courses!{% endif %} You can find several ways to browse for courses <a href="/courses">here</a>.</p>
+                <p>
+                    {% if user.get_profile.courses.count %}
+                        There has been no recent activity on any of your
+                        courses!  Start watching some more?
+                    {% else %}
+                        You are not watching any courses!
+                    {% endif %}
+                    You can find several ways to browse for courses <a
+                    href="/courses/">here</a>.
+                </p>
                 {% endif %}
             </div>
             <div class="span4 columns" id="right-bar">

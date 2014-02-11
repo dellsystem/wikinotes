@@ -6,8 +6,13 @@
         <h1>Login error</h1>
         <div class="alert-message block-message error center-align">
             <p>The username and password combination you entered is invalid.</p>
-            <p><a href="/forgot-password">Forgotten your password?</a></p>
-            <p><a href="/register">Haven't registered yet?</a></p>
+            <p>
+                If you've forgotten your password, send an email to
+                admin@wikinotes.ca and we'll reset it for you.
+            </p>
+            <p><a href="{% url 'main_register' %}">
+                Haven't registered yet?
+            </a></p>
         </div>
     </section>
 </div>

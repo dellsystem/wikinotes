@@ -1,5 +1,12 @@
 .printview {
-    padding: 20px;
+    min-width: 0;
+    width: auto;
+    padding: 25px;
+
+    body {
+        min-width: 0;
+    }
+
     h1 {
         padding-bottom: 0px;
     }
@@ -26,7 +33,6 @@
     border-bottom: 1px solid @grayDark;
     padding-bottom: 20px;
     margin-bottom: 25px;
-    padding-left: 25px;
 }
 
 .markdown {
@@ -59,6 +65,10 @@
     }
     p {
         padding: 7px 0px;
+    }
+    p img {
+        display: block;
+        margin: 0 auto;
     }
     ul, ol {
         margin-bottom: 0px;
@@ -153,6 +163,9 @@
     p + h2, p + h3, p + h4, p + h5, p + h6, dl + h2, dl + h3, dl + h4, dl + h5, dl + h6 {
         padding-top: 30px;
     }
+    p + ul {
+        padding-top: 5px;
+    }
     .codehilitetable {
         pre {
             border: 0px;
@@ -233,4 +246,12 @@
 
 .js-explanation {
     .hidden;
+}
+
+a {
+    font-style: inherit;
+}
+
+.highlight {
+    background-color: @yellow;
 }

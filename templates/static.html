@@ -24,8 +24,14 @@
                 <div id="right-bar">
                 <h4>{{ mode.title }}</h4>
                 <ul class="unstyled">
-                    {% for section_page in section_pages %}
-                    <li>{% if section_page != page %}<a href="/{{ mode }}/{{ section_page }}">{% endif %}{{ section_page.title }}{% if section_page != page %}</a>{% endif %}</li>
+                    {% for section_page, page_url in section_pages %}
+                    <li>
+                        {% if section_page != page %}
+                            <a href="{% url page_url %}">
+                        {% endif %}
+                        {{ section_page.title }}
+                        {% if section_page != page %}</a>{% endif %}
+                    </li>
                     {% endfor %}
                 </ul>
                 </div>

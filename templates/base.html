@@ -6,6 +6,8 @@
     <meta name="description" content="{% block meta_description %}Collaborative note-sharing for the courses at McGill University. A free and open resource for students, by students.{% endblock %}">
     <meta name="author" content="">
 
+    {% block extra_head %}{% endblock %}
+
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -42,18 +44,20 @@
     <div class="topbar-inner"> 
         <div class="container"> 
             <ul class="nav"> 
-                <li><a href="/">Home</a></li>
-                <li><a href="/courses">Courses</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/news">News</a></li>
-                <li><a href="/help">Help</a></li>
-                <li><a href="/contributing">Contributing</a></li>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'courses_index' %}">Courses</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'news_main' %}">News</a></li>
+                <li><a href="{% url 'help' %}">Help</a></li>
+                <li><a href="{% url 'contributing' %}">Contributing</a></li>
             </ul>
             <div class="right-float">
                 <ul class="nav">
-                    <li><form action="/search" method="get" id="search-form"><input type="text" name="query" class="medium" placeholder="Search ..." /></form></li>
-                    <li><a href="/recent">Recent activity</a></li>
-                    {% if not user.is_authenticated %}<li><a href="/register">Register</a></li>{% endif %}
+                    <li><form action="{% url 'main_search' %}" method="get" id="search-form"><input type="text" name="query" class="medium" placeholder="Search ..." /></form></li>
+                    <li><a href="{% url 'main_all_recent' 1 %}">Recent activity</a></li>
+                    {% if not user.is_authenticated %}
+                    <li><a href="{% url 'main_register' %}">Register</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div> 
@@ -65,7 +69,7 @@
         <div class="container"> 
             <a href="/"><img src="/static/img/logo.png" alt="wikinotes" width="300"></a>
             <div id="login-bar">
-                <form method="post" action="/login">
+                <form method="post" action="{% url 'main_login_logout' %}">
                 {% csrf_token %}
                 {% if not user.is_authenticated %}
                 <p>
@@ -75,19 +79,20 @@
                     <input type="hidden" value="{{ request.path }}" name="path" />
                 </p>
                 <div class="right-float">
-                    <span><a href="/forgot-password">Forgot your password?</a>&nbsp;&nbsp;</span>
+                    <span class="forgot-password">
+                        <strong>
+                            Forgot your password? Email admin@wikinotes.ca.
+                        </strong>
+                    </span>
                 </div>
-                <label id="stay-logged-in">
-                    <input type="checkbox" /> <span>Stay logged in</span>
-                </label>
                 {% else %}
                 <div class="right-float">
                     <p>
-                        <a href="/ucp/" class="btn">User control panel</a>
+                        <a href="{% url 'main_ucp' %}" class="btn">User control panel</a>
                         {% with num_new_messages=user.received_messages.new.count %}
-                        <a href="/messages/" class="btn{% if num_new_messages %} danger{% endif %}">{{ num_new_messages }} new message{{ num_new_messages|pluralize }}</a>
+                        <a href="{% url 'messages_inbox' %}" class="btn{% if num_new_messages %} danger{% endif %}">{{ num_new_messages }} new message{{ num_new_messages|pluralize }}</a>
                         {% endwith %}
-                        {% if user.is_staff %} <a href="/admin/" class="btn">Admin</a>{% endif %}
+                        {% if user.is_staff %} <a href="{% url 'admin:index' %}" class="btn">Admin</a>{% endif %}
                     </p>
                     <p><input type="submit" class="btn info" value="Log out ({{ user }})" name="logout" /></p>
                 </div>

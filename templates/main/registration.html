@@ -23,7 +23,7 @@
                     <p>Already have an account? Sign in using the login bar above.</p>
                 </div>
                 {% endif %}
-                <form action="/register" method="post">
+                <form action="{% url 'main_register' %}" method="post">
                     <fieldset>
                         {% csrf_token %}
                         <div class="clearfix">
@@ -68,7 +68,7 @@
                 <h3>Why register?</h3>
                 <p>You absolutely don't need to register to be able to access the content on WikiNotes! We believe that the content on this site should be available freely to anyone who wants to see it, regardless of whether they have an account or not. Registration is mostly useful if you want to contribute, as we do require edits to be made by logged-in users, or if you want an an easy way of staying up-to-date with the content on this site for your courses.</p>
                 <h3>What will you do with my information?</h3>
-                <p>Rest assured that your account details are safe with us - we will not share, sell, or do other bad things to your email address. (We don't have a privacy policy yet, but if someone wants to write one we can link to it here lol.) At the moment, entering your email is optional, although if you have a gravatar, your email will be used to display it, and in the future we will provide user-configurable email notifications and use your email to update you of important site-related news.</p>
+                <p>Rest assured that your account details are safe with us - we will not share, sell, or do other bad things to your email address. At the moment, entering your email is optional, although if you have a gravatar, your email will be used to display it, and in the future we will provide user-configurable email notifications and use your email to update you of important site-related news.</p>
             </div>
         </div>
         <!--<h2>Have an account with one of these providers?</h2>

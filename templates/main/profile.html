@@ -3,6 +3,10 @@
 {% load gravatar %}
 {% load url from future %}
 
+{% block extra_head %}
+<meta property="og:image" content="{% gravatar_for_user this_user 100 %}" />
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <section>

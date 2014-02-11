@@ -2,74 +2,49 @@ import datetime
 from math import log
 from os import makedirs, environ
 
+from django.contrib.auth.models import User
 import git
 import gitdb
 
 
-class NoChangesError(Exception):
-    pass
+MAX_COMMIT_BAR_WIDTH = 100
+MIN_COMMIT_BAR_WIDTH = 20
 
 
-class Git:
-    def __init__(self, path_to_repo):
-        self.full_path = path_to_repo.strip('/') # don't need leading/trailing slashes
-        try:
-            makedirs(self.full_path)
+class Commit:
+    def __init__(self, commit):
+        """This is a wrapper class for the commit object returned by gitpython
+        to make it easier to use within WikiNotes. Should be instantiated with
+        the commit object (git.objects.commit.Commit)."""
+        self._commit = commit
+        self.hexsha = commit.hexsha
+        self.message = commit.message
+        self.repo_path = commit.repo.working_dir
+        self.author_name = commit.author.name
+        self.num_lines = commit.stats.total['lines']
+        self.num_insertions = commit.stats.total['insertions']
+        self.num_deletions = commit.stats.total['deletions']
 
-            # Initialise the repository (if it doesn't already exist)
-            git.Repo.init(self.full_path)
-        except OSError:
-            # It already exists, that's fine
-            pass
+    def get_content(self):
+        """Returns the contents of the file `content.md`.
+        """
+        return self._commit.tree[0].data_stream.read().decode('utf-8')
 
-        self.repo = git.Repo(self.full_path)
+    def get_date(self):
+        """Returns the timestamp for the time the commit was made."""
+        return datetime.datetime.fromtimestamp(self._commit.authored_date)
 
-    # Adds and commits content.md
-    def commit(self, commit_message, username, email):
-        # Only commits it if there was a change; otherwise, raises an error
-        environ['GIT_AUTHOR_NAME'] = username # no other way to do this lol
+    def get_author(self):
+        return User.objects.get(username=self._commit.author.name)
 
-        # untracked_files is true so that even the first time it will work
-        if self.repo.is_dirty(untracked_files=True):
-            self.repo.index.add(["content.md"])
-            self.repo.index.commit(commit_message)
-        else:
-            raise NoChangesError
-
-    # Pass it the SHA1 hash etc
-    # It's not like we'll ever need to use hash() anyway lol
-    def get_commit(self, hash):
-        try:
-            hexsha = gitdb.util.hex_to_bin(hash) # have to convert it first
-            commit = git.objects.commit.Commit(self.repo, hexsha)
-
-            # Call commit.size to see if the commit actually exists
-            # If it doesn't, it will raise an exception
-            commit.size
-            return commit
-        except:
-            # Invalid hash (theoretically)
-            return None
-
-    # Pass it a commit object. Returns the commit object for the previous commit in the master branch
-    def get_previous(self, this_commit):
-        is_next = False
-        for commit in git.Repo(self.full_path).iter_commits():
-            if is_next:
-                return commit
-            else:
-                is_next = this_commit.hexsha == commit.hexsha
-
-    def get_latest_commit(self):
-        return self.repo.head.commit.hexsha
-
-    # If there is no diff, it'll return None, which is fine
-    def get_diff(self, this_commit):
-        previous = self.get_previous(this_commit)
+    def get_diff(self):
+        """Gets the diff between this commit and the previous one.
+        """
+        previous = self._get_previous()
 
         if previous:
             word_diff = {"word-diff":"porcelain"}
-            diff = previous.diff(this_commit.hexsha, create_patch=True, **word_diff)[0].diff
+            diff = previous.diff(self.hexsha, create_patch=True, **word_diff)[0].diff
             diff_lines = diff.splitlines()[2:]
             sections = []
             previous_i = 0
@@ -92,32 +67,82 @@ class Git:
             end_index = len(diff_lines)
             for i, section in enumerate(reversed(sections)):
                 sections[-1-i]['lines'] = diff_lines[section['start_index']:end_index]
+                section['lines'].pop()
                 end_index = section['start_index'] - 1
 
             return sections
 
-    def get_history(self):
-        commits = []
-        for commit in git.Repo(self.full_path).iter_commits():
-            num_lines = commit.stats.total['lines']
-            bar_width = int(log(num_lines) * 20)
-            max_width = 100
-            min_width = 20
-            commit_dict = {
-                'date': datetime.datetime.fromtimestamp(commit.committed_date),
-                'message': commit.message[:70] + ' ...' if len(commit.message) > 70 else commit.message,
-                'author': commit.author,
-                'lines': num_lines,
-                'url': 'commit/' + commit.hexsha,
-                'undo_url': 'undo/' + commit.hexsha,
-                'insertions': commit.stats.total['insertions'],
-                'deletions': commit.stats.total['deletions'],
-                'bar_width': min(bar_width, max_width) if bar_width > max_width else max(bar_width, min_width), # width in pixels of bar ... based on the number of lines
-                'green_percent': (commit.stats.total['insertions'] * 100) / num_lines, # how much of this commit is insertions - int div
-            }
-            commits.append(commit_dict)
-        return commits
+    def _get_previous(self):
+        """Returns the gitpython Commit object for the previous commit.
+        """
+        is_next = False
+        for commit in git.Repo(self.repo_path).iter_commits():
+            if is_next:
+                return commit
+            else:
+                is_next = self.hexsha == commit.hexsha
 
-    # No changes - clean working slate
+    def get_bar_width(self):
+        bar_width = int(log(self.num_lines) * 20)
+        return min(max(bar_width, MIN_COMMIT_BAR_WIDTH), MAX_COMMIT_BAR_WIDTH)
+
+    def get_green_percent(self):
+        return self.num_insertions * 100 / self.num_lines
+
+    def get_absolute_url(self):
+        return '../commit/' + self.hexsha  # TODO: fix
+
+
+class NoChangesError(Exception):
+    pass
+
+
+class Git:
+    def __init__(self, path_to_repo):
+        self.full_path = path_to_repo.strip('/') # don't need leading/trailing slashes
+        try:
+            makedirs(self.full_path)
+
+            # Initialise the repository (if it doesn't already exist)
+            git.Repo.init(self.full_path)
+        except OSError:
+            # The directories already exist.
+            pass
+
+        self.repo = git.Repo(self.full_path)
+
+    def commit(self, commit_message, username, email):
+        """Adds and commits content.md."""
+        # Only commits it if there was a change; otherwise, raises an error.
+        environ['GIT_AUTHOR_NAME'] = username
+
+        # untracked_files is true so that even the first time it will work.
+        if self.repo.is_dirty(untracked_files=True):
+            self.repo.index.add(["content.md"])
+            commit = self.repo.index.commit(commit_message.encode('utf-8'))
+            return Commit(commit)
+        else:
+            raise NoChangesError
+
+    def get_commit(self, commit_hash):
+        hexsha = gitdb.util.hex_to_bin(commit_hash)
+        commit = git.objects.commit.Commit(self.repo, hexsha)
+
+        try:
+            commit.size
+            return Commit(commit)
+        except gitdb.exc.BadObject:
+            # If the hash does not refer to a commit, commit.size will raise an
+            # exception. Return None in that case.
+            return None
+
+    def get_latest_commit_hash(self):
+        return self.repo.head.commit.hexsha
+
+    def get_history(self):
+        """Converts each gitpython Commit object into an internal Commit
+        object."""
+        return map(Commit, git.Repo(self.full_path).iter_commits())
+
     def is_unchanged(self):
         return not self.repo.is_dirty()

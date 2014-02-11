@@ -1,22 +1,37 @@
+var localStorageSupported = function() {
+    try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+    } catch (e) {
+        return false;
+    }
+};
+
+// Temporary auto-saving unsaved edits to localStorage, every 5 seconds
+var saveEdits = function () {
+    var textarea = $('#content-textarea');
+    var contents = textarea.val();
+    var originalContents = textarea.text();
+
+    if (contents !== originalContents) {
+        window.localStorage[window.location.href] = contents;
+    }
+
+    setTimeout(saveEdits, 5000);
+};
+
 $(document).ready(function() {
     // Fill the course search box thing first
     var courseSearchBox = $('#course-search-box');
     if (courseSearchBox.length) {
         $.ajax({
             dataType: 'html',
-            url: '/courses/get_all',
+            url: '/courses/get_all/',
             success: function(data) {
                 courseSearchBox.html(data).chosen().change(function() {
                     window.location.pathname = $(this).val();
                 });
             },
         });
-    }
-
-    // When creating a page, make the professor chosen thing show up
-    var professorSelect = $('#professor-select');
-    if (professorSelect.length) {
-        professorSelect.chosen();
     }
 
     // If there's an ol on the page ... (MUST be an ol to be considered a q)
@@ -245,44 +260,6 @@ $(document).ready(function() {
         $('#fullscreen').text('Go fullscreen');
     };
 
-    // Make the tab key enter a tab character instead of going to the next thing
-    $('#content-textarea').keydown(function(e) {
-        var TABKEY = 9;
-        var text = $(this).val();
-        // Figure out where the cursor is
-        var selection = $(this).getSelection()
-        if (e.keyCode == TABKEY) {
-            // If shift, de-indent 4 spaces (if possible)
-            if (e.shiftKey) {
-                // Find the text right before the cursor
-                if (selection.length == 0) {
-                    // Work on selected case later
-                    var previousNewline = 0;
-                    var tempText = text;
-                    while (tempText.indexOf('\n') <= selection.start && tempText.indexOf('\n') >= 0) {
-                        previousNewline += tempText.indexOf('\n') + 1;
-                        tempText = tempText.substring(tempText.indexOf('\n') + 1);
-                    }
-                    // Strip the first four (or fewer) consecutive space chars after the newline
-                    var unindentedLine = text.substring(previousNewline, previousNewline + 4).replace(/^ {1,4}/, '');
-                    var newText = text.substring(0, previousNewline) + unindentedLine + text.substring(previousNewline + 4);
-                    $(this).val(newText);
-                } else {
-                    $(this).replaceSelection(selection.text.replace(/^ {1,4}/mg, ''));
-                }
-            } else {
-                if (selection.length == 0) {
-                    $(this).replaceSelection('    ');
-                } else {
-                    $(this).replaceSelection('    ' + selection.text.replace(/\n/g, '\n    '));
-                }
-            }
-
-            // Prevent the default behaviour
-            return false;
-        }
-    });
-
     // Multiple choice quizzes, clicking on the "view answer" thing etc
     $('p[id^="answer-q"]').hide();
     $('a[id^="view-answer-q"]').click(function(event) {
@@ -337,7 +314,7 @@ $(document).ready(function() {
             },
             dataType: 'html',
             type: 'POST',
-            url: '/markdown',
+            url: '/markdown/',
             success: function(data) {
                 $('#content-preview').html(data);
                 MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'content-preview']);
@@ -399,4 +376,80 @@ $(document).ready(function() {
     }
 
     $('.chosen').chosen();
+
+    // If in page edit, auto-save every few secs (if localStorage is supported)
+    if ($('#content-textarea').length) {
+        if (localStorageSupported) {
+            // If something is already in there, fill the textbox with it
+            var previousSave = localStorage[window.location.href];
+            if (previousSave !== undefined) {
+                // Only ask to apply saved changes if they're different
+                if (previousSave !== $('#content-textarea').val()) {
+                    var usePreviousSave = confirm("This page has unsaved " +
+                    "edits from a previous editing session! Press OK to " +
+                    "apply these changes, and cancel to discard them.");
+
+                    if (usePreviousSave) {
+                        $('#content-textarea').val(previousSave);
+                    }
+                }
+
+                localStorage.removeItem(window.location.href);
+            }
+
+            saveEdits();
+        }
+
+        // When the page is saved, clear localStorage
+        $('#edit-page-form').submit(function () {
+            localStorage.removeItem(window.location.href);
+        });
+    }
+
+    /*
+     * Smooth-scrolling and highlighting for footnotes.
+     */
+
+    // Scroll to the footnote reference in the content of the page
+    $('a[rev="footnote"]').click(function (){
+        var target = $(this).attr('href');
+        var id = target.replace('#', '');
+        var node = $('sup[id="' + id + '"]');
+        var offset = Math.max(node.offset().top - 20, 0);
+        $('body').animate({scrollTop: offset}, 700);
+
+        var parentNode = node.parent();
+        parentNode.toggleClass('highlight');
+
+        // It would be cool to fade this out but that requires jQuery UI
+        setTimeout(function() {
+            parentNode.toggleClass('highlight');
+        }, 2000);
+
+        // Set the hash
+        window.location.hash = target;
+
+        return false;
+    });
+
+    // Scroll to the footnote itself, in the footer
+    $('a[rel="footnote"]').click(function () {
+        var target = $(this).attr('href');
+        var id = target.replace('fn', 'fnref');
+        var node = $('a[href="' + id + '"]');
+        var offset = Math.max(node.offset().top - 20, 0);
+        $('body').animate({scrollTop: offset}, 700);
+
+        var parentNode = node.parent();
+        parentNode.toggleClass('highlight');
+
+        setTimeout(function(){
+            parentNode.toggleClass('highlight');
+        }, 2000);
+
+        // Set the hash
+        window.location.hash = target;
+
+        return false;
+    });
 });

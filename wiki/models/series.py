@@ -13,11 +13,6 @@ class SeriesManager(models.Manager):
 
 
 class Series(models.Model):
-    class Meta:
-        app_label = 'wiki'
-        unique_together = (('course', 'position'), ('course', 'slug'))
-        verbose_name_plural = 'Series'
-
     objects = SeriesManager()
     course = models.ForeignKey('Course')
     name = models.CharField(max_length=255)
@@ -26,29 +21,43 @@ class Series(models.Model):
     banner = models.ForeignKey('SeriesBanner', null=True, blank=True)
     is_hidden = models.BooleanField(default=False)
 
-    def can_view(self, user):
-        return not self.is_hidden or user.is_staff
+    class Meta:
+        app_label = 'wiki'
+        unique_together = (('course', 'position'), ('course', 'slug'))
+        verbose_name_plural = 'Series'
 
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.course)
 
     def get_absolute_url(self):
-        return '%s#series-%s' % (self.course.get_absolute_url(), self.slug)
+        """This can't use `reverse` because it includes an anchor link."""
+        return self.course.get_absolute_url() + '#series-' + self.slug
+
+    def can_view(self, user):
+        return not self.is_hidden or user.is_staff
 
     def get_num_total(self):
         return self.seriespage_set.count()
 
+    def get_next_position(self):
+        query = self.seriespage_set.all().aggregate(models.Max('position'))
+        max_position = query['position__max']
+        if max_position:
+            return max_position + 1
+        else:
+            return 1
+
 
 class SeriesPage(models.Model):
+    page = models.ForeignKey('Page')
+    series = models.ForeignKey('Series')
+    position = models.IntegerField('position')
+
     class Meta:
         app_label = 'wiki'
         # Each page can only be in a series once, each series can have only one page per position
         unique_together = (('position', 'series'), ('page', 'series'))
         ordering = ['series', 'position']
-
-    page = models.ForeignKey('Page')
-    series = models.ForeignKey('Series')
-    position = models.IntegerField('position')
 
     def __unicode__(self):
         return "%s - %s (%d)" % (self.page, self.series, self.position)
@@ -80,11 +89,11 @@ class SeriesPage(models.Model):
 
 
 class SeriesBanner(models.Model):
-    class Meta:
-        app_label = 'wiki'
-
     name = models.CharField(max_length=255)
     text = models.TextField()
+
+    class Meta:
+        app_label = 'wiki'
 
     def __unicode__(self):
         return self.name

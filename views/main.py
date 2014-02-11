@@ -4,16 +4,19 @@ import re
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
+from blog.models import BlogPost
 from urls import static_urls
 from wiki.models.courses import Course
 from wiki.models.history import HistoryItem
-from wiki.utils.users import validate_username
 from wiki.models.pages import Page
-from blog.models import BlogPost
+from wiki.models.users import UserProfile
+from wiki.utils.decorators import show_object_detail
+from wiki.utils.users import validate_username
 
 
 def index(request, show_welcome=False):
@@ -37,7 +40,7 @@ def index(request, show_welcome=False):
         try:
             latest_post = BlogPost.objects.order_by('-timestamp')[0]
         except IndexError:
-            latest_post = {'title': 'Nothing', 'summary': 'Nothing'}
+            latest_post = None
 
         # Show the user's dashboard
         data = {
@@ -84,11 +87,15 @@ def login_logout(request):
 
 # Recent changes
 def recent(request, num_days=1, show_all=False):
+    base_title = 'All recent activity' if show_all else 'Recent activity'
+    title = "%s in the past %d day(s)" % (base_title, num_days)
+
     data = {
-        'title': 'Recent activity',
+        'title': title,
         'history': HistoryItem.objects.get_since_x_days(num_days, show_all),
         'num_days': num_days,
-        'base_url': '/recent/all' if show_all else '/recent', # better way of doing this?
+        'base_url': 'main_all_recent' if show_all else 'main_recent',
+        'other_url': 'main_recent' if show_all else 'main_all_recent',
         'show_all': show_all
     }
 
@@ -98,7 +105,7 @@ def recent(request, num_days=1, show_all=False):
 def explore(request):
     data = {
         'lol': range(4)
-    }   
+    }
     return render(request, 'main/explore.html', data)
 
 
@@ -106,38 +113,35 @@ def all_recent(request, num_days=1):
     return recent(request, num_days=num_days, show_all=True)
 
 
-def profile(request, username):
-    try:
-        this_user = User.objects.get(username__iexact=username)
-        profile = this_user.get_profile()
+@show_object_detail(UserProfile)
+def profile(request, profile):
+    this_user = profile.user
 
-        # Figure out the number of pages created and modified
-        pages_modified = Page.objects.filter(historyitem__user=this_user).distinct()
-        pages_created = pages_modified.filter(historyitem__action='created')
-        courses_contributed_to = Course.objects.filter(coursesemester__page__in=pages_modified).distinct()
-        num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
+    # Figure out the number of pages created and modified
+    pages_modified = Page.objects.filter(historyitem__user=this_user).distinct()
+    creation_history = HistoryItem.objects.filter(action='created', user=this_user)
+    pages_created = pages_modified.filter(historyitem__in=creation_history)
+    courses_contributed_to = Course.objects.filter(coursesemester__page__in=pages_modified).distinct()
+    num_edits = HistoryItem.objects.filter(user=this_user, page__isnull=False).count()
 
-        data = {
-            'title': 'Viewing profile (%s)' % this_user.username,
-            'this_user': this_user, # can't call it user because the current user is user
-            'profile': profile,
-            'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:10],
-            'num_pages_modified': pages_modified.count(),
-            'num_pages_created': pages_created.count(),
-            'num_courses_contributed_to': courses_contributed_to.count(),
-            'num_edits': num_edits,
-            'contributions_url': reverse('main_contributions', kwargs={'username': this_user.username}),
-        }
-
-        return render(request, 'main/profile.html', data)
-    except User.DoesNotExist:
-        raise Http404
+    return {
+        'title': 'Viewing profile for %s' % this_user.username,
+        'this_user': this_user, # can't call it user because the current user is user
+        'profile': profile,
+        'recent_activity': HistoryItem.objects.filter(user=this_user).order_by("-timestamp")[:10],
+        'num_pages_modified': pages_modified.count(),
+        'num_pages_created': pages_created.count(),
+        'num_courses_contributed_to': courses_contributed_to.count(),
+        'num_edits': num_edits,
+        'contributions_url': reverse('main_contributions', kwargs={'username': this_user.username}),
+    }
 
 
-def contributions(request, username):
-    this_user = get_object_or_404(User, username=username)
+@show_object_detail(UserProfile)
+def contributions(request, profile):
     # If the mode is not specified, show all the pages the user has edited
     mode = request.GET.get('mode', 'modified')
+    this_user = profile.user
 
     if mode == 'courses':
         mode_name = 'Courses contributed to'
@@ -153,15 +157,14 @@ def contributions(request, username):
         mode_name = 'Pages modified'
         table_data = this_user.get_profile().get_recent_pages(0)
 
-    data = {
+    return {
         'table_data': table_data, # the data to be displayed in the table
         'mode': mode,
         'mode_name': mode_name,
         'this_user': this_user,
-        'title': "%s's contributions" % this_user.username,
+        'title': "Viewing contributions for %s" % this_user.username,
     }
 
-    return render(request, 'main/contributions.html', data)
 
 def register(request):
     # If the user is already logged in, go to the dashboard page
@@ -172,18 +175,21 @@ def register(request):
             # Make sure everything checks out ...
 
             errors = []
-            username = request.POST['username']
-            email = request.POST['email'] # this can be blank. it's okay.
-            password = request.POST['password']
-            password_confirm = request.POST['password_confirm']
+            username = request.POST.get('username')
+            email = request.POST.get('email', '')
+            password = request.POST.get('password')
+            password_confirm = request.POST.get('password_confirm')
             university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
             if not university.startswith('mcgill'):
-                errors.append("Anti-spam question wrong! Please enter the university WikiNotes was made for.")
+                errors.append("Anti-spam question wrong! Please enter the name of the university WikiNotes was made for.")
 
-            if username == '':
+            if not username:
                 errors.append("You didn't fill in your username!")
+
+            if not password:
+                errors.append("Please enter a password.")
 
             if len(password) < 6:
                 errors.append("Your password is too short. Please keep it to at least 6 characters.")
@@ -222,7 +228,7 @@ def register(request):
             return render(request, 'main/registration.html', {'title': 'Create an account'})
 
 
-def ucp(request, mode):
+def ucp(request, mode=''):
     modes = ['overview', 'account', 'profile', 'preferences']
 
     if mode == '' or mode not in modes:
@@ -240,7 +246,7 @@ def ucp(request, mode):
         }
 
         # Now check if a request has been submitted
-        if request.POST:
+        if request.method == 'POST':
             data['success'] = True
 
             if mode == 'preferences':
@@ -253,8 +259,20 @@ def ucp(request, mode):
                 user_profile.facebook = request.POST['ucp_facebook']
                 user_profile.gplus = request.POST['ucp_gplus']
                 user_profile.major = request.POST['ucp_major']
+            if mode == 'account':
+                form = PasswordChangeForm(user=request.user,
+                                          data=request.POST)
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['success'] = False
+
+                data['form'] = form
 
             user_profile.save()
+        else:
+            if mode == 'account':
+                data['form'] = PasswordChangeForm(user=request.user)
 
         return render(request, 'main/ucp.html', data)
     else:
@@ -299,7 +317,9 @@ def search(request):
 
 
 def static(request, mode='', page=''):
-    section_pages = ['overview'] + static_urls[mode]
+    # Pretty bad, fix another day
+    section_pages = [('overview', mode)]
+    section_pages += [(p, '%s_%s' % (mode, p)) for p in static_urls[mode]]
     markdown_file = '%s/%s.md' % (mode, page)
     html_file = '%s/%s.html' % (mode, page)
     data = {

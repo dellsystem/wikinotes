@@ -7,7 +7,7 @@ $(document).ready(function () {
         // Get the name of the anchor for this header
         anchor = header.children[1].name;
         // Append an element
-        editLink = '<a href="' + baseURL + '/edit?section=' + anchor + '" class="editlink">edit</a>';
+        editLink = '<a href="' + baseURL + 'edit?section=' + anchor + '" class="editlink">edit</a>';
         $(header).append(editLink);
     }
 });

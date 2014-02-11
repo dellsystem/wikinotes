@@ -1,8 +1,9 @@
 # encoding: utf-8
 import os
 
-from django.db import models
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.db import models
 
 from wiki.utils.pages import page_types, page_type_choices, get_section_start_end
 from wiki.utils.gitutils import Git
@@ -22,15 +23,15 @@ class PageManager(models.Manager):
 
 
 class ExternalPage(models.Model):
-    class Meta:
-        app_label = 'wiki'
-
     course = models.ForeignKey('Course')
     page_type = models.CharField(choices=page_type_choices, max_length=20)
     link = models.URLField()
     title = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
     maintainer = models.ForeignKey(User, null=True, blank=True)
+
+    class Meta:
+        app_label = 'wiki'
 
     def __unicode__(self):
         return "%s - %s (%s)" % (self.title, self.course, self.link)
@@ -40,11 +41,6 @@ class ExternalPage(models.Model):
 
 
 class Page(models.Model):
-    class Meta:
-        app_label = 'wiki'
-        unique_together = ('course_sem', 'slug')
-        ordering = ['id']
-
     objects = PageManager()
     course_sem = models.ForeignKey('CourseSemester')
     subject = models.CharField(max_length=255, null=True, blank=True) # only used for some (most) page types
@@ -56,6 +52,38 @@ class Page(models.Model):
     content = models.TextField(null=True) # processed markdown, like a cache
     maintainer = models.ForeignKey(User)
     is_hidden = models.BooleanField(default=False) # for takedown requests
+    url_fields = {
+        'department': 'course_sem__course__department__short_name__iexact',
+        'number': 'course_sem__course__number',
+        'term': 'course_sem__term',
+        'year': 'course_sem__year',
+        'page_type': 'page_type',
+        'slug': 'slug',
+    }
+
+    class Meta:
+        app_label = 'wiki'
+        unique_together = ('course_sem', 'slug')
+        ordering = ['id']
+
+    def __unicode__(self):
+        return '%s - %s' % (self.get_title(), self.course_sem)
+
+    def get_absolute_url(self):
+        return reverse('pages_show', args=self.get_url_args())
+
+    def get_edit_url(self):
+        return reverse('pages_edit', args=self.get_url_args())
+
+    def get_history_url(self):
+        return reverse('pages_history', args=self.get_url_args())
+
+    def get_print_url(self):
+        return reverse('pages_printview', args=self.get_url_args())
+
+    # The method can't be solely on the page type itelf, since it doesn't know what course it's for
+    def get_type_url(self):
+        return self.get_type().get_url(self.course_sem.course)
 
     def can_view(self, user):
         return not self.is_hidden or user.is_staff
@@ -89,9 +117,9 @@ class Page(models.Model):
         self.save()
         # THE FOLDER SHOULD NOT HAVE TO BE MOVED!!! NOTHING IMPORTANT NEEDS TO BE CHANGED!!!
 
-    def get_latest_commit(self):
+    def get_latest_commit_hash(self):
         repo = self.get_repo()
-        return repo.get_latest_commit()
+        return repo.get_latest_commit_hash()
 
     def save_content(self, content, message, username, start=0, end=0):
         # If start and end are valid, use them
@@ -114,13 +142,11 @@ class Page(models.Model):
         file.write(content.encode('utf-8'))
         file.close()
 
-        repo.commit(message, username, '')
-
-    def __unicode__(self):
-        return '%s - %s' % (self.get_title(), self.course_sem)
+        commit = repo.commit(message, username, '')
+        return commit.hexsha
 
     def get_filepath(self):
-        return "wiki/content%s/" % self.get_absolute_url()
+        return 'wiki/content' + self.get_absolute_url()
 
     def get_type(self):
         return page_types[self.page_type]
@@ -139,14 +165,15 @@ class Page(models.Model):
                 metadata[field] = content
         return metadata
 
-    def get_absolute_url(self):
-        course = self.course_sem.course
-        return "%s/%s/%s-%s/%s" % (course.get_absolute_url(), self.page_type, self.course_sem.term, self.course_sem.year, self.slug)
-
-    # The method can't be solely on the page type itelf, since it doesn't know what course it's for
-    def get_type_url(self):
-        return self.get_type().get_url(self.course_sem.course)
+    def get_url_args(self):
+        """Used for reversing a URL."""
+        return (self.get_dept().pk, self.course_sem.course.number,
+            self.page_type, self.course_sem.term, self.course_sem.year,
+            self.slug)
 
     # Returns a Git object
     def get_repo(self):
         return Git(self.get_filepath())
+
+    def get_dept(self):
+        return self.course_sem.course.department

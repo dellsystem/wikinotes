@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class="printview">
+<head>
+    <meta charset="utf-8">
+    <title>{{ page }} - WikiNotes</title>
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [  ['$', '$'] ],
+            processEscapes: true,
+        }
+    });
+    </script>
+</head>
+<body>
+    <div class="markdown" contenteditable="true">
+        <h1>{{ page.get_title }}
+            {% if page.subject %}<small>{{ page.subject }}</small>{% endif %}
+        </h1>
+        <p id="print-intro">
+            {{ page_type.long_name }} for {{ page.course_sem }}, available for
+            free on WikiNotes under a Creative Commons license (CC-BY-NC). View
+            the current version at {{ site_url }}/{{ page.get_absolute_url }}.
+        </p>
+
+        {{ page.content|safe }}
+    </div>
+</body>
+</html>
