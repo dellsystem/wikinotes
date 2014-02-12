@@ -349,8 +349,13 @@ class EditPageTest(_ViewTest):
         self.assertTrue(context['content'], 'content')
 
 
-# TODO: test for redirects
-# class RandomPageTest:
+class RandomPageTest(_ViewRedirectTest):
+    url = '/pages/random/'
+    expected_url = '/MATH_150/summary/fall-2011/page-number-1/'
+
+    def setUp(self):
+        page = Page.objects.get(pk=1)
+        random.choice = MagicMock(return_value=page)
 
 
 """
