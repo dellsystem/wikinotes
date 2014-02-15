@@ -33,13 +33,15 @@ class _ViewRedirectTest(TestCase):
 class _ViewTest(TestCase):
     fixtures = ['test']
     login_first = False
+    login_required = True
 
     def runTest(self):
         client = Client()
         if self.login_first:
-            # Should get a redirect when attempting to send a GET request
-            initial_response = client.get(self.url)
-            self.assertEqual(initial_response.status_code, 302)
+            if self.login_required:
+                # Should get a redirect when attempting to send a GET request
+                initial_response = client.get(self.url)
+                self.assertEqual(initial_response.status_code, 302)
 
             client.post('/login/', {
                 'username': 'user',
@@ -76,7 +78,9 @@ views/courses.py
 """
 
 
-# class RemoveSlashTest:
+class RemoveSlashTest(_ViewRedirectTest):
+    url = '/MATH/150/'
+    expected_url = '/MATH_150/'
 
 
 class FacultyOverviewTest(_ViewTest):
@@ -201,8 +205,18 @@ views/main.py
 """
 
 
-# class MainIndexTest:
-# Not really sure how to test this one as it depends on logged-in status
+class MainIndexTest(_ViewTest):
+    url = '/'
+    title = None
+    template = 'main/index.html'
+
+
+class DashboardTest(_ViewTest):
+    url = '/'
+    title = 'Your dashboard'
+    template = 'main/dashboard.html'
+    login_first = True
+    login_required = False
 
 
 # class LoginLogoutTest:
@@ -347,8 +361,13 @@ class EditPageTest(_ViewTest):
         self.assertTrue(context['content'], 'content')
 
 
-# TODO: test for redirects
-# class RandomPageTest:
+class RandomPageTest(_ViewRedirectTest):
+    url = '/pages/random/'
+    expected_url = '/MATH_150/summary/fall-2011/page-number-1/'
+
+    def setUp(self):
+        page = Page.objects.get(pk=1)
+        random.choice = MagicMock(return_value=page)
 
 
 """
