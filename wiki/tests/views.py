@@ -62,7 +62,7 @@ class _ViewTest(TestCase):
         self.assertEqual(title, self.title)
 
         # Check that the template file being used is correct
-        self.assertEqual(response.templates[0].name, self.template)
+        self.assertTemplateUsed(response, self.template)
 
         # Call the check_context function to perform any additional checks
         self.check_context(response.context)
