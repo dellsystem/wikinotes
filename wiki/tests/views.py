@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 
+from django.contrib.auth.models import User
 from django.test.client import Client
 from django.test import TestCase
 from mock import MagicMock
@@ -439,14 +440,23 @@ class ComposeMessageTest(_ViewTest):
     login_first = True
 
 
-# TODO: Needs a check_context method.
 class ComposeMessageToSpecificUserTest(ComposeMessageTest):
     url = '/messages/compose/?to=user2'
 
+    def check_context(self, context):
+        # Make sure the recipient is filled out
+        message = context['form'].instance
+        expected_recipient = User.objects.get(username='user2')
+        self.assertEqual(message.recipient, expected_recipient)
 
-# TODO: Needs a check_context method.
+
 class ComposeMessageWithSubjectTest(ComposeMessageTest):
     url = '/messages/compose/?reply_to=Some%20message'
+
+    def check_context(self, context):
+        # The subject should be "Re: Some message"
+        message = context['form'].instance
+        self.assertEqual(message.subject, 'Re: Some message')
 
 
 """
