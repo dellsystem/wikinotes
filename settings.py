@@ -176,3 +176,5 @@ SITE_URL = 'http://wikinotes.ca'
 APPEND_SLASH = True
 
 LOGIN_URL = 'main_register'
+
+UNIVERSITY_NAME = 'mcgill'  # in lowercase

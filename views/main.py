@@ -2,6 +2,7 @@ import os
 import re
 
 from django.db.models import Q
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
@@ -182,8 +183,8 @@ def register(request):
             university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
-            if not university.startswith('mcgill'):
-                errors.append("Anti-spam question wrong! Please enter the name of the university WikiNotes was made for.")
+            if not university.startswith(settings.UNIVERSITY_NAME):
+                errors.append("Anti-spam question wrong.")
 
             if not username:
                 errors.append("You didn't fill in your username!")
