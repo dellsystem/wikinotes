@@ -263,7 +263,7 @@ class UserContributionsTest(_ViewTest):
 class SearchTest(_ViewTest):
     url = '/search/?query=test'
     title = 'Search results'
-    template = 'main/search.html'
+    template = 'search/results.html'
 
 
 # class StaticTest
