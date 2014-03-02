@@ -110,7 +110,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'wikinotes.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     wikinotes_dir + '/templates',
