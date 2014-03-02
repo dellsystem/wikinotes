@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-read -p "About to delete database at db.sqlite, press enter to continue (CTRL+C to cancel)"
-rm db.sqlite
-python manage.py syncdb
-python manage.py loaddata faculties departments courses professors coursesemesters
-# Delete everything under wiki/content because, why not
-rm -rf wiki/content/
-echo "Done"
