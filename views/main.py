@@ -89,7 +89,7 @@ def login_logout(request):
 # Recent changes
 def recent(request, num_days=1, show_all=False):
     base_title = 'All recent activity' if show_all else 'Recent activity'
-    title = "%s in the past %d day(s)" % (base_title, num_days)
+    title = "%s in the past %s day(s)" % (base_title, num_days)
 
     data = {
         'title': title,
