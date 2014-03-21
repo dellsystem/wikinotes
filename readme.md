@@ -32,8 +32,10 @@ unit-testing framework for the tests. Current build status of the master branch:
 Dependencies
 ------------
 
-To run it on your local machine, you'll need Python 2.7+, and Git. You'll also
-need a bunch of Python modules, which can be installed with [pip]:
+To run it on your local machine, you'll need Python 2.7+, and Git. If you're on
+Windows, you might run into some issues which I won't be able to help debug, so
+I'd recommend using Linux if possible. You'll also need a bunch of Python
+modules, which can be installed with [pip]:
 
 ```console
 pip install -r requirements.txt
@@ -45,17 +47,32 @@ make use of [virtualenv] \(which is a good idea in any case\).
 Configuration
 -------------
 
-If you're running it for the first time, take note of the following setup
-instructions:
+If you're running it for the first time, here's what you have to do:
 
-* Run `./bootstrap`: create the superuser at this point (you may also wish to
-  run this if any database schema changes have been made since your last pull)
-* Run `python manage.py runserver` or `fab up` if you have [Fabric][fabric]
-  installed. By default, this makes the platform accessible
-  at <http://localhost:8000>; add `0.0.0.0:8000` as an argument if you
-  want to make it publicly accessible through your IP address (at port 8000), or
-  run `fab broadcast`.
-* To run the unit tests, run `python manage.py test wiki` or `fab test`.
+* Run `python manage.py syncdb`. Make sure to create the superuser when
+  prompted. You will be able to use the credentials you choose for the
+  superuser account to log on to the site, and to access the administration
+  panel.
+* Run `python manage.py runserver` (or `fab up` if you have [Fabric][fabric]
+  installed) to start the development server. By default, this makes the
+  platform accessible at <http://localhost:8000>; add `0.0.0.0:8000` as an
+  argument if you want to make it publicly accessible through your IP address
+  (at port 8000), or run `fab broadcast`. To actually deploy it properly on a
+  server, you'll probably want to use something like [gunicorn].
+
+Initially, there won't be any courses on the site. You can create them through
+the admin panel (sign in using the superuser account details through the login
+box in the header, then click the "admin" button), or write a script to import
+them if you have a list of all the courses/departments/faculties to create.
+
+If you have questions, send me an email (ilostwaldo, gmail).
+
+Testing
+-------
+
+To run the unit tests, run `python manage.py test wiki` or `fab test`. You can
+view the history of the tests run for commits pushed to the master branch on
+[Travis][ci].
 
 [gpl]: http://opensource.org/licenses/GPL-3.0
 [about]: http://www.wikinotes.ca/about
@@ -69,3 +86,4 @@ instructions:
 [pip]: http://www.pip-installer.org/en/latest/index.html
 [virtualenv]: http://www.virtualenv.org/en/latest/index.html
 [fabric]: http://fabfile.org
+[gunicorn]: https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/gunicorn/
