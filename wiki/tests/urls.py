@@ -63,9 +63,24 @@ class TestDepartment(_TestGetAbsoluteUrl):
     pk = "MATH"
 
 
+class TestDepartmentImage(TestDepartment):
+    expected = '/static/img/department/MATH.png'
+    method_name = 'get_image'
+
+
+class TestDepartmentLargeImage(TestDepartment):
+    expected = '/static/img/department/MATH_large.png'
+    method_name = 'get_large_image'
+
+
 class TestFaculty(_TestGetAbsoluteUrl):
     expected = '/faculty/science/'
     model = Faculty
+
+
+class TestFacultyImage(TestFaculty):
+    expected = '/static/img/faculty/science.png'
+    method_name = 'get_image'
 
 
 class TestPage(_TestGetAbsoluteUrl):
