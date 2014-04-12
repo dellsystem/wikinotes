@@ -259,7 +259,11 @@ class UserContributionsTest(_ViewTest):
 # class MarkdownTest:
 
 
-# class SearchTest
+# TODO: Check that the returned search results are as expected
+class SearchTest(_ViewTest):
+    url = '/search/?query=test'
+    title = 'Search results'
+    template = 'search/results.html'
 
 
 # class StaticTest

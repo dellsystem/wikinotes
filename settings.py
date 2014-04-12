@@ -110,7 +110,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'wikinotes.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     wikinotes_dir + '/templates',
@@ -176,3 +176,5 @@ SITE_URL = 'http://wikinotes.ca'
 APPEND_SLASH = True
 
 LOGIN_URL = 'main_register'
+
+UNIVERSITY_NAME = 'mcgill'  # in lowercase

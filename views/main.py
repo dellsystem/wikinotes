@@ -1,11 +1,12 @@
 import os
 import re
 
-from django.db.models import Q
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -88,7 +89,7 @@ def login_logout(request):
 # Recent changes
 def recent(request, num_days=1, show_all=False):
     base_title = 'All recent activity' if show_all else 'Recent activity'
-    title = "%s in the past %d day(s)" % (base_title, num_days)
+    title = "%s in the past %s day(s)" % (base_title, num_days)
 
     data = {
         'title': title,
@@ -182,8 +183,8 @@ def register(request):
             university = request.POST.get('university', '').lower()
 
             # Now check all the possible errors
-            if not university.startswith('mcgill'):
-                errors.append("Anti-spam question wrong! Please enter the name of the university WikiNotes was made for.")
+            if not university.startswith(settings.UNIVERSITY_NAME):
+                errors.append("Anti-spam question wrong.")
 
             if not username:
                 errors.append("You didn't fill in your username!")
