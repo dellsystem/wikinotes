@@ -47,6 +47,18 @@ class TestCourseWatchUrl(_TestGetAbsoluteUrl):
     method_name = 'get_watch_url'
 
 
+class TestCoursePinUrl(_TestGetAbsoluteUrl):
+    expected = '/MATH_150/pin/'
+    model = Course
+    method_name = 'get_pin_url'
+
+
+class TestCourseUnpinUrl(_TestGetAbsoluteUrl):
+    expected = '/MATH_150/unpin/'
+    model = Course
+    method_name = 'get_unpin_url'
+
+
 class TestCourseSemester(_TestGetAbsoluteUrl):
     expected = '/MATH_150/fall-2011/'
     model = CourseSemester

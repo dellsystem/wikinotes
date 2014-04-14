@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load extras %}
+
 {% block content %}
 
 <div class="leading-bar"> 
@@ -27,12 +29,24 @@
     <section>
         <div class="row">
             <div class="span12 columns">
-                {% if show_welcome %}
+                {% with pinned_courses=profile.pinned_courses.all %}
+                {% if pinned_courses %}
                 <div class="alert-message block-message">
-                    <p>Welcome to WikiNotes!</p>
+                    <h3>Your pinned courses</h3>
+                    {% for course in pinned_courses %}
+                    <div class="course-icons">
+                        <a href="{{ course.get_absolute_url }}">
+                            <img src="{{ course.department.get_image }}" /></a>
+                        <br />
+                        <a href="{{ course.get_absolute_url }}">
+                            {{ course }}
+                        </a>
+                        (<a href="{{ course.get_unpin_url }}">x</a>)
+                    </div>
+                    {% endfor %}
                 </div>
                 {% endif %}
-                <h1>Your dashboard</h1>
+                {% endwith %}
                 {% if history_items %}
                 {% for history_item in history_items %}
                     {% with user_profile=history_item.user.get_profile %}
@@ -57,7 +71,7 @@
                 {% endfor %}
                 {% else %}
                 <p>
-                    {% if user.get_profile.courses.count %}
+                    {% if profile.courses.count %}
                         There has been no recent activity on any of your
                         courses!  Start watching some more?
                     {% else %}

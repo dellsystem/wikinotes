@@ -53,6 +53,12 @@ class Course(models.Model):
     def get_watch_url(self):
         return reverse('courses_watch', args=self.get_url_args())
 
+    def get_pin_url(self):
+        return reverse('courses_pin', args=self.get_url_args())
+
+    def get_unpin_url(self):
+        return reverse('courses_unpin', args=self.get_url_args())
+
     def num_pages(self):
         count = 0
         course_sems = self.coursesemester_set.all()

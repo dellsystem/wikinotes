@@ -236,6 +236,11 @@ table &.centered {
     .icon-thumb;
 }
 
+.alert-message .course-icons {
+    // So that 7 can fit per line in the dashboard's pinned courses section
+    padding: 4px;
+}
+
 .radio-group {
     .radio-button {
         margin: 0px 2px;
@@ -397,4 +402,15 @@ table &.centered {
 
 tr &.important {
     background: lighten(@yellow, 30%);
+}
+
+#pin {
+    // Icon taken from FontAwesome and rotated. Should just use FA eventually.
+    position: absolute;
+    margin-top: 22px;
+    margin-left: -45px;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }

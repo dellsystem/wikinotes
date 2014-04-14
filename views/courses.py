@@ -3,6 +3,7 @@ import json
 import random as random_module
 import re
 
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
@@ -223,11 +224,15 @@ def overview(request, course):
     course_sems = CourseSemester.objects.filter(course=course)
 
     if request.user.is_authenticated():
-        is_watching = request.user.get_profile().is_watching(course)
+        profile = request.user.get_profile()
+        is_watching = profile.is_watching(course)
+        is_pinned = profile.has_pinned(course)
     else:
         is_watching = False
+        is_pinned = False
 
     return {
+        'is_pinned': is_pinned,
         'title': str(course),
         'is_watching': is_watching,
         'course': course,
@@ -351,3 +356,23 @@ def create(request):
     }
 
     return render(request, 'courses/create.html', context)
+
+
+@login_required
+@show_object_detail(Course)
+def pin(request, course):
+    profile = request.user.get_profile()
+    if not profile.has_pinned(course):
+        profile.pinned_courses.add(course)
+
+    return redirect(course.get_absolute_url())
+
+
+@login_required
+@show_object_detail(Course)
+def unpin(request, course):
+    profile = request.user.get_profile()
+    if profile.has_pinned(course):
+        profile.pinned_courses.remove(course)
+
+    return redirect('home')

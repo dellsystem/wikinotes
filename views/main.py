@@ -20,13 +20,10 @@ from wiki.utils.decorators import show_object_detail
 from wiki.utils.users import validate_username
 
 
-def index(request, show_welcome=False):
+def index(request):
     """
     If the user is logged in, the dashboard is shown. Otherwise, it's
     just the generic homepage.
-
-    show_welcome is only set to True when called from register(). This
-    should trigger the display of some sort of welcome message.
     """
     if request.user.is_authenticated():
         user = request.user.get_profile()
@@ -49,8 +46,8 @@ def index(request, show_welcome=False):
             'recent_pages': recent_pages,
             'watched_courses': watched_courses,
             'history_items': history_items[:20],
-            'show_welcome': show_welcome,
             'latest_post': latest_post,
+            'profile': request.user.get_profile(),
         }
 
         return render(request, 'main/dashboard.html', data)
@@ -224,7 +221,7 @@ def register(request):
                 User.objects.create_user(username, email, password)
                 new_user = authenticate(username=username, password=password)
                 login(request, new_user)
-                return index(request, show_welcome=True)
+                return redirect('home')
         else:
             return render(request, 'main/registration.html', {'title': 'Create an account'})
 
