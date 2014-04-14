@@ -24,4 +24,4 @@ class Department(models.Model):
         return "/static/img/department/%s.png" % self.short_name
 
     def get_large_image(self):
-        return "/static/img%s_large.png" % self.get_absolute_url()
+        return "/static/img/department/%s_large.png" % self.short_name

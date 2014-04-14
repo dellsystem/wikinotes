@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load url from future %}
 
-{% block extra_head %}
+{% block og_image %}
 <meta property="og:image" content="{{ site_url }}{{ page.get_dept.get_large_image }}" />
 {% endblock %}
 
