@@ -1,5 +1,6 @@
             {% with series_pages=page.seriespage_set.all %}
                 {% if series_pages %}
+                    <br />
                     <ul class="unstyled">
                     {% for series_page in series_pages %}
                     {% with position=series_page.position series=series_page.series previous=series_page.get_previous_page next=series_page.get_next_page %}
