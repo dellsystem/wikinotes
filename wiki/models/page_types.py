@@ -8,22 +8,38 @@ from django.template.defaultfilters import slugify
 
 from wiki.utils.constants import terms, years, exam_types
 
-""" HOW TO CREATE A NEW PAGE TYPE
-    Following template files:
-        - pages/#{short_name}/create.html
-        - pages/#{short_name}/show.html
-        - pages/#{short_name}/list.html
-        - assets/img/pages/#{short_name}.png
-        ALTHOUGH IF YOU HAVE CUSTOM NAMES YOU CAN OVERRIDE ANY OF THE RELEVANT METHODS, ETC
-"""
-
 
 class PageType:
     # Defaults - override if necessary
     uneditable_fields = ['semester', 'subject']
     editable_fields = ['professor_id', 'link']
     metadata_fields = ['professor', 'link']
+    has_subject = True
 
+    def _generate_slug(self, data):
+        """Override this method to change the way the slug is generated."""
+        return slugify(data['subject'])
+
+    def _generate_title(self, data):
+        """Override this method if a title needs to be set. Otherwise, if a
+        title is not set, WikiNotes will default to using the name of the page
+        type and the subject."""
+        return None
+
+    def get_kwargs(self, data):
+        """Do not override. To change the way slugs or titles are generated, see
+        the previous two methods."""
+        kwargs = {
+            'link': data['link'],
+            'professor_id': data['professor_id'],
+            'slug': self._generate_slug(data),
+            'title': self._generate_title(data),
+        }
+
+        if self.has_subject:
+            kwargs['subject'] = data['subject']
+
+        return kwargs
 
     # Some of these are unused, clean them up sometime
     def get_cell_template(self):
@@ -105,25 +121,24 @@ class LectureNote(PageType):
     uneditable_fields = ['semester', 'date']
     # Subject IS editable in this case only because it's not part of the slug
     editable_fields = ['subject', 'professor_id', 'link']
-    # Subject needs to be shown on the page, since the title is the date
     metadata_fields = ['subject', 'professor', 'link']
 
-
-    def get_kwargs(self, data):
+    def _generate_title(self, data):
         weekday = data['date_weekday']
         month = data['date_month']
         date = data['date_date']
         year = data['year']
-        title = "%s, %s %s, %s" % (weekday.title(), month.title(), date, year)
-        slug = "%s-%s-%s" % (weekday, month, date)
-        # If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
-        # Otherwise, [PageType.long_name] - [title]
-        return {'title': title, 'subject': data['subject'], 'link': data['link'], 'professor_id': data['professor_id'], 'slug': slug}
+        return "%s, %s %s, %s" % (weekday.title(), month.title(), date, year)
+
+    def _generate_slug(self, data):
+        weekday = data['date_weekday']
+        month = data['date_month']
+        date = data['date_date']
+        year = data['year']
+        return "%s-%s-%s" % (weekday, month, date)
 
     def get_validators(self, data):
-        return [
-            #(len(data['subject']) > 0, 'Invalid subject'),
-        ]
+        return []
 
 
 class PastExam(PageType):
@@ -131,16 +146,16 @@ class PastExam(PageType):
     long_name = 'Past exam'
     description = 'Student-made solutions to a past exam'
     uneditable_fields = ['semester', 'exam']
+    has_subject = False
 
-    def get_kwargs(self, data):
+    def _generate_slug(self, data):
+        return data['exam_type']
+
+    def _generate_title(self, data):
         term = data['term']
         year = data['year']
         exam_type = data['exam_type']
-        title = "%s %s %s" % (term.title(), year, exam_type.title())
-        # If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
-        # Otherwise, [PageType.long_name] - [title]
-        slug = exam_type
-        return {'title': title, 'link': data['link'], 'slug': slug, 'professor_id': data['professor_id']}
+        return "%s %s %s" % (term.title(), year, exam_type.title())
 
     def get_validators(self, data):
         return [
@@ -153,11 +168,6 @@ class CourseSummary(PageType):
     long_name = 'Course summary'
     description = 'Anything that doesn\'t fit in the other categories'
 
-    def get_kwargs(self, data):
-        # If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
-        # Otherwise, [PageType.long_name] - [title]
-        return {'subject': data['subject'], 'link': data['link'], 'slug': slugify(data['subject'])}
-
     def get_validators(self, data):
         return [
             (len(data['subject']) > 0, 'Invalid subject'),
@@ -169,14 +179,6 @@ class VocabList(PageType):
     long_name = 'Vocabulary list'
     description = 'For memorising terms etc'
 
-    def get_kwargs(self, data):
-        # If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
-        # Otherwise, [PageType.long_name] - [title]
-        return {
-            'subject': data['subject'],
-            'slug': slugify(data['subject']),
-        }
-
     def get_validators(self, data):
         return [
             (len(data['subject']) > 0, 'Invalid subject'),
@@ -187,12 +189,6 @@ class CourseQuiz(PageType):
     short_name = 'course-quiz'
     long_name = 'Multiple choice quiz'
     description = 'A quiz for testing your knowledge'
-
-    # Data is the request.POST dictionary
-    def get_kwargs(self, data):
-        # If title is empty, it will appear in the form [PageType.long_name] - [subject] (Semester)
-        # Otherwise, [PageType.long_name] - [title]
-        return {'subject': data['subject'], 'slug': slugify(data['subject'])}
 
     def get_validators(self, data):
         return [
