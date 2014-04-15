@@ -22,10 +22,8 @@ class PageType:
     # Defaults - override if necessary
     uneditable_fields = ['semester', 'subject']
     editable_fields = ['professor_id', 'link']
+    metadata_fields = ['professor', 'link']
 
-    # Override this method if you want to change the way page metadata is displayed
-    def get_metadata_fields(self):
-        return ['professor', 'link']
 
     # Some of these are unused, clean them up sometime
     def get_cell_template(self):
@@ -107,10 +105,9 @@ class LectureNote(PageType):
     uneditable_fields = ['semester', 'date']
     # Subject IS editable in this case only because it's not part of the slug
     editable_fields = ['subject', 'professor_id', 'link']
-    # If you have other fields that have not yet been created, make the template file in the template dir / pages / blah_field.html
+    # Subject needs to be shown on the page, since the title is the date
+    metadata_fields = ['subject', 'professor', 'link']
 
-    def get_metadata_fields(self):
-        return ['subject', 'professor', 'link']
 
     def get_kwargs(self, data):
         weekday = data['date_weekday']
