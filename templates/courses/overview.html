@@ -8,6 +8,14 @@
 
 {% block content %}
 <div class="container">
+    {% if not is_pinned %}
+    <div id="pin">
+        <a href="{{ course.get_pin_url }}">
+            <img src="{{ STATIC_URL }}img/pin.png" alt="Pin"
+                 title="Pin course to dashboard" />
+        </a>
+    </div>
+    {% endif %}
     <section>
         <h1>{{ course.department.short_name }} {{ course.number}} <small>{{ course.name }}</small></h1>
         <div class="row">

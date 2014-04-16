@@ -8,6 +8,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     twitter = models.CharField(max_length=15, null=True) # max length of a twitter username
     courses = models.ManyToManyField('Course')
+    pinned_courses = models.ManyToManyField('Course', related_name='pinners')
     website = models.CharField(max_length=255, null=True)
     bio = models.CharField(max_length=300, null=True)
     facebook = models.CharField(max_length=72, null=True) # apparently that's the limit
@@ -32,7 +33,10 @@ class UserProfile(models.Model):
         course.increase_num_watchers_by(-1)
 
     def is_watching(self, course):
-        return course in self.courses.all()
+        return self.courses.filter(pk=course.pk).exists()
+
+    def has_pinned(self, course):
+        return self.pinned_courses.filter(pk=course.pk).exists()
 
     def get_recent_pages(self, n, created=False):
         """

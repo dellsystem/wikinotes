@@ -159,7 +159,8 @@ class Page(models.Model):
 
     def get_metadata(self):
         metadata = {} # Key: name, value: content
-        for field in self.get_type().get_metadata_fields():
+        page_type = self.get_type()
+        for field in page_type.metadata_fields:
             content = self.__getattribute__(field)
             if content:
                 metadata[field] = content

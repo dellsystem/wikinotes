@@ -73,6 +73,8 @@ direct_to_view = (
         (course, 'overview'),
         (course + '/recent', 'recent'),
         (course + '/watch', 'watch'),
+        (course + '/pin', 'pin'),
+        (course + '/unpin', 'unpin'),
         (course + '/' + semester, 'semester_overview'),
         (course + '/' + page_type, 'category_overview'),
         (department, 'department_overview'),
