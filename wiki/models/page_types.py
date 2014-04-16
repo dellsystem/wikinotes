@@ -100,18 +100,13 @@ class PageType:
             (len(data['content'].strip()) > 0, 'No content'),
         ]
 
-        error = False
         errors = []
 
         for validator in validators:
             if not validator[0]:
-                error = True
                 errors.append(validator[1])
 
-        if error:
-            return errors
-        else:
-            return []
+        return errors
 
 
 class LectureNote(PageType):
