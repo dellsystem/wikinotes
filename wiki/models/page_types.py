@@ -1,7 +1,9 @@
 # NOT ACTUALLY DJANGO MODELS
 # Done this way because it's better than the 4 other possible ways (believe me I tried them all)
 # Define all the page types here, and their short names
+import calendar
 import re
+from time import strptime
 
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
@@ -133,7 +135,26 @@ class LectureNote(PageType):
         return "%s-%s-%s" % (weekday, month, date)
 
     def get_validators(self, data):
-        return []
+        # Check if the user-inputted weekday is actually the day of the week for
+        # the given date/month/year.
+        valid_date = False
+        try:
+            year = int(data['year'])
+            month = strptime(data['date_month'], '%B').tm_mon
+            date = int(data['date_date'])
+
+            actual_weekday = calendar.weekday(year, month, date)
+            if actual_weekday < 5:  # i.e., between Monday and Friday
+                actual_weekday_name = calendar.day_name[actual_weekday].lower()
+                if actual_weekday_name == data['date_weekday']:
+                    valid_date = True
+        except (TypeError, ValueError):
+            # Invalid inputs. Throw an error.
+            pass
+
+        return [
+            (valid_date, 'Invalid date'),
+        ]
 
 
 class PastExam(PageType):
