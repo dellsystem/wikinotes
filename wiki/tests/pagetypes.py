@@ -35,17 +35,23 @@ class _TestPageType(TestCase):
             errors = self.page_type.find_errors(data)
             self.assertEqual(len(errors), 1)
 
+        # Make sure the regular self.data dict doesn't trigger errors
+        default_data = {}
+        default_data.update(initial_data)
+        default_data.update(self.data)
+        self.assertFalse(self.page_type.find_errors(default_data))
+
 
 class TestLectureNotes(_TestPageType):
     short_name = 'lecture-notes'
     data = {
-        'date_weekday': 'monday',
+        'date_weekday': 'tuesday',
         'date_month': 'april',
-        'date_date': '1',
+        'date_date': '15',
         'year': '2014',
     }
-    expected_slug = 'monday-april-1'
-    expected_title = 'Monday, April 1, 2014'
+    expected_slug = 'tuesday-april-15'
+    expected_title = 'Tuesday, April 15, 2014'
     invalid_inputs = [
         {
             'date_weekday': 'saturday',
@@ -116,4 +122,3 @@ class TestCourseQuiz(_TestPageType):
     invalid_inputs = [{
         'subject': '',
     }]
-
