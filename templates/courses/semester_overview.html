@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
+{% block og_image %}
+<meta property="og:image" content="{{ site_url }}{{ course.department.get_large_image }}" />
+{% endblock %}
 {% block content %}
+
 <div class="container">
     <section>
         <ul class="breadcrumb">
