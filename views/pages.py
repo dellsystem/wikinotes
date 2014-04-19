@@ -255,10 +255,11 @@ def create(request, department, number, page_type, semester=None):
             new_page = Page.objects.create(course_sem=course_sem, page_type=page_type, maintainer=request.user, **kwargs)
             username = request.user.username
             email = request.user.email
-            new_page.save_content(request.POST['content'], commit_message, username)
+            hexsha = new_page.save_content(request.POST['content'], commit_message, username)
 
             # Add the history item - should be done automatically one day
-            course.add_event(page=new_page, user=request.user, action='created', message=commit_message)
+            course.add_event(page=new_page, user=request.user, action='created',
+                message=commit_message, hexsha=hexsha)
             data['page'] = new_page
 
             # If the user isn't watching the course already, start watching
