@@ -38,7 +38,15 @@
             {% for event in history %}
                 <tr>
                     <td>{% gravatar_img_for_email event.user.email 20 %} <a href="{{ event.user.get_absolute_url }}">{{ event.user }}</a></td>
-                    <td>{{ event.action }}</td>
+                    <td>
+                        {% if event.hexsha %}
+                        <a href="{{ event.get_absolute_url }}">
+                        {{ event.action }}
+                        </a>
+                        {% else %}
+                        {{ event.action }}
+                        {% endif %}
+                    </td>
                     <td>{% if event.page %}<a href="{{ event.page.get_absolute_url }}">{{ event.page }}</a>{% else %}N/A{% endif %}</td>
                     <td><a href="{{ event.course.get_absolute_url }}">{{ event.course }}</a></td>
                     <td><span title="{{ event.timestamp }}">{{ event.get_timesince }} ago</span></td>
